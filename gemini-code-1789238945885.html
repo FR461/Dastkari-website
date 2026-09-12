@@ -1,0 +1,1111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DASTKARI | Bespoke Furniture & Craftsmanship</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-main: #ffffff;
+            --bg-secondary: #f8f8f8;
+            --bg-card: #ffffff;
+            --border: #e2e2e2;
+            --text-dark: #111111;
+            --text-muted: #666666;
+            --accent-black: #000000;
+            --accent-soft: #444444;
+            --staff-green: #2e7d32;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            user-select: none;
+        }
+
+        body {
+            background-color: var(--bg-main);
+            color: var(--text-dark);
+            font-family: 'Montserrat', sans-serif;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background-color: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(8px);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .top-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px 32px;
+            max-width: 1440px;
+            margin: 0 auto;
+        }
+
+        .brand-logo-container {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .hamsa-logo-wrapper {
+            background: #ffffff;
+            padding: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .hamsa-svg {
+            width: 38px;
+            height: 46px;
+        }
+
+        .brand-name {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 24px;
+            font-weight: 500;
+            letter-spacing: 7px;
+            color: var(--text-dark);
+            text-transform: uppercase;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .btn-header {
+            background: #ffffff;
+            border: 1px solid var(--text-dark);
+            color: var(--text-dark);
+            padding: 9px 18px;
+            border-radius: 2px;
+            font-family: inherit;
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn-header:hover {
+            background: var(--text-dark);
+            color: #ffffff;
+        }
+
+        .btn-black {
+            background: var(--text-dark);
+            color: #ffffff;
+            border: 1px solid var(--text-dark);
+        }
+
+        .btn-black:hover {
+            background: #333333;
+        }
+
+        .staff-badge {
+            display: none;
+            font-size: 10px;
+            font-weight: 600;
+            letter-spacing: 1.5px;
+            color: var(--staff-green);
+            border: 1px solid var(--staff-green);
+            padding: 4px 8px;
+            border-radius: 2px;
+            text-transform: uppercase;
+        }
+
+        body.is-staff .staff-badge {
+            display: inline-block;
+        }
+
+        .touch-scroll-nav {
+            background-color: var(--bg-secondary);
+            border-top: 1px solid var(--border);
+            overflow-x: auto;
+            white-space: nowrap;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+            cursor: grab;
+        }
+
+        .touch-scroll-nav::-webkit-scrollbar {
+            display: none;
+        }
+
+        .touch-scroll-nav:active {
+            cursor: grabbing;
+        }
+
+        .tabs-wrapper {
+            display: inline-flex;
+            align-items: center;
+            padding: 12px 28px;
+            gap: 22px;
+        }
+
+        .tab-btn {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            font-family: 'Montserrat', sans-serif;
+            font-size: 12px;
+            font-weight: 500;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            cursor: pointer;
+            padding: 4px 0;
+            position: relative;
+            transition: color 0.2s ease;
+        }
+
+        .tab-btn:hover {
+            color: var(--text-dark);
+        }
+
+        .tab-btn.active {
+            color: var(--text-dark);
+            font-weight: 700;
+        }
+
+        .tab-btn.active::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: var(--text-dark);
+        }
+
+        .tab-bullet {
+            color: #ccc;
+            font-size: 9px;
+        }
+
+        .catalog-container {
+            max-width: 1440px;
+            margin: 40px auto;
+            padding: 0 32px;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-bottom: 32px;
+            padding-bottom: 14px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .category-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 26px;
+            letter-spacing: 1px;
+            color: var(--text-dark);
+            font-weight: 500;
+        }
+
+        .items-count {
+            color: var(--text-muted);
+            font-size: 12px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 32px;
+        }
+
+        .product-card {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 2px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .product-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+            border-color: #bbbbbb;
+        }
+
+        .card-image-box {
+            height: 280px;
+            width: 100%;
+            background-color: #f2f2f2;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .card-image-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .product-card:hover .card-image-box img {
+            transform: scale(1.04);
+        }
+
+        .card-body {
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+
+        .item-category-tag {
+            font-size: 10px;
+            letter-spacing: 2px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            margin-bottom: 6px;
+        }
+
+        .item-name {
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 6px;
+            letter-spacing: 0.5px;
+        }
+
+        .item-dims {
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-bottom: 16px;
+        }
+
+        .card-footer {
+            margin-top: auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding-top: 12px;
+            border-top: 1px solid #f0f0f0;
+        }
+
+        .item-price {
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--text-dark);
+        }
+
+        .card-btn-link {
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: var(--text-dark);
+        }
+
+        .edit-btn {
+            display: none;
+            margin-top: 12px;
+            padding: 8px;
+            background: #ffffff;
+            border: 1px dashed var(--text-dark);
+            color: var(--text-dark);
+            font-size: 11px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            cursor: pointer;
+            width: 100%;
+            font-weight: 600;
+        }
+
+        body.is-staff .edit-btn {
+            display: block;
+        }
+
+        .fullscreen-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: #ffffff;
+            z-index: 2000;
+            display: flex;
+            flex-direction: column;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+            overflow-y: auto;
+        }
+
+        .fullscreen-modal.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .detail-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 24px 40px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .close-detail-btn {
+            background: none;
+            border: none;
+            font-size: 28px;
+            cursor: pointer;
+            color: var(--text-dark);
+        }
+
+        .detail-container {
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 40px;
+            display: grid;
+            grid-template-columns: 1.2fr 1fr;
+            gap: 60px;
+            width: 100%;
+        }
+
+        .gallery-wrapper {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .detail-image-box {
+            width: 100%;
+            height: 480px;
+            background: #f4f4f4;
+            border: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .detail-image-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: opacity 0.2s ease;
+        }
+
+        .thumbnail-strip {
+            display: flex;
+            gap: 12px;
+            overflow-x: auto;
+            padding-bottom: 8px;
+        }
+
+        .thumb-item {
+            width: 80px;
+            height: 80px;
+            border: 1px solid var(--border);
+            cursor: pointer;
+            opacity: 0.6;
+            transition: all 0.2s ease;
+            flex-shrink: 0;
+        }
+
+        .thumb-item:hover, .thumb-item.active {
+            opacity: 1;
+            border-color: var(--text-dark);
+        }
+
+        .thumb-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .detail-info {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .detail-category {
+            font-size: 11px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-bottom: 8px;
+        }
+
+        .detail-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 36px;
+            color: var(--text-dark);
+            margin-bottom: 16px;
+            line-height: 1.2;
+        }
+
+        .detail-price {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 24px;
+        }
+
+        .detail-spec-box {
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+            padding: 20px 0;
+            margin-bottom: 24px;
+        }
+
+        .spec-row {
+            display: flex;
+            margin-bottom: 8px;
+            font-size: 13px;
+        }
+
+        .spec-label {
+            width: 140px;
+            color: var(--text-muted);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            font-size: 11px;
+        }
+
+        .spec-value {
+            color: var(--text-dark);
+            font-weight: 500;
+        }
+
+        .detail-desc {
+            font-size: 14px;
+            color: #444444;
+            margin-bottom: 32px;
+            line-height: 1.8;
+        }
+
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(4px);
+            z-index: 1500;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.2s ease;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .modal-box {
+            background: #ffffff;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            width: 90%;
+            max-width: 500px;
+            max-height: 90vh;
+            overflow-y: auto;
+            padding: 32px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+
+        .modal-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 22px;
+            color: var(--text-dark);
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 11px;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-bottom: 6px;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 10px 14px;
+            background: #ffffff;
+            border: 1px solid var(--border);
+            border-radius: 2px;
+            color: var(--text-dark);
+            font-family: inherit;
+            font-size: 13px;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--text-dark);
+        }
+
+        @media (max-width: 900px) {
+            .detail-container {
+                grid-template-columns: 1fr;
+                gap: 30px;
+                padding: 20px;
+            }
+            .detail-image-box {
+                height: 350px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="top-bar">
+            <a href="#" class="brand-logo-container">
+                <div class="hamsa-logo-wrapper">
+                    <svg class="hamsa-svg" viewBox="0 0 100 120" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M 50 4 C 59 4, 66 11, 66 22 L 66 42 C 77 39, 87 50, 87 64 C 87 86, 75 106, 50 116 C 25 106, 13 86, 13 64 C 13 50, 23 39, 34 42 L 34 22 C 34 11, 41 4, 50 4 Z" fill="#000000"/>
+                        <path d="M 50 8 C 56 8, 62 13, 62 23 L 62 45 C 73 43, 83 52, 83 64 C 83 83, 72 101, 50 110 C 28 110, 17 83, 17 64 C 17 52, 27 43, 38 45 L 38 23 C 38 13, 44 8, 50 8 Z" fill="#ffffff"/>
+                        <path d="M 50 11 C 45 11, 41 15, 41 23 L 41 47 C 32 45, 21 53, 21 64 C 21 80, 31 97, 50 106 C 69 97, 79 80, 79 64 C 79 53, 68 45, 59 47 L 59 23 C 59 15, 55 11, 50 11 Z" fill="#000000"/>
+                    </svg>
+                </div>
+                <span class="brand-name">DASTKARI</span>
+            </a>
+
+            <div class="header-actions">
+                <span class="staff-badge" id="staffBadge">Staff Mode Active</span>
+                <button class="btn-header" onclick="openModal('staffModal')">Staff Login</button>
+                <button class="btn-header btn-black" onclick="openModal('cartModal')">Cart (<span id="cartCount">0</span>)</button>
+            </div>
+        </div>
+
+        <div class="touch-scroll-nav" id="touchScrollNav">
+            <div class="tabs-wrapper" id="tabsWrapper"></div>
+        </div>
+    </header>
+
+    <main class="catalog-container">
+        <div class="section-header">
+            <div class="category-title" id="currentCategoryTitle">All Bespoke Collections</div>
+            <div class="items-count" id="itemsCount">0 Items</div>
+        </div>
+
+        <div class="products-grid" id="productsGrid"></div>
+    </main>
+
+    <div class="fullscreen-modal" id="detailModal">
+        <div class="detail-header">
+            <div class="brand-name" style="font-size: 18px;">DASTKARI</div>
+            <button class="close-detail-btn" onclick="closeDetailModal()">&times;</button>
+        </div>
+        <div class="detail-container">
+            <div class="gallery-wrapper">
+                <div class="detail-image-box">
+                    <img id="detailImg" src="" alt="Dastkari Furniture Item">
+                </div>
+                <div class="thumbnail-strip" id="thumbnailStrip"></div>
+            </div>
+            
+            <div class="detail-info">
+                <div class="detail-category" id="detailCat">CATEGORY</div>
+                <h1 class="detail-title" id="detailTitle">Item Title</h1>
+                <div class="detail-price" id="detailPrice">Price on Request</div>
+
+                <div class="detail-spec-box">
+                    <div class="spec-row">
+                        <span class="spec-label">Dimensions:</span>
+                        <span class="spec-value" id="detailDims">Custom Specifications</span>
+                    </div>
+                    <div class="spec-row">
+                        <span class="spec-label">Material:</span>
+                        <span class="spec-value">Premium Hand-carved Teak / Custom Upholstery</span>
+                    </div>
+                    <div class="spec-row">
+                        <span class="spec-label">Craftsmanship:</span>
+                        <span class="spec-value">Traditional Joinery & Contemporary Finishing</span>
+                    </div>
+                </div>
+
+                <p class="detail-desc" id="detailDesc">
+                    At the intersection of time-honed craftsmanship and contemporary design lies our philosophy: when manufacturing constraints guide our creative journey rather than limit it. Each piece emerges from a deep understanding of material and method.
+                </p>
+
+                <button class="btn-header btn-black" style="padding: 14px; font-size: 12px;" id="detailAddCartBtn">Add to Order Request</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="staffModal">
+        <div class="modal-box">
+            <h3 class="modal-title">Staff Portal</h3>
+            <div id="staffLoginFields">
+                <div class="form-group">
+                    <label class="form-label">Username</label>
+                    <input type="text" id="staffUser" class="form-control" placeholder="admin">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Password</label>
+                    <input type="password" id="staffPass" class="form-control" placeholder="dastkari123">
+                </div>
+                <button class="btn-header btn-black" style="width: 100%; margin-top: 10px;" onclick="loginStaff()">Login to Staff Account</button>
+            </div>
+
+            <div id="staffActions" style="display: none;">
+                <p style="color: var(--staff-green); font-size: 12px; margin-bottom: 16px; font-weight: 600;">✓ Logged in as Staff Administrator</p>
+                
+                <button class="btn-header btn-black" style="width: 100%; margin-bottom: 14px;" onclick="openAddModal()">+ Add New Catalogue Item</button>
+
+                <div style="border-top: 1px solid var(--border); padding-top: 14px; margin-top: 14px;">
+                    <h4 style="font-size: 11px; letter-spacing: 1.5px; color: var(--text-dark); margin-bottom: 10px; text-transform: uppercase;">Register Staff Account</h4>
+                    <div class="form-group">
+                        <label class="form-label">New Username</label>
+                        <input type="text" id="newUser" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">New Password</label>
+                        <input type="password" id="newPass" class="form-control">
+                    </div>
+                    <button class="btn-header" style="width: 100%;" onclick="addStaffAccount()">Create Staff Account</button>
+                </div>
+
+                <button class="btn-header" style="width: 100%; margin-top: 16px; border-color: #c62828; color: #c62828;" onclick="logoutStaff()">Log Out Staff</button>
+            </div>
+            
+            <button class="btn-header" style="width: 100%; margin-top: 10px;" onclick="closeModal('staffModal')">Close</button>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="editModal">
+        <div class="modal-box">
+            <h3 class="modal-title" id="editModalTitle">Edit Item</h3>
+            <form onsubmit="saveItem(event)">
+                <input type="hidden" id="editItemId">
+                <div class="form-group">
+                    <label class="form-label">Item Title</label>
+                    <input type="text" id="editTitle" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Category</label>
+                    <select id="editCategory" class="form-control" required></select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Price (INR ₹ or Price on Request)</label>
+                    <input type="text" id="editPrice" class="form-control" placeholder="Price on Request">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Dimensions / Specifications</label>
+                    <input type="text" id="editDims" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Image URLs (comma separated for multiple views)</label>
+                    <input type="text" id="editImage" class="form-control" placeholder="Paste image URLs separated by comma">
+                </div>
+                <button type="submit" class="btn-header btn-black" style="width: 100%; margin-top: 10px;">Save Changes</button>
+                <button type="button" class="btn-header" style="width: 100%; margin-top: 8px;" onclick="closeModal('editModal')">Cancel</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="cartModal">
+        <div class="modal-box">
+            <h3 class="modal-title">Selected Order Items</h3>
+            <div id="cartList"></div>
+            <div style="border-top: 1px solid var(--border); padding-top: 14px; margin-top: 14px;">
+                <div class="form-group">
+                    <label class="form-label">Client Name</label>
+                    <input type="text" id="clientName" class="form-control" placeholder="Your Name">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Contact / Email</label>
+                    <input type="text" id="clientContact" class="form-control" placeholder="Phone or Email">
+                </div>
+                <button class="btn-header btn-black" style="width: 100%; margin-top: 10px;" onclick="submitOrder()">Submit Order Consultation</button>
+            </div>
+            <button class="btn-header" style="width: 100%; margin-top: 8px;" onclick="closeModal('cartModal')">Close</button>
+        </div>
+    </div>
+
+    <script>
+        const CATEGORIES = [
+            "ALL",
+            "SOFAS", "ARMCHAIRS", "CHAIRS", "BAR STOOLS & TABLES", "FLOOR SEATING", 
+            "POUFFE / OTTOMAN", "BENCH", "BEDS", "DAY BED / COT", 
+            "COFFEE TABLES", "OCCASIONAL TABLES", "DINING TABLES", 
+            "STUDY/OFFICE DESKS", "MEDIA CONSOLES", "CONSOLES", "STORAGE / CREDENZA", "CABINETS"
+        ];
+
+        const IMAGE_POOLS = {
+            "SOFAS": [
+                ["https://images.unsplash.com/photo-1555041469-a586c61ea9bc?auto=format&fit=crop&w=1000&q=80", "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?auto=format&fit=crop&w=800&q=80"],
+                ["https://images.unsplash.com/photo-1493663284031-b7e3aefcae8e?auto=format&fit=crop&w=1000&q=80", "https://images.unsplash.com/photo-1550581190-9c1c48d21d6c?auto=format&fit=crop&w=800&q=80"],
+                ["https://images.unsplash.com/photo-1583847268964-b28dc8f51f92?auto=format&fit=crop&w=1000&q=80", "https://images.unsplash.com/photo-1567016432779-094069958ea5?auto=format&fit=crop&w=800&q=80"]
+            ],
+            "ARMCHAIRS": [
+                ["https://images.unsplash.com/photo-1567538096630-e0c55bd6374c?auto=format&fit=crop&w=1000&q=80", "https://images.unsplash.com/photo-1580481072645-022f9a6d83d0?auto=format&fit=crop&w=800&q=80"],
+                ["https://images.unsplash.com/photo-1519947486511-46149fa0a254?auto=format&fit=crop&w=1000&q=80", "https://images.unsplash.com/photo-1503602642458-232111445657?auto=format&fit=crop&w=800&q=80"]
+            ],
+            "CHAIRS": [
+                ["https://images.unsplash.com/photo-1503602642458-232111445657?auto=format&fit=crop&w=1000&q=80", "https://images.unsplash.com/photo-1580481072645-022f9a6d83d0?auto=format&fit=crop&w=800&q=80"],
+                ["https://images.unsplash.com/photo-1586023492125-27b2c045efd7?auto=format&fit=crop&w=1000&q=80", "https://images.unsplash.com/photo-1567538096630-e0c55bd6374c?auto=format&fit=crop&w=800&q=80"]
+            ],
+            "TABLES": [
+                ["https://images.unsplash.com/photo-1533090161767-e6ffed986c88?auto=format&fit=crop&w=1000&q=80", "https://images.unsplash.com/photo-1532323544230-7191fd51bc1b?auto=format&fit=crop&w=800&q=80"],
+                ["https://images.unsplash.com/photo-1615066390971-03e4e1c36ddf?auto=format&fit=crop&w=1000&q=80", "https://images.unsplash.com/photo-1530018607912-eff2daa1bac4?auto=format&fit=crop&w=800&q=80"]
+            ],
+            "BEDS": [
+                ["https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=1000&q=80", "https://images.unsplash.com/photo-1540518614846-7eded433c457?auto=format&fit=crop&w=800&q=80"],
+                ["https://images.unsplash.com/photo-1595526114035-0d45ed16cfbf?auto=format&fit=crop&w=1000&q=80", "https://images.unsplash.com/photo-1616594039964-ae9021a400a0?auto=format&fit=crop&w=800&q=80"]
+            ],
+            "STORAGE": [
+                ["https://images.unsplash.com/photo-1595428774223-ef52624120d2?auto=format&fit=crop&w=1000&q=80", "https://images.unsplash.com/photo-1538688525198-9b88f6f53126?auto=format&fit=crop&w=800&q=80"]
+            ]
+        };
+
+        function getItemGallery(cat, pageNum) {
+            let basePool = IMAGE_POOLS.STORAGE[0];
+            if (cat.includes("SOFA")) basePool = IMAGE_POOLS.SOFAS[pageNum % IMAGE_POOLS.SOFAS.length];
+            else if (cat.includes("CHAIR") || cat.includes("ARMCHAIR")) basePool = IMAGE_POOLS.ARMCHAIRS[pageNum % IMAGE_POOLS.ARMCHAIRS.length];
+            else if (cat.includes("TABLE") || cat.includes("DESK")) basePool = IMAGE_POOLS.TABLES[pageNum % IMAGE_POOLS.TABLES.length];
+            else if (cat.includes("BED")) basePool = IMAGE_POOLS.BEDS[pageNum % IMAGE_POOLS.BEDS.length];
+
+            return [
+                basePool[0] + `&v=${pageNum}`,
+                basePool[1] + `&v=${pageNum}`,
+                basePool[0] + `&v=${pageNum}_detail`
+            ];
+        }
+
+        function generateCatalogItems() {
+            let items = [];
+            const p1 = [
+                { cat: "SOFAS", start: 5, end: 37 },
+                { cat: "ARMCHAIRS", start: 39, end: 52 },
+                { cat: "CHAIRS", start: 54, end: 63 },
+                { cat: "BAR STOOLS & TABLES", start: 65, end: 69 },
+                { cat: "FLOOR SEATING", start: 71, end: 74 },
+                { cat: "POUFFE / OTTOMAN", start: 76, end: 80 },
+                { cat: "BENCH", start: 82, end: 91 },
+                { cat: "BEDS", start: 93, end: 134 },
+                { cat: "DAY BED / COT", start: 136, end: 146 }
+            ];
+            const p2 = [
+                { cat: "COFFEE TABLES", start: 5, end: 38 },
+                { cat: "OCCASIONAL TABLES", start: 40, end: 58 },
+                { cat: "DINING TABLES", start: 60, end: 70 },
+                { cat: "STUDY/OFFICE DESKS", start: 72, end: 89 },
+                { cat: "MEDIA CONSOLES", start: 91, end: 104 },
+                { cat: "CONSOLES", start: 106, end: 113 },
+                { cat: "STORAGE / CREDENZA", start: 115, end: 132 },
+                { cat: "CABINETS", start: 134, end: 143 }
+            ];
+
+            p1.forEach(r => {
+                for(let p = r.start; p <= r.end; p++) {
+                    items.push({
+                        id: `P1-${p}`,
+                        title: `Dastkari Bespoke ${r.cat.slice(0, -1)} Page #${p}`,
+                        category: r.cat,
+                        price: "Price on Request",
+                        dims: p === 8 ? '101" x 33" x 30"' : (p === 39 ? '30" x 40" x 32.5"' : (p === 42 ? '28" x 29" x 30"' : (p === 98 ? '74" x 82" x 49"' : 'Custom Dimensions'))),
+                        images: getItemGallery(r.cat, p)
+                    });
+                }
+            });
+
+            p2.forEach(r => {
+                for(let p = r.start; p <= r.end; p++) {
+                    items.push({
+                        id: `P2-${p}`,
+                        title: `Dastkari Crafted ${r.cat.slice(0, -1)} Page #${p}`,
+                        category: r.cat,
+                        price: "Price on Request",
+                        dims: p === 110 ? '60" x 16" x 43"' : (p === 143 ? '100" x 18" x 72"' : 'Custom Dimensions'),
+                        images: getItemGallery(r.cat, p + 200)
+                    });
+                }
+            });
+
+            return items;
+        }
+
+        let catalogItems = JSON.parse(localStorage.getItem("dastkari_v2_items")) || generateCatalogItems();
+        let staffAccounts = JSON.parse(localStorage.getItem("dastkari_staff_accs")) || [{ user: "admin", pass: "dastkari123" }];
+        let isStaff = JSON.parse(localStorage.getItem("dastkari_is_staff")) || false;
+        let activeCat = "ALL";
+        let cart = [];
+
+        document.addEventListener("DOMContentLoaded", () => {
+            renderTabs();
+            renderCategorySelect();
+            renderGrid();
+            initTouchScroll();
+            updateStaffState();
+        });
+
+        function initTouchScroll() {
+            const nav = document.getElementById("touchScrollNav");
+            let isDown = false, startX, scrollLeft;
+            nav.addEventListener('mousedown', (e) => {
+                isDown = true;
+                startX = e.pageX - nav.offsetLeft;
+                scrollLeft = nav.scrollLeft;
+            });
+            nav.addEventListener('mouseleave', () => isDown = false);
+            nav.addEventListener('mouseup', () => isDown = false);
+            nav.addEventListener('mousemove', (e) => {
+                if(!isDown) return;
+                e.preventDefault();
+                const x = e.pageX - nav.offsetLeft;
+                nav.scrollLeft = scrollLeft - (x - startX) * 2;
+            });
+        }
+
+        function renderTabs() {
+            const wrap = document.getElementById("tabsWrapper");
+            wrap.innerHTML = "";
+            CATEGORIES.forEach((c, idx) => {
+                const btn = document.createElement("button");
+                btn.className = `tab-btn ${c === activeCat ? 'active' : ''}`;
+                btn.innerText = c;
+                btn.onclick = () => {
+                    activeCat = c;
+                    document.getElementById("currentCategoryTitle").innerText = c === "ALL" ? "All Bespoke Collections" : c;
+                    renderTabs();
+                    renderGrid();
+                };
+                wrap.appendChild(btn);
+                if(idx < CATEGORIES.length - 1) {
+                    const bul = document.createElement("span");
+                    bul.className = "tab-bullet";
+                    bul.innerText = "•";
+                    wrap.appendChild(bul);
+                }
+            });
+        }
+
+        function renderCategorySelect() {
+            const sel = document.getElementById("editCategory");
+            sel.innerHTML = "";
+            CATEGORIES.filter(c => c !== "ALL").forEach(c => {
+                const opt = document.createElement("option");
+                opt.value = c;
+                opt.innerText = c;
+                sel.appendChild(opt);
+            });
+        }
+
+        function renderGrid() {
+            const grid = document.getElementById("productsGrid");
+            const filtered = catalogItems.filter(i => activeCat === "ALL" || i.category === activeCat);
+            
+            document.getElementById("itemsCount").innerText = `${filtered.length} Items`;
+            grid.innerHTML = "";
+
+            filtered.forEach(i => {
+                const card = document.createElement("div");
+                card.className = "product-card";
+                card.onclick = (e) => {
+                    if(e.target.classList.contains('edit-btn')) return;
+                    openDetailModal(i.id);
+                };
+                card.innerHTML = `
+                    <div class="card-image-box">
+                        <img src="${i.images[0]}" alt="${i.title}">
+                    </div>
+                    <div class="card-body">
+                        <div class="item-category-tag">${i.category}</div>
+                        <div class="item-name">${i.title}</div>
+                        <div class="item-dims">${i.dims}</div>
+                        <div class="card-footer">
+                            <div class="item-price">${i.price}</div>
+                            <span class="card-btn-link">View Details &rarr;</span>
+                        </div>
+                        <button class="edit-btn" onclick="openEditModal('${i.id}')">Edit (Staff)</button>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        function openDetailModal(id) {
+            const item = catalogItems.find(i => i.id === id);
+
+            const detailImg = document.getElementById("detailImg");
+            detailImg.src = item.images[0];
+            document.getElementById("detailCat").innerText = item.category;
+            document.getElementById("detailTitle").innerText = item.title;
+            document.getElementById("detailPrice").innerText = item.price;
+            document.getElementById("detailDims").innerText = item.dims;
+
+            const strip = document.getElementById("thumbnailStrip");
+            strip.innerHTML = "";
+            item.images.forEach((imgUrl, idx) => {
+                const thumb = document.createElement("div");
+                thumb.className = `thumb-item ${idx === 0 ? 'active' : ''}`;
+                thumb.innerHTML = `<img src="${imgUrl}" alt="Angle ${idx + 1}">`;
+                thumb.onclick = () => {
+                    detailImg.src = imgUrl;
+                    document.querySelectorAll('.thumb-item').forEach(t => t.classList.remove('active'));
+                    thumb.classList.add('active');
+                };
+                strip.appendChild(thumb);
+            });
+
+            document.getElementById("detailAddCartBtn").onclick = () => {
+                addToCart(item.id);
+                closeDetailModal();
+            };
+
+            document.getElementById("detailModal").classList.add("active");
+            document.body.style.overflow = "hidden";
+        }
+
+        function closeDetailModal() {
+            document.getElementById("detailModal").classList.remove("active");
+            document.body.style.overflow = "auto";
+        }
+
+        function loginStaff() {
+            const u = document.getElementById("staffUser").value.trim();
+            const p = document.getElementById("staffPass").value.trim();
+            const found = staffAccounts.find(a => a.user === u && a.pass === p);
+            
+            if(found) {
+                isStaff = true;
+                localStorage.setItem("dastkari_is_staff", JSON.stringify(true));
+                updateStaffState();
+                alert("Staff Login Successful!");
+            } else {
+                alert("Invalid Credentials!");
+            }
+        }
+
+        function logoutStaff() {
+            isStaff = false;
+            localStorage.setItem("dastkari_is_staff", JSON.stringify(false));
+            updateStaffState();
+            closeModal("staffModal");
+        }
+
+        function updateStaffState() {
+            if(isStaff) {
+                document.body.classList.add("is-staff");
+                document.getElementById("staffLoginFields").style.display = "none";
+                document.getElementById("staffActions").style.display = "block";
+            } else {
+                document.body.classList.remove("is-staff");
+                document.getElementById("staffLoginFields").style.display = "block";
+                document.getElementById("staffActions").style.display = "none";
+            }
+            renderGrid();
+        }
+
+        function addStaffAccount() {
+            const u = document.getElementById("newUser").value.trim();
+            const p = document.getElementById("newPass").value.trim();
+            if(!u || !p) return alert("Fill in username and password.");
+            staffAccounts.push({ user: u, pass: p });
+            localStorage.setItem("dastkari_staff_accs", JSON.stringify(staffAccounts));
+            alert(`Staff User '${u}' created!`);
+            document.getElementById("newUser").value = "";
+            document.getElementById("newPass").value = "";
+        }
+
+        function openEditModal(id) {
+            const item = catalogItems.find(i => i.id === id);
+            document.getElementById("editItemId").value = item.id;
+            document.getElementById("editTitle").value = item.title;
+            document.getElementById("editCategory").value = item.category;
+            document.getElementById("editPrice").value = item.price;
+            document.getElementById("editDims").value = item.dims;
+            document.getElementById("editImage").value = item.images.join(", ");
+            openModal("editModal");
+        }
+
+        function openAddModal() {
+            document.getElementById("editItemId").value = "";
+            document.getElementById("editTitle").value = "";
+            document.getElementById("editPrice").value = "Price on Request";
+            document.getElementById("editDims").value = "";
+            document.getElementById("editImage").value = "";
+            closeModal("staffModal");
+            openModal("editModal");
+        }
+
+        function saveItem(e) {
+            e.preventDefault();
+            const id = document.getElementById("editItemId").value;
+            const title = document.getElementById("editTitle").value;
+            const category = document.getElementById("editCategory").value;
+            const price = document.getElementById("editPrice").value;
+            const dims = document.getElementById("editDims").value;
+            const rawImages = document.getElementById("editImage").value;
+            
+            const images = rawImages ? rawImages.split(",").map(s => s.trim()) : getItemGallery(category, Date.now());
+
+            if(id) {
+                const idx = catalogItems.findIndex(i => i.id === id);
+                catalogItems[idx] = { ...catalogItems[idx], title, category, price, dims, images };
+            } else {
+                const newId = `CUSTOM-${Date.now()}`;
+                catalogItems.unshift({ id: newId, title, category, price, dims, images });
+            }
+
+            localStorage.setItem("dastkari_v2_items", JSON.stringify(catalogItems));
+            renderGrid();
+            closeModal("editModal");
+        }
+
+        function addToCart(id) {
+            const item = catalogItems.find(i => i.id === id);
+            cart.push(item);
+            document.getElementById("cartCount").innerText = cart.length;
+            alert(`Added '${item.title}' to cart.`);
+        }
+
+        function submitOrder() {
+            const name = document.getElementById("clientName").value.trim();
+            if(!name || cart.length === 0) return alert("Please enter your name and add items to cart.");
+            alert(`Thank you ${name}! Your Dastkari order request has been logged.`);
+            cart = [];
+            document.getElementById("cartCount").innerText = 0;
+            closeModal("cartModal");
+        }
+
+        function openModal(id) { document.getElementById(id).classList.add("active"); }
+        function closeModal(id) { document.getElementById(id).classList.remove("active"); }
+    </script>
+</body>
+</html>
