@@ -766,44 +766,11 @@
             "STUDY/OFFICE DESKS", "MEDIA CONSOLES", "CONSOLES", "STORAGE / CREDENZA", "CABINETS"
         ];
 
-        const IMAGE_POOLS = {
-            "SOFAS": [
-                ["https://images.unsplash.com/photo-1555041469-a586c61ea9bc?auto=format&fit=crop&w=1000&q=80", "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?auto=format&fit=crop&w=800&q=80"],
-                ["https://images.unsplash.com/photo-1493663284031-b7e3aefcae8e?auto=format&fit=crop&w=1000&q=80", "https://images.unsplash.com/photo-1550581190-9c1c48d21d6c?auto=format&fit=crop&w=800&q=80"],
-                ["https://images.unsplash.com/photo-1583847268964-b28dc8f51f92?auto=format&fit=crop&w=1000&q=80", "https://images.unsplash.com/photo-1567016432779-094069958ea5?auto=format&fit=crop&w=800&q=80"]
-            ],
-            "ARMCHAIRS": [
-                ["https://images.unsplash.com/photo-1567538096630-e0c55bd6374c?auto=format&fit=crop&w=1000&q=80", "https://images.unsplash.com/photo-1580481072645-022f9a6d83d0?auto=format&fit=crop&w=800&q=80"],
-                ["https://images.unsplash.com/photo-1519947486511-46149fa0a254?auto=format&fit=crop&w=1000&q=80", "https://images.unsplash.com/photo-1503602642458-232111445657?auto=format&fit=crop&w=800&q=80"]
-            ],
-            "CHAIRS": [
-                ["https://images.unsplash.com/photo-1503602642458-232111445657?auto=format&fit=crop&w=1000&q=80", "https://images.unsplash.com/photo-1580481072645-022f9a6d83d0?auto=format&fit=crop&w=800&q=80"],
-                ["https://images.unsplash.com/photo-1586023492125-27b2c045efd7?auto=format&fit=crop&w=1000&q=80", "https://images.unsplash.com/photo-1567538096630-e0c55bd6374c?auto=format&fit=crop&w=800&q=80"]
-            ],
-            "TABLES": [
-                ["https://images.unsplash.com/photo-1533090161767-e6ffed986c88?auto=format&fit=crop&w=1000&q=80", "https://images.unsplash.com/photo-1532323544230-7191fd51bc1b?auto=format&fit=crop&w=800&q=80"],
-                ["https://images.unsplash.com/photo-1615066390971-03e4e1c36ddf?auto=format&fit=crop&w=1000&q=80", "https://images.unsplash.com/photo-1530018607912-eff2daa1bac4?auto=format&fit=crop&w=800&q=80"]
-            ],
-            "BEDS": [
-                ["https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=1000&q=80", "https://images.unsplash.com/photo-1540518614846-7eded433c457?auto=format&fit=crop&w=800&q=80"],
-                ["https://images.unsplash.com/photo-1595526114035-0d45ed16cfbf?auto=format&fit=crop&w=1000&q=80", "https://images.unsplash.com/photo-1616594039964-ae9021a400a0?auto=format&fit=crop&w=800&q=80"]
-            ],
-            "STORAGE": [
-                ["https://images.unsplash.com/photo-1595428774223-ef52624120d2?auto=format&fit=crop&w=1000&q=80", "https://images.unsplash.com/photo-1538688525198-9b88f6f53126?auto=format&fit=crop&w=800&q=80"]
-            ]
-        };
-
-        function getItemGallery(cat, pageNum) {
-            let basePool = IMAGE_POOLS.STORAGE[0];
-            if (cat.includes("SOFA")) basePool = IMAGE_POOLS.SOFAS[pageNum % IMAGE_POOLS.SOFAS.length];
-            else if (cat.includes("CHAIR") || cat.includes("ARMCHAIR")) basePool = IMAGE_POOLS.ARMCHAIRS[pageNum % IMAGE_POOLS.ARMCHAIRS.length];
-            else if (cat.includes("TABLE") || cat.includes("DESK")) basePool = IMAGE_POOLS.TABLES[pageNum % IMAGE_POOLS.TABLES.length];
-            else if (cat.includes("BED")) basePool = IMAGE_POOLS.BEDS[pageNum % IMAGE_POOLS.BEDS.length];
-
+        function getItemGallery(cat, pageNum, prefix = "P1") {
             return [
-                basePool[0] + `&v=${pageNum}`,
-                basePool[1] + `&v=${pageNum}`,
-                basePool[0] + `&v=${pageNum}_detail`
+                `./assets/${prefix}_page_${pageNum}_1.png`,
+                `./assets/${prefix}_page_${pageNum}_2.png`,
+                `./assets/${prefix}_page_${pageNum}_3.png`
             ];
         }
 
@@ -839,7 +806,7 @@
                         category: r.cat,
                         price: "Price on Request",
                         dims: p === 8 ? '101" x 33" x 30"' : (p === 39 ? '30" x 40" x 32.5"' : (p === 42 ? '28" x 29" x 30"' : (p === 98 ? '74" x 82" x 49"' : 'Custom Dimensions'))),
-                        images: getItemGallery(r.cat, p)
+                        images: getItemGallery(r.cat, p, "P1")
                     });
                 }
             });
@@ -852,7 +819,7 @@
                         category: r.cat,
                         price: "Price on Request",
                         dims: p === 110 ? '60" x 16" x 43"' : (p === 143 ? '100" x 18" x 72"' : 'Custom Dimensions'),
-                        images: getItemGallery(r.cat, p + 200)
+                        images: getItemGallery(r.cat, p, "P2")
                     });
                 }
             });
@@ -942,7 +909,7 @@
                 };
                 card.innerHTML = `
                     <div class="card-image-box">
-                        <img src="${i.images[0]}" alt="${i.title}">
+                        <img src="${i.images[0]}" onerror="this.src='${i.images[0].replace('.png', '.jpg')}'" alt="${i.title}">
                     </div>
                     <div class="card-body">
                         <div class="item-category-tag">${i.category}</div>
@@ -964,6 +931,7 @@
 
             const detailImg = document.getElementById("detailImg");
             detailImg.src = item.images[0];
+            detailImg.onerror = function() { this.src = item.images[0].replace('.png', '.jpg'); };
             document.getElementById("detailCat").innerText = item.category;
             document.getElementById("detailTitle").innerText = item.title;
             document.getElementById("detailPrice").innerText = item.price;
@@ -974,7 +942,7 @@
             item.images.forEach((imgUrl, idx) => {
                 const thumb = document.createElement("div");
                 thumb.className = `thumb-item ${idx === 0 ? 'active' : ''}`;
-                thumb.innerHTML = `<img src="${imgUrl}" alt="Angle ${idx + 1}">`;
+                thumb.innerHTML = `<img src="${imgUrl}" onerror="this.src='${imgUrl.replace('.png', '.jpg')}'" alt="Angle ${idx + 1}">`;
                 thumb.onclick = () => {
                     detailImg.src = imgUrl;
                     document.querySelectorAll('.thumb-item').forEach(t => t.classList.remove('active'));
