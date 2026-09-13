@@ -4,6 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dastkari - Digital Product Catalog</title>
+    <!-- Google Font: Montserrat -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
     <style>
         :root {
             --bg-color: #fcfbf9;
@@ -13,7 +18,12 @@
             --card-bg: #ffffff;
             --staff-green: #2e7d32;
         }
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+        * { 
+            box-sizing: border-box; 
+            margin: 0; 
+            padding: 0; 
+            font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, sans-serif; 
+        }
         body { background: var(--bg-color); color: var(--text-dark); padding-bottom: 60px; }
         
         /* Header & Vector Hamsa Logo */
@@ -28,7 +38,7 @@
         .header-actions { display: flex; gap: 12px; }
         .btn-header {
             background: transparent; border: 1px solid var(--text-dark); padding: 8px 16px;
-            font-size: 11px; letter-spacing: 1px; text-transform: uppercase; cursor: pointer;
+            font-size: 11px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; cursor: pointer;
             transition: all 0.2s;
         }
         .btn-header:hover { background: var(--text-dark); color: #fff; }
@@ -40,10 +50,10 @@
             border-bottom: 1px solid var(--border); background: #fff;
             -webkit-overflow-scrolling: touch;
         }
-        .tabs-wrapper { display: inline-flex; align-items: center; gap: 10px; }
+        .tabs-wrapper { display: inline-flex; align-items: center; gap: 14px; }
         .tab-btn {
-            background: none; border: none; font-size: 12px; color: var(--text-muted);
-            cursor: pointer; padding: 6px 10px; letter-spacing: 1px; text-transform: uppercase;
+            background: none; border: none; font-size: 12px; font-weight: 500; color: var(--text-muted);
+            cursor: pointer; padding: 6px 10px; letter-spacing: 2px; text-transform: uppercase;
             transition: color 0.2s;
         }
         .tab-btn.active, .tab-btn:hover { color: var(--text-dark); font-weight: 700; }
@@ -52,8 +62,8 @@
         /* Main Layout */
         main { padding: 30px 5%; max-width: 1400px; margin: 0 auto; }
         .catalog-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 24px; }
-        .catalog-title { font-size: 22px; font-weight: 400; letter-spacing: 1px; }
-        .items-count { font-size: 13px; color: var(--text-muted); }
+        .catalog-title { font-size: 20px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; }
+        .items-count { font-size: 12px; font-weight: 500; color: var(--text-muted); letter-spacing: 1px; }
 
         /* Product Grid */
         .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 24px; }
@@ -68,14 +78,14 @@
         .product-card:hover .card-image-box img { transform: scale(1.03); }
         
         .card-body { padding: 18px; display: flex; flex-direction: column; flex-grow: 1; }
-        .item-category-tag { font-size: 10px; color: var(--text-muted); letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 6px; }
-        .item-name { font-size: 15px; font-weight: 600; margin-bottom: 6px; color: var(--text-dark); }
-        .item-dims { font-size: 12px; color: var(--text-muted); margin-bottom: 16px; flex-grow: 1; }
+        .item-category-tag { font-size: 10px; font-weight: 600; color: var(--text-muted); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 6px; }
+        .item-name { font-size: 14px; font-weight: 600; margin-bottom: 6px; color: var(--text-dark); letter-spacing: 0.5px; }
+        .item-dims { font-size: 11px; color: var(--text-muted); margin-bottom: 16px; flex-grow: 1; }
         .card-footer { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--border); padding-top: 12px; }
-        .item-price { font-size: 12px; font-weight: 600; }
-        .card-btn-link { font-size: 11px; letter-spacing: 1px; text-transform: uppercase; color: var(--text-dark); font-weight: 600; }
+        .item-price { font-size: 12px; font-weight: 600; letter-spacing: 0.5px; }
+        .card-btn-link { font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--text-dark); font-weight: 700; }
         
-        .edit-btn { display: none; margin-top: 10px; width: 100%; padding: 6px; background: #eee; border: 1px solid #ccc; font-size: 11px; cursor: pointer; }
+        .edit-btn { display: none; margin-top: 10px; width: 100%; padding: 6px; background: #eee; border: 1px solid #ccc; font-size: 11px; font-weight: 600; cursor: pointer; }
         body.is-staff .edit-btn { display: block; }
 
         /* Modals */
@@ -86,7 +96,7 @@
         }
         .modal-overlay.active { display: flex; }
         .modal-box { background: #fff; width: 100%; max-width: 480px; padding: 24px; border-radius: 6px; max-height: 90vh; overflow-y: auto; }
-        .modal-title { font-size: 18px; font-weight: 600; margin-bottom: 16px; }
+        .modal-title { font-size: 16px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 16px; }
         
         .detail-modal-box { max-width: 850px; display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
         @media (max-width: 768px) { .detail-modal-box { grid-template-columns: 1fr; } }
@@ -97,15 +107,14 @@
         .thumb-item img { width: 100%; height: 100%; object-fit: cover; }
         
         .form-group { margin-bottom: 14px; }
-        .form-label { display: block; font-size: 12px; margin-bottom: 4px; color: var(--text-muted); }
-        .form-control { width: 100%; padding: 8px 12px; border: 1px solid var(--border); font-size: 14px; }
+        .form-label { display: block; font-size: 11px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 4px; color: var(--text-muted); }
+        .form-control { width: 100%; padding: 8px 12px; border: 1px solid var(--border); font-size: 13px; }
     </style>
 </head>
 <body>
 
     <header>
         <a href="#" class="brand-container">
-            <!-- Embedded Vector Hamsa Icon -->
             <svg class="brand-logo-svg" viewBox="0 0 100 110" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M50 4 C 55 4, 58 8, 58 14 L 58 38 C 58 38, 63 38, 65 35 C 70 29, 81 27, 89 34 C 97 41, 91 53, 78 65 C 72 71, 68 76, 67 84 C 66 91, 59 98, 50 98 C 41 98, 34 91, 33 84 C 32 76, 28 71, 22 65 C 9 53, 3 41, 11 34 C 19 27, 30 29, 35 35 C 37 38, 42 38, 42 38 L 42 14 C 42 8, 45 4, 50 4 Z" fill="#000000"/>
                 <path d="M50 9 C 53 9, 54 11, 54 16 L 54 40 C 54 42, 60 42, 62 39 C 66 34, 75 32, 82 38 C 88 44, 83 52, 72 63 C 67 68, 64 74, 63 81 C 62 87, 57 93, 50 93 C 43 93, 38 87, 37 81 C 36 74, 33 68, 28 63 C 17 52, 12 44, 18 38 C 25 32, 34 34, 38 39 C 40 42, 46 42, 46 40 L 46 16 C 46 11, 47 9, 50 9 Z" stroke="#ffffff" stroke-width="3" fill="#000000"/>
@@ -114,7 +123,7 @@
         </a>
         <div class="header-actions">
             <button class="btn-header" onclick="openModal('cartModal')">Cart (<span id="cartCount">0</span>)</button>
-            <button class="btn-header btn-black" onclick="openModal('staffModal')">Staff Portal</button>
+            <button class="btn-header btn-black" onclick="openModal('staffModal')">Staff Login</button>
         </div>
     </header>
 
@@ -141,17 +150,17 @@
                 <div id="detailCat" class="item-category-tag">Category</div>
                 <h3 id="detailTitle" class="modal-title">Product Name</h3>
                 <div id="detailDims" class="item-dims" style="margin-bottom: 20px;">Dimensions</div>
-                <div id="detailPrice" class="item-price" style="font-size: 16px; margin-bottom: 24px;">Price</div>
+                <div id="detailPrice" class="item-price" style="font-size: 14px; margin-bottom: 24px;">Price</div>
                 <button id="detailAddCartBtn" class="btn-header btn-black" style="width: 100%; padding: 12px;">Add to Order Request</button>
                 <button class="btn-header" style="width: 100%; margin-top: 10px;" onclick="closeDetailModal()">Close</button>
             </div>
         </div>
     </div>
 
-    <!-- Staff Portal Modal -->
+    <!-- Staff Login Modal -->
     <div class="modal-overlay" id="staffModal">
         <div class="modal-box">
-            <h3 class="modal-title">Staff Portal</h3>
+            <h3 class="modal-title">Staff Login</h3>
             <div id="staffLoginFields">
                 <div class="form-group">
                     <label class="form-label">Username</label>
@@ -164,7 +173,7 @@
                 <button class="btn-header btn-black" style="width: 100%; margin-top: 10px;" onclick="loginStaff()">Login to Staff Account</button>
             </div>
             <div id="staffActions" style="display: none;">
-                <p style="color: var(--staff-green); font-size: 12px; margin-bottom: 16px; font-weight: 600;">✓ Logged in as Staff Administrator</p>
+                <p style="color: var(--staff-green); font-size: 11px; margin-bottom: 16px; font-weight: 600; letter-spacing: 1px;">✓ LOGGED IN AS STAFF ADMIN</p>
                 <button class="btn-header btn-black" style="width: 100%; margin-bottom: 14px;" onclick="openAddModal()">+ Add New Catalogue Item</button>
                 <div style="border-top: 1px solid var(--border); padding-top: 14px; margin-top: 14px;">
                     <h4 style="font-size: 11px; letter-spacing: 1.5px; color: var(--text-dark); margin-bottom: 10px; text-transform: uppercase;">Register Staff Account</h4>
