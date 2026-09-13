@@ -3,670 +3,152 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DASTKARI | Bespoke Furniture & Craftsmanship</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600&display=swap" rel="stylesheet">
-    
+    <title>Dastkari - Digital Product Catalog</title>
     <style>
         :root {
-            --bg-main: #ffffff;
-            --bg-secondary: #f8f8f8;
-            --bg-card: #ffffff;
-            --border: #e2e2e2;
-            --text-dark: #111111;
-            --text-muted: #666666;
-            --accent-black: #000000;
-            --accent-soft: #444444;
+            --bg-color: #fcfbf9;
+            --text-dark: #1a1a1a;
+            --text-muted: #767676;
+            --border: #e8e6e1;
+            --card-bg: #ffffff;
             --staff-green: #2e7d32;
         }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            user-select: none;
-        }
-
-        body {
-            background-color: var(--bg-main);
-            color: var(--text-dark);
-            font-family: 'Montserrat', sans-serif;
-            line-height: 1.6;
-            overflow-x: hidden;
-        }
-
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+        body { background: var(--bg-color); color: var(--text-dark); padding-bottom: 60px; }
+        
+        /* Header & Vector Hamsa Logo */
         header {
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            background-color: rgba(255, 255, 255, 0.98);
-            backdrop-filter: blur(8px);
-            border-bottom: 1px solid var(--border);
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 16px 5%; border-bottom: 1px solid var(--border); background: #fff;
+            position: sticky; top: 0; z-index: 100;
         }
-
-        .top-bar {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 16px 32px;
-            max-width: 1440px;
-            margin: 0 auto;
-        }
-
-        .brand-logo-container {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            cursor: pointer;
-            text-decoration: none;
-        }
-
-        .hamsa-logo-wrapper {
-            background: #ffffff;
-            padding: 4px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .hamsa-svg {
-            width: 38px;
-            height: 46px;
-        }
-
-        .brand-name {
-            font-family: 'Montserrat', sans-serif;
-            font-size: 24px;
-            font-weight: 500;
-            letter-spacing: 7px;
-            color: var(--text-dark);
-            text-transform: uppercase;
-        }
-
-        .header-actions {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-        }
-
+        .brand-container { display: flex; align-items: center; gap: 14px; text-decoration: none; color: inherit; }
+        .brand-logo-svg { height: 42px; width: auto; display: block; }
+        .brand-name { font-size: 20px; font-weight: 700; letter-spacing: 4px; text-transform: uppercase; }
+        .header-actions { display: flex; gap: 12px; }
         .btn-header {
-            background: #ffffff;
-            border: 1px solid var(--text-dark);
-            color: var(--text-dark);
-            padding: 9px 18px;
-            border-radius: 2px;
-            font-family: inherit;
-            font-size: 11px;
-            font-weight: 600;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            cursor: pointer;
-            transition: all 0.2s ease;
+            background: transparent; border: 1px solid var(--text-dark); padding: 8px 16px;
+            font-size: 11px; letter-spacing: 1px; text-transform: uppercase; cursor: pointer;
+            transition: all 0.2s;
         }
-
-        .btn-header:hover {
-            background: var(--text-dark);
-            color: #ffffff;
-        }
-
-        .btn-black {
-            background: var(--text-dark);
-            color: #ffffff;
-            border: 1px solid var(--text-dark);
-        }
-
-        .btn-black:hover {
-            background: #333333;
-        }
-
-        .staff-badge {
-            display: none;
-            font-size: 10px;
-            font-weight: 600;
-            letter-spacing: 1.5px;
-            color: var(--staff-green);
-            border: 1px solid var(--staff-green);
-            padding: 4px 8px;
-            border-radius: 2px;
-            text-transform: uppercase;
-        }
-
-        body.is-staff .staff-badge {
-            display: inline-block;
-        }
-
-        .touch-scroll-nav {
-            background-color: var(--bg-secondary);
-            border-top: 1px solid var(--border);
-            overflow-x: auto;
-            white-space: nowrap;
+        .btn-header:hover { background: var(--text-dark); color: #fff; }
+        .btn-black { background: var(--text-dark); color: #fff; }
+        
+        /* Navigation Tabs */
+        .tabs-container {
+            padding: 15px 5%; overflow-x: auto; white-space: nowrap;
+            border-bottom: 1px solid var(--border); background: #fff;
             -webkit-overflow-scrolling: touch;
-            scrollbar-width: none;
-            -ms-overflow-style: none;
-            cursor: grab;
         }
-
-        .touch-scroll-nav::-webkit-scrollbar {
-            display: none;
-        }
-
-        .touch-scroll-nav:active {
-            cursor: grabbing;
-        }
-
-        .tabs-wrapper {
-            display: inline-flex;
-            align-items: center;
-            padding: 12px 28px;
-            gap: 22px;
-        }
-
+        .tabs-wrapper { display: inline-flex; align-items: center; gap: 10px; }
         .tab-btn {
-            background: none;
-            border: none;
-            color: var(--text-muted);
-            font-family: 'Montserrat', sans-serif;
-            font-size: 12px;
-            font-weight: 500;
-            letter-spacing: 3px;
-            text-transform: uppercase;
-            cursor: pointer;
-            padding: 4px 0;
-            position: relative;
-            transition: color 0.2s ease;
+            background: none; border: none; font-size: 12px; color: var(--text-muted);
+            cursor: pointer; padding: 6px 10px; letter-spacing: 1px; text-transform: uppercase;
+            transition: color 0.2s;
         }
+        .tab-btn.active, .tab-btn:hover { color: var(--text-dark); font-weight: 700; }
+        .tab-bullet { color: var(--border); font-size: 10px; }
+        
+        /* Main Layout */
+        main { padding: 30px 5%; max-width: 1400px; margin: 0 auto; }
+        .catalog-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 24px; }
+        .catalog-title { font-size: 22px; font-weight: 400; letter-spacing: 1px; }
+        .items-count { font-size: 13px; color: var(--text-muted); }
 
-        .tab-btn:hover {
-            color: var(--text-dark);
-        }
-
-        .tab-btn.active {
-            color: var(--text-dark);
-            font-weight: 700;
-        }
-
-        .tab-btn.active::after {
-            content: '';
-            position: absolute;
-            bottom: -2px;
-            left: 0;
-            width: 100%;
-            height: 2px;
-            background-color: var(--text-dark);
-        }
-
-        .tab-bullet {
-            color: #ccc;
-            font-size: 9px;
-        }
-
-        .catalog-container {
-            max-width: 1440px;
-            margin: 40px auto;
-            padding: 0 32px;
-        }
-
-        .section-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-end;
-            margin-bottom: 32px;
-            padding-bottom: 14px;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .category-title {
-            font-family: 'Playfair Display', serif;
-            font-size: 26px;
-            letter-spacing: 1px;
-            color: var(--text-dark);
-            font-weight: 500;
-        }
-
-        .items-count {
-            color: var(--text-muted);
-            font-size: 12px;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-        }
-
-        .products-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 32px;
-        }
-
+        /* Product Grid */
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 24px; }
         .product-card {
-            background-color: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: 2px;
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-            cursor: pointer;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            background: var(--card-bg); border: 1px solid var(--border);
+            border-radius: 4px; overflow: hidden; cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s; display: flex; flex-direction: column;
         }
+        .product-card:hover { transform: translateY(-4px); box-shadow: 0 10px 20px rgba(0,0,0,0.05); }
+        .card-image-box { width: 100%; aspect-ratio: 4/3; background: #f4f4f4; overflow: hidden; position: relative; }
+        .card-image-box img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s; }
+        .product-card:hover .card-image-box img { transform: scale(1.03); }
+        
+        .card-body { padding: 18px; display: flex; flex-direction: column; flex-grow: 1; }
+        .item-category-tag { font-size: 10px; color: var(--text-muted); letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 6px; }
+        .item-name { font-size: 15px; font-weight: 600; margin-bottom: 6px; color: var(--text-dark); }
+        .item-dims { font-size: 12px; color: var(--text-muted); margin-bottom: 16px; flex-grow: 1; }
+        .card-footer { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--border); padding-top: 12px; }
+        .item-price { font-size: 12px; font-weight: 600; }
+        .card-btn-link { font-size: 11px; letter-spacing: 1px; text-transform: uppercase; color: var(--text-dark); font-weight: 600; }
+        
+        .edit-btn { display: none; margin-top: 10px; width: 100%; padding: 6px; background: #eee; border: 1px solid #ccc; font-size: 11px; cursor: pointer; }
+        body.is-staff .edit-btn { display: block; }
 
-        .product-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
-            border-color: #bbbbbb;
-        }
-
-        .card-image-box {
-            height: 280px;
-            width: 100%;
-            background-color: #f2f2f2;
-            overflow: hidden;
-            position: relative;
-        }
-
-        .card-image-box img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.5s ease;
-        }
-
-        .product-card:hover .card-image-box img {
-            transform: scale(1.04);
-        }
-
-        .card-body {
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            flex-grow: 1;
-        }
-
-        .item-category-tag {
-            font-size: 10px;
-            letter-spacing: 2px;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            margin-bottom: 6px;
-        }
-
-        .item-name {
-            font-size: 15px;
-            font-weight: 600;
-            color: var(--text-dark);
-            margin-bottom: 6px;
-            letter-spacing: 0.5px;
-        }
-
-        .item-dims {
-            font-size: 12px;
-            color: var(--text-muted);
-            margin-bottom: 16px;
-        }
-
-        .card-footer {
-            margin-top: auto;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding-top: 12px;
-            border-top: 1px solid #f0f0f0;
-        }
-
-        .item-price {
-            font-size: 15px;
-            font-weight: 700;
-            color: var(--text-dark);
-        }
-
-        .card-btn-link {
-            font-size: 11px;
-            font-weight: 600;
-            letter-spacing: 1.5px;
-            text-transform: uppercase;
-            color: var(--text-dark);
-        }
-
-        .edit-btn {
-            display: none;
-            margin-top: 12px;
-            padding: 8px;
-            background: #ffffff;
-            border: 1px dashed var(--text-dark);
-            color: var(--text-dark);
-            font-size: 11px;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            cursor: pointer;
-            width: 100%;
-            font-weight: 600;
-        }
-
-        body.is-staff .edit-btn {
-            display: block;
-        }
-
-        .fullscreen-modal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            background: #ffffff;
-            z-index: 2000;
-            display: flex;
-            flex-direction: column;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.3s ease;
-            overflow-y: auto;
-        }
-
-        .fullscreen-modal.active {
-            opacity: 1;
-            pointer-events: all;
-        }
-
-        .detail-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 24px 40px;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .close-detail-btn {
-            background: none;
-            border: none;
-            font-size: 28px;
-            cursor: pointer;
-            color: var(--text-dark);
-        }
-
-        .detail-container {
-            max-width: 1300px;
-            margin: 0 auto;
-            padding: 40px;
-            display: grid;
-            grid-template-columns: 1.2fr 1fr;
-            gap: 60px;
-            width: 100%;
-        }
-
-        .gallery-wrapper {
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-        }
-
-        .detail-image-box {
-            width: 100%;
-            height: 480px;
-            background: #f4f4f4;
-            border: 1px solid var(--border);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
-        }
-
-        .detail-image-box img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: opacity 0.2s ease;
-        }
-
-        .thumbnail-strip {
-            display: flex;
-            gap: 12px;
-            overflow-x: auto;
-            padding-bottom: 8px;
-        }
-
-        .thumb-item {
-            width: 80px;
-            height: 80px;
-            border: 1px solid var(--border);
-            cursor: pointer;
-            opacity: 0.6;
-            transition: all 0.2s ease;
-            flex-shrink: 0;
-        }
-
-        .thumb-item:hover, .thumb-item.active {
-            opacity: 1;
-            border-color: var(--text-dark);
-        }
-
-        .thumb-item img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .detail-info {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-
-        .detail-category {
-            font-size: 11px;
-            letter-spacing: 3px;
-            text-transform: uppercase;
-            color: var(--text-muted);
-            margin-bottom: 8px;
-        }
-
-        .detail-title {
-            font-family: 'Playfair Display', serif;
-            font-size: 36px;
-            color: var(--text-dark);
-            margin-bottom: 16px;
-            line-height: 1.2;
-        }
-
-        .detail-price {
-            font-size: 24px;
-            font-weight: 700;
-            color: var(--text-dark);
-            margin-bottom: 24px;
-        }
-
-        .detail-spec-box {
-            border-top: 1px solid var(--border);
-            border-bottom: 1px solid var(--border);
-            padding: 20px 0;
-            margin-bottom: 24px;
-        }
-
-        .spec-row {
-            display: flex;
-            margin-bottom: 8px;
-            font-size: 13px;
-        }
-
-        .spec-label {
-            width: 140px;
-            color: var(--text-muted);
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            font-size: 11px;
-        }
-
-        .spec-value {
-            color: var(--text-dark);
-            font-weight: 500;
-        }
-
-        .detail-desc {
-            font-size: 14px;
-            color: #444444;
-            margin-bottom: 32px;
-            line-height: 1.8;
-        }
-
+        /* Modals */
         .modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            background: rgba(0, 0, 0, 0.5);
-            backdrop-filter: blur(4px);
-            z-index: 1500;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.2s ease;
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.6); display: none; justify-content: center; align-items: center;
+            z-index: 1000; padding: 20px;
         }
-
-        .modal-overlay.active {
-            opacity: 1;
-            pointer-events: all;
-        }
-
-        .modal-box {
-            background: #ffffff;
-            border: 1px solid var(--border);
-            border-radius: 4px;
-            width: 90%;
-            max-width: 500px;
-            max-height: 90vh;
-            overflow-y: auto;
-            padding: 32px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
-        }
-
-        .modal-title {
-            font-family: 'Playfair Display', serif;
-            font-size: 22px;
-            color: var(--text-dark);
-            margin-bottom: 20px;
-            padding-bottom: 10px;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .form-group {
-            margin-bottom: 16px;
-        }
-
-        .form-label {
-            display: block;
-            font-size: 11px;
-            letter-spacing: 1.5px;
-            text-transform: uppercase;
-            color: var(--text-muted);
-            margin-bottom: 6px;
-        }
-
-        .form-control {
-            width: 100%;
-            padding: 10px 14px;
-            background: #ffffff;
-            border: 1px solid var(--border);
-            border-radius: 2px;
-            color: var(--text-dark);
-            font-family: inherit;
-            font-size: 13px;
-        }
-
-        .form-control:focus {
-            outline: none;
-            border-color: var(--text-dark);
-        }
-
-        @media (max-width: 900px) {
-            .detail-container {
-                grid-template-columns: 1fr;
-                gap: 30px;
-                padding: 20px;
-            }
-            .detail-image-box {
-                height: 350px;
-            }
-        }
+        .modal-overlay.active { display: flex; }
+        .modal-box { background: #fff; width: 100%; max-width: 480px; padding: 24px; border-radius: 6px; max-height: 90vh; overflow-y: auto; }
+        .modal-title { font-size: 18px; font-weight: 600; margin-bottom: 16px; }
+        
+        .detail-modal-box { max-width: 850px; display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+        @media (max-width: 768px) { .detail-modal-box { grid-template-columns: 1fr; } }
+        .main-detail-img { width: 100%; aspect-ratio: 4/3; object-fit: cover; border-radius: 4px; border: 1px solid var(--border); }
+        .thumbnail-strip { display: flex; gap: 10px; margin-top: 12px; overflow-x: auto; }
+        .thumb-item { width: 64px; height: 64px; border: 1px solid var(--border); border-radius: 4px; cursor: pointer; overflow: hidden; opacity: 0.6; }
+        .thumb-item.active { opacity: 1; border-color: var(--text-dark); }
+        .thumb-item img { width: 100%; height: 100%; object-fit: cover; }
+        
+        .form-group { margin-bottom: 14px; }
+        .form-label { display: block; font-size: 12px; margin-bottom: 4px; color: var(--text-muted); }
+        .form-control { width: 100%; padding: 8px 12px; border: 1px solid var(--border); font-size: 14px; }
     </style>
 </head>
 <body>
 
     <header>
-        <div class="top-bar">
-            <a href="#" class="brand-logo-container">
-                <div class="hamsa-logo-wrapper">
-                    <svg class="hamsa-svg" viewBox="0 0 100 120" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M 50 4 C 59 4, 66 11, 66 22 L 66 42 C 77 39, 87 50, 87 64 C 87 86, 75 106, 50 116 C 25 106, 13 86, 13 64 C 13 50, 23 39, 34 42 L 34 22 C 34 11, 41 4, 50 4 Z" fill="#000000"/>
-                        <path d="M 50 8 C 56 8, 62 13, 62 23 L 62 45 C 73 43, 83 52, 83 64 C 83 83, 72 101, 50 110 C 28 110, 17 83, 17 64 C 17 52, 27 43, 38 45 L 38 23 C 38 13, 44 8, 50 8 Z" fill="#ffffff"/>
-                        <path d="M 50 11 C 45 11, 41 15, 41 23 L 41 47 C 32 45, 21 53, 21 64 C 21 80, 31 97, 50 106 C 69 97, 79 80, 79 64 C 79 53, 68 45, 59 47 L 59 23 C 59 15, 55 11, 50 11 Z" fill="#000000"/>
-                    </svg>
-                </div>
-                <span class="brand-name">DASTKARI</span>
-            </a>
-
-            <div class="header-actions">
-                <span class="staff-badge" id="staffBadge">Staff Mode Active</span>
-                <button class="btn-header" onclick="openModal('staffModal')">Staff Login</button>
-                <button class="btn-header btn-black" onclick="openModal('cartModal')">Cart (<span id="cartCount">0</span>)</button>
-            </div>
-        </div>
-
-        <div class="touch-scroll-nav" id="touchScrollNav">
-            <div class="tabs-wrapper" id="tabsWrapper"></div>
+        <a href="#" class="brand-container">
+            <!-- Embedded Vector Hamsa Icon -->
+            <svg class="brand-logo-svg" viewBox="0 0 100 110" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M50 4 C 55 4, 58 8, 58 14 L 58 38 C 58 38, 63 38, 65 35 C 70 29, 81 27, 89 34 C 97 41, 91 53, 78 65 C 72 71, 68 76, 67 84 C 66 91, 59 98, 50 98 C 41 98, 34 91, 33 84 C 32 76, 28 71, 22 65 C 9 53, 3 41, 11 34 C 19 27, 30 29, 35 35 C 37 38, 42 38, 42 38 L 42 14 C 42 8, 45 4, 50 4 Z" fill="#000000"/>
+                <path d="M50 9 C 53 9, 54 11, 54 16 L 54 40 C 54 42, 60 42, 62 39 C 66 34, 75 32, 82 38 C 88 44, 83 52, 72 63 C 67 68, 64 74, 63 81 C 62 87, 57 93, 50 93 C 43 93, 38 87, 37 81 C 36 74, 33 68, 28 63 C 17 52, 12 44, 18 38 C 25 32, 34 34, 38 39 C 40 42, 46 42, 46 40 L 46 16 C 46 11, 47 9, 50 9 Z" stroke="#ffffff" stroke-width="3" fill="#000000"/>
+            </svg>
+            <span class="brand-name">Dastkari</span>
+        </a>
+        <div class="header-actions">
+            <button class="btn-header" onclick="openModal('cartModal')">Cart (<span id="cartCount">0</span>)</button>
+            <button class="btn-header btn-black" onclick="openModal('staffModal')">Staff Portal</button>
         </div>
     </header>
 
-    <main class="catalog-container">
-        <div class="section-header">
-            <div class="category-title" id="currentCategoryTitle">All Bespoke Collections</div>
-            <div class="items-count" id="itemsCount">0 Items</div>
-        </div>
+    <div class="tabs-container" id="touchScrollNav">
+        <div class="tabs-wrapper" id="tabsWrapper"></div>
+    </div>
 
-        <div class="products-grid" id="productsGrid"></div>
+    <main>
+        <div class="catalog-header">
+            <h2 class="catalog-title" id="currentCategoryTitle">All Bespoke Collections</h2>
+            <span class="items-count" id="itemsCount">0 Items</span>
+        </div>
+        <div class="grid" id="productsGrid"></div>
     </main>
 
-    <div class="fullscreen-modal" id="detailModal">
-        <div class="detail-header">
-            <div class="brand-name" style="font-size: 18px;">DASTKARI</div>
-            <button class="close-detail-btn" onclick="closeDetailModal()">&times;</button>
-        </div>
-        <div class="detail-container">
-            <div class="gallery-wrapper">
-                <div class="detail-image-box">
-                    <img id="detailImg" src="" alt="Dastkari Furniture Item">
-                </div>
+    <!-- Detail Modal -->
+    <div class="modal-overlay" id="detailModal">
+        <div class="modal-box detail-modal-box">
+            <div>
+                <img id="detailImg" class="main-detail-img" src="" alt="Product Detail">
                 <div class="thumbnail-strip" id="thumbnailStrip"></div>
             </div>
-            
-            <div class="detail-info">
-                <div class="detail-category" id="detailCat">CATEGORY</div>
-                <h1 class="detail-title" id="detailTitle">Item Title</h1>
-                <div class="detail-price" id="detailPrice">Price on Request</div>
-
-                <div class="detail-spec-box">
-                    <div class="spec-row">
-                        <span class="spec-label">Dimensions:</span>
-                        <span class="spec-value" id="detailDims">Custom Specifications</span>
-                    </div>
-                    <div class="spec-row">
-                        <span class="spec-label">Material:</span>
-                        <span class="spec-value">Premium Hand-carved Teak / Custom Upholstery</span>
-                    </div>
-                    <div class="spec-row">
-                        <span class="spec-label">Craftsmanship:</span>
-                        <span class="spec-value">Traditional Joinery & Contemporary Finishing</span>
-                    </div>
-                </div>
-
-                <p class="detail-desc" id="detailDesc">
-                    At the intersection of time-honed craftsmanship and contemporary design lies our philosophy: when manufacturing constraints guide our creative journey rather than limit it. Each piece emerges from a deep understanding of material and method.
-                </p>
-
-                <button class="btn-header btn-black" style="padding: 14px; font-size: 12px;" id="detailAddCartBtn">Add to Order Request</button>
+            <div>
+                <div id="detailCat" class="item-category-tag">Category</div>
+                <h3 id="detailTitle" class="modal-title">Product Name</h3>
+                <div id="detailDims" class="item-dims" style="margin-bottom: 20px;">Dimensions</div>
+                <div id="detailPrice" class="item-price" style="font-size: 16px; margin-bottom: 24px;">Price</div>
+                <button id="detailAddCartBtn" class="btn-header btn-black" style="width: 100%; padding: 12px;">Add to Order Request</button>
+                <button class="btn-header" style="width: 100%; margin-top: 10px;" onclick="closeDetailModal()">Close</button>
             </div>
         </div>
     </div>
 
+    <!-- Staff Portal Modal -->
     <div class="modal-overlay" id="staffModal">
         <div class="modal-box">
             <h3 class="modal-title">Staff Portal</h3>
@@ -681,12 +163,9 @@
                 </div>
                 <button class="btn-header btn-black" style="width: 100%; margin-top: 10px;" onclick="loginStaff()">Login to Staff Account</button>
             </div>
-
             <div id="staffActions" style="display: none;">
                 <p style="color: var(--staff-green); font-size: 12px; margin-bottom: 16px; font-weight: 600;">✓ Logged in as Staff Administrator</p>
-                
                 <button class="btn-header btn-black" style="width: 100%; margin-bottom: 14px;" onclick="openAddModal()">+ Add New Catalogue Item</button>
-
                 <div style="border-top: 1px solid var(--border); padding-top: 14px; margin-top: 14px;">
                     <h4 style="font-size: 11px; letter-spacing: 1.5px; color: var(--text-dark); margin-bottom: 10px; text-transform: uppercase;">Register Staff Account</h4>
                     <div class="form-group">
@@ -699,21 +178,20 @@
                     </div>
                     <button class="btn-header" style="width: 100%;" onclick="addStaffAccount()">Create Staff Account</button>
                 </div>
-
                 <button class="btn-header" style="width: 100%; margin-top: 16px; border-color: #c62828; color: #c62828;" onclick="logoutStaff()">Log Out Staff</button>
             </div>
-            
             <button class="btn-header" style="width: 100%; margin-top: 10px;" onclick="closeModal('staffModal')">Close</button>
         </div>
     </div>
 
+    <!-- Edit/Add Modal -->
     <div class="modal-overlay" id="editModal">
         <div class="modal-box">
-            <h3 class="modal-title" id="editModalTitle">Edit Item</h3>
+            <h3 class="modal-title">Manage Product</h3>
             <form onsubmit="saveItem(event)">
                 <input type="hidden" id="editItemId">
                 <div class="form-group">
-                    <label class="form-label">Item Title</label>
+                    <label class="form-label">Title</label>
                     <input type="text" id="editTitle" class="form-control" required>
                 </div>
                 <div class="form-group">
@@ -721,39 +199,33 @@
                     <select id="editCategory" class="form-control" required></select>
                 </div>
                 <div class="form-group">
-                    <label class="form-label">Price (INR ₹ or Price on Request)</label>
-                    <input type="text" id="editPrice" class="form-control" placeholder="Price on Request">
+                    <label class="form-label">Price</label>
+                    <input type="text" id="editPrice" class="form-control" required>
                 </div>
                 <div class="form-group">
-                    <label class="form-label">Dimensions / Specifications</label>
-                    <input type="text" id="editDims" class="form-control">
+                    <label class="form-label">Dimensions</label>
+                    <input type="text" id="editDims" class="form-control" required>
                 </div>
                 <div class="form-group">
-                    <label class="form-label">Image URLs (comma separated for multiple views)</label>
-                    <input type="text" id="editImage" class="form-control" placeholder="Paste image URLs separated by comma">
+                    <label class="form-label">Image Paths (comma separated)</label>
+                    <input type="text" id="editImage" class="form-control">
                 </div>
-                <button type="submit" class="btn-header btn-black" style="width: 100%; margin-top: 10px;">Save Changes</button>
-                <button type="button" class="btn-header" style="width: 100%; margin-top: 8px;" onclick="closeModal('editModal')">Cancel</button>
+                <button type="submit" class="btn-header btn-black" style="width: 100%; margin-top: 10px;">Save Item</button>
+                <button type="button" class="btn-header" style="width: 100%; margin-top: 10px;" onclick="closeModal('editModal')">Cancel</button>
             </form>
         </div>
     </div>
 
+    <!-- Cart Modal -->
     <div class="modal-overlay" id="cartModal">
         <div class="modal-box">
-            <h3 class="modal-title">Selected Order Items</h3>
-            <div id="cartList"></div>
-            <div style="border-top: 1px solid var(--border); padding-top: 14px; margin-top: 14px;">
-                <div class="form-group">
-                    <label class="form-label">Client Name</label>
-                    <input type="text" id="clientName" class="form-control" placeholder="Your Name">
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Contact / Email</label>
-                    <input type="text" id="clientContact" class="form-control" placeholder="Phone or Email">
-                </div>
-                <button class="btn-header btn-black" style="width: 100%; margin-top: 10px;" onclick="submitOrder()">Submit Order Consultation</button>
+            <h3 class="modal-title">Order Request</h3>
+            <div class="form-group">
+                <label class="form-label">Your Name</label>
+                <input type="text" id="clientName" class="form-control" placeholder="Enter your full name">
             </div>
-            <button class="btn-header" style="width: 100%; margin-top: 8px;" onclick="closeModal('cartModal')">Close</button>
+            <button class="btn-header btn-black" style="width: 100%; margin-top: 10px;" onclick="submitOrder()">Submit Request</button>
+            <button class="btn-header" style="width: 100%; margin-top: 10px;" onclick="closeModal('cartModal')">Close</button>
         </div>
     </div>
 
@@ -768,9 +240,9 @@
 
         function getItemGallery(cat, pageNum, prefix = "P1") {
             return [
-                `./assets/${prefix}_page_${pageNum}_1.png`,
-                `./assets/${prefix}_page_${pageNum}_2.png`,
-                `./assets/${prefix}_page_${pageNum}_3.png`
+                `./assets/${prefix}_page_${pageNum}_1.jpeg`,
+                `./assets/${prefix}_page_${pageNum}_2.jpeg`,
+                `./assets/${prefix}_page_${pageNum}_3.jpeg`
             ];
         }
 
@@ -805,7 +277,7 @@
                         title: `Dastkari Bespoke ${r.cat.slice(0, -1)} Page #${p}`,
                         category: r.cat,
                         price: "Price on Request",
-                        dims: p === 8 ? '101" x 33" x 30"' : (p === 39 ? '30" x 40" x 32.5"' : (p === 42 ? '28" x 29" x 30"' : (p === 98 ? '74" x 82" x 49"' : 'Custom Dimensions'))),
+                        dims: "Custom Dimensions",
                         images: getItemGallery(r.cat, p, "P1")
                     });
                 }
@@ -818,7 +290,7 @@
                         title: `Dastkari Crafted ${r.cat.slice(0, -1)} Page #${p}`,
                         category: r.cat,
                         price: "Price on Request",
-                        dims: p === 110 ? '60" x 16" x 43"' : (p === 143 ? '100" x 18" x 72"' : 'Custom Dimensions'),
+                        dims: "Custom Dimensions",
                         images: getItemGallery(r.cat, p, "P2")
                     });
                 }
@@ -827,7 +299,7 @@
             return items;
         }
 
-        let catalogItems = JSON.parse(localStorage.getItem("dastkari_v2_items")) || generateCatalogItems();
+        let catalogItems = generateCatalogItems();
         let staffAccounts = JSON.parse(localStorage.getItem("dastkari_staff_accs")) || [{ user: "admin", pass: "dastkari123" }];
         let isStaff = JSON.parse(localStorage.getItem("dastkari_is_staff")) || false;
         let activeCat = "ALL";
@@ -909,7 +381,7 @@
                 };
                 card.innerHTML = `
                     <div class="card-image-box">
-                        <img src="${i.images[0]}" onerror="this.src='${i.images[0].replace('.png', '.jpg')}'" alt="${i.title}">
+                        <img src="${i.images[0]}" onerror="this.src='${i.images[0].replace('.jpeg', '.jpg').replace('.jpeg', '.png')}'" alt="${i.title}">
                     </div>
                     <div class="card-body">
                         <div class="item-category-tag">${i.category}</div>
@@ -928,10 +400,9 @@
 
         function openDetailModal(id) {
             const item = catalogItems.find(i => i.id === id);
-
             const detailImg = document.getElementById("detailImg");
             detailImg.src = item.images[0];
-            detailImg.onerror = function() { this.src = item.images[0].replace('.png', '.jpg'); };
+            detailImg.onerror = function() { this.src = item.images[0].replace('.jpeg', '.jpg'); };
             document.getElementById("detailCat").innerText = item.category;
             document.getElementById("detailTitle").innerText = item.title;
             document.getElementById("detailPrice").innerText = item.price;
@@ -942,7 +413,7 @@
             item.images.forEach((imgUrl, idx) => {
                 const thumb = document.createElement("div");
                 thumb.className = `thumb-item ${idx === 0 ? 'active' : ''}`;
-                thumb.innerHTML = `<img src="${imgUrl}" onerror="this.src='${imgUrl.replace('.png', '.jpg')}'" alt="Angle ${idx + 1}">`;
+                thumb.innerHTML = `<img src="${imgUrl}" onerror="this.src='${imgUrl.replace('.jpeg', '.jpg')}'" alt="Angle ${idx + 1}">`;
                 thumb.onclick = () => {
                     detailImg.src = imgUrl;
                     document.querySelectorAll('.thumb-item').forEach(t => t.classList.remove('active'));
@@ -1051,7 +522,6 @@
                 catalogItems.unshift({ id: newId, title, category, price, dims, images });
             }
 
-            localStorage.setItem("dastkari_v2_items", JSON.stringify(catalogItems));
             renderGrid();
             closeModal("editModal");
         }
