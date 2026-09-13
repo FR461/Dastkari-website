@@ -17,6 +17,7 @@
             --border: #e8e6e1;
             --card-bg: #ffffff;
             --staff-green: #2e7d32;
+            --danger-red: #c62828;
         }
         * { 
             box-sizing: border-box; 
@@ -85,8 +86,19 @@
         .item-price { font-size: 12px; font-weight: 600; letter-spacing: 0.5px; }
         .card-btn-link { font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--text-dark); font-weight: 700; }
         
-        .edit-btn { display: none; margin-top: 10px; width: 100%; padding: 6px; background: #eee; border: 1px solid #ccc; font-size: 11px; font-weight: 600; cursor: pointer; }
-        body.is-staff .edit-btn { display: block; }
+        /* Minimalist Staff Action Controls */
+        .staff-card-actions {
+            display: none; gap: 8px; margin-top: 14px; padding-top: 12px; border-top: 1px dashed var(--border);
+        }
+        body.is-staff .staff-card-actions { display: flex; }
+        .btn-staff-action {
+            flex: 1; padding: 6px 8px; font-size: 10px; font-weight: 600; letter-spacing: 1px;
+            text-transform: uppercase; border: 1px solid var(--text-dark); background: transparent;
+            cursor: pointer; transition: all 0.2s;
+        }
+        .btn-staff-action:hover { background: var(--text-dark); color: #fff; }
+        .btn-staff-action.delete { border-color: var(--danger-red); color: var(--danger-red); }
+        .btn-staff-action.delete:hover { background: var(--danger-red); color: #fff; }
 
         /* Modals */
         .modal-overlay {
@@ -115,9 +127,10 @@
 
     <header>
         <a href="#" class="brand-container">
-            <svg class="brand-logo-svg" viewBox="0 0 100 110" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M50 4 C 55 4, 58 8, 58 14 L 58 38 C 58 38, 63 38, 65 35 C 70 29, 81 27, 89 34 C 97 41, 91 53, 78 65 C 72 71, 68 76, 67 84 C 66 91, 59 98, 50 98 C 41 98, 34 91, 33 84 C 32 76, 28 71, 22 65 C 9 53, 3 41, 11 34 C 19 27, 30 29, 35 35 C 37 38, 42 38, 42 38 L 42 14 C 42 8, 45 4, 50 4 Z" fill="#000000"/>
-                <path d="M50 9 C 53 9, 54 11, 54 16 L 54 40 C 54 42, 60 42, 62 39 C 66 34, 75 32, 82 38 C 88 44, 83 52, 72 63 C 67 68, 64 74, 63 81 C 62 87, 57 93, 50 93 C 43 93, 38 87, 37 81 C 36 74, 33 68, 28 63 C 17 52, 12 44, 18 38 C 25 32, 34 34, 38 39 C 40 42, 46 42, 46 40 L 46 16 C 46 11, 47 9, 50 9 Z" stroke="#ffffff" stroke-width="3" fill="#000000"/>
+            <svg class="brand-logo-svg" viewBox="0 0 100 115" xmlns="http://www.w3.org/2000/svg">
+                <path d="M 50,4 C 57,4 62,9 62,17 L 62,40 C 67,37 77,35 85,42 C 93,50 88,62 75,75 C 70,80 67,86 66,93 C 65,101 58,108 50,108 C 42,108 35,101 34,93 C 33,86 30,80 25,75 C 12,62 7,50 15,42 C 23,35 33,37 38,40 L 38,17 C 38,9 43,4 50,4 Z" fill="#000000"/>
+                <path d="M 50,10 C 54,10 57,13 57,20 L 57,44 C 62,41 71,40 78,46 C 84,52 80,61 69,72 C 65,76 62,81 61,87 C 60,93 56,98 50,98 C 44,98 40,93 39,87 C 38,81 35,76 31,72 C 20,61 16,52 22,46 C 29,40 38,41 43,44 L 43,20 C 43,13 46,10 50,10 Z" fill="#ffffff"/>
+                <path d="M 50,15 C 52,15 54,17 54,23 L 54,48 C 59,45 66,44 72,49 C 77,54 74,60 64,70 C 60,74 58,78 57,84 C 56,88 53,92 50,92 C 47,92 44,88 43,84 C 42,78 40,74 36,70 C 26,60 23,54 28,49 C 34,44 41,45 46,48 L 46,23 C 46,17 48,15 50,15 Z" fill="#000000"/>
             </svg>
             <span class="brand-name">Dastkari</span>
         </a>
@@ -187,7 +200,7 @@
                     </div>
                     <button class="btn-header" style="width: 100%;" onclick="addStaffAccount()">Create Staff Account</button>
                 </div>
-                <button class="btn-header" style="width: 100%; margin-top: 16px; border-color: #c62828; color: #c62828;" onclick="logoutStaff()">Log Out Staff</button>
+                <button class="btn-header" style="width: 100%; margin-top: 16px; border-color: var(--danger-red); color: var(--danger-red);" onclick="logoutStaff()">Log Out Staff</button>
             </div>
             <button class="btn-header" style="width: 100%; margin-top: 10px;" onclick="closeModal('staffModal')">Close</button>
         </div>
@@ -196,7 +209,7 @@
     <!-- Edit/Add Modal -->
     <div class="modal-overlay" id="editModal">
         <div class="modal-box">
-            <h3 class="modal-title">Manage Product</h3>
+            <h3 class="modal-title" id="editModalTitle">Manage Product</h3>
             <form onsubmit="saveItem(event)">
                 <input type="hidden" id="editItemId">
                 <div class="form-group">
@@ -220,7 +233,8 @@
                     <input type="text" id="editImage" class="form-control">
                 </div>
                 <button type="submit" class="btn-header btn-black" style="width: 100%; margin-top: 10px;">Save Item</button>
-                <button type="button" class="btn-header" style="width: 100%; margin-top: 10px;" onclick="closeModal('editModal')">Cancel</button>
+                <button type="button" id="modalDeleteBtn" class="btn-header" style="width: 100%; margin-top: 8px; border-color: var(--danger-red); color: var(--danger-red); display: none;" onclick="deleteCurrentItem()">Remove Item</button>
+                <button type="button" class="btn-header" style="width: 100%; margin-top: 8px;" onclick="closeModal('editModal')">Cancel</button>
             </form>
         </div>
     </div>
@@ -385,7 +399,7 @@
                 const card = document.createElement("div");
                 card.className = "product-card";
                 card.onclick = (e) => {
-                    if(e.target.classList.contains('edit-btn')) return;
+                    if(e.target.closest('.staff-card-actions')) return;
                     openDetailModal(i.id);
                 };
                 card.innerHTML = `
@@ -400,11 +414,30 @@
                             <div class="item-price">${i.price}</div>
                             <span class="card-btn-link">View Details &rarr;</span>
                         </div>
-                        <button class="edit-btn" onclick="openEditModal('${i.id}')">Edit (Staff)</button>
+                        <div class="staff-card-actions">
+                            <button class="btn-staff-action" onclick="event.stopPropagation(); openEditModal('${i.id}')">Edit</button>
+                            <button class="btn-staff-action delete" onclick="event.stopPropagation(); deleteItem('${i.id}')">Remove</button>
+                        </div>
                     </div>
                 `;
                 grid.appendChild(card);
             });
+        }
+
+        function deleteItem(id) {
+            const item = catalogItems.find(i => i.id === id);
+            if(item && confirm(`Are you sure you want to remove '${item.title}' from the catalog?`)) {
+                catalogItems = catalogItems.filter(i => i.id !== id);
+                renderGrid();
+            }
+        }
+
+        function deleteCurrentItem() {
+            const id = document.getElementById("editItemId").value;
+            if(id) {
+                deleteItem(id);
+                closeModal("editModal");
+            }
         }
 
         function openDetailModal(id) {
@@ -493,21 +526,25 @@
 
         function openEditModal(id) {
             const item = catalogItems.find(i => i.id === id);
+            document.getElementById("editModalTitle").innerText = "Edit Catalogue Item";
             document.getElementById("editItemId").value = item.id;
             document.getElementById("editTitle").value = item.title;
             document.getElementById("editCategory").value = item.category;
             document.getElementById("editPrice").value = item.price;
             document.getElementById("editDims").value = item.dims;
             document.getElementById("editImage").value = item.images.join(", ");
+            document.getElementById("modalDeleteBtn").style.display = "block";
             openModal("editModal");
         }
 
         function openAddModal() {
+            document.getElementById("editModalTitle").innerText = "Add New Catalogue Item";
             document.getElementById("editItemId").value = "";
             document.getElementById("editTitle").value = "";
             document.getElementById("editPrice").value = "Price on Request";
             document.getElementById("editDims").value = "";
             document.getElementById("editImage").value = "";
+            document.getElementById("modalDeleteBtn").style.display = "none";
             closeModal("staffModal");
             openModal("editModal");
         }
