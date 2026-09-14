@@ -388,41 +388,44 @@
             });
         }
 
-        function renderGrid() {
-            const grid = document.getElementById("productsGrid");
-            const filtered = catalogItems.filter(i => activeCat === "ALL" || i.category === activeCat);
-            
-            document.getElementById("itemsCount").innerText = `${filtered.length} Items`;
-            grid.innerHTML = "";
+function renderGrid() {
+    const grid = document.getElementById("productsGrid");
+    const filtered = catalogItems.filter(i => activeCat === "ALL" || i.category === activeCat);
+    
+    document.getElementById("itemsCount").innerText = `${filtered.length} Items`;
+    grid.innerHTML = "";
 
-            filtered.forEach(i => {
-                const card = document.createElement("div");
-                card.className = "product-card";
-                card.onclick = (e) => {
-                    if(e.target.closest('.staff-card-actions')) return;
-                    openDetailModal(i.id);
-                };
-                card.innerHTML = `
-                    <div class="card-image-box">
-                        <img src="${i.images[0]}" onerror="this.src='${i.images[0].replace('.jpeg', '.jpg').replace('.jpeg', '.png')}'" alt="${i.title}">
-                    </div>
-                    <div class="card-body">
-                        <div class="item-category-tag">${i.category}</div>
-                        <div class="item-name">${i.title}</div>
-                        <div class="item-dims">${i.dims}</div>
-                        <div class="card-footer">
-                            <div class="item-price">${i.price}</div>
-                            <span class="card-btn-link">View Details &rarr;</span>
-                        </div>
-                        <div class="staff-card-actions">
-                            <button class="btn-staff-action" onclick="event.stopPropagation(); openEditModal('${i.id}')">Edit</button>
-                            <button class="btn-staff-action delete" onclick="event.stopPropagation(); deleteItem('${i.id}')">Remove</button>
-                        </div>
-                    </div>
-                `;
-                grid.appendChild(card);
-            });
-        }
+    filtered.forEach(i => {
+        const card = document.createElement("div");
+        card.className = "product-card";
+        card.onclick = (e) => {
+            if(e.target.closest('.staff-card-actions')) return;
+            openDetailModal(i.id);
+        };
+
+        const coverImage = i.images && i.images.length > 0 ? i.images[0] : './assets/placeholder.jpeg';
+
+        card.innerHTML = `
+            <div class="card-image-box">
+                <img src="${coverImage}" loading="lazy" decoding="async" alt="${i.title}">
+            </div>
+            <div class="card-body">
+                <div class="item-category-tag">${i.category}</div>
+                <div class="item-name">${i.title}</div>
+                <div class="item-dims">${i.dims}</div>
+                <div class="card-footer">
+                    <div class="item-price">${i.price}</div>
+                    <span class="card-btn-link">View Details &rarr;</span>
+                </div>
+                <div class="staff-card-actions">
+                    <button class="btn-staff-action" onclick="event.stopPropagation(); openEditModal('${i.id}')">Edit</button>
+                    <button class="btn-staff-action delete" onclick="event.stopPropagation(); deleteItem('${i.id}')">Remove</button>
+                </div>
+            </div>
+        `;
+        grid.appendChild(card);
+    });
+}
 
         function deleteItem(id) {
             const item = catalogItems.find(i => i.id === id);
