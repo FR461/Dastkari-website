@@ -6,8 +6,8 @@
     "price": "Price on Request",
     "dims": "Custom Dimensions",
     "images": [
-      "./Assets/P1_page_100_1.jpeg",
-      "./Assets/P1_page_100_2.jpeg"
+      "./Assets/P1_page_100_2.jpeg",
+      "./Assets/P1_page_100_1.jpeg"
     ]
   },
   {
@@ -51,8 +51,8 @@
     "price": "Price on Request",
     "dims": "Custom Dimensions",
     "images": [
-      "./Assets/P1_page_104_2.jpeg",
       "./Assets/P1_page_104_3.jpeg",
+      "./Assets/P1_page_104_2.jpeg",
       "./Assets/P1_page_104_1.jpeg"
     ]
   },
@@ -97,8 +97,8 @@
     "price": "Price on Request",
     "dims": "Custom Dimensions",
     "images": [
-      "./Assets/P1_page_108_2.jpeg",
       "./Assets/P1_page_108_3.jpeg",
+      "./Assets/P1_page_108_2.jpeg",
       "./Assets/P1_page_108_1.jpeg"
     ]
   },
@@ -109,9 +109,9 @@
     "price": "Price on Request",
     "dims": "Custom Dimensions",
     "images": [
+      "./Assets/P1_page_109_1.jpeg",
       "./Assets/P1_page_109_2.jpeg",
-      "./Assets/P1_page_109_3.jpeg",
-      "./Assets/P1_page_109_1.jpeg"
+      "./Assets/P1_page_109_3.jpeg"
     ]
   },
   {
@@ -133,9 +133,9 @@
     "price": "Price on Request",
     "dims": "Custom Dimensions",
     "images": [
+      "./Assets/P1_page_110_3.jpeg",
       "./Assets/P1_page_110_1.jpeg",
-      "./Assets/P1_page_110_2.jpeg",
-      "./Assets/P1_page_110_3.jpeg"
+      "./Assets/P1_page_110_2.jpeg"
     ]
   },
   {
@@ -145,9 +145,9 @@
     "price": "Price on Request",
     "dims": "Custom Dimensions",
     "images": [
+      "./Assets/P1_page_111_1.jpeg",
       "./Assets/P1_page_111_3.jpeg",
-      "./Assets/P1_page_111_2.jpeg",
-      "./Assets/P1_page_111_1.jpeg"
+      "./Assets/P1_page_111_2.jpeg"
     ]
   },
   {
@@ -158,20 +158,12 @@
     "dims": "Custom Dimensions",
     "images": [
       "./Assets/P1_page_112_1.jpeg"
-    ]
-  },
-  {
-    "id": "ITEM-015",
-    "title": "Dastkari Bespoke BEDS (Page #113)",
-    "category": "BEDS",
-    "price": "Price on Request",
-    "dims": "Custom Dimensions",
-    "images": [
       "./Assets/P1_page_113_1.jpeg",
       "./Assets/P1_page_113_2.jpeg",
       "./Assets/P1_page_113_3.jpeg"
     ]
   },
+
   {
     "id": "ITEM-016",
     "title": "Dastkari Bespoke BEDS (Page #114)",
@@ -179,16 +171,7 @@
     "price": "Price on Request",
     "dims": "Custom Dimensions",
     "images": [
-      "./Assets/P1_page_114_1.jpeg"
-    ]
-  },
-  {
-    "id": "ITEM-017",
-    "title": "Dastkari Bespoke BEDS (Page #115)",
-    "category": "BEDS",
-    "price": "Price on Request",
-    "dims": "Custom Dimensions",
-    "images": [
+      "./Assets/P1_page_114_1.jpeg",
       "./Assets/P1_page_115_1.jpeg",
       "./Assets/P1_page_115_2.jpeg"
     ]
@@ -281,15 +264,6 @@
     "dims": "Custom Dimensions",
     "images": [
       "./Assets/P1_page_122_1.jpeg"
-    ]
-  },
-  {
-    "id": "ITEM-026",
-    "title": "Dastkari Bespoke BEDS (Page #123)",
-    "category": "BEDS",
-    "price": "Price on Request",
-    "dims": "Custom Dimensions",
-    "images": [
       "./Assets/P1_page_123_2.jpeg",
       "./Assets/P1_page_123_1.jpeg",
       "./Assets/P1_page_123_3.jpeg"
@@ -316,16 +290,7 @@
     "dims": "Custom Dimensions",
     "images": [
       "./Assets/P1_page_125_1.jpeg",
-      "./Assets/P1_page_125_2.jpeg"
-    ]
-  },
-  {
-    "id": "ITEM-029",
-    "title": "Dastkari Bespoke BEDS (Page #126)",
-    "category": "BEDS",
-    "price": "Price on Request",
-    "dims": "Custom Dimensions",
-    "images": [
+      "./Assets/P1_page_125_2.jpeg",
       "./Assets/P1_page_126_1.jpeg"
     ]
   },
@@ -348,16 +313,7 @@
     "price": "Price on Request",
     "dims": "Custom Dimensions",
     "images": [
-      "./Assets/P1_page_128_1.jpeg"
-    ]
-  },
-  {
-    "id": "ITEM-032",
-    "title": "Dastkari Bespoke BEDS (Page #129)",
-    "category": "BEDS",
-    "price": "Price on Request",
-    "dims": "Custom Dimensions",
-    "images": [
+      "./Assets/P1_page_128_1.jpeg",
       "./Assets/P1_page_129_2.jpeg",
       "./Assets/P1_page_129_3.jpeg",
       "./Assets/P1_page_129_1.jpeg"
@@ -423,13 +379,13 @@
   },
   {
     "id": "ITEM-038",
-    "title": "Dastkari Bespoke BEDS (Page #134)",
-    "category": "BEDS",
+    "title": "Dastkari Bespoke DAY BED / COT (Page #134)",
+    "category": "DAY BED / COT",
     "price": "Price on Request",
     "dims": "Custom Dimensions",
     "images": [
-      "./Assets/P1_page_134_1.jpeg",
       "./Assets/P1_page_134_3.jpeg",
+      "./Assets/P1_page_134_1.jpeg",
       "./Assets/P1_page_134_2.jpeg"
     ]
   },
@@ -502,16 +458,7 @@
     "price": "Price on Request",
     "dims": "Custom Dimensions",
     "images": [
-      "./Assets/P1_page_141_1.jpeg"
-    ]
-  },
-  {
-    "id": "ITEM-046",
-    "title": "Dastkari Bespoke DAY BED / COT (Page #142)",
-    "category": "DAY BED / COT",
-    "price": "Price on Request",
-    "dims": "Custom Dimensions",
-    "images": [
+      "./Assets/P1_page_141_1.jpeg",
       "./Assets/P1_page_142_1.jpeg",
       "./Assets/P1_page_142_2.jpeg"
     ]
@@ -523,16 +470,7 @@
     "price": "Price on Request",
     "dims": "Custom Dimensions",
     "images": [
-      "./Assets/P1_page_143_1.jpeg"
-    ]
-  },
-  {
-    "id": "ITEM-048",
-    "title": "Dastkari Bespoke DAY BED / COT (Page #144)",
-    "category": "DAY BED / COT",
-    "price": "Price on Request",
-    "dims": "Custom Dimensions",
-    "images": [
+      "./Assets/P1_page_143_1.jpeg",
       "./Assets/P1_page_144_2.jpeg",
       "./Assets/P1_page_144_4.jpeg",
       "./Assets/P1_page_144_3.jpeg",
@@ -556,16 +494,7 @@
     "price": "Price on Request",
     "dims": "Custom Dimensions",
     "images": [
-      "./Assets/P1_page_14_1.jpeg"
-    ]
-  },
-  {
-    "id": "ITEM-051",
-    "title": "Dastkari Bespoke SOFAS (Page #15)",
-    "category": "SOFAS",
-    "price": "Price on Request",
-    "dims": "Custom Dimensions",
-    "images": [
+      "./Assets/P1_page_14_1.jpeg",
       "./Assets/P1_page_15_1.jpeg",
       "./Assets/P1_page_15_2.jpeg"
     ]
@@ -577,21 +506,13 @@
     "price": "Price on Request",
     "dims": "Custom Dimensions",
     "images": [
-      "./Assets/P1_page_16_1.jpeg"
-    ]
-  },
-  {
-    "id": "ITEM-053",
-    "title": "Dastkari Bespoke SOFAS (Page #17)",
-    "category": "SOFAS",
-    "price": "Price on Request",
-    "dims": "Custom Dimensions",
-    "images": [
+      "./Assets/P1_page_16_1.jpeg",
       "./Assets/P1_page_17_2.jpeg",
       "./Assets/P1_page_17_1.jpeg",
       "./Assets/P1_page_17_3.jpeg"
     ]
   },
+
   {
     "id": "ITEM-054",
     "title": "Dastkari Bespoke SOFAS (Page #18)",
@@ -609,16 +530,7 @@
     "price": "Price on Request",
     "dims": "Custom Dimensions",
     "images": [
-      "./Assets/P1_page_19_1.jpeg"
-    ]
-  },
-  {
-    "id": "ITEM-056",
-    "title": "Dastkari Bespoke SOFAS (Page #20)",
-    "category": "SOFAS",
-    "price": "Price on Request",
-    "dims": "Custom Dimensions",
-    "images": [
+      "./Assets/P1_page_19_1.jpeg",
       "./Assets/P1_page_20_2.jpeg",
       "./Assets/P1_page_20_1.jpeg"
     ]
@@ -640,16 +552,7 @@
     "price": "Price on Request",
     "dims": "Custom Dimensions",
     "images": [
-      "./Assets/P1_page_22_1.jpeg"
-    ]
-  },
-  {
-    "id": "ITEM-059",
-    "title": "Dastkari Bespoke SOFAS (Page #23)",
-    "category": "SOFAS",
-    "price": "Price on Request",
-    "dims": "Custom Dimensions",
-    "images": [
+      "./Assets/P1_page_22_1.jpeg",
       "./Assets/P1_page_23_2.jpeg",
       "./Assets/P1_page_23_1.jpeg",
       "./Assets/P1_page_23_3.jpeg"
@@ -696,16 +599,7 @@
     "price": "Price on Request",
     "dims": "Custom Dimensions",
     "images": [
-      "./Assets/P1_page_27_1.jpeg"
-    ]
-  },
-  {
-    "id": "ITEM-064",
-    "title": "Dastkari Bespoke SOFAS (Page #28)",
-    "category": "SOFAS",
-    "price": "Price on Request",
-    "dims": "Custom Dimensions",
-    "images": [
+      "./Assets/P1_page_27_1.jpeg",
       "./Assets/P1_page_28_1.jpeg"
     ]
   },
@@ -716,16 +610,7 @@
     "price": "Price on Request",
     "dims": "Custom Dimensions",
     "images": [
-      "./Assets/P1_page_29_1.jpeg"
-    ]
-  },
-  {
-    "id": "ITEM-066",
-    "title": "Dastkari Bespoke SOFAS (Page #30)",
-    "category": "SOFAS",
-    "price": "Price on Request",
-    "dims": "Custom Dimensions",
-    "images": [
+      "./Assets/P1_page_29_1.jpeg",
       "./Assets/P1_page_30_1.jpeg"
     ]
   },
@@ -771,16 +656,7 @@
       "./Assets/P1_page_34_3.jpeg",
       "./Assets/P1_page_34_2.jpeg",
       "./Assets/P1_page_34_4.jpeg",
-      "./Assets/P1_page_34_1.jpeg"
-    ]
-  },
-  {
-    "id": "ITEM-071",
-    "title": "Dastkari Bespoke SOFAS (Page #34)",
-    "category": "SOFAS",
-    "price": "Price on Request",
-    "dims": "Custom Dimensions",
-    "images": [
+      "./Assets/P1_page_34_1.jpeg",
       "./Assets/P1_page_34_5.jpeg"
     ]
   },
@@ -803,16 +679,7 @@
     "price": "Price on Request",
     "dims": "Custom Dimensions",
     "images": [
-      "./Assets/P1_page_36_1.jpeg"
-    ]
-  },
-  {
-    "id": "ITEM-074",
-    "title": "Dastkari Bespoke SOFAS (Page #37)",
-    "category": "SOFAS",
-    "price": "Price on Request",
-    "dims": "Custom Dimensions",
-    "images": [
+      "./Assets/P1_page_36_1.jpeg",
       "./Assets/P1_page_37_1.jpeg",
       "./Assets/P1_page_37_2.jpeg"
     ]
@@ -836,8 +703,8 @@
     "price": "Price on Request",
     "dims": "Custom Dimensions",
     "images": [
-      "./Assets/P1_page_40_2.jpeg",
       "./Assets/P1_page_40_3.jpeg",
+      "./Assets/P1_page_40_2.jpeg",
       "./Assets/P1_page_40_1.jpeg"
     ]
   },
@@ -848,8 +715,8 @@
     "price": "Price on Request",
     "dims": "Custom Dimensions",
     "images": [
-      "./Assets/P1_page_41_3.jpeg",
       "./Assets/P1_page_41_1.jpeg",
+      "./Assets/P1_page_41_3.jpeg",
       "./Assets/P1_page_41_4.jpeg",
       "./Assets/P1_page_41_2.jpeg"
     ]
@@ -874,8 +741,8 @@
     "price": "Price on Request",
     "dims": "Custom Dimensions",
     "images": [
-      "./Assets/P1_page_43_4.jpeg",
       "./Assets/P1_page_43_3.jpeg",
+      "./Assets/P1_page_43_4.jpeg",
       "./Assets/P1_page_43_2.jpeg",
       "./Assets/P1_page_43_1.jpeg"
     ]
@@ -944,8 +811,8 @@
     "price": "Price on Request",
     "dims": "Custom Dimensions",
     "images": [
-      "./Assets/P1_page_49_2.jpeg",
-      "./Assets/P1_page_49_1.jpeg"
+      "./Assets/P1_page_49_1.jpeg",
+      "./Assets/P1_page_49_2.jpeg"
     ]
   },
   {
@@ -977,8 +844,8 @@
     "price": "Price on Request",
     "dims": "Custom Dimensions",
     "images": [
-      "./Assets/P1_page_52_1.jpeg",
-      "./Assets/P1_page_52_2.jpeg"
+      "./Assets/P1_page_52_2.jpeg",
+      "./Assets/P1_page_52_1.jpeg"
     ]
   },
   {
@@ -1012,8 +879,8 @@
     "price": "Price on Request",
     "dims": "Custom Dimensions",
     "images": [
-      "./Assets/P1_page_56_3.jpeg",
       "./Assets/P1_page_56_2.jpeg",
+      "./Assets/P1_page_56_3.jpeg",
       "./Assets/P1_page_56_1.jpeg"
     ]
   },
@@ -1092,8 +959,8 @@
     "price": "Price on Request",
     "dims": "Custom Dimensions",
     "images": [
-      "./Assets/P1_page_62_2.jpeg",
       "./Assets/P1_page_62_1.jpeg",
+      "./Assets/P1_page_62_2.jpeg",
       "./Assets/P1_page_62_3.jpeg"
     ]
   },
@@ -1174,8 +1041,8 @@
     "price": "Price on Request",
     "dims": "Custom Dimensions",
     "images": [
-      "./Assets/P1_page_6_3.jpeg",
       "./Assets/P1_page_6_2.jpeg",
+      "./Assets/P1_page_6_3.jpeg",
       "./Assets/P1_page_6_1.jpeg",
       "./Assets/P1_page_6_4.jpeg"
     ]
@@ -1455,16 +1322,7 @@
     "price": "Price on Request",
     "dims": "Custom Dimensions",
     "images": [
-      "./Assets/P1_page_97_1.jpeg"
-    ]
-  },
-  {
-    "id": "ITEM-132",
-    "title": "Dastkari Bespoke BEDS (Page #98)",
-    "category": "BEDS",
-    "price": "Price on Request",
-    "dims": "Custom Dimensions",
-    "images": [
+      "./Assets/P1_page_97_1.jpeg",
       "./Assets/P1_page_98_1.jpeg",
       "./Assets/P1_page_98_3.jpeg",
       "./Assets/P1_page_98_2.jpeg",
@@ -1489,8 +1347,8 @@
     "price": "Price on Request",
     "dims": "Custom Dimensions",
     "images": [
-      "./Assets/P1_page_9_3.jpeg",
       "./Assets/P1_page_9_2.jpeg",
+      "./Assets/P1_page_9_3.jpeg",
       "./Assets/P1_page_9_1.jpeg"
     ]
   },
@@ -1501,16 +1359,7 @@
     "price": "Price on Request",
     "dims": "Custom Dimensions",
     "images": [
-      "./Assets/P2_page_100_1.jpeg"
-    ]
-  },
-  {
-    "id": "ITEM-136",
-    "title": "Dastkari Bespoke MEDIA CONSOLES (Page #101)",
-    "category": "MEDIA CONSOLES",
-    "price": "Price on Request",
-    "dims": "Custom Dimensions",
-    "images": [
+      "./Assets/P2_page_100_1.jpeg",
       "./Assets/P2_page_101_2.jpeg",
       "./Assets/P2_page_101_1.jpeg"
     ]
@@ -1556,8 +1405,8 @@
     "price": "Price on Request",
     "dims": "Custom Dimensions",
     "images": [
-      "./Assets/P2_page_106_3.jpeg",
       "./Assets/P2_page_106_2.jpeg",
+      "./Assets/P2_page_106_3.jpeg",
       "./Assets/P2_page_106_1.jpeg"
     ]
   },
