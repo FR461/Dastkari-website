@@ -252,301 +252,32 @@
         </div>
     </div>
 
-    <script>
-        const CATEGORIES = [
-            "ALL",
-            "SOFAS", "ARMCHAIRS", "CHAIRS", "BAR STOOLS & TABLES", "FLOOR SEATING", 
-            "POUFFE / OTTOMAN", "BENCH", "BEDS", "DAY BED / COT", 
-            "COFFEE TABLES", "OCCASIONAL TABLES", "DINING TABLES", 
-            "STUDY/OFFICE DESKS", "MEDIA CONSOLES", "CONSOLES", "STORAGE / CREDENZA", "CABINETS"
-        ];
+ <script>
+    const CATEGORIES = [
+        "ALL",
+        "SOFAS", "ARMCHAIRS", "CHAIRS", "BAR STOOLS & TABLES", "FLOOR SEATING", 
+        "POUFFE / OTTOMAN", "BENCH", "BEDS", "DAY BED / COT", 
+        "COFFEE TABLES", "OCCASIONAL TABLES", "DINING TABLES", 
+        "STUDY/OFFICE DESKS", "MEDIA CONSOLES", "CONSOLES", "STORAGE / CREDENZA", "CABINETS"
+    ];
 
-        let catalogItems = [];
-        let staffAccounts = JSON.parse(localStorage.getItem("dastkari_staff_accs")) || [{ user: "admin", pass: "dastkari123" }];
-        let isStaff = JSON.parse(localStorage.getItem("dastkari_is_staff")) || false;
-        let activeCat = "ALL";
-        let cart = [];
+    // PASTE THE ENTIRE CONTENTS OF catalog_data.json INSIDE THIS ARRAY
+    let catalogItems = [];
 
-        document.addEventListener("DOMContentLoaded", () => {
-            fetch('./catalog_data.json')
-                .then(response => {
-                    if (!response.ok) throw new Error("Could not load catalog_data.json");
-                    return response.json();
-                })
-                .then(data => {
-                    catalogItems = data;
-                    renderTabs();
-                    renderCategorySelect();
-                    renderGrid();
-                    initTouchScroll();
-                    updateStaffState();
-                })
-                .catch(error => {
-                    console.error("Failed to fetch catalog JSON:", error);
-                });
-        });
+    let staffAccounts = JSON.parse(localStorage.getItem("dastkari_staff_accs")) || [{ user: "admin", pass: "dastkari123" }];
+    let isStaff = JSON.parse(localStorage.getItem("dastkari_is_staff")) || false;
+    let activeCat = "ALL";
+    let cart = [];
 
-        function initTouchScroll() {
-            const nav = document.getElementById("touchScrollNav");
-            let isDown = false, startX, scrollLeft;
-            nav.addEventListener('mousedown', (e) => {
-                isDown = true;
-                startX = e.pageX - nav.offsetLeft;
-                scrollLeft = nav.scrollLeft;
-            });
-            nav.addEventListener('mouseleave', () => isDown = false);
-            nav.addEventListener('mouseup', () => isDown = false);
-            nav.addEventListener('mousemove', (e) => {
-                if(!isDown) return;
-                e.preventDefault();
-                const x = e.pageX - nav.offsetLeft;
-                nav.scrollLeft = scrollLeft - (x - startX) * 2;
-            });
-        }
+    document.addEventListener("DOMContentLoaded", () => {
+        renderTabs();
+        renderCategorySelect();
+        renderGrid();
+        initTouchScroll();
+        updateStaffState();
+    });
 
-        function renderTabs() {
-            const wrap = document.getElementById("tabsWrapper");
-            wrap.innerHTML = "";
-            CATEGORIES.forEach((c, idx) => {
-                const btn = document.createElement("button");
-                btn.className = `tab-btn ${c === activeCat ? 'active' : ''}`;
-                btn.innerText = c;
-                btn.onclick = () => {
-                    activeCat = c;
-                    document.getElementById("currentCategoryTitle").innerText = c === "ALL" ? "All Bespoke Collections" : c;
-                    renderTabs();
-                    renderGrid();
-                };
-                wrap.appendChild(btn);
-                if(idx < CATEGORIES.length - 1) {
-                    const bul = document.createElement("span");
-                    bul.className = "tab-bullet";
-                    bul.innerText = "•";
-                    wrap.appendChild(bul);
-                }
-            });
-        }
-
-        function renderCategorySelect() {
-            const sel = document.getElementById("editCategory");
-            sel.innerHTML = "";
-            CATEGORIES.filter(c => c !== "ALL").forEach(c => {
-                const opt = document.createElement("option");
-                opt.value = c;
-                opt.innerText = c;
-                sel.appendChild(opt);
-            });
-        }
-
-        function renderGrid() {
-            const grid = document.getElementById("productsGrid");
-            const filtered = catalogItems.filter(i => activeCat === "ALL" || i.category === activeCat);
-            
-            document.getElementById("itemsCount").innerText = `${filtered.length} Items`;
-            grid.innerHTML = "";
-
-            filtered.forEach(i => {
-                const card = document.createElement("div");
-                card.className = "product-card";
-                card.onclick = (e) => {
-                    if(e.target.closest('.staff-card-actions')) return;
-                    openDetailModal(i.id);
-                };
-
-                const coverImage = i.images && i.images.length > 0 ? i.images[0] : './assets/placeholder.jpeg';
-
-                card.innerHTML = `
-                    <div class="card-image-box">
-                        <img src="${coverImage}" loading="lazy" decoding="async" alt="${i.title}">
-                    </div>
-                    <div class="card-body">
-                        <div class="item-category-tag">${i.category}</div>
-                        <div class="item-name">${i.title}</div>
-                        <div class="item-dims">${i.dims}</div>
-                        <div class="card-footer">
-                            <div class="item-price">${i.price}</div>
-                            <span class="card-btn-link">View Details &rarr;</span>
-                        </div>
-                        <div class="staff-card-actions">
-                            <button class="btn-staff-action" onclick="event.stopPropagation(); openEditModal('${i.id}')">Edit</button>
-                            <button class="btn-staff-action delete" onclick="event.stopPropagation(); deleteItem('${i.id}')">Remove</button>
-                        </div>
-                    </div>
-                `;
-                grid.appendChild(card);
-            });
-        }
-
-        function deleteItem(id) {
-            const item = catalogItems.find(i => i.id === id);
-            if(item && confirm(`Are you sure you want to remove '${item.title}' from the catalog?`)) {
-                catalogItems = catalogItems.filter(i => i.id !== id);
-                renderGrid();
-            }
-        }
-
-        function deleteCurrentItem() {
-            const id = document.getElementById("editItemId").value;
-            if(id) {
-                deleteItem(id);
-                closeModal("editModal");
-            }
-        }
-
-        function openDetailModal(id) {
-            const item = catalogItems.find(i => i.id === id);
-            if (!item) return;
-
-            document.getElementById("detailTitle").innerText = item.title;
-            document.getElementById("detailCat").innerText = item.category;
-            document.getElementById("detailDims").innerText = item.dims;
-            document.getElementById("detailPrice").innerText = item.price;
-            
-            const mainImg = document.getElementById("detailImg");
-            mainImg.src = item.images && item.images.length > 0 ? item.images[0] : './assets/placeholder.jpeg';
-
-            const thumbsContainer = document.getElementById("thumbnailStrip");
-            thumbsContainer.innerHTML = "";
-            
-            if (item.images && item.images.length > 0) {
-                item.images.forEach((imgUrl, idx) => {
-                    const thumb = document.createElement("div");
-                    thumb.className = idx === 0 ? "thumb-item active" : "thumb-item";
-                    thumb.innerHTML = `<img src="${imgUrl}" alt="Thumbnail">`;
-                    thumb.onclick = () => {
-                        mainImg.src = imgUrl;
-                        document.querySelectorAll("#thumbnailStrip .thumb-item").forEach(t => t.classList.remove("active"));
-                        thumb.classList.add("active");
-                    };
-                    thumbsContainer.appendChild(thumb);
-                });
-            }
-
-            const addCartBtn = document.getElementById("detailAddCartBtn");
-            if (addCartBtn) {
-                addCartBtn.onclick = () => addToCart(item.id);
-            }
-
-            openModal("detailModal");
-        }
-
-        function closeDetailModal() {
-            closeModal("detailModal");
-        }
-
-        function loginStaff() {
-            const u = document.getElementById("staffUser").value.trim();
-            const p = document.getElementById("staffPass").value.trim();
-            const found = staffAccounts.find(a => a.user === u && a.pass === p);
-            
-            if(found) {
-                isStaff = true;
-                localStorage.setItem("dastkari_is_staff", JSON.stringify(true));
-                updateStaffState();
-                alert("Staff Login Successful!");
-            } else {
-                alert("Invalid Credentials!");
-            }
-        }
-
-        function logoutStaff() {
-            isStaff = false;
-            localStorage.setItem("dastkari_is_staff", JSON.stringify(false));
-            updateStaffState();
-            closeModal("staffModal");
-        }
-
-        function updateStaffState() {
-            if(isStaff) {
-                document.body.classList.add("is-staff");
-                document.getElementById("staffLoginFields").style.display = "none";
-                document.getElementById("staffActions").style.display = "block";
-            } else {
-                document.body.classList.remove("is-staff");
-                document.getElementById("staffLoginFields").style.display = "block";
-                document.getElementById("staffActions").style.display = "none";
-            }
-            renderGrid();
-        }
-
-        function addStaffAccount() {
-            const u = document.getElementById("newUser").value.trim();
-            const p = document.getElementById("newPass").value.trim();
-            if(!u || !p) return alert("Fill in username and password.");
-            staffAccounts.push({ user: u, pass: p });
-            localStorage.setItem("dastkari_staff_accs", JSON.stringify(staffAccounts));
-            alert(`Staff User '${u}' created!`);
-            document.getElementById("newUser").value = "";
-            document.getElementById("newPass").value = "";
-        }
-
-        function openEditModal(id) {
-            const item = catalogItems.find(i => i.id === id);
-            document.getElementById("editModalTitle").innerText = "Edit Catalogue Item";
-            document.getElementById("editItemId").value = item.id;
-            document.getElementById("editTitle").value = item.title;
-            document.getElementById("editCategory").value = item.category;
-            document.getElementById("editPrice").value = item.price;
-            document.getElementById("editDims").value = item.dims;
-            document.getElementById("editImage").value = item.images ? item.images.join(", ") : "";
-            document.getElementById("modalDeleteBtn").style.display = "block";
-            openModal("editModal");
-        }
-
-        function openAddModal() {
-            document.getElementById("editModalTitle").innerText = "Add New Catalogue Item";
-            document.getElementById("editItemId").value = "";
-            document.getElementById("editTitle").value = "";
-            document.getElementById("editPrice").value = "Price on Request";
-            document.getElementById("editDims").value = "";
-            document.getElementById("editImage").value = "";
-            document.getElementById("modalDeleteBtn").style.display = "none";
-            closeModal("staffModal");
-            openModal("editModal");
-        }
-
-        function saveItem(e) {
-            e.preventDefault();
-            const id = document.getElementById("editItemId").value;
-            const title = document.getElementById("editTitle").value;
-            const category = document.getElementById("editCategory").value;
-            const price = document.getElementById("editPrice").value;
-            const dims = document.getElementById("editDims").value;
-            const rawImages = document.getElementById("editImage").value;
-            
-            const images = rawImages ? rawImages.split(",").map(s => s.trim()) : [];
-
-            if(id) {
-                const idx = catalogItems.findIndex(i => i.id === id);
-                catalogItems[idx] = { ...catalogItems[idx], title, category, price, dims, images };
-            } else {
-                const newId = `CUSTOM-${Date.now()}`;
-                catalogItems.unshift({ id: newId, title, category, price, dims, images });
-            }
-
-            renderGrid();
-            closeModal("editModal");
-        }
-
-        function addToCart(id) {
-            const item = catalogItems.find(i => i.id === id);
-            if (!item) return;
-            cart.push(item);
-            document.getElementById("cartCount").innerText = cart.length;
-            alert(`Added '${item.title}' to order request.`);
-        }
-
-        function submitOrder() {
-            const name = document.getElementById("clientName").value.trim();
-            if(!name || cart.length === 0) return alert("Please enter your name and add items to cart.");
-            alert(`Thank you ${name}! Your Dastkari order request has been logged.`);
-            cart = [];
-            document.getElementById("cartCount").innerText = 0;
-            closeModal("cartModal");
-        }
-
-        function openModal(id) { document.getElementById(id).classList.add("active"); }
-        function closeModal(id) { document.getElementById(id).classList.remove("active"); }
-    </script>
+    // ... KEEP THE REST OF YOUR HELPER FUNCTIONS (renderGrid, renderTabs, etc.) UNCHANGED BELOW THIS ...
+</script>
 </body>
 </html>
