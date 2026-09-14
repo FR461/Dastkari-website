@@ -114,7 +114,7 @@
         @media (max-width: 768px) { .detail-modal-box { grid-template-columns: 1fr; } }
         .main-detail-img { width: 100%; aspect-ratio: 4/3; object-fit: cover; border-radius: 4px; border: 1px solid var(--border); }
         .thumbnail-strip { display: flex; gap: 10px; margin-top: 12px; overflow-x: auto; }
-        .thumb-item { width: 64px; height: 64px; border: 1px solid var(--border); border-radius: 4px; cursor: pointer; overflow: hidden; opacity: 0.6; }
+        .thumb-item { width: 64px; height: 64px; border: 1px solid var(--border); border-radius: 4px; cursor: pointer; overflow: hidden; opacity: 0.6; flex-shrink: 0; }
         .thumb-item.active { opacity: 1; border-color: var(--text-dark); }
         .thumb-item img { width: 100%; height: 100%; object-fit: cover; }
         
@@ -261,79 +261,29 @@
             "STUDY/OFFICE DESKS", "MEDIA CONSOLES", "CONSOLES", "STORAGE / CREDENZA", "CABINETS"
         ];
 
-        function getItemGallery(cat, pageNum, prefix = "P1") {
-            return [
-                `./Assets/${prefix}_page_${pageNum}_1.jpeg`,
-                `./Assets/${prefix}_page_${pageNum}_2.jpeg`,
-                `./Assets/${prefix}_page_${pageNum}_3.jpeg`
-            ];
-        }
-
-        function generateCatalogItems() {
-            let items = [];
-            const p1 = [
-                { cat: "SOFAS", start: 5, end: 37 },
-                { cat: "ARMCHAIRS", start: 39, end: 52 },
-                { cat: "CHAIRS", start: 54, end: 63 },
-                { cat: "BAR STOOLS & TABLES", start: 65, end: 69 },
-                { cat: "FLOOR SEATING", start: 71, end: 74 },
-                { cat: "POUFFE / OTTOMAN", start: 76, end: 80 },
-                { cat: "BENCH", start: 82, end: 91 },
-                { cat: "BEDS", start: 93, end: 134 },
-                { cat: "DAY BED / COT", start: 136, end: 146 }
-            ];
-            const p2 = [
-                { cat: "COFFEE TABLES", start: 5, end: 38 },
-                { cat: "OCCASIONAL TABLES", start: 40, end: 58 },
-                { cat: "DINING TABLES", start: 60, end: 70 },
-                { cat: "STUDY/OFFICE DESKS", start: 72, end: 89 },
-                { cat: "MEDIA CONSOLES", start: 91, end: 104 },
-                { cat: "CONSOLES", start: 106, end: 113 },
-                { cat: "STORAGE / CREDENZA", start: 115, end: 132 },
-                { cat: "CABINETS", start: 134, end: 143 }
-            ];
-
-            p1.forEach(r => {
-                for(let p = r.start; p <= r.end; p++) {
-                    items.push({
-                        id: `P1-${p}`,
-                        title: `Dastkari Bespoke ${r.cat.slice(0, -1)} Page #${p}`,
-                        category: r.cat,
-                        price: "Price on Request",
-                        dims: "Custom Dimensions",
-                        images: getItemGallery(r.cat, p, "P1")
-                    });
-                }
-            });
-
-            p2.forEach(r => {
-                for(let p = r.start; p <= r.end; p++) {
-                    items.push({
-                        id: `P2-${p}`,
-                        title: `Dastkari Crafted ${r.cat.slice(0, -1)} Page #${p}`,
-                        category: r.cat,
-                        price: "Price on Request",
-                        dims: "Custom Dimensions",
-                        images: getItemGallery(r.cat, p, "P2")
-                    });
-                }
-            });
-
-            return items;
-        }
-
-        let catalogItems = generateCatalogItems();
+        let catalogItems = [];
         let staffAccounts = JSON.parse(localStorage.getItem("dastkari_staff_accs")) || [{ user: "admin", pass: "dastkari123" }];
         let isStaff = JSON.parse(localStorage.getItem("dastkari_is_staff")) || false;
         let activeCat = "ALL";
         let cart = [];
 
         document.addEventListener("DOMContentLoaded", () => {
-            renderTabs();
-            renderCategorySelect();
-            renderGrid();
-            initTouchScroll();
-            updateStaffState();
+            fetch('./catalog_data.json')
+                .then(response => {
+                    if (!response.ok) throw new Error("Could not load catalog_data.json");
+                    return response.json();
+                })
+                .then(data => {
+                    catalogItems = data;
+                    renderTabs();
+                    renderCategorySelect();
+                    renderGrid();
+                    initTouchScroll();
+                    updateStaffState();
+                })
+                .catch(error => {
+                    console.error("Failed to fetch catalog JSON:", error);
+                });
         });
 
         function initTouchScroll() {
@@ -388,44 +338,44 @@
             });
         }
 
-function renderGrid() {
-    const grid = document.getElementById("productsGrid");
-    const filtered = catalogItems.filter(i => activeCat === "ALL" || i.category === activeCat);
-    
-    document.getElementById("itemsCount").innerText = `${filtered.length} Items`;
-    grid.innerHTML = "";
+        function renderGrid() {
+            const grid = document.getElementById("productsGrid");
+            const filtered = catalogItems.filter(i => activeCat === "ALL" || i.category === activeCat);
+            
+            document.getElementById("itemsCount").innerText = `${filtered.length} Items`;
+            grid.innerHTML = "";
 
-    filtered.forEach(i => {
-        const card = document.createElement("div");
-        card.className = "product-card";
-        card.onclick = (e) => {
-            if(e.target.closest('.staff-card-actions')) return;
-            openDetailModal(i.id);
-        };
+            filtered.forEach(i => {
+                const card = document.createElement("div");
+                card.className = "product-card";
+                card.onclick = (e) => {
+                    if(e.target.closest('.staff-card-actions')) return;
+                    openDetailModal(i.id);
+                };
 
-        const coverImage = i.images && i.images.length > 0 ? i.images[0] : './assets/placeholder.jpeg';
+                const coverImage = i.images && i.images.length > 0 ? i.images[0] : './assets/placeholder.jpeg';
 
-        card.innerHTML = `
-            <div class="card-image-box">
-                <img src="${coverImage}" loading="lazy" decoding="async" alt="${i.title}">
-            </div>
-            <div class="card-body">
-                <div class="item-category-tag">${i.category}</div>
-                <div class="item-name">${i.title}</div>
-                <div class="item-dims">${i.dims}</div>
-                <div class="card-footer">
-                    <div class="item-price">${i.price}</div>
-                    <span class="card-btn-link">View Details &rarr;</span>
-                </div>
-                <div class="staff-card-actions">
-                    <button class="btn-staff-action" onclick="event.stopPropagation(); openEditModal('${i.id}')">Edit</button>
-                    <button class="btn-staff-action delete" onclick="event.stopPropagation(); deleteItem('${i.id}')">Remove</button>
-                </div>
-            </div>
-        `;
-        grid.appendChild(card);
-    });
-}
+                card.innerHTML = `
+                    <div class="card-image-box">
+                        <img src="${coverImage}" loading="lazy" decoding="async" alt="${i.title}">
+                    </div>
+                    <div class="card-body">
+                        <div class="item-category-tag">${i.category}</div>
+                        <div class="item-name">${i.title}</div>
+                        <div class="item-dims">${i.dims}</div>
+                        <div class="card-footer">
+                            <div class="item-price">${i.price}</div>
+                            <span class="card-btn-link">View Details &rarr;</span>
+                        </div>
+                        <div class="staff-card-actions">
+                            <button class="btn-staff-action" onclick="event.stopPropagation(); openEditModal('${i.id}')">Edit</button>
+                            <button class="btn-staff-action delete" onclick="event.stopPropagation(); deleteItem('${i.id}')">Remove</button>
+                        </div>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
 
         function deleteItem(id) {
             const item = catalogItems.find(i => i.id === id);
@@ -443,42 +393,45 @@ function renderGrid() {
             }
         }
 
-     function openDetailModal(id) {
-    const item = catalogItems.find(i => i.id === id);
-    if (!item) return;
+        function openDetailModal(id) {
+            const item = catalogItems.find(i => i.id === id);
+            if (!item) return;
 
-    // Set text details
-    document.getElementById("modalTitle").innerText = item.title;
-    document.getElementById("modalCategory").innerText = item.category;
-    document.getElementById("modalDims").innerText = item.dims;
-    document.getElementById("modalPrice").innerText = item.price;
-    
-    // Set primary hero image
-    const mainImg = document.getElementById("modalMainImage");
-    mainImg.src = item.images[0];
+            document.getElementById("detailTitle").innerText = item.title;
+            document.getElementById("detailCat").innerText = item.category;
+            document.getElementById("detailDims").innerText = item.dims;
+            document.getElementById("detailPrice").innerText = item.price;
+            
+            const mainImg = document.getElementById("detailImg");
+            mainImg.src = item.images && item.images.length > 0 ? item.images[0] : './assets/placeholder.jpeg';
 
-    // Render ALL grouped images as thumbnails dynamically (no hardcoded limits)
-    const thumbsContainer = document.getElementById("modalThumbnails");
-    thumbsContainer.innerHTML = "";
-    
-    item.images.forEach((imgUrl, idx) => {
-        const thumb = document.createElement("img");
-        thumb.src = imgUrl;
-        thumb.className = idx === 0 ? "thumb-img active" : "thumb-img";
-        thumb.onclick = () => {
-            mainImg.src = imgUrl;
-            document.querySelectorAll(".thumb-img").forEach(t => t.classList.remove("active"));
-            thumb.classList.add("active");
-        };
-        thumbsContainer.appendChild(thumb);
-    });
+            const thumbsContainer = document.getElementById("thumbnailStrip");
+            thumbsContainer.innerHTML = "";
+            
+            if (item.images && item.images.length > 0) {
+                item.images.forEach((imgUrl, idx) => {
+                    const thumb = document.createElement("div");
+                    thumb.className = idx === 0 ? "thumb-item active" : "thumb-item";
+                    thumb.innerHTML = `<img src="${imgUrl}" alt="Thumbnail">`;
+                    thumb.onclick = () => {
+                        mainImg.src = imgUrl;
+                        document.querySelectorAll("#thumbnailStrip .thumb-item").forEach(t => t.classList.remove("active"));
+                        thumb.classList.add("active");
+                    };
+                    thumbsContainer.appendChild(thumb);
+                });
+            }
 
-    document.getElementById("detailModal").style.display = "flex";
-}
+            const addCartBtn = document.getElementById("detailAddCartBtn");
+            if (addCartBtn) {
+                addCartBtn.onclick = () => addToCart(item.id);
+            }
+
+            openModal("detailModal");
+        }
 
         function closeDetailModal() {
-            document.getElementById("detailModal").classList.remove("active");
-            document.body.style.overflow = "auto";
+            closeModal("detailModal");
         }
 
         function loginStaff() {
@@ -535,7 +488,7 @@ function renderGrid() {
             document.getElementById("editCategory").value = item.category;
             document.getElementById("editPrice").value = item.price;
             document.getElementById("editDims").value = item.dims;
-            document.getElementById("editImage").value = item.images.join(", ");
+            document.getElementById("editImage").value = item.images ? item.images.join(", ") : "";
             document.getElementById("modalDeleteBtn").style.display = "block";
             openModal("editModal");
         }
@@ -561,7 +514,7 @@ function renderGrid() {
             const dims = document.getElementById("editDims").value;
             const rawImages = document.getElementById("editImage").value;
             
-            const images = rawImages ? rawImages.split(",").map(s => s.trim()) : getItemGallery(category, Date.now());
+            const images = rawImages ? rawImages.split(",").map(s => s.trim()) : [];
 
             if(id) {
                 const idx = catalogItems.findIndex(i => i.id === id);
@@ -577,9 +530,10 @@ function renderGrid() {
 
         function addToCart(id) {
             const item = catalogItems.find(i => i.id === id);
+            if (!item) return;
             cart.push(item);
             document.getElementById("cartCount").innerText = cart.length;
-            alert(`Added '${item.title}' to cart.`);
+            alert(`Added '${item.title}' to order request.`);
         }
 
         function submitOrder() {
