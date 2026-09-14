@@ -157,13 +157,12 @@
     "price": "Price on Request",
     "dims": "Custom Dimensions",
     "images": [
-      "./Assets/P1_page_112_1.jpeg"
+      "./Assets/P1_page_112_1.jpeg",
       "./Assets/P1_page_113_1.jpeg",
       "./Assets/P1_page_113_2.jpeg",
       "./Assets/P1_page_113_3.jpeg"
     ]
   },
-
   {
     "id": "ITEM-016",
     "title": "Dastkari Bespoke BEDS (Page #114)",
@@ -263,7 +262,7 @@
     "price": "Price on Request",
     "dims": "Custom Dimensions",
     "images": [
-      "./Assets/P1_page_122_1.jpeg"
+      "./Assets/P1_page_122_1.jpeg",
       "./Assets/P1_page_123_2.jpeg",
       "./Assets/P1_page_123_1.jpeg",
       "./Assets/P1_page_123_3.jpeg"
@@ -512,7 +511,6 @@
       "./Assets/P1_page_17_3.jpeg"
     ]
   },
-
   {
     "id": "ITEM-054",
     "title": "Dastkari Bespoke SOFAS (Page #18)",
