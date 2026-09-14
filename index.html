@@ -267,23 +267,32 @@
         let activeCat = "ALL";
         let cart = [];
 
-        document.addEventListener("DOMContentLoaded", () => {
-            fetch('./catalog_data.json')
-                .then(response => {
-                    if (!response.ok) throw new Error("Could not load catalog_data.json");
-                    return response.json();
-                })
-                .then(data => {
-                    catalogItems = data;
-                    renderTabs();
-                    renderCategorySelect();
-                    renderGrid();
-                    initTouchScroll();
-                    updateStaffState();
-                })
-                .catch(error => {
-                    console.error("Failed to fetch catalog JSON:", error);
-                });
+        document.addEventListener("DOMContentLoaded", async () => {
+            const possiblePaths = ['./catalog_data.json', './Assets/catalog_data.json', './assets/catalog_data.json'];
+            let loaded = false;
+
+            for (let path of possiblePaths) {
+                try {
+                    const response = await fetch(path);
+                    if (response.ok) {
+                        catalogItems = await response.json();
+                        loaded = true;
+                        break;
+                    }
+                } catch (e) {
+                    console.log(`Failed to fetch from ${path}`);
+                }
+            }
+
+            if (loaded) {
+                renderTabs();
+                renderCategorySelect();
+                renderGrid();
+                initTouchScroll();
+                updateStaffState();
+            } else {
+                console.error("Could not find catalog_data.json in root or Assets folder.");
+            }
         });
 
         function initTouchScroll() {
