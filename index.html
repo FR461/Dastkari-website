@@ -74,8 +74,8 @@
             transition: transform 0.2s, box-shadow 0.2s; display: flex; flex-direction: column;
         }
         .product-card:hover { transform: translateY(-4px); box-shadow: 0 10px 20px rgba(0,0,0,0.05); }
-        .card-image-box { width: 100%; aspect-ratio: 4/3; background: #f4f4f4; overflow: hidden; position: relative; }
-        .card-image-box img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s; }
+        .card-image-box { width: 100%; aspect-ratio: 4/3; background: #ffffff; overflow: hidden; position: relative; }
+        .card-image-box img { width: 100%; height: 100%; object-fit: contain; background: #ffffff; transition: transform 0.3s; }
         .product-card:hover .card-image-box img { transform: scale(1.03); }
         
         .card-body { padding: 18px; display: flex; flex-direction: column; flex-grow: 1; }
@@ -112,11 +112,11 @@
         
         .detail-modal-box { max-width: 850px; display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
         @media (max-width: 768px) { .detail-modal-box { grid-template-columns: 1fr; } }
-        .main-detail-img { width: 100%; aspect-ratio: 4/3; object-fit: cover; border-radius: 4px; border: 1px solid var(--border); }
+        .main-detail-img { width: 100%; aspect-ratio: 4/3; object-fit: contain; background: #ffffff; border-radius: 4px; border: 1px solid var(--border); }
         .thumbnail-strip { display: flex; gap: 10px; margin-top: 12px; overflow-x: auto; }
         .thumb-item { width: 64px; height: 64px; border: 1px solid var(--border); border-radius: 4px; cursor: pointer; overflow: hidden; opacity: 0.6; flex-shrink: 0; }
         .thumb-item.active { opacity: 1; border-color: var(--text-dark); }
-        .thumb-item img { width: 100%; height: 100%; object-fit: cover; }
+        .thumb-item img { width: 100%; height: 100%; object-fit: contain; background: #ffffff; }
         
         .form-group { margin-bottom: 14px; }
         .form-label { display: block; font-size: 11px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 4px; color: var(--text-muted); }
