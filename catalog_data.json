@@ -1666,7 +1666,9 @@
     "price": "Price on Request",
     "dims": "Custom Dimensions",
     "images": [
-      "./Assets/P2_page_12_1.jpeg"
+      "./Assets/P2_page_12_1.jpeg",
+      "./Assets/P2_page_13_2.jpeg",
+      "./Assets/P2_page_13_1.jpeg"
     ]
   },
   {
@@ -1772,17 +1774,6 @@
     ]
   },
   {
-    "id": "ITEM-175",
-    "title": "Dastkari Bespoke COFFEE TABLES (Page #13)",
-    "category": "COFFEE TABLES",
-    "price": "Price on Request",
-    "dims": "Custom Dimensions",
-    "images": [
-      "./Assets/P2_page_13_2.jpeg",
-      "./Assets/P2_page_13_1.jpeg"
-    ]
-  },
-  {
     "id": "ITEM-176",
     "title": "Dastkari Bespoke CABINETS (Page #140)",
     "category": "CABINETS",
@@ -1824,16 +1815,7 @@
     "price": "Price on Request",
     "dims": "Custom Dimensions",
     "images": [
-      "./Assets/P2_page_14_1.jpeg"
-    ]
-  },
-  {
-    "id": "ITEM-180",
-    "title": "Dastkari Bespoke COFFEE TABLES (Page #15)",
-    "category": "COFFEE TABLES",
-    "price": "Price on Request",
-    "dims": "Custom Dimensions",
-    "images": [
+      "./Assets/P2_page_14_1.jpeg",
       "./Assets/P2_page_15_2.jpeg",
       "./Assets/P2_page_15_1.jpeg"
     ]
@@ -1867,16 +1849,7 @@
     "price": "Price on Request",
     "dims": "Custom Dimensions",
     "images": [
-      "./Assets/P2_page_18_1.jpeg"
-    ]
-  },
-  {
-    "id": "ITEM-184",
-    "title": "Dastkari Bespoke COFFEE TABLES (Page #19)",
-    "category": "COFFEE TABLES",
-    "price": "Price on Request",
-    "dims": "Custom Dimensions",
-    "images": [
+      "./Assets/P2_page_18_1.jpeg",
       "./Assets/P2_page_19_3.jpeg",
       "./Assets/P2_page_19_1.jpeg",
       "./Assets/P2_page_19_2.jpeg"
@@ -1889,16 +1862,7 @@
     "price": "Price on Request",
     "dims": "Custom Dimensions",
     "images": [
-      "./Assets/P2_page_20_1.jpeg"
-    ]
-  },
-  {
-    "id": "ITEM-186",
-    "title": "Dastkari Bespoke COFFEE TABLES (Page #21)",
-    "category": "COFFEE TABLES",
-    "price": "Price on Request",
-    "dims": "Custom Dimensions",
-    "images": [
+      "./Assets/P2_page_20_1.jpeg",
       "./Assets/P2_page_21_3.jpeg",
       "./Assets/P2_page_21_2.jpeg",
       "./Assets/P2_page_21_1.jpeg"
@@ -1923,16 +1887,7 @@
     "price": "Price on Request",
     "dims": "Custom Dimensions",
     "images": [
-      "./Assets/P2_page_23_1.jpeg"
-    ]
-  },
-  {
-    "id": "ITEM-189",
-    "title": "Dastkari Bespoke COFFEE TABLES (Page #24)",
-    "category": "COFFEE TABLES",
-    "price": "Price on Request",
-    "dims": "Custom Dimensions",
-    "images": [
+      "./Assets/P2_page_23_1.jpeg",
       "./Assets/P2_page_24_1.jpeg"
     ]
   },
@@ -1965,7 +1920,6 @@
     "price": "Price on Request",
     "dims": "Custom Dimensions",
     "images": [
-      "./Assets/P2_page_27_2.jpeg",
       "./Assets/P2_page_27_1.jpeg"
     ]
   },
@@ -1991,26 +1945,15 @@
     ]
   },
   {
-    "id": "ITEM-195",
-    "title": "Dastkari Bespoke FURNITURE (Page #2)",
-    "category": "FURNITURE",
-    "price": "Price on Request",
-    "dims": "Custom Dimensions",
-    "images": [
-      "./Assets/P2_page_2_2.jpeg",
-      "./Assets/P2_page_2_1.jpeg",
-      "./Assets/P2_page_2_3.jpeg",
-      "./Assets/P2_page_2_4.jpeg"
-    ]
-  },
-  {
     "id": "ITEM-196",
     "title": "Dastkari Bespoke COFFEE TABLES (Page #30)",
     "category": "COFFEE TABLES",
     "price": "Price on Request",
     "dims": "Custom Dimensions",
     "images": [
-      "./Assets/P2_page_30_1.jpeg"
+      "./Assets/P2_page_30_1.jpeg",
+      "./Assets/P2_page_31_2.jpeg",
+      "./Assets/P2_page_31_1.jpeg"
     ]
   },
   {
@@ -2020,8 +1963,7 @@
     "price": "Price on Request",
     "dims": "Custom Dimensions",
     "images": [
-      "./Assets/P2_page_31_2.jpeg",
-      "./Assets/P2_page_31_1.jpeg"
+      
     ]
   },
   {
@@ -2075,16 +2017,7 @@
     "dims": "Custom Dimensions",
     "images": [
       "./Assets/P2_page_36_2.jpeg",
-      "./Assets/P2_page_36_1.jpeg"
-    ]
-  },
-  {
-    "id": "ITEM-203",
-    "title": "Dastkari Bespoke COFFEE TABLES (Page #37)",
-    "category": "COFFEE TABLES",
-    "price": "Price on Request",
-    "dims": "Custom Dimensions",
-    "images": [
+      "./Assets/P2_page_36_1.jpeg",
       "./Assets/P2_page_37_2.jpeg",
       "./Assets/P2_page_37_3.jpeg",
       "./Assets/P2_page_37_1.jpeg"
@@ -2433,16 +2366,7 @@
       "./Assets/P2_page_69_4.jpeg"
     ]
   },
-  {
-    "id": "ITEM-235",
-    "title": "Dastkari Bespoke COFFEE TABLES (Page #6)",
-    "category": "COFFEE TABLES",
-    "price": "Price on Request",
-    "dims": "Custom Dimensions",
-    "images": [
-      "./Assets/P2_page_6_1.jpeg"
-    ]
-  },
+
   {
     "id": "ITEM-236",
     "title": "Dastkari Bespoke DINING TABLES (Page #70)",
