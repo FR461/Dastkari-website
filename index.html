@@ -16,7 +16,7 @@
       margin: 0;
       padding: 0;
       font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, sans-serif;
-      text-transform: capitalize; /* Ensures Title Case across text elements */
+      text-transform: capitalize;
     }
 
     body {
@@ -103,32 +103,22 @@
       pointer-events: none;
     }
 
-    /* Category Scroll Bar with Visible Scrollbar & Drag Support */
+    /* Category Scroll Bar - Hidden Scrollbar with Scroll Support */
     .category-pills-container {
       width: 100%;
       max-width: 1200px;
       margin: 0 auto 25px auto;
       overflow-x: auto;
       white-space: nowrap;
-      padding: 8px 0 12px 0;
+      padding: 8px 0;
       cursor: grab;
       user-select: none;
-      scrollbar-width: thin;
-      scrollbar-color: #222222 #e0e0e0;
+      -ms-overflow-style: none;  /* IE and Edge */
+      scrollbar-width: none;  /* Firefox */
     }
 
     .category-pills-container::-webkit-scrollbar {
-      height: 6px;
-    }
-
-    .category-pills-container::-webkit-scrollbar-track {
-      background: #f0f0f0;
-      border-radius: 4px;
-    }
-
-    .category-pills-container::-webkit-scrollbar-thumb {
-      background: #222222;
-      border-radius: 4px;
+      display: none; /* Chrome, Safari, Opera */
     }
 
     .category-pills-container:active {
@@ -328,6 +318,12 @@
       gap: 8px;
       overflow-x: auto;
       padding-bottom: 4px;
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+
+    .modal-thumbs::-webkit-scrollbar {
+      display: none;
     }
 
     .modal-thumb {
