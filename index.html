@@ -3,932 +3,313 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dastkari Bespoke — Furniture Catalog</title>
-  
-  <!-- Google Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-
+  <title>Dastkari - Bespoke Furniture</title>
   <style>
-    /* ==========================================================================
-       1. CSS VARIABLES & RESET
-       ========================================================================== */
-    :root {
-      --font-serif: 'Cormorant Garamond', Georgia, serif;
-      --font-sans: 'Montserrat', -apple-system, BlinkMacSystemFont, sans-serif;
-      
-      --color-primary: #1a1a1a;
-      --color-accent: #c5a059;
-      --color-accent-hover: #a8843f;
-      --color-bg: #fcfcfc;
-      --color-surface: #ffffff;
-      --color-border: #e6e6e6;
-      --color-border-light: #f0f0f0;
-      --color-text-main: #222222;
-      --color-text-muted: #777777;
-      --color-text-light: #999999;
-      
-      --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.04);
-      --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.08);
-      --shadow-lg: 0 16px 40px rgba(0, 0, 0, 0.12);
-      
-      --radius-sm: 4px;
-      --radius-md: 8px;
-      --radius-lg: 16px;
-      
-      --transition-fast: 0.2s ease;
-      --transition-smooth: 0.35s cubic-bezier(0.25, 1, 0.5, 1);
-    }
-
-    *, *::before, *::after {
+    * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
     }
 
-    html {
-      scroll-behavior: smooth;
-    }
-
     body {
-      font-family: var(--font-sans);
-      background-color: var(--color-bg);
-      color: var(--color-text-main);
-      line-height: 1.6;
-      -webkit-font-smoothing: antialiased;
+      font-family: system-ui, -apple-system, sans-serif;
+      background-color: #ffffff;
+      color: #111111;
+      padding: 30px 20px;
     }
 
-    /* ==========================================================================
-       2. TOP ANNOUNCEMENT & HEADER
-       ========================================================================== */
-    .top-banner {
-      background-color: var(--color-primary);
-      color: #ffffff;
-      font-size: 0.75rem;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      text-align: center;
-      padding: 8px 16px;
-      font-weight: 500;
-    }
-
-    header {
-      background: var(--color-surface);
-      border-bottom: 1px solid var(--color-border);
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      box-shadow: var(--shadow-sm);
-    }
-
-    .header-container {
-      max-width: 1440px;
-      margin: 0 auto;
-      padding: 18px 32px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    .brand-logo {
-      text-decoration: none;
-      color: var(--color-primary);
-    }
-
-    .brand-logo h1 {
-      font-family: var(--font-serif);
-      font-size: 2.2rem;
-      font-weight: 700;
-      letter-spacing: 3px;
-      text-transform: uppercase;
-      line-height: 1;
-    }
-
-    .brand-logo span {
-      display: block;
-      font-family: var(--font-sans);
-      font-size: 0.65rem;
-      letter-spacing: 5px;
-      color: var(--color-accent);
-      margin-top: 4px;
-      text-transform: uppercase;
-    }
-
-    .header-stats {
-      font-size: 0.85rem;
-      color: var(--color-text-muted);
-      font-weight: 500;
-      letter-spacing: 0.5px;
-    }
-
-    .header-stats span {
-      color: var(--color-accent);
-      font-weight: 700;
-    }
-
-    /* ==========================================================================
-       3. CONTROLS BAR (SEARCH, FILTERS, VIEW TOGGLE)
-       ========================================================================== */
-    .controls-wrapper {
-      max-width: 1440px;
-      margin: 24px auto 0;
-      padding: 0 32px;
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-    }
-
-    .search-and-sort {
-      display: flex;
-      gap: 16px;
-      align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap;
-    }
-
-    .search-box {
-      position: relative;
-      flex: 1;
-      min-width: 280px;
-      max-width: 500px;
-    }
-
-    .search-box input {
-      width: 100%;
-      padding: 12px 16px 12px 42px;
-      border: 1px solid var(--color-border);
-      border-radius: var(--radius-md);
-      font-family: var(--font-sans);
-      font-size: 0.9rem;
-      background: var(--color-surface);
-      transition: var(--transition-fast);
-      outline: none;
-    }
-
-    .search-box input:focus {
-      border-color: var(--color-accent);
-      box-shadow: 0 0 0 3px rgba(197, 160, 89, 0.15);
-    }
-
-    .search-box svg {
-      position: absolute;
-      left: 14px;
-      top: 50%;
-      transform: translateY(-50%);
-      width: 18px;
-      height: 18px;
-      fill: var(--color-text-light);
-    }
-
-    .view-controls {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .sort-select {
-      padding: 11px 16px;
-      border: 1px solid var(--color-border);
-      border-radius: var(--radius-md);
-      background: var(--color-surface);
-      font-family: var(--font-sans);
-      font-size: 0.85rem;
-      color: var(--color-text-main);
-      cursor: pointer;
-      outline: none;
-    }
-
-    .fit-toggle-btn {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      padding: 10px 16px;
-      border: 1px solid var(--color-border);
-      background: var(--color-surface);
-      border-radius: var(--radius-md);
-      cursor: pointer;
-      font-size: 0.85rem;
-      font-weight: 500;
-      transition: var(--transition-fast);
-    }
-
-    .fit-toggle-btn:hover {
-      border-color: var(--color-accent);
-      color: var(--color-accent);
-    }
-
-    /* Category Navigation Pills */
-    .categories-bar {
-      display: flex;
-      gap: 8px;
-      overflow-x: auto;
-      padding-bottom: 8px;
-      scrollbar-width: thin;
-      scrollbar-color: var(--color-border) transparent;
-    }
-
-    .categories-bar::-webkit-scrollbar {
-      height: 4px;
-    }
-
-    .categories-bar::-webkit-scrollbar-thumb {
-      background: var(--color-border);
-      border-radius: 4px;
-    }
-
-    .category-pill {
-      padding: 8px 18px;
-      border: 1px solid var(--color-border);
-      background: var(--color-surface);
-      border-radius: 30px;
-      font-size: 0.78rem;
+    h1 {
+      font-size: 1.8rem;
       font-weight: 600;
-      letter-spacing: 0.5px;
-      text-transform: uppercase;
-      white-space: nowrap;
-      cursor: pointer;
-      transition: var(--transition-fast);
-      color: var(--color-text-muted);
+      margin-bottom: 24px;
+      text-align: center;
     }
 
-    .category-pill:hover {
-      border-color: var(--color-primary);
-      color: var(--color-primary);
-    }
-
-    .category-pill.active {
-      background: var(--color-primary);
-      color: #ffffff;
-      border-color: var(--color-primary);
-    }
-
-    /* ==========================================================================
-       4. MAIN CATALOG GRID & CARD LAYOUT
-       ========================================================================== */
-    main {
-      max-width: 1440px;
-      margin: 28px auto 60px;
-      padding: 0 32px;
-    }
-
+    /* Catalog Grid */
     .catalog-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
-      gap: 28px;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 20px;
+      max-width: 1200px;
+      margin: 0 auto;
     }
 
-    /* Furniture Card Component */
+    /* Original Card Styling with Gap Fix */
     .card {
-      background: var(--color-surface);
-      border: 1px solid var(--color-border);
-      border-radius: var(--radius-md);
-      overflow: hidden;
+      background: #ffffff;
+      border: 1.5px solid #222222; /* Clean dark border matching screenshot */
+      border-radius: 12px;
+      padding: 10px;
       display: flex;
       flex-direction: column;
-      transition: var(--transition-smooth);
-      position: relative;
+      gap: 10px;
+      transition: border-color 0.2s ease;
     }
 
     .card:hover {
-      transform: translateY(-6px);
-      box-shadow: var(--shadow-md);
-      border-color: rgba(197, 160, 89, 0.4);
+      border-color: #000000;
     }
 
-    /* GAP FIX CONTAINER */
+    /* Fixed Image Container (No side/top gaps) */
     .card-image-wrapper {
-      position: relative;
       width: 100%;
-      height: 280px; /* Fixed proportional height */
-      background-color: #ffffff;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 16px;
+      height: 200px;
+      border-radius: 8px;
       overflow: hidden;
-      border-bottom: 1px solid var(--color-border-light);
+      background-color: #f5f5f5;
     }
 
-    /* Default FIT MODE: CONTAIN (No Cropping, Clean Centered Preview) */
     .card-image-wrapper img {
-      max-width: 100%;
-      max-height: 100%;
-      width: auto;
-      height: auto;
-      object-fit: contain;
-      transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1);
-      filter: drop-shadow(0 4px 12px rgba(0,0,0,0.04));
-    }
-
-    /* COVER MODE OVERRIDE (Fills exact box if toggled) */
-    body.mode-cover .card-image-wrapper {
-      padding: 0;
-    }
-
-    body.mode-cover .card-image-wrapper img {
       width: 100%;
       height: 100%;
-      max-width: none;
-      max-height: none;
-      object-fit: cover;
+      object-fit: cover; /* Fills card completely, removing blank side gaps */
+      display: block;
     }
 
-    .card:hover .card-image-wrapper img {
-      transform: scale(1.05);
-    }
-
-    .image-badge {
-      position: absolute;
-      top: 12px;
-      right: 12px;
-      background: rgba(26, 26, 26, 0.75);
-      backdrop-filter: blur(4px);
-      color: #ffffff;
-      font-size: 0.7rem;
-      font-weight: 600;
-      padding: 4px 8px;
-      border-radius: 4px;
-      letter-spacing: 0.5px;
-    }
-
-    .card-body {
-      padding: 20px;
+    .card-info {
       display: flex;
       flex-direction: column;
-      flex: 1;
-      justify-content: space-between;
-    }
-
-    .card-category-tag {
-      font-size: 0.7rem;
-      font-weight: 700;
-      letter-spacing: 1.5px;
-      text-transform: uppercase;
-      color: var(--color-accent);
-      margin-bottom: 6px;
+      gap: 4px;
+      padding: 2px 4px;
     }
 
     .card-title {
-      font-family: var(--font-serif);
-      font-size: 1.25rem;
+      font-size: 0.9rem;
       font-weight: 600;
-      color: var(--color-primary);
       line-height: 1.3;
-      margin-bottom: 12px;
     }
 
-    .card-meta-row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding-top: 12px;
-      border-top: 1px dashed var(--color-border-light);
-      margin-top: auto;
-    }
-
-    .card-dim {
-      font-size: 0.78rem;
-      color: var(--color-text-muted);
+    .card-category {
+      font-size: 0.75rem;
+      color: #666666;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
     }
 
     .card-price {
       font-size: 0.85rem;
-      font-weight: 700;
-      color: var(--color-primary);
-      letter-spacing: 0.5px;
-    }
-
-    .card-actions {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-      margin-top: 16px;
-    }
-
-    .btn {
-      padding: 10px 14px;
-      border-radius: var(--radius-sm);
-      font-size: 0.78rem;
       font-weight: 600;
-      letter-spacing: 0.5px;
-      text-transform: uppercase;
-      cursor: pointer;
-      text-align: center;
-      transition: var(--transition-fast);
-      border: 1px solid transparent;
+      margin-top: 4px;
     }
 
-    .btn-outline {
-      background: transparent;
-      border-color: var(--color-border);
-      color: var(--color-primary);
-    }
-
-    .btn-outline:hover {
-      border-color: var(--color-primary);
-      background: var(--color-primary);
-      color: #ffffff;
-    }
-
-    .btn-accent {
-      background: var(--color-accent);
-      color: #ffffff;
-    }
-
-    .btn-accent:hover {
-      background: var(--color-accent-hover);
-    }
-
-    /* ==========================================================================
-       5. LIGHTBOX / GALLERY MODAL
-       ========================================================================== */
-    .modal-backdrop {
-      position: fixed;
-      inset: 0;
-      background: rgba(15, 15, 15, 0.85);
-      backdrop-filter: blur(8px);
-      z-index: 1000;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.3s ease;
-      padding: 24px;
-    }
-
-    .modal-backdrop.open {
-      opacity: 1;
-      pointer-events: auto;
-    }
-
-    .modal-container {
-      background: var(--color-surface);
-      width: 100%;
-      max-width: 1100px;
-      max-height: 90vh;
-      border-radius: var(--radius-lg);
-      overflow: hidden;
-      display: grid;
-      grid-template-columns: 1.2fr 1fr;
-      box-shadow: var(--shadow-lg);
-      transform: scale(0.95);
-      transition: transform 0.3s ease;
-      position: relative;
-    }
-
-    .modal-backdrop.open .modal-container {
-      transform: scale(1);
-    }
-
-    .modal-close-btn {
-      position: absolute;
-      top: 16px;
-      right: 16px;
-      width: 36px;
-      height: 36px;
-      border-radius: 50%;
-      background: rgba(0, 0, 0, 0.05);
-      border: none;
-      font-size: 1.2rem;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 10;
-      transition: var(--transition-fast);
-    }
-
-    .modal-close-btn:hover {
-      background: var(--color-primary);
-      color: #ffffff;
-    }
-
-    /* Modal Gallery Left Side */
-    .modal-gallery {
-      background: #f7f7f7;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      padding: 32px;
-      position: relative;
-    }
-
-    .modal-main-image-box {
-      width: 100%;
-      height: 420px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .modal-main-image-box img {
-      max-width: 100%;
-      max-height: 100%;
-      object-fit: contain;
-      filter: drop-shadow(0 8px 20px rgba(0,0,0,0.08));
-    }
-
-    .modal-thumbnails {
-      display: flex;
-      gap: 10px;
-      overflow-x: auto;
-      padding-top: 16px;
-      justify-content: center;
-    }
-
-    .thumb {
-      width: 60px;
-      height: 60px;
-      border-radius: var(--radius-sm);
-      border: 2px solid transparent;
-      overflow: hidden;
-      cursor: pointer;
-      background: #ffffff;
-      flex-shrink: 0;
-    }
-
-    .thumb img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-
-    .thumb.active {
-      border-color: var(--color-accent);
-    }
-
-    /* Modal Details Right Side */
-    .modal-details {
-      padding: 40px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      overflow-y: auto;
-    }
-
-    .modal-details h2 {
-      font-family: var(--font-serif);
-      font-size: 2rem;
-      color: var(--color-primary);
-      margin-bottom: 8px;
-    }
-
-    .modal-spec-list {
-      list-style: none;
-      margin: 24px 0;
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
-
-    .modal-spec-list li {
-      display: flex;
-      justify-content: space-between;
-      padding-bottom: 8px;
-      border-bottom: 1px solid var(--color-border-light);
-      font-size: 0.9rem;
-    }
-
-    .modal-spec-list strong {
-      color: var(--color-text-muted);
-      font-weight: 500;
-    }
-
-    /* ==========================================================================
-       6. EMPTY STATE & FOOTER
-       ========================================================================== */
-    .empty-state {
-      text-align: center;
-      padding: 80px 20px;
+    .error-msg {
       grid-column: 1 / -1;
-    }
-
-    .empty-state h3 {
-      font-family: var(--font-serif);
-      font-size: 1.8rem;
-      color: var(--color-primary);
-      margin-bottom: 8px;
-    }
-
-    footer {
-      background: var(--color-primary);
-      color: #ffffff;
       text-align: center;
-      padding: 40px 20px;
-      margin-top: 80px;
-      font-size: 0.85rem;
-      letter-spacing: 1px;
-    }
-
-    footer p span {
-      color: var(--color-accent);
-    }
-
-    /* Responsive Adjustments */
-    @media (max-width: 868px) {
-      .modal-container {
-        grid-template-columns: 1fr;
-        max-height: 95vh;
-        overflow-y: auto;
-      }
-      .modal-main-image-box {
-        height: 280px;
-      }
-      .header-container {
-        flex-direction: column;
-        gap: 12px;
-        text-align: center;
-      }
+      padding: 20px;
+      color: #c92a2a;
     }
   </style>
 </head>
 <body>
 
-  <!-- Top Announcement Bar -->
-  <div class="top-banner">
-    Handcrafted Bespoke Luxury Furniture &bull; Custom Dimensions Available
-  </div>
+  <h1>Dastkari Catalog</h1>
 
-  <!-- Main Header -->
-  <header>
-    <div class="header-container">
-      <a href="#" class="brand-logo">
-        <h1>Dastkari</h1>
-        <span>Bespoke Collection</span>
-      </a>
-      <div class="header-stats">
-        Showing <span id="items-count">0</span> Bespoke Designs
-      </div>
-    </div>
-  </header>
-
-  <!-- Controls Bar -->
-  <div class="controls-wrapper">
-    <div class="search-and-sort">
-      <div class="search-box">
-        <svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
-        <input type="text" id="search-input" placeholder="Search by title, item ID, or category...">
-      </div>
-
-      <div class="view-controls">
-        <button class="fit-toggle-btn" id="toggle-fit-btn">
-          <span>Mode: Fit Entire Image</span>
-        </button>
-
-        <select class="sort-select" id="sort-select">
-          <option value="default">Default Order</option>
-          <option value="title-asc">Title (A - Z)</option>
-          <option value="category">Category</option>
-        </select>
-      </div>
-    </div>
-
-    <!-- Dynamic Category Filter Pills -->
-    <div class="categories-bar" id="categories-bar">
-      <button class="category-pill active" data-cat="ALL">All Items</button>
-      <!-- Categories inject dynamically -->
-    </div>
-  </div>
-
-  <!-- Catalog Grid Container -->
-  <main>
-    <div class="catalog-grid" id="catalog-grid">
-      <!-- Cards rendered dynamically -->
-    </div>
+  <main class="catalog-grid" id="catalog-grid">
+    <!-- Items render here -->
   </main>
 
-  <!-- Gallery Lightbox Modal -->
-  <div class="modal-backdrop" id="gallery-modal">
-    <div class="modal-container">
-      <button class="modal-close-btn" id="modal-close">&times;</button>
-      
-      <div class="modal-gallery">
-        <div class="modal-main-image-box">
-          <img id="modal-preview-img" src="" alt="Furniture Preview">
-        </div>
-        <div class="modal-thumbnails" id="modal-thumbs">
-          <!-- Thumbnails inject dynamically -->
-        </div>
-      </div>
-
-      <div class="modal-details">
-        <div>
-          <span class="card-category-tag" id="modal-category">CATEGORY</span>
-          <h2 id="modal-title">Item Title</h2>
-          <p style="font-size: 0.85rem; color: var(--color-text-muted); margin-bottom: 20px;" id="modal-id">ID: ITEM-000</p>
-          
-          <ul class="modal-spec-list">
-            <li><strong>Dimensions</strong> <span id="modal-dims">Custom</span></li>
-            <li><strong>Pricing</strong> <span id="modal-price">Price on Request</span></li>
-            <li><strong>Craftsmanship</strong> <span>Solid Wood & Custom Upholstery</span></li>
-          </ul>
-        </div>
-
-        <button class="btn btn-accent" style="width: 100%; padding: 14px; font-size: 0.85rem;" onclick="alert('Inquiry submitted! Our representative will contact you with details.')">
-          Request Custom Quotation
-        </button>
-      </div>
-    </div>
-  </div>
-
-  <!-- Footer -->
-  <footer>
-    <p>&copy; Dastkari Bespoke Furniture &bull; Crafted with precision</p>
-  </footer>
-
-  <!-- ==========================================================================
-     7. JAVASCRIPT LOGIC
-     ========================================================================== -->
   <script>
-    // State Management
-    let catalogItems = [];
-    let activeCategory = 'ALL';
-    let searchQuery = '';
-    let sortMode = 'default';
-    let isCoverMode = false;
+    async function loadCatalog() {
+      const grid = document.getElementById('catalog-grid');
 
-    // DOM Elements
-    const gridEl = document.getElementById('catalog-grid');
-    const categoriesBar = document.getElementById('categories-bar');
-    const searchInput = document.getElementById('search-input');
-    const sortSelect = document.getElementById('sort-select');
-    const itemsCountEl = document.getElementById('items-count');
-    const toggleFitBtn = document.getElementById('toggle-fit-btn');
-
-    // Modal DOM Elements
-    const modalEl = document.getElementById('gallery-modal');
-    const modalCloseBtn = document.getElementById('modal-close');
-    const modalPreviewImg = document.getElementById('modal-preview-img');
-    const modalThumbsEl = document.getElementById('modal-thumbs');
-    const modalTitle = document.getElementById('modal-title');
-    const modalCategory = document.getElementById('modal-category');
-    const modalId = document.getElementById('modal-id');
-    const modalDims = document.getElementById('modal-dims');
-    const modalPrice = document.getElementById('modal-price');
-
-    // Fetch Catalog Data
-    async function initCatalog() {
       try {
-        let res = await fetch('./catalog_data.json');
-        if (!res.ok) res = await fetch('./Assets/catalog_data.json');
-        if (!res.ok) throw new Error('Data file missing');
+        let response = await fetch('./catalog_data.json');
+        if (!response.ok) {
+          response = await fetch('./Assets/catalog_data.json');
+        }
+        if (!response.ok) throw new Error('Data file not found');
 
-        catalogItems = await res.json();
-        buildCategoryPills();
-        render();
+        const items = await response.json();
+        renderGrid(items);
       } catch (err) {
-        console.error(err);
-        gridEl.innerHTML = `
-          <div class="empty-state">
-            <h3>Unable to load catalog</h3>
-            <p>Please make sure catalog_data.json exists and you are running a local web server.</p>
-          </div>
-        `;
+        grid.innerHTML = `<div class="error-msg">Could not load catalog_data.json</div>`;
       }
     }
 
-    // Generate Filter Tabs Dynamically
-    function buildCategoryPills() {
-      const categories = ['ALL', ...new Set(catalogItems.map(i => i.category))];
-      categoriesBar.innerHTML = categories.map(cat => `
-        <button class="category-pill ${cat === 'ALL' ? 'active' : ''}" data-cat="${cat}">
-          ${cat}
-        </button>
-      `).join('');
+    function renderGrid(items) {
+      const grid = document.getElementById('catalog-grid');
+      grid.innerHTML = '';
 
-      categoriesBar.querySelectorAll('.category-pill').forEach(btn => {
-        btn.addEventListener('click', (e) => {
-          categoriesBar.querySelectorAll('.category-pill').forEach(p => p.classList.remove('active'));
-          e.target.classList.add('active');
-          activeCategory = e.target.dataset.cat;
-          render();
-        });
+      items.forEach(item => {
+        const card = document.createElement('div');
+        card.className = 'card';
+
+        const imgSrc = (item.images && item.images.length > 0) ? item.images[0] : '';
+
+        card.innerHTML = `
+          <div class="card-image-wrapper">
+            <img src="${imgSrc}" alt="${item.title}" onerror="this.src='https://via.placeholder.com/200?text=No+Image'">
+          </div>
+          <div class="card-info">
+            <div class="card-title">${item.title}</div>
+            <div class="card-category">${item.category}</div>
+            <div class="card-price">${item.price}</div>
+          </div>
+        `;
+
+        grid.appendChild(card);
       });
     }
 
-    // Filter & Sort Pipeline
-    function getProcessedItems() {
-      return catalogItems
-        .filter(item => {
-          const matchCat = activeCategory === 'ALL' || item.category === activeCategory;
-          const matchSearch = item.title.toLowerCase().includes(searchQuery) ||
-                              item.category.toLowerCase().includes(searchQuery) ||
-                              item.id.toLowerCase().includes(searchQuery);
-          return matchCat && matchSearch;
-        })
-        .sort((a, b) => {
-          if (sortMode === 'title-asc') return a.title.localeCompare(b.title);
-          if (sortMode === 'category') return a.category.localeCompare(b.category);
-          return 0;
-        });
-    }
-
-    // Render Cards
-    function render() {
-      const items = getProcessedItems();
-      itemsCountEl.textContent = items.length;
-
-      if (items.length === 0) {
-        gridEl.innerHTML = `
-          <div class="empty-state">
-            <h3>No matching furniture found</h3>
-            <p>Try resetting your search or filter options.</p>
-          </div>
-        `;
-        return;
-      }
-
-      gridEl.innerHTML = items.map(item => {
-        const primaryImg = (item.images && item.images.length > 0) ? item.images[0] : '';
-        const imgCount = item.images ? item.images.length : 0;
-
-        return `
-          <article class="card">
-            <div class="card-image-wrapper">
-              ${imgCount > 1 ? `<span class="image-badge">+${imgCount} Photos</span>` : ''}
-              <img src="${primaryImg}" alt="${item.title}" loading="lazy" onerror="this.src='https://via.placeholder.com/400x300?text=No+Image'">
-            </div>
-            <div class="card-body">
-              <div>
-                <div class="card-category-tag">${item.category}</div>
-                <h3 class="card-title">${item.title}</h3>
-              </div>
-              <div class="card-meta-row">
-                <span class="card-dim">${item.dims}</span>
-                <span class="card-price">${item.price}</span>
-              </div>
-              <div class="card-actions">
-                <button class="btn btn-outline" onclick="openGallery('${item.id}')">View Details</button>
-                <button class="btn btn-accent" onclick="openGallery('${item.id}')">Quote</button>
-              </div>
-            </div>
-          </article>
-        `;
-      }).join('');
-    }
-
-    // Open Modal Gallery Lightbox
-    window.openGallery = function(itemId) {
-      const item = catalogItems.find(i => i.id === itemId);
-      if (!item) return;
-
-      modalTitle.textContent = item.title;
-      modalCategory.textContent = item.category;
-      modalId.textContent = `ID: ${item.id}`;
-      modalDims.textContent = item.dims;
-      modalPrice.textContent = item.price;
-
-      if (item.images && item.images.length > 0) {
-        modalPreviewImg.src = item.images[0];
-        modalThumbsEl.innerHTML = item.images.map((img, idx) => `
-          <div class="thumb ${idx === 0 ? 'active' : ''}" onclick="switchModalImage('${img}', this)">
-            <img src="${img}" alt="Thumbnail">
-          </div>
-        `).join('');
-      } else {
-        modalPreviewImg.src = 'https://via.placeholder.com/600x400?text=No+Image';
-        modalThumbsEl.innerHTML = '';
-      }
-
-      modalEl.classList.add('open');
-    };
-
-    window.switchModalImage = function(imgSrc, thumbEl) {
-      modalPreviewImg.src = imgSrc;
-      modalThumbsEl.querySelectorAll('.thumb').forEach(t => t.classList.remove('active'));
-      thumbEl.classList.add('active');
-    };
-
-    // Close Modal
-    modalCloseBtn.addEventListener('click', () => modalEl.classList.remove('open'));
-    modalEl.addEventListener('click', (e) => {
-      if (e.target === modalEl) modalEl.classList.remove('open');
-    });
-
-    // Fit/Cover Toggle Button Logic
-    toggleFitBtn.addEventListener('click', () => {
-      isCoverMode = !isCoverMode;
-      document.body.classList.toggle('mode-cover', isCoverMode);
-      toggleFitBtn.querySelector('span').textContent = isCoverMode 
-        ? 'Mode: Fill Card (Cover)' 
-        : 'Mode: Fit Entire Image';
-    });
-
-    // Event Listeners for Search & Sort
-    searchInput.addEventListener('input', (e) => {
-      searchQuery = e.target.value.toLowerCase().trim();
-      render();
-    });
-
-    sortSelect.addEventListener('change', (e) => {
-      sortMode = e.target.value;
-      render();
-    });
-
-    // Initialize Page
-    document.addEventListener('DOMContentLoaded', initCatalog);
+    document.addEventListener('DOMContentLoaded', loadCatalog);
   </script>
+
+</body>
+</html><!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dastkari Website</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, sans-serif;
+      background-color: #ffffff;
+      color: #111111;
+      padding: 30px 20px;
+    }
+
+    h1 {
+      font-size: 1.8rem;
+      font-weight: 600;
+      margin-bottom: 24px;
+      text-align: center;
+    }
+
+    /* Catalog Grid */
+    .catalog-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 20px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    /* Original Card Styling with Gap Fix */
+    .card {
+      background: #ffffff;
+      border: 1.5px solid #222222; /* Clean dark border matching screenshot */
+      border-radius: 12px;
+      padding: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      transition: border-color 0.2s ease;
+    }
+
+    .card:hover {
+      border-color: #000000;
+    }
+
+    /* Fixed Image Container (No side/top gaps) */
+    .card-image-wrapper {
+      width: 100%;
+      height: 200px;
+      border-radius: 8px;
+      overflow: hidden;
+      background-color: #f5f5f5;
+    }
+
+    .card-image-wrapper img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover; /* Fills card completely, removing blank side gaps */
+      display: block;
+    }
+
+    .card-info {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      padding: 2px 4px;
+    }
+
+    .card-title {
+      font-size: 0.9rem;
+      font-weight: 600;
+      line-height: 1.3;
+    }
+
+    .card-category {
+      font-size: 0.75rem;
+      color: #666666;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .card-price {
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-top: 4px;
+    }
+
+    .error-msg {
+      grid-column: 1 / -1;
+      text-align: center;
+      padding: 20px;
+      color: #c92a2a;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Dastkari Catalog</h1>
+
+  <main class="catalog-grid" id="catalog-grid">
+    <!-- Items render here -->
+  </main>
+
+  <script>
+    async function loadCatalog() {
+      const grid = document.getElementById('catalog-grid');
+
+      try {
+        let response = await fetch('./catalog_data.json');
+        if (!response.ok) {
+          response = await fetch('./Assets/catalog_data.json');
+        }
+        if (!response.ok) throw new Error('Data file not found');
+
+        const items = await response.json();
+        renderGrid(items);
+      } catch (err) {
+        grid.innerHTML = `<div class="error-msg">Could not load catalog_data.json</div>`;
+      }
+    }
+
+    function renderGrid(items) {
+      const grid = document.getElementById('catalog-grid');
+      grid.innerHTML = '';
+
+      items.forEach(item => {
+        const card = document.createElement('div');
+        card.className = 'card';
+
+        const imgSrc = (item.images && item.images.length > 0) ? item.images[0] : '';
+
+        card.innerHTML = `
+          <div class="card-image-wrapper">
+            <img src="${imgSrc}" alt="${item.title}" onerror="this.src='https://via.placeholder.com/200?text=No+Image'">
+          </div>
+          <div class="card-info">
+            <div class="card-title">${item.title}</div>
+            <div class="card-category">${item.category}</div>
+            <div class="card-price">${item.price}</div>
+          </div>
+        `;
+
+        grid.appendChild(card);
+      });
+    }
+
+    document.addEventListener('DOMContentLoaded', loadCatalog);
+  </script>
+
 </body>
 </html>
