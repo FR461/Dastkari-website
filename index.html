@@ -8,27 +8,67 @@
   <!-- Montserrat Font Import -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
 
   <style>
-    * {
+    :root {
+      --font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      --bg-primary: #ffffff;
+      --bg-secondary: #f8f9fa;
+      --bg-card: #ffffff;
+      --text-main: #111111;
+      --text-muted: #666666;
+      --text-light: #888888;
+      --border-color: #222222;
+      --border-light: #e0e0e0;
+      --radius-card: 12px;
+      --radius-img: 8px;
+      --radius-button: 6px;
+      --shadow-subtle: 0 4px 12px rgba(0, 0, 0, 0.05);
+      --transition-base: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    [data-theme="dark"] {
+      --bg-primary: #121212;
+      --bg-secondary: #1e1e1e;
+      --bg-card: #181818;
+      --text-main: #f0f0f0;
+      --text-muted: #a0a0a0;
+      --text-light: #777777;
+      --border-color: #444444;
+      --border-light: #2d2d2d;
+    }
+
+    *, *::before, *::after {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
     }
 
     body {
-      font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, sans-serif;
-      background-color: #ffffff;
-      color: #111111;
-      padding: 30px 20px;
+      font-family: var(--font-family);
+      background-color: var(--bg-primary);
+      color: var(--text-main);
+      line-height: 1.5;
+      padding-bottom: 40px;
       -webkit-font-smoothing: antialiased;
     }
 
-    /* Header & Brand Title */
+    .top-banner {
+      background-color: var(--border-color);
+      color: var(--bg-primary);
+      font-size: 0.75rem;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      text-align: center;
+      padding: 8px 16px;
+      font-weight: 500;
+    }
+
     .app-header {
-      max-width: 1200px;
-      margin: 0 auto 30px auto;
+      max-width: 1300px;
+      margin: 20px auto 20px auto;
+      padding: 0 20px;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -36,54 +76,140 @@
     }
 
     .brand-title {
-      font-family: 'Montserrat', sans-serif;
+      font-family: var(--font-family);
       font-size: 2rem;
       font-weight: 700;
       text-transform: lowercase;
       letter-spacing: 1px;
       text-align: center;
-      color: #111111;
     }
 
-    /* Search Bar */
-    .search-box {
+    .toolbar {
       width: 100%;
-      max-width: 450px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 0;
+      border-top: 1px solid var(--border-light);
+      border-bottom: 1px solid var(--border-light);
+    }
+
+    .search-group {
       position: relative;
+      flex: 1;
+      min-width: 250px;
+      max-width: 450px;
     }
 
     .search-input {
       width: 100%;
       padding: 10px 16px 10px 40px;
-      font-family: 'Montserrat', sans-serif;
+      font-family: var(--font-family);
       font-size: 0.88rem;
-      border: 1.5px solid #222222;
-      border-radius: 6px;
-      background: #ffffff;
-      color: #111111;
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-button);
+      background: var(--bg-secondary);
+      color: var(--text-main);
       outline: none;
+      transition: var(--transition-base);
     }
 
     .search-input:focus {
-      border-color: #000000;
-      box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.05);
+      border-color: var(--border-color);
+      background: var(--bg-primary);
     }
 
     .search-icon {
       position: absolute;
-      left: 14px;
+      left: 12px;
       top: 50%;
       transform: translateY(-50%);
       width: 16px;
       height: 16px;
-      fill: #666666;
+      fill: var(--text-muted);
       pointer-events: none;
     }
 
-    /* Catalog Grid */
+    .controls-group {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .select-control {
+      padding: 10px 14px;
+      font-family: var(--font-family);
+      font-size: 0.85rem;
+      font-weight: 500;
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-button);
+      background: var(--bg-secondary);
+      color: var(--text-main);
+      cursor: pointer;
+      outline: none;
+    }
+
+    .btn-action {
+      padding: 10px 16px;
+      font-family: var(--font-family);
+      font-size: 0.85rem;
+      font-weight: 600;
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-button);
+      background: var(--bg-primary);
+      color: var(--text-main);
+      cursor: pointer;
+      transition: var(--transition-base);
+    }
+
+    .btn-action:hover {
+      background: var(--text-main);
+      color: var(--bg-primary);
+    }
+
+    .category-pills-container {
+      width: 100%;
+      max-width: 1300px;
+      margin: 0 auto 25px auto;
+      padding: 0 20px 8px 20px;
+      overflow-x: auto;
+      scrollbar-width: thin;
+    }
+
+    .category-pills-wrapper {
+      display: flex;
+      gap: 8px;
+      white-space: nowrap;
+    }
+
+    .pill-btn {
+      padding: 8px 16px;
+      font-family: var(--font-family);
+      font-size: 0.78rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      border: 1px solid var(--border-light);
+      border-radius: 20px;
+      background: var(--bg-primary);
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: var(--transition-base);
+    }
+
+    .pill-btn.active {
+      background: var(--border-color);
+      color: var(--bg-primary);
+      border-color: var(--border-color);
+    }
+
     .catalog-container {
-      max-width: 1200px;
+      max-width: 1300px;
       margin: 0 auto;
+      padding: 0 20px;
     }
 
     .catalog-grid {
@@ -92,39 +218,57 @@
       gap: 22px;
     }
 
-    /* Card Layout */
     .card {
-      background: #ffffff;
-      border: 1.5px solid #222222;
-      border-radius: 12px;
+      background: var(--bg-card);
+      border: 1.5px solid var(--border-color);
+      border-radius: var(--radius-card);
       padding: 10px;
       display: flex;
       flex-direction: column;
-      gap: 10px;
+      gap: 12px;
       cursor: pointer;
-      transition: transform 0.2s ease, border-color 0.2s ease;
+      position: relative;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
     }
 
     .card:hover {
-      transform: translateY(-2px);
-      border-color: #000000;
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-subtle);
     }
 
-    /* FRONT PIC: FILL CARD */
     .card-image-wrapper {
       width: 100%;
       height: 220px;
-      border-radius: 8px;
+      border-radius: var(--radius-img);
       overflow: hidden;
-      background-color: #f5f5f5;
+      background-color: var(--bg-secondary);
+      position: relative;
     }
 
+    /* FRONT PIC: FILL CARD */
     .card-image-wrapper img {
       width: 100%;
       height: 100%;
-      object-fit: cover; /* Fills card completely */
+      object-fit: cover;
       object-position: center;
       display: block;
+    }
+
+    body.fit-contain .card-image-wrapper img {
+      object-fit: contain;
+    }
+
+    .image-count-badge {
+      position: absolute;
+      bottom: 8px;
+      right: 8px;
+      background: rgba(0, 0, 0, 0.7);
+      color: #ffffff;
+      font-size: 0.68rem;
+      font-weight: 600;
+      padding: 3px 7px;
+      border-radius: 4px;
+      letter-spacing: 0.5px;
     }
 
     .card-info {
@@ -135,18 +279,16 @@
     }
 
     .card-title {
-      font-family: 'Montserrat', sans-serif;
       font-size: 0.9rem;
       font-weight: 600;
       line-height: 1.3;
-      color: #111111;
+      color: var(--text-main);
     }
 
     .card-category {
-      font-family: 'Montserrat', sans-serif;
       font-size: 0.75rem;
       font-weight: 500;
-      color: #666666;
+      color: var(--text-muted);
       text-transform: uppercase;
       letter-spacing: 0.5px;
     }
@@ -159,19 +301,16 @@
     }
 
     .card-price {
-      font-family: 'Montserrat', sans-serif;
       font-size: 0.85rem;
       font-weight: 700;
-      color: #111111;
+      color: var(--text-main);
     }
 
     .card-dims {
-      font-family: 'Montserrat', sans-serif;
       font-size: 0.75rem;
-      color: #888888;
+      color: var(--text-light);
     }
 
-    /* Modal / Lightbox */
     .modal-overlay {
       position: fixed;
       top: 0;
@@ -196,11 +335,11 @@
     }
 
     .modal-container {
-      background: #ffffff;
-      border-radius: 12px;
-      border: 1.5px solid #222222;
+      background: var(--bg-card);
+      border-radius: var(--radius-card);
+      border: 1.5px solid var(--border-color);
       width: 100%;
-      max-width: 850px;
+      max-width: 900px;
       max-height: 90vh;
       overflow-y: auto;
       padding: 24px;
@@ -224,7 +363,7 @@
       border: none;
       font-size: 1.5rem;
       font-weight: 700;
-      color: #111111;
+      color: var(--text-main);
       cursor: pointer;
       width: 32px;
       height: 32px;
@@ -232,7 +371,6 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      line-height: 1;
     }
 
     .modal-gallery {
@@ -245,16 +383,15 @@
     .modal-main-img-box {
       width: 100%;
       height: 320px;
-      border-radius: 8px;
+      border-radius: var(--radius-img);
       overflow: hidden;
-      background: #f8f9fa;
+      background: var(--bg-secondary);
     }
 
     .modal-main-img-box img {
       width: 100%;
       height: 100%;
-      object-fit: contain; /* Displays full image without cropping */
-      display: block;
+      object-fit: contain;
     }
 
     .modal-thumbs {
@@ -267,7 +404,7 @@
     .modal-thumb {
       width: 60px;
       height: 60px;
-      border-radius: 6px;
+      border-radius: var(--radius-button);
       overflow: hidden;
       border: 2px solid transparent;
       cursor: pointer;
@@ -275,7 +412,7 @@
     }
 
     .modal-thumb.active {
-      border-color: #222222;
+      border-color: var(--border-color);
     }
 
     .modal-thumb img {
@@ -292,9 +429,7 @@
     }
 
     .modal-details h2 {
-      font-family: 'Montserrat', sans-serif;
-      font-size: 1.3rem;
-      font-weight: 700;
+      font-size: 1.4rem;
     }
 
     .modal-meta-list {
@@ -308,11 +443,11 @@
       display: flex;
       justify-content: space-between;
       padding-bottom: 6px;
-      border-bottom: 1px solid #e0e0e0;
+      border-bottom: 1px solid var(--border-light);
     }
 
     .modal-meta-label {
-      color: #666666;
+      color: var(--text-muted);
       font-weight: 500;
     }
 
@@ -320,51 +455,52 @@
       font-weight: 600;
     }
 
-    .btn-quote {
-      padding: 12px;
-      font-family: 'Montserrat', sans-serif;
-      font-size: 0.85rem;
-      font-weight: 600;
-      border: 1.5px solid #222222;
-      border-radius: 6px;
-      background: #222222;
-      color: #ffffff;
-      cursor: pointer;
-      transition: background 0.2s ease;
-      text-align: center;
-    }
-
-    .btn-quote:hover {
-      background: #000000;
-    }
-
     .empty-state, .error-msg {
       grid-column: 1 / -1;
       text-align: center;
-      padding: 40px 20px;
-      color: #666666;
+      padding: 60px 20px;
+      color: var(--text-muted);
     }
   </style>
 </head>
 <body>
 
-  <!-- Header -->
+  <div class="top-banner">
+    HANDCRAFTED BESPOKE LUXURY FURNITURE &bull; CUSTOM DIMENSIONS AVAILABLE
+  </div>
+
   <header class="app-header">
     <h1 class="brand-title">dastkari - bespoke furniture</h1>
-    <div class="search-box">
-      <svg class="search-icon" viewBox="0 0 24 24">
-        <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
-      </svg>
-      <input type="text" id="search-input" class="search-input" placeholder="Search catalog...">
+    
+    <div class="toolbar">
+      <div class="search-group">
+        <svg class="search-icon" viewBox="0 0 24 24">
+          <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
+        </svg>
+        <input type="text" id="search-input" class="search-input" placeholder="Search catalog...">
+      </div>
+
+      <div class="controls-group">
+        <select id="sort-select" class="select-control">
+          <option value="default">Default Order</option>
+          <option value="title-asc">Title (A-Z)</option>
+          <option value="category">Category</option>
+        </select>
+
+        <button id="toggle-fit-btn" class="btn-action">Mode: Fill Card</button>
+        <button id="toggle-theme-btn" class="btn-action">Dark Mode</button>
+      </div>
     </div>
   </header>
 
-  <!-- Catalog Grid -->
+  <nav class="category-pills-container">
+    <div class="category-pills-wrapper" id="pills-wrapper"></div>
+  </nav>
+
   <main class="catalog-container">
     <div class="catalog-grid" id="catalog-grid"></div>
   </main>
 
-  <!-- Modal Lightbox -->
   <div class="modal-overlay" id="item-modal">
     <div class="modal-container">
       <button class="modal-close-btn" id="modal-close">&times;</button>
@@ -397,17 +533,26 @@
           </div>
         </div>
 
-        <button class="btn-quote" onclick="alert('Inquiry submitted!')">Request Quote</button>
+        <button class="btn-action" style="justify-content: center; padding: 12px;" onclick="alert('Inquiry recorded!')">
+          Request Quote
+        </button>
       </div>
     </div>
   </div>
 
   <script>
     let catalogData = [];
+    let activeCategory = 'ALL';
     let searchQuery = '';
+    let sortMode = 'default';
+    let isCoverMode = true;
 
     const grid = document.getElementById('catalog-grid');
+    const pillsWrapper = document.getElementById('pills-wrapper');
     const searchInput = document.getElementById('search-input');
+    const sortSelect = document.getElementById('sort-select');
+    const toggleFitBtn = document.getElementById('toggle-fit-btn');
+    const toggleThemeBtn = document.getElementById('toggle-theme-btn');
 
     const modal = document.getElementById('item-modal');
     const modalClose = document.getElementById('modal-close');
@@ -426,6 +571,7 @@
         if (!response.ok) throw new Error('Catalog data not found.');
 
         catalogData = await response.json();
+        renderPills();
         renderGrid();
       } catch (err) {
         console.error(err);
@@ -433,12 +579,43 @@
       }
     }
 
+    function renderPills() {
+      const categories = ['ALL', ...new Set(catalogData.map(item => item.category))];
+      
+      pillsWrapper.innerHTML = categories.map(cat => `
+        <button class="pill-btn ${cat === activeCategory ? 'active' : ''}" data-category="${cat}">
+          ${cat}
+        </button>
+      `).join('');
+
+      pillsWrapper.querySelectorAll('.pill-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          activeCategory = e.target.dataset.category;
+          pillsWrapper.querySelectorAll('.pill-btn').forEach(b => b.classList.remove('active'));
+          e.target.classList.add('active');
+          renderGrid();
+        });
+      });
+    }
+
+    function getFilteredItems() {
+      return catalogData
+        .filter(item => {
+          const matchesCat = activeCategory === 'ALL' || item.category === activeCategory;
+          const matchesSearch = item.title.toLowerCase().includes(searchQuery) ||
+                                item.category.toLowerCase().includes(searchQuery) ||
+                                item.id.toLowerCase().includes(searchQuery);
+          return matchesCat && matchesSearch;
+        })
+        .sort((a, b) => {
+          if (sortMode === 'title-asc') return a.title.localeCompare(b.title);
+          if (sortMode === 'category') return a.category.localeCompare(b.category);
+          return 0;
+        });
+    }
+
     function renderGrid() {
-      const items = catalogData.filter(item => 
-        item.title.toLowerCase().includes(searchQuery) ||
-        item.category.toLowerCase().includes(searchQuery) ||
-        item.id.toLowerCase().includes(searchQuery)
-      );
+      const items = getFilteredItems();
 
       if (items.length === 0) {
         grid.innerHTML = `<div class="empty-state">No matching items found</div>`;
@@ -447,11 +624,13 @@
 
       grid.innerHTML = items.map(item => {
         const imgSrc = (item.images && item.images.length > 0) ? item.images[0] : '';
+        const imgCount = item.images ? item.images.length : 0;
 
         return `
           <div class="card" onclick="openModal('${item.id}')">
             <div class="card-image-wrapper">
               <img src="${imgSrc}" alt="${item.title}" loading="lazy" onerror="this.src='https://via.placeholder.com/240?text=No+Image'">
+              ${imgCount > 1 ? `<span class="image-count-badge">+${imgCount} Photos</span>` : ''}
             </div>
             <div class="card-info">
               <div class="card-title">${item.title}</div>
@@ -506,6 +685,23 @@
     searchInput.addEventListener('input', (e) => {
       searchQuery = e.target.value.toLowerCase().trim();
       renderGrid();
+    });
+
+    sortSelect.addEventListener('change', (e) => {
+      sortMode = e.target.value;
+      renderGrid();
+    });
+
+    toggleFitBtn.addEventListener('click', () => {
+      isCoverMode = !isCoverMode;
+      document.body.classList.toggle('fit-contain', !isCoverMode);
+      toggleFitBtn.textContent = isCoverMode ? 'Mode: Fill Card' : 'Mode: Fit Entire Image';
+    });
+
+    toggleThemeBtn.addEventListener('click', () => {
+      const isDark = document.body.getAttribute('data-theme') === 'dark';
+      document.body.setAttribute('data-theme', isDark ? 'light' : 'dark');
+      toggleThemeBtn.textContent = isDark ? 'Dark Mode' : 'Light Mode';
     });
 
     document.addEventListener('DOMContentLoaded', init);
