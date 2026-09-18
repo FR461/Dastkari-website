@@ -36,7 +36,7 @@
     /* Header & Navigation */
     .app-header {
       max-width: 1200px;
-      margin: 0 auto 30px auto;
+      margin: 0 auto 20px auto;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -146,7 +146,7 @@
       background: #f0f0f0;
     }
 
-    /* Category Pills */
+    /* Category Pills Bar */
     .category-pills-container {
       width: 100%;
       max-width: 1200px;
@@ -210,7 +210,6 @@
       border-color: #000000;
     }
 
-    /* Front Pic: Fill Card */
     .card-image-wrapper {
       width: 100%;
       height: 220px;
@@ -332,7 +331,6 @@
       gap: 12px;
     }
 
-    /* Inside Pic: Entire Pic (Contain) */
     .modal-main-img-box {
       width: 100%;
       height: 320px;
@@ -375,14 +373,6 @@
       object-fit: cover;
     }
 
-    .modal-details {
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-      justify-content: center;
-    }
-
-    /* Staff Login Modal */
     .login-form {
       display: flex;
       flex-direction: column;
@@ -445,9 +435,18 @@
     </div>
   </header>
 
-  <!-- Category Pills -->
+  <!-- Visible Category Bar -->
   <nav class="category-pills-container">
-    <div class="category-pills-wrapper" id="pills-wrapper"></div>
+    <div class="category-pills-wrapper" id="pills-wrapper">
+      <button class="pill-btn active" onclick="selectCategory('ALL', this)">ALL</button>
+      <button class="pill-btn" onclick="selectCategory('BEDS', this)">BEDS</button>
+      <button class="pill-btn" onclick="selectCategory('SOFAS', this)">SOFAS</button>
+      <button class="pill-btn" onclick="selectCategory('ARMCHAIRS', this)">ARMCHAIRS</button>
+      <button class="pill-btn" onclick="selectCategory('CHAIRS', this)">CHAIRS</button>
+      <button class="pill-btn" onclick="selectCategory('COFFEE TABLES', this)">COFFEE TABLES</button>
+      <button class="pill-btn" onclick="selectCategory('CONSOLES', this)">CONSOLES</button>
+      <button class="pill-btn" onclick="selectCategory('STORAGE / CREDENZA', this)">STORAGE</button>
+    </div>
   </nav>
 
   <!-- Catalog Grid -->
@@ -527,27 +526,26 @@
         renderPills();
         renderGrid();
       } catch (err) {
-        grid.innerHTML = `<div class="error-msg">Could not load catalog_data.json</div>`;
+        grid.innerHTML = `<div class="error-msg">Could not load catalog_data.json. Please run via Live Server.</div>`;
       }
     }
 
     function renderPills() {
+      if (!catalogData || catalogData.length === 0) return;
       const categories = ['ALL', ...new Set(catalogData.map(item => item.category))];
       
       pillsWrapper.innerHTML = categories.map(cat => `
-        <button class="pill-btn ${cat === activeCategory ? 'active' : ''}" data-category="${cat}">
+        <button class="pill-btn ${cat === activeCategory ? 'active' : ''}" onclick="selectCategory('${cat}', this)">
           ${cat}
         </button>
       `).join('');
+    }
 
-      pillsWrapper.querySelectorAll('.pill-btn').forEach(btn => {
-        btn.addEventListener('click', (e) => {
-          activeCategory = e.target.dataset.category;
-          pillsWrapper.querySelectorAll('.pill-btn').forEach(b => b.classList.remove('active'));
-          e.target.classList.add('active');
-          renderGrid();
-        });
-      });
+    function selectCategory(cat, btnEl) {
+      activeCategory = cat;
+      document.querySelectorAll('.pill-btn').forEach(b => b.classList.remove('active'));
+      if (btnEl) btnEl.classList.add('active');
+      renderGrid();
     }
 
     function renderGrid() {
@@ -585,14 +583,12 @@
       }).join('');
     }
 
-    /* Toggle Case Handler */
     function toggleTextCase() {
       document.body.classList.remove(caseModes[currentCaseIdx]);
       currentCaseIdx = (currentCaseIdx + 1) % caseModes.length;
       document.body.classList.add(caseModes[currentCaseIdx]);
     }
 
-    /* Modal Handlers */
     function openItemModal(id) {
       const item = catalogData.find(i => i.id === id);
       if (!item) return;
