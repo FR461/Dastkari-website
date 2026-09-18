@@ -15,6 +15,14 @@
       box-sizing: border-box;
       margin: 0;
       padding: 0;
+      -ms-overflow-style: none;  /* Hide scrollbars IE/Edge */
+      scrollbar-width: none;  /* Hide scrollbars Firefox */
+    }
+
+    *::-webkit-scrollbar {
+      display: none; /* Hide scrollbars Chrome/Safari */
+      width: 0;
+      height: 0;
     }
 
     body {
@@ -136,6 +144,41 @@
 
     .btn-action:hover {
       background: #f0f0f0;
+    }
+
+    /* Category Pills */
+    .category-pills-container {
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto 25px auto;
+      overflow-x: auto;
+    }
+
+    .category-pills-wrapper {
+      display: flex;
+      gap: 8px;
+      white-space: nowrap;
+    }
+
+    .pill-btn {
+      padding: 8px 16px;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.78rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      border: 1px solid #e0e0e0;
+      border-radius: 20px;
+      background: #ffffff;
+      color: #666666;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .pill-btn.active {
+      background: #222222;
+      color: #ffffff;
+      border-color: #222222;
     }
 
     /* Catalog Grid */
@@ -339,7 +382,7 @@
       justify-content: center;
     }
 
-    /* Staff Login Modal Specifics */
+    /* Staff Login Modal */
     .login-form {
       display: flex;
       flex-direction: column;
@@ -402,6 +445,11 @@
     </div>
   </header>
 
+  <!-- Category Pills -->
+  <nav class="category-pills-container">
+    <div class="category-pills-wrapper" id="pills-wrapper"></div>
+  </nav>
+
   <!-- Catalog Grid -->
   <main class="catalog-container">
     <div class="catalog-grid" id="catalog-grid"></div>
@@ -460,11 +508,13 @@
 
   <script>
     let catalogData = [];
+    let activeCategory = 'ALL';
     let searchQuery = '';
     const caseModes = ['case-lower', 'case-upper', 'case-title'];
     let currentCaseIdx = 0;
 
     const grid = document.getElementById('catalog-grid');
+    const pillsWrapper = document.getElementById('pills-wrapper');
     const searchInput = document.getElementById('search-input');
 
     async function init() {
@@ -474,18 +524,40 @@
         if (!response.ok) throw new Error('Catalog data missing.');
 
         catalogData = await response.json();
+        renderPills();
         renderGrid();
       } catch (err) {
         grid.innerHTML = `<div class="error-msg">Could not load catalog_data.json</div>`;
       }
     }
 
+    function renderPills() {
+      const categories = ['ALL', ...new Set(catalogData.map(item => item.category))];
+      
+      pillsWrapper.innerHTML = categories.map(cat => `
+        <button class="pill-btn ${cat === activeCategory ? 'active' : ''}" data-category="${cat}">
+          ${cat}
+        </button>
+      `).join('');
+
+      pillsWrapper.querySelectorAll('.pill-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          activeCategory = e.target.dataset.category;
+          pillsWrapper.querySelectorAll('.pill-btn').forEach(b => b.classList.remove('active'));
+          e.target.classList.add('active');
+          renderGrid();
+        });
+      });
+    }
+
     function renderGrid() {
-      const items = catalogData.filter(item => 
-        item.title.toLowerCase().includes(searchQuery) ||
-        item.category.toLowerCase().includes(searchQuery) ||
-        item.id.toLowerCase().includes(searchQuery)
-      );
+      const items = catalogData.filter(item => {
+        const matchesCat = activeCategory === 'ALL' || item.category === activeCategory;
+        const matchesSearch = item.title.toLowerCase().includes(searchQuery) ||
+                              item.category.toLowerCase().includes(searchQuery) ||
+                              item.id.toLowerCase().includes(searchQuery);
+        return matchesCat && matchesSearch;
+      });
 
       if (items.length === 0) {
         grid.innerHTML = `<div class="empty-state">No matching items found</div>`;
