@@ -1,561 +1,179 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dastkari - Bespoke Furniture</title>
-    <!-- Google Font: Montserrat -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
-    
-    <style>
-        :root {
-            --bg-color: #fcfbf9;
-            --text-dark: #1a1a1a;
-            --text-muted: #767676;
-            --border: #e8e6e1;
-            --card-bg: #ffffff;
-            --staff-green: #2e7d32;
-            --danger-red: #c62828;
-        }
-        * { 
-            box-sizing: border-box; 
-            margin: 0; 
-            padding: 0; 
-            font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, sans-serif; 
-        }
-        body { background: var(--bg-color); color: var(--text-dark); padding-bottom: 60px; }
-        
-        /* Header & Vector Hamsa Logo */
-        header {
-            display: flex; justify-content: space-between; align-items: center;
-            padding: 16px 5%; border-bottom: 1px solid var(--border); background: #fff;
-            position: sticky; top: 0; z-index: 100;
-        }
-        .brand-container { display: flex; align-items: center; gap: 14px; text-decoration: none; color: inherit; }
-        .brand-logo-svg { height: 42px; width: auto; display: block; }
-        .brand-name { font-size: 20px; font-weight: 700; letter-spacing: 4px; text-transform: uppercase; }
-        .header-actions { display: flex; gap: 12px; }
-        .btn-header {
-            background: transparent; border: 1px solid var(--text-dark); padding: 8px 16px;
-            font-size: 11px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; cursor: pointer;
-            transition: all 0.2s;
-        }
-        .btn-header:hover { background: var(--text-dark); color: #fff; }
-        .btn-black { background: var(--text-dark); color: #fff; }
-        
-        /* Navigation Tabs */
-        .tabs-container {
-            padding: 15px 5%; overflow-x: auto; white-space: nowrap;
-            border-bottom: 1px solid var(--border); background: #fff;
-            -webkit-overflow-scrolling: touch;
-        }
-        .tabs-wrapper { display: inline-flex; align-items: center; gap: 14px; }
-        .tab-btn {
-            background: none; border: none; font-size: 12px; font-weight: 500; color: var(--text-muted);
-            cursor: pointer; padding: 6px 10px; letter-spacing: 2px; text-transform: uppercase;
-            transition: color 0.2s;
-        }
-        .tab-btn.active, .tab-btn:hover { color: var(--text-dark); font-weight: 700; }
-        .tab-bullet { color: var(--border); font-size: 10px; }
-        
-        /* Main Layout */
-        main { padding: 30px 5%; max-width: 1400px; margin: 0 auto; }
-        .catalog-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 24px; }
-        .catalog-title { font-size: 20px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; }
-        .items-count { font-size: 12px; font-weight: 500; color: var(--text-muted); letter-spacing: 1px; }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dastkari Bespoke Catalog</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
-        /* Product Grid */
-        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 24px; }
-        .product-card {
-            background: var(--card-bg); border: 1px solid var(--border);
-            border-radius: 4px; overflow: hidden; cursor: pointer;
-            transition: transform 0.2s, box-shadow 0.2s; display: flex; flex-direction: column;
-        }
-        .product-card:hover { transform: translateY(-4px); box-shadow: 0 10px 20px rgba(0,0,0,0.05); }
-        .card-image-box { width: 100%; aspect-ratio: 4/3; background: #ffffff; overflow: hidden; position: relative; }
-        .card-image-box img { width: 100%; height: 100%; object-fit: contain; background: #ffffff; transition: transform 0.3s; }
-        .product-card:hover .card-image-box img { transform: scale(1.03); }
-        
-        .card-body { padding: 18px; display: flex; flex-direction: column; flex-grow: 1; }
-        .item-category-tag { font-size: 10px; font-weight: 600; color: var(--text-muted); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 6px; }
-        .item-name { font-size: 14px; font-weight: 600; margin-bottom: 6px; color: var(--text-dark); letter-spacing: 0.5px; }
-        .item-dims { font-size: 11px; color: var(--text-muted); margin-bottom: 16px; flex-grow: 1; }
-        .card-footer { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--border); padding-top: 12px; }
-        .item-price { font-size: 12px; font-weight: 600; letter-spacing: 0.5px; }
-        .card-btn-link { font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--text-dark); font-weight: 700; }
-        
-        /* Staff Action Controls */
-        .staff-card-actions {
-            display: none; gap: 8px; margin-top: 14px; padding-top: 12px; border-top: 1px dashed var(--border);
-        }
-        body.is-staff .staff-card-actions { display: flex; }
-        .btn-staff-action {
-            flex: 1; padding: 6px 8px; font-size: 10px; font-weight: 600; letter-spacing: 1px;
-            text-transform: uppercase; border: 1px solid var(--text-dark); background: transparent;
-            cursor: pointer; transition: all 0.2s;
-        }
-        .btn-staff-action:hover { background: var(--text-dark); color: #fff; }
-        .btn-staff-action.delete { border-color: var(--danger-red); color: var(--danger-red); }
-        .btn-staff-action.delete:hover { background: var(--danger-red); color: #fff; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background-color: #f9f9f9;
+      color: #333;
+      padding: 20px;
+    }
 
-        /* Modals */
-        .modal-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.6); display: none; justify-content: center; align-items: center;
-            z-index: 1000; padding: 20px;
-        }
-        .modal-overlay.active { display: flex; }
-        .modal-box { background: #fff; width: 100%; max-width: 480px; padding: 24px; border-radius: 6px; max-height: 90vh; overflow-y: auto; }
-        .modal-title { font-size: 16px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 16px; }
-        
-        .detail-modal-box { max-width: 850px; display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
-        @media (max-width: 768px) { .detail-modal-box { grid-template-columns: 1fr; } }
-        .main-detail-img { width: 100%; aspect-ratio: 4/3; object-fit: contain; background: #ffffff; border-radius: 4px; border: 1px solid var(--border); }
-        .thumbnail-strip { display: flex; gap: 10px; margin-top: 12px; overflow-x: auto; }
-        .thumb-item { width: 64px; height: 64px; border: 1px solid var(--border); border-radius: 4px; cursor: pointer; overflow: hidden; opacity: 0.6; flex-shrink: 0; }
-        .thumb-item.active { opacity: 1; border-color: var(--text-dark); }
-        .thumb-item img { width: 100%; height: 100%; object-fit: contain; background: #ffffff; }
-        
-        .form-group { margin-bottom: 14px; }
-        .form-label { display: block; font-size: 11px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 4px; color: var(--text-muted); }
-        .form-control { width: 100%; padding: 8px 12px; border: 1px solid var(--border); font-size: 13px; }
-    </style>
+    header {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    header h1 {
+      font-size: 2rem;
+      font-weight: 600;
+      letter-spacing: 1px;
+    }
+
+    .catalog-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 20px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .card {
+      background: #ffffff;
+      border-radius: 12px;
+      border: 1px solid #e2e2e2;
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.06);
+    }
+
+    /* FIX FOR IMAGE GAPS */
+    .card-image-container {
+      width: 100%;
+      height: 220px;
+      border-radius: 8px;
+      overflow: hidden;
+      background-color: #ffffff;
+      border: 1px solid #ccc;
+    }
+
+    .card-image-container img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover; /* Fills container completely without leaving side or top gaps */
+      object-position: center;
+      display: block;
+    }
+
+    .card-details {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .card-title {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: #111;
+    }
+
+    .card-category {
+      font-size: 0.8rem;
+      color: #666;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .card-meta {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.85rem;
+      color: #444;
+      margin-top: 4px;
+    }
+
+    .error-msg {
+      grid-column: 1 / -1;
+      text-align: center;
+      color: #d9534f;
+      padding: 20px;
+      background: #fdf2f2;
+      border-radius: 8px;
+      border: 1px solid #f5c6cb;
+    }
+  </style>
 </head>
 <body>
 
-    <header>
-        <a href="#" class="brand-container">
-            <svg class="brand-logo-svg" viewBox="0 0 100 115" xmlns="http://www.w3.org/2000/svg">
-                <path d="M 50,4 C 57,4 62,9 62,17 L 62,40 C 67,37 77,35 85,42 C 93,50 88,62 75,75 C 70,80 67,86 66,93 C 65,101 58,108 50,108 C 42,108 35,101 34,93 C 33,86 30,80 25,75 C 12,62 7,50 15,42 C 23,35 33,37 38,40 L 38,17 C 38,9 43,4 50,4 Z" fill="#000000"/>
-                <path d="M 50,10 C 54,10 57,13 57,20 L 57,44 C 62,41 71,40 78,46 C 84,52 80,61 69,72 C 65,76 62,81 61,87 C 60,93 56,98 50,98 C 44,98 40,93 39,87 C 38,81 35,76 31,72 C 20,61 16,52 22,46 C 29,40 38,41 43,44 L 43,20 C 43,13 46,10 50,10 Z" fill="#ffffff"/>
-                <path d="M 50,15 C 52,15 54,17 54,23 L 54,48 C 59,45 66,44 72,49 C 77,54 74,60 64,70 C 60,74 58,78 57,84 C 56,88 53,92 50,92 C 47,92 44,88 43,84 C 42,78 40,74 36,70 C 26,60 23,54 28,49 C 34,44 41,45 46,48 L 46,23 C 46,17 48,15 50,15 Z" fill="#000000"/>
-            </svg>
-            <span class="brand-name">Dastkari</span>
-        </a>
-        <div class="header-actions">
-            <button class="btn-header" onclick="openModal('cartModal')">Cart (<span id="cartCount">0</span>)</button>
-            <button class="btn-header btn-black" onclick="openModal('staffModal')">Staff Login</button>
-        </div>
-    </header>
+  <header>
+    <h1>DASTKARI BESPOKE</h1>
+  </header>
 
-    <div class="tabs-container" id="touchScrollNav">
-        <div class="tabs-wrapper" id="tabsWrapper"></div>
-    </div>
+  <main class="catalog-grid" id="catalog-grid">
+    <!-- Dynamic Cards Render Here -->
+  </main>
 
-    <main>
-        <div class="catalog-header">
-            <h2 class="catalog-title" id="currentCategoryTitle">All Bespoke Collections</h2>
-            <span class="items-count" id="itemsCount">0 Items</span>
-        </div>
-        <div class="grid" id="productsGrid"></div>
-    </main>
+  <script>
+    async function loadCatalog() {
+      const grid = document.getElementById('catalog-grid');
+      
+      try {
+        // Automatically check both possible locations for catalog_data.json
+        let response = await fetch('./catalog_data.json');
+        if (!response.ok) {
+          response = await fetch('./Assets/catalog_data.json');
+        }
+        if (!response.ok) throw new Error('Catalog data file not found');
 
-    <!-- Detail Modal -->
-    <div class="modal-overlay" id="detailModal">
-        <div class="modal-box detail-modal-box">
-            <div>
-                <img id="detailImg" class="main-detail-img" src="" alt="Product Detail">
-                <div class="thumbnail-strip" id="thumbnailStrip"></div>
+        const items = await response.json();
+        renderCatalog(items);
+      } catch (error) {
+        console.error(error);
+        grid.innerHTML = `
+          <div class="error-msg">
+            <strong>Could not load catalog_data.json</strong><br>
+            Please make sure <code>catalog_data.json</code> is saved in your project folder and you are running a local web server (e.g., Live Server).
+          </div>
+        `;
+      }
+    }
+
+    function renderCatalog(items) {
+      const grid = document.getElementById('catalog-grid');
+      grid.innerHTML = '';
+
+      items.forEach(item => {
+        const card = document.createElement('div');
+        card.className = 'card';
+
+        const imgSrc = (item.images && item.images.length > 0) ? item.images[0] : '';
+
+        card.innerHTML = `
+          <div class="card-image-container">
+            <img src="${imgSrc}" alt="${item.title}" onerror="this.src='https://via.placeholder.com/300?text=Image+Not+Found'">
+          </div>
+          <div class="card-details">
+            <div class="card-title">${item.title}</div>
+            <div class="card-category">${item.category}</div>
+            <div class="card-meta">
+              <span>${item.dims}</span>
+              <strong>${item.price}</strong>
             </div>
-            <div>
-                <div id="detailCat" class="item-category-tag">Category</div>
-                <h3 id="detailTitle" class="modal-title">Product Name</h3>
-                <div id="detailDims" class="item-dims" style="margin-bottom: 20px;">Dimensions</div>
-                <div id="detailPrice" class="item-price" style="font-size: 14px; margin-bottom: 24px;">Price</div>
-                <button id="detailAddCartBtn" class="btn-header btn-black" style="width: 100%; padding: 12px;">Add to Order Request</button>
-                <button class="btn-header" style="width: 100%; margin-top: 10px;" onclick="closeDetailModal()">Close</button>
-            </div>
-        </div>
-    </div>
+          </div>
+        `;
 
-    <!-- Staff Login Modal -->
-    <div class="modal-overlay" id="staffModal">
-        <div class="modal-box">
-            <h3 class="modal-title">Staff Login</h3>
-            <div id="staffLoginFields">
-                <div class="form-group">
-                    <label class="form-label">Username</label>
-                    <input type="text" id="staffUser" class="form-control" placeholder="admin">
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Password</label>
-                    <input type="password" id="staffPass" class="form-control" placeholder="dastkari123">
-                </div>
-                <button class="btn-header btn-black" style="width: 100%; margin-top: 10px;" onclick="loginStaff()">Login to Staff Account</button>
-            </div>
-            <div id="staffActions" style="display: none;">
-                <p style="color: var(--staff-green); font-size: 11px; margin-bottom: 16px; font-weight: 600; letter-spacing: 1px;">✓ LOGGED IN AS STAFF ADMIN</p>
-                <button class="btn-header btn-black" style="width: 100%; margin-bottom: 14px;" onclick="openAddModal()">+ Add New Catalogue Item</button>
-                <div style="border-top: 1px solid var(--border); padding-top: 14px; margin-top: 14px;">
-                    <h4 style="font-size: 11px; letter-spacing: 1.5px; color: var(--text-dark); margin-bottom: 10px; text-transform: uppercase;">Register Staff Account</h4>
-                    <div class="form-group">
-                        <label class="form-label">New Username</label>
-                        <input type="text" id="newUser" class="form-control">
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">New Password</label>
-                        <input type="password" id="newPass" class="form-control">
-                    </div>
-                    <button class="btn-header" style="width: 100%;" onclick="addStaffAccount()">Create Staff Account</button>
-                </div>
-                <button class="btn-header" style="width: 100%; margin-top: 16px; border-color: var(--danger-red); color: var(--danger-red);" onclick="logoutStaff()">Log Out Staff</button>
-            </div>
-            <button class="btn-header" style="width: 100%; margin-top: 10px;" onclick="closeModal('staffModal')">Close</button>
-        </div>
-    </div>
+        grid.appendChild(card);
+      });
+    }
 
-    <!-- Edit/Add Modal -->
-    <div class="modal-overlay" id="editModal">
-        <div class="modal-box">
-            <h3 class="modal-title" id="editModalTitle">Manage Product</h3>
-            <form onsubmit="saveItem(event)">
-                <input type="hidden" id="editItemId">
-                <div class="form-group">
-                    <label class="form-label">Title</label>
-                    <input type="text" id="editTitle" class="form-control" required>
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Category</label>
-                    <select id="editCategory" class="form-control" required></select>
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Price</label>
-                    <input type="text" id="editPrice" class="form-control" required>
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Dimensions</label>
-                    <input type="text" id="editDims" class="form-control" required>
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Image Paths (comma separated)</label>
-                    <input type="text" id="editImage" class="form-control">
-                </div>
-                <button type="submit" class="btn-header btn-black" style="width: 100%; margin-top: 10px;">Save Item</button>
-                <button type="button" id="modalDeleteBtn" class="btn-header" style="width: 100%; margin-top: 8px; border-color: var(--danger-red); color: var(--danger-red); display: none;" onclick="deleteCurrentItem()">Remove Item</button>
-                <button type="button" class="btn-header" style="width: 100%; margin-top: 8px;" onclick="closeModal('editModal')">Cancel</button>
-            </form>
-        </div>
-    </div>
+    document.addEventListener('DOMContentLoaded', loadCatalog);
+  </script>
 
-    <!-- Cart Modal -->
-    <div class="modal-overlay" id="cartModal">
-        <div class="modal-box">
-            <h3 class="modal-title">Order Request</h3>
-            <div class="form-group">
-                <label class="form-label">Your Name</label>
-                <input type="text" id="clientName" class="form-control" placeholder="Enter your full name">
-            </div>
-            <button class="btn-header btn-black" style="width: 100%; margin-top: 10px;" onclick="submitOrder()">Submit Request</button>
-            <button class="btn-header" style="width: 100%; margin-top: 10px;" onclick="closeModal('cartModal')">Close</button>
-        </div>
-    </div>
-
-    <script>
-        const CATEGORIES = [
-            "ALL",
-            "SOFAS", "ARMCHAIRS", "CHAIRS", "BAR STOOLS & TABLES", "FLOOR SEATING", 
-            "POUFFE / OTTOMAN", "BENCH", "BEDS", "DAY BED / COT", 
-            "COFFEE TABLES", "OCCASIONAL TABLES", "DINING TABLES", 
-            "STUDY/OFFICE DESKS", "MEDIA CONSOLES", "CONSOLES", "STORAGE / CREDENZA", "CABINETS"
-        ];
-
-        let catalogItems = [];
-        let staffAccounts = JSON.parse(localStorage.getItem("dastkari_staff_accs")) || [{ user: "admin", pass: "dastkari123" }];
-        let isStaff = JSON.parse(localStorage.getItem("dastkari_is_staff")) || false;
-        let activeCat = "ALL";
-        let cart = [];
-
-        document.addEventListener("DOMContentLoaded", async () => {
-            const possiblePaths = ['./catalog_data.json', './Assets/catalog_data.json', './assets/catalog_data.json'];
-            let loaded = false;
-
-            for (let path of possiblePaths) {
-                try {
-                    const response = await fetch(path);
-                    if (response.ok) {
-                        catalogItems = await response.json();
-                        loaded = true;
-                        break;
-                    }
-                } catch (e) {
-                    console.log(`Failed to fetch from ${path}`);
-                }
-            }
-
-            if (loaded) {
-                renderTabs();
-                renderCategorySelect();
-                renderGrid();
-                initTouchScroll();
-                updateStaffState();
-            } else {
-                console.error("Could not find catalog_data.json in root or Assets folder.");
-            }
-        });
-
-        function initTouchScroll() {
-            const nav = document.getElementById("touchScrollNav");
-            let isDown = false, startX, scrollLeft;
-            nav.addEventListener('mousedown', (e) => {
-                isDown = true;
-                startX = e.pageX - nav.offsetLeft;
-                scrollLeft = nav.scrollLeft;
-            });
-            nav.addEventListener('mouseleave', () => isDown = false);
-            nav.addEventListener('mouseup', () => isDown = false);
-            nav.addEventListener('mousemove', (e) => {
-                if(!isDown) return;
-                e.preventDefault();
-                const x = e.pageX - nav.offsetLeft;
-                nav.scrollLeft = scrollLeft - (x - startX) * 2;
-            });
-        }
-
-        function renderTabs() {
-            const wrap = document.getElementById("tabsWrapper");
-            wrap.innerHTML = "";
-            CATEGORIES.forEach((c, idx) => {
-                const btn = document.createElement("button");
-                btn.className = `tab-btn ${c === activeCat ? 'active' : ''}`;
-                btn.innerText = c;
-                btn.onclick = () => {
-                    activeCat = c;
-                    document.getElementById("currentCategoryTitle").innerText = c === "ALL" ? "All Bespoke Collections" : c;
-                    renderTabs();
-                    renderGrid();
-                };
-                wrap.appendChild(btn);
-                if(idx < CATEGORIES.length - 1) {
-                    const bul = document.createElement("span");
-                    bul.className = "tab-bullet";
-                    bul.innerText = "•";
-                    wrap.appendChild(bul);
-                }
-            });
-        }
-
-        function renderCategorySelect() {
-            const sel = document.getElementById("editCategory");
-            sel.innerHTML = "";
-            CATEGORIES.filter(c => c !== "ALL").forEach(c => {
-                const opt = document.createElement("option");
-                opt.value = c;
-                opt.innerText = c;
-                sel.appendChild(opt);
-            });
-        }
-
-        function renderGrid() {
-            const grid = document.getElementById("productsGrid");
-            const filtered = catalogItems.filter(i => activeCat === "ALL" || i.category === activeCat);
-            
-            document.getElementById("itemsCount").innerText = `${filtered.length} Items`;
-            grid.innerHTML = "";
-
-            filtered.forEach(i => {
-                const card = document.createElement("div");
-                card.className = "product-card";
-                card.onclick = (e) => {
-                    if(e.target.closest('.staff-card-actions')) return;
-                    openDetailModal(i.id);
-                };
-
-                const coverImage = i.images && i.images.length > 0 ? i.images[0] : './assets/placeholder.jpeg';
-
-                card.innerHTML = `
-                    <div class="card-image-box">
-                        <img src="${coverImage}" loading="lazy" decoding="async" alt="${i.title}">
-                    </div>
-                    <div class="card-body">
-                        <div class="item-category-tag">${i.category}</div>
-                        <div class="item-name">${i.title}</div>
-                        <div class="item-dims">${i.dims}</div>
-                        <div class="card-footer">
-                            <div class="item-price">${i.price}</div>
-                            <span class="card-btn-link">View Details &rarr;</span>
-                        </div>
-                        <div class="staff-card-actions">
-                            <button class="btn-staff-action" onclick="event.stopPropagation(); openEditModal('${i.id}')">Edit</button>
-                            <button class="btn-staff-action delete" onclick="event.stopPropagation(); deleteItem('${i.id}')">Remove</button>
-                        </div>
-                    </div>
-                `;
-                grid.appendChild(card);
-            });
-        }
-
-        function deleteItem(id) {
-            const item = catalogItems.find(i => i.id === id);
-            if(item && confirm(`Are you sure you want to remove '${item.title}' from the catalog?`)) {
-                catalogItems = catalogItems.filter(i => i.id !== id);
-                renderGrid();
-            }
-        }
-
-        function deleteCurrentItem() {
-            const id = document.getElementById("editItemId").value;
-            if(id) {
-                deleteItem(id);
-                closeModal("editModal");
-            }
-        }
-
-        function openDetailModal(id) {
-            const item = catalogItems.find(i => i.id === id);
-            if (!item) return;
-
-            document.getElementById("detailTitle").innerText = item.title;
-            document.getElementById("detailCat").innerText = item.category;
-            document.getElementById("detailDims").innerText = item.dims;
-            document.getElementById("detailPrice").innerText = item.price;
-            
-            const mainImg = document.getElementById("detailImg");
-            mainImg.src = item.images && item.images.length > 0 ? item.images[0] : './assets/placeholder.jpeg';
-
-            const thumbsContainer = document.getElementById("thumbnailStrip");
-            thumbsContainer.innerHTML = "";
-            
-            if (item.images && item.images.length > 0) {
-                item.images.forEach((imgUrl, idx) => {
-                    const thumb = document.createElement("div");
-                    thumb.className = idx === 0 ? "thumb-item active" : "thumb-item";
-                    thumb.innerHTML = `<img src="${imgUrl}" alt="Thumbnail">`;
-                    thumb.onclick = () => {
-                        mainImg.src = imgUrl;
-                        document.querySelectorAll("#thumbnailStrip .thumb-item").forEach(t => t.classList.remove("active"));
-                        thumb.classList.add("active");
-                    };
-                    thumbsContainer.appendChild(thumb);
-                });
-            }
-
-            const addCartBtn = document.getElementById("detailAddCartBtn");
-            if (addCartBtn) {
-                addCartBtn.onclick = () => addToCart(item.id);
-            }
-
-            openModal("detailModal");
-        }
-
-        function closeDetailModal() {
-            closeModal("detailModal");
-        }
-
-        function loginStaff() {
-            const u = document.getElementById("staffUser").value.trim();
-            const p = document.getElementById("staffPass").value.trim();
-            const found = staffAccounts.find(a => a.user === u && a.pass === p);
-            
-            if(found) {
-                isStaff = true;
-                localStorage.setItem("dastkari_is_staff", JSON.stringify(true));
-                updateStaffState();
-                alert("Staff Login Successful!");
-            } else {
-                alert("Invalid Credentials!");
-            }
-        }
-
-        function logoutStaff() {
-            isStaff = false;
-            localStorage.setItem("dastkari_is_staff", JSON.stringify(false));
-            updateStaffState();
-            closeModal("staffModal");
-        }
-
-        function updateStaffState() {
-            if(isStaff) {
-                document.body.classList.add("is-staff");
-                document.getElementById("staffLoginFields").style.display = "none";
-                document.getElementById("staffActions").style.display = "block";
-            } else {
-                document.body.classList.remove("is-staff");
-                document.getElementById("staffLoginFields").style.display = "block";
-                document.getElementById("staffActions").style.display = "none";
-            }
-            renderGrid();
-        }
-
-        function addStaffAccount() {
-            const u = document.getElementById("newUser").value.trim();
-            const p = document.getElementById("newPass").value.trim();
-            if(!u || !p) return alert("Fill in username and password.");
-            staffAccounts.push({ user: u, pass: p });
-            localStorage.setItem("dastkari_staff_accs", JSON.stringify(staffAccounts));
-            alert(`Staff User '${u}' created!`);
-            document.getElementById("newUser").value = "";
-            document.getElementById("newPass").value = "";
-        }
-
-        function openEditModal(id) {
-            const item = catalogItems.find(i => i.id === id);
-            document.getElementById("editModalTitle").innerText = "Edit Catalogue Item";
-            document.getElementById("editItemId").value = item.id;
-            document.getElementById("editTitle").value = item.title;
-            document.getElementById("editCategory").value = item.category;
-            document.getElementById("editPrice").value = item.price;
-            document.getElementById("editDims").value = item.dims;
-            document.getElementById("editImage").value = item.images ? item.images.join(", ") : "";
-            document.getElementById("modalDeleteBtn").style.display = "block";
-            openModal("editModal");
-        }
-
-        function openAddModal() {
-            document.getElementById("editModalTitle").innerText = "Add New Catalogue Item";
-            document.getElementById("editItemId").value = "";
-            document.getElementById("editTitle").value = "";
-            document.getElementById("editPrice").value = "Price on Request";
-            document.getElementById("editDims").value = "";
-            document.getElementById("editImage").value = "";
-            document.getElementById("modalDeleteBtn").style.display = "none";
-            closeModal("staffModal");
-            openModal("editModal");
-        }
-
-        function saveItem(e) {
-            e.preventDefault();
-            const id = document.getElementById("editItemId").value;
-            const title = document.getElementById("editTitle").value;
-            const category = document.getElementById("editCategory").value;
-            const price = document.getElementById("editPrice").value;
-            const dims = document.getElementById("editDims").value;
-            const rawImages = document.getElementById("editImage").value;
-            
-            const images = rawImages ? rawImages.split(",").map(s => s.trim()) : [];
-
-            if(id) {
-                const idx = catalogItems.findIndex(i => i.id === id);
-                catalogItems[idx] = { ...catalogItems[idx], title, category, price, dims, images };
-            } else {
-                const newId = `CUSTOM-${Date.now()}`;
-                catalogItems.unshift({ id: newId, title, category, price, dims, images });
-            }
-
-            renderGrid();
-            closeModal("editModal");
-        }
-
-        function addToCart(id) {
-            const item = catalogItems.find(i => i.id === id);
-            if (!item) return;
-            cart.push(item);
-            document.getElementById("cartCount").innerText = cart.length;
-            alert(`Added '${item.title}' to order request.`);
-        }
-
-        function submitOrder() {
-            const name = document.getElementById("clientName").value.trim();
-            if(!name || cart.length === 0) return alert("Please enter your name and add items to cart.");
-            alert(`Thank you ${name}! Your Dastkari order request has been logged.`);
-            cart = [];
-            document.getElementById("cartCount").innerText = 0;
-            closeModal("cartModal");
-        }
-
-        function openModal(id) { document.getElementById(id).classList.add("active"); }
-        function closeModal(id) { document.getElementById(id).classList.remove("active"); }
-    </script>
 </body>
 </html>
