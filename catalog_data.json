@@ -427,7 +427,8 @@
     "price": "Price on Request",
     "dims": "Custom Dimensions",
     "images": [
-      "./Assets/P1_page_139_1.jpeg"
+      "./Assets/P1_page_139_1.jpeg",
+      "./Assets/P1_page_140_1.jpeg"
     ]
   },
   {
@@ -438,16 +439,6 @@
     "dims": "Custom Dimensions",
     "images": [
       "./Assets/P1_page_13_1.jpeg"
-    ]
-  },
-  {
-    "id": "ITEM-044",
-    "title": "Dastkari Bespoke DAY BED / COT (Page #140)",
-    "category": "DAY BED / COT",
-    "price": "Price on Request",
-    "dims": "Custom Dimensions",
-    "images": [
-      "./Assets/P1_page_140_1.jpeg"
     ]
   },
   {
