@@ -133,9 +133,9 @@
     "price": "Price on Request",
     "dims": "Custom Dimensions",
     "images": [
-      "./Assets/P1_page_110_3.jpeg",
       "./Assets/P1_page_110_1.jpeg",
-      "./Assets/P1_page_110_2.jpeg"
+      "./Assets/P1_page_110_2.jpeg",
+      "./Assets/P1_page_110_3.jpeg"
     ]
   },
   {
