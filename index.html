@@ -15,24 +15,23 @@
       box-sizing: border-box;
       margin: 0;
       padding: 0;
-      text-transform: capitalize; /* Title Case for all text */
+      font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, sans-serif;
+      text-transform: capitalize; /* Ensures Title Case across text elements */
     }
 
     body {
-      font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, sans-serif;
       background-color: #ffffff;
       color: #111111;
       padding: 30px 20px;
       -webkit-font-smoothing: antialiased;
     }
 
-    /* Header & Navigation */
+    /* Header */
     .app-header {
       max-width: 1200px;
       margin: 0 auto 20px auto;
       display: flex;
       flex-direction: column;
-      align-items: center;
       gap: 20px;
     }
 
@@ -44,7 +43,6 @@
     }
 
     .brand-title {
-      font-family: 'Montserrat', sans-serif;
       font-size: 2rem;
       font-weight: 700;
       letter-spacing: 1px;
@@ -52,7 +50,6 @@
     }
 
     .staff-login-btn {
-      font-family: 'Montserrat', sans-serif;
       font-size: 0.8rem;
       font-weight: 600;
       color: #111111;
@@ -69,12 +66,10 @@
       color: #ffffff;
     }
 
-    /* Toolbar Controls */
+    /* Search Toolbar */
     .toolbar {
       width: 100%;
       display: flex;
-      flex-wrap: wrap;
-      gap: 15px;
       justify-content: space-between;
       align-items: center;
       padding-top: 15px;
@@ -83,14 +78,12 @@
 
     .search-box {
       position: relative;
-      flex: 1;
       width: 100%;
     }
 
     .search-input {
       width: 100%;
       padding: 10px 16px 10px 40px;
-      font-family: 'Montserrat', sans-serif;
       font-size: 0.88rem;
       border: 1.5px solid #222222;
       border-radius: 6px;
@@ -110,22 +103,22 @@
       pointer-events: none;
     }
 
-    /* Category Bar with Smooth Horizontal Drag & Wheel Scrolling */
+    /* Category Scroll Bar with Visible Scrollbar & Drag Support */
     .category-pills-container {
       width: 100%;
       max-width: 1200px;
       margin: 0 auto 25px auto;
       overflow-x: auto;
       white-space: nowrap;
-      padding: 8px 0;
+      padding: 8px 0 12px 0;
       cursor: grab;
       user-select: none;
       scrollbar-width: thin;
-      scrollbar-color: #222222 #f0f0f0;
+      scrollbar-color: #222222 #e0e0e0;
     }
 
     .category-pills-container::-webkit-scrollbar {
-      height: 4px;
+      height: 6px;
     }
 
     .category-pills-container::-webkit-scrollbar-track {
@@ -149,7 +142,6 @@
 
     .pill-btn {
       padding: 8px 18px;
-      font-family: 'Montserrat', sans-serif;
       font-size: 0.78rem;
       font-weight: 600;
       letter-spacing: 0.5px;
@@ -168,7 +160,7 @@
       border-color: #222222;
     }
 
-    /* Catalog Grid */
+    /* Grid Layout */
     .catalog-container {
       max-width: 1200px;
       margin: 0 auto;
@@ -197,7 +189,7 @@
       border-color: #000000;
     }
 
-    /* Front Card Image: Fill Card */
+    /* Front Card Image: Fill Card (Cover) */
     .card-image-wrapper {
       width: 100%;
       height: 220px;
@@ -221,7 +213,6 @@
     }
 
     .card-title {
-      font-family: 'Montserrat', sans-serif;
       font-size: 0.9rem;
       font-weight: 600;
       line-height: 1.3;
@@ -229,7 +220,6 @@
     }
 
     .card-category {
-      font-family: 'Montserrat', sans-serif;
       font-size: 0.75rem;
       font-weight: 500;
       color: #666666;
@@ -244,19 +234,17 @@
     }
 
     .card-price {
-      font-family: 'Montserrat', sans-serif;
       font-size: 0.85rem;
       font-weight: 700;
       color: #111111;
     }
 
     .card-dims {
-      font-family: 'Montserrat', sans-serif;
       font-size: 0.75rem;
       color: #888888;
     }
 
-    /* Modal / Lightbox Overlay */
+    /* Modal Overlay */
     .modal-overlay {
       position: fixed;
       top: 0;
@@ -374,7 +362,6 @@
 
     .login-input {
       padding: 10px 14px;
-      font-family: 'Montserrat', sans-serif;
       border: 1.5px solid #222222;
       border-radius: 6px;
       font-size: 0.9rem;
@@ -383,7 +370,6 @@
 
     .btn-submit {
       padding: 12px;
-      font-family: 'Montserrat', sans-serif;
       font-size: 0.85rem;
       font-weight: 600;
       border: none;
@@ -406,7 +392,7 @@
   <!-- Header -->
   <header class="app-header">
     <div class="header-top">
-      <h1 class="brand-title" id="brand-title">Dastkari - Bespoke Furniture</h1>
+      <h1 class="brand-title">Dastkari - Bespoke Furniture</h1>
       <button class="staff-login-btn" onclick="openStaffModal()">Staff Login</button>
     </div>
 
@@ -420,7 +406,7 @@
     </div>
   </header>
 
-  <!-- Scrollable & Draggable Category Pills Bar -->
+  <!-- Scrollable Category Pills Bar -->
   <nav class="category-pills-container" id="pills-container">
     <div class="category-pills-wrapper" id="pills-wrapper">
       <button class="pill-btn active" onclick="selectCategory('ALL', this)">All</button>
@@ -512,7 +498,7 @@
         renderPills();
         renderGrid();
       } catch (err) {
-        grid.innerHTML = `<div class="error-msg">Could not load catalog_data.json</div>`;
+        grid.innerHTML = `<div class="error-msg">Could Not Load catalog_data.json</div>`;
       }
     }
 
@@ -521,7 +507,7 @@
       const categories = ['ALL', ...new Set(catalogData.map(item => item.category))];
       
       pillsWrapper.innerHTML = categories.map(cat => `
-        <button class="pill-btn ${cat === activeCategory ? 'active' : ''}" onclick="selectCategory('${cat}', this)">
+        <button class="pill-btn ${cat.toUpperCase() === activeCategory.toUpperCase() ? 'active' : ''}" onclick="selectCategory('${cat}', this)">
           ${cat}
         </button>
       `).join('');
@@ -536,7 +522,7 @@
 
     function renderGrid() {
       const items = catalogData.filter(item => {
-        const matchesCat = activeCategory === 'ALL' || item.category === activeCategory;
+        const matchesCat = activeCategory.toUpperCase() === 'ALL' || item.category.toUpperCase() === activeCategory.toUpperCase();
         const matchesSearch = item.title.toLowerCase().includes(searchQuery) ||
                               item.category.toLowerCase().includes(searchQuery) ||
                               item.id.toLowerCase().includes(searchQuery);
@@ -610,7 +596,7 @@
       thumbEl.classList.add('active');
     }
 
-    /* Mouse Wheel & Click-and-Drag Horizontal Scrolling for Category Bar */
+    /* Horizontal Scrolling via Mouse Wheel, Drag, and Touch */
     pillsContainer.addEventListener('wheel', (evt) => {
       evt.preventDefault();
       pillsContainer.scrollLeft += evt.deltaY;
