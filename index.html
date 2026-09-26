@@ -476,9 +476,9 @@
     <div class="modal-container" style="max-width: 420px; grid-template-columns: 1fr;">
       <button class="modal-close-btn" onclick="closeModal('staff-modal')">&times;</button>
       <h2 style="text-align: center; font-size: 1.4rem;">Staff Portal Access</h2>
-      <form class="login-form" onsubmit="event.preventDefault(); alert('Login Submitted'); closeModal('staff-modal');">
-        <input type="text" class="login-input" placeholder="Employee ID" required>
-        <input type="password" class="login-input" placeholder="Password" required>
+      <form class="login-form" id="staff-login-form" onsubmit="handleStaffLogin(event)">
+        <input type="text" id="staff-emp-id" class="login-input" placeholder="Employee ID" required>
+        <input type="password" id="staff-password" class="login-input" placeholder="Password" required>
         <button type="submit" class="btn-submit">Sign In</button>
       </form>
     </div>
@@ -600,6 +600,25 @@
       document.getElementById('modal-img').src = src;
       document.querySelectorAll('.modal-thumb').forEach(t => t.classList.remove('active'));
       thumbEl.classList.add('active');
+    }
+
+    /* Staff Login Validation Logic */
+    function handleStaffLogin(e) {
+      e.preventDefault();
+      const empId = document.getElementById('staff-emp-id').value.trim();
+      const password = document.getElementById('staff-password').value.trim();
+
+      // Hardcoded Credentials
+      const VALID_EMP_ID = 'admin';
+      const VALID_PASSWORD = 'dastkari2026';
+
+      if (empId === VALID_EMP_ID && password === VALID_PASSWORD) {
+        alert('Access Granted! Welcome to the Staff Portal.');
+        document.getElementById('staff-login-form').reset();
+        closeModal('staff-modal');
+      } else {
+        alert('Invalid Employee ID or Password. Please try again.');
+      }
     }
 
     /* Horizontal Scrolling via Mouse Wheel, Drag, and Touch */
