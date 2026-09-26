@@ -106,8 +106,9 @@
 
     .header-actions {
       display: flex;
-      gap: 12px;
+      gap: 10px;
       align-items: center;
+      flex-wrap: wrap;
     }
 
     .nav-btn {
@@ -116,7 +117,7 @@
       color: #111111;
       background: transparent;
       border: 1.5px solid #111111;
-      padding: 8px 18px;
+      padding: 8px 16px;
       border-radius: 6px;
       cursor: pointer;
       transition: all 0.25s ease;
@@ -130,12 +131,12 @@
       background: #f0f0f0;
     }
 
-    /* Dark Cart & Orders Buttons */
-    .btn-cart, .btn-staff-orders {
+    /* Dark Cart & Customer/Staff Navigation Buttons */
+    .btn-cart, .btn-staff-orders, .btn-my-orders {
       background: #111111 !important;
       color: #ffffff !important;
       border: 1.5px solid #111111 !important;
-      padding: 8px 18px;
+      padding: 8px 16px;
       border-radius: 6px;
       font-weight: 600;
       cursor: pointer;
@@ -145,7 +146,7 @@
       transition: background 0.25s ease;
     }
 
-    .btn-cart:hover, .btn-staff-orders:hover {
+    .btn-cart:hover, .btn-staff-orders:hover, .btn-my-orders:hover {
       background: #333333 !important;
     }
 
@@ -810,7 +811,7 @@
       align-items: center;
     }
 
-    /* Staff Orders System Layout */
+    /* Orders Card & 5-Stage Tracking Bar */
     .order-card {
       background: #ffffff;
       border: 1.5px solid #222222;
@@ -818,7 +819,7 @@
       padding: 18px;
       display: flex;
       flex-direction: column;
-      gap: 12px;
+      gap: 16px;
     }
 
     .order-header-row {
@@ -827,43 +828,121 @@
       align-items: center;
       border-bottom: 1px solid #eeeeee;
       padding-bottom: 10px;
+      flex-wrap: wrap;
+      gap: 10px;
     }
 
     .order-status-badge {
-      padding: 4px 10px;
+      padding: 5px 12px;
       border-radius: 20px;
       font-size: 0.75rem;
       font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 0.5px;
+      background: #f0f0f0;
+      color: #111111;
+      border: 1px solid #cccccc;
     }
 
-    .order-status-badge.progress {
-      background: #fff3cd;
-      color: #856404;
-      border: 1px solid #ffeeba;
-    }
-
-    .order-status-badge.completed {
+    .order-status-badge.arrived {
       background: #d4edda;
       color: #155724;
-      border: 1px solid #c3e6cb;
+      border-color: #c3e6cb;
     }
 
-    .btn-complete-order {
-      padding: 8px 16px;
+    /* 5-Stage Tracker Component */
+    .tracker-wrapper {
+      margin: 10px 0;
+      padding: 10px 0;
+    }
+
+    .tracker-steps {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      position: relative;
+    }
+
+    .tracker-steps::before {
+      content: '';
+      position: absolute;
+      top: 14px;
+      left: 10%;
+      right: 10%;
+      height: 3px;
+      background: #e0e0e0;
+      z-index: 1;
+    }
+
+    .tracker-progress-line {
+      position: absolute;
+      top: 14px;
+      left: 10%;
+      height: 3px;
+      background: #111111;
+      z-index: 2;
+      transition: width 0.3s ease;
+    }
+
+    .tracker-step {
+      position: relative;
+      z-index: 3;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      flex: 1;
+    }
+
+    .step-circle {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background: #ffffff;
+      border: 2px solid #cccccc;
+      color: #888888;
+      font-size: 0.75rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+      margin-bottom: 8px;
+    }
+
+    .tracker-step.completed .step-circle {
+      background: #111111;
+      border-color: #111111;
+      color: #ffffff;
+    }
+
+    .tracker-step.active .step-circle {
+      background: #ffffff;
+      border-color: #111111;
+      color: #111111;
+      box-shadow: 0 0 0 4px rgba(17, 17, 17, 0.15);
+    }
+
+    .step-label {
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: #888888;
+      text-transform: capitalize;
+    }
+
+    .tracker-step.active .step-label,
+    .tracker-step.completed .step-label {
+      color: #111111;
+    }
+
+    .staff-status-select {
+      padding: 6px 12px;
       font-size: 0.8rem;
       font-weight: 600;
-      background: #155724;
-      color: #ffffff;
-      border: none;
+      border: 1.5px solid #111111;
       border-radius: 6px;
+      background: #ffffff;
       cursor: pointer;
-      transition: background 0.25s ease;
-    }
-
-    .btn-complete-order:hover {
-      background: #0b3814;
     }
 
     /* Forms */
@@ -957,9 +1036,14 @@
       </div>
       
       <div class="header-actions">
+        <!-- Customer My Orders Button -->
+        <button class="nav-btn btn-my-orders" onclick="openCustomerOrdersModal()">
+          My Orders <span id="my-orders-count-badge" class="cart-count-text">0</span>
+        </button>
+
         <!-- Staff Orders Navigation Tab -->
         <button class="nav-btn btn-staff-orders" id="btn-staff-orders" style="display: none;" onclick="openOrdersModal()">
-          Orders <span id="orders-count-badge" class="cart-count-text">0</span>
+          Staff Orders <span id="orders-count-badge" class="cart-count-text">0</span>
         </button>
 
         <!-- Dark Cart Button -->
@@ -1181,6 +1265,20 @@
     </div>
   </div>
 
+  <!-- CUSTOMER MY ORDERS MODAL WITH 5-STAGE TRACKER -->
+  <div class="modal-overlay" id="customer-orders-modal">
+    <div class="modal-container" style="max-width: 850px;">
+      <div class="cart-header">
+        <h2>My Orders & Live Tracking</h2>
+        <button class="modal-close-btn" onclick="closeModal('customer-orders-modal')">&times;</button>
+      </div>
+
+      <div id="customer-orders-container" style="display: flex; flex-direction: column; gap: 20px; margin-top: 20px;">
+        <!-- Rendered via JS -->
+      </div>
+    </div>
+  </div>
+
   <!-- STAFF ORDERS PORTAL MODAL -->
   <div class="modal-overlay" id="orders-modal">
     <div class="modal-container" style="max-width: 900px;">
@@ -1191,14 +1289,14 @@
 
       <!-- Filter Tabs inside Orders System -->
       <div style="display: flex; gap: 10px; margin: 20px 0 10px 0; border-bottom: 1px solid #e0e0e0; padding-bottom: 12px; flex-wrap: wrap;">
-        <button class="pill-btn active" id="tab-ord-all" onclick="setOrderTab('ALL', this)">
+        <button class="pill-btn active" onclick="setOrderTab('ALL', this)">
           All Orders (<span id="cnt-ord-all">0</span>)
         </button>
-        <button class="pill-btn" id="tab-ord-progress" onclick="setOrderTab('IN_PROGRESS', this)">
+        <button class="pill-btn" onclick="setOrderTab('IN_PROGRESS', this)">
           In Progress (<span id="cnt-ord-progress">0</span>)
         </button>
-        <button class="pill-btn" id="tab-ord-complete" onclick="setOrderTab('COMPLETED', this)">
-          Completed (<span id="cnt-ord-complete">0</span>)
+        <button class="pill-btn" onclick="setOrderTab('COMPLETED', this)">
+          Arrived / Delivered (<span id="cnt-ord-complete">0</span>)
         </button>
       </div>
 
@@ -1276,6 +1374,8 @@
   <div class="toast" id="toast-msg">Item added to cart</div>
 
   <script>
+    const ORDER_STAGES = ['Being made', 'Final touches', 'Being packed', 'Being shipped', 'Arrived'];
+
     let catalogData = [];
     let cart = [];
     let orders = JSON.parse(localStorage.getItem('dastkari_orders')) || [];
@@ -1594,7 +1694,7 @@
         address: address,
         phone: phone,
         total: totalSum,
-        status: 'In Progress',
+        status: 'Being made', // Initial Stage
         date: new Date().toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' }),
         items: [...cart]
       };
@@ -1606,16 +1706,95 @@
       updateCartUI();
       updateOrdersBadge();
       closeModal('checkout-modal');
-      alert(`Order Placed Successfully! Order Reference: ${newOrder.id}`);
+      openCustomerOrdersModal();
+      showToast(`Order Placed! Reference: ${newOrder.id}`);
+    }
+
+    /* CUSTOMER MY ORDERS PORTAL WITH 5-STAGE TRACKER */
+    function openCustomerOrdersModal() {
+      renderCustomerOrdersList();
+      document.getElementById('customer-orders-modal').classList.add('active');
+    }
+
+    function renderCustomerOrdersList() {
+      const container = document.getElementById('customer-orders-container');
+      
+      if (orders.length === 0) {
+        container.innerHTML = `<div class="empty-state">You have not placed any bespoke orders yet.</div>`;
+        return;
+      }
+
+      container.innerHTML = orders.map(ord => renderOrderCardHTML(ord, false)).join('');
+    }
+
+    /* Helper: Generates Order Card HTML with 5-Stage Visual Stepper */
+    function renderOrderCardHTML(ord, isStaff = false) {
+      const currentStageIndex = ORDER_STAGES.indexOf(ord.status) !== -1 ? ORDER_STAGES.indexOf(ord.status) : 0;
+      const progressPercent = (currentStageIndex / (ORDER_STAGES.length - 1)) * 80;
+      const itemsListStr = ord.items.map(i => `${i.title} (x${i.qty})`).join(', ');
+
+      const trackerStepsHTML = ORDER_STAGES.map((stage, idx) => {
+        let stepClass = '';
+        if (idx < currentStageIndex) stepClass = 'completed';
+        else if (idx === currentStageIndex) stepClass = 'active';
+
+        return `
+          <div class="tracker-step ${stepClass}">
+            <div class="step-circle">${idx < currentStageIndex ? '✓' : idx + 1}</div>
+            <div class="step-label">${stage}</div>
+          </div>
+        `;
+      }).join('');
+
+      const staffSelectHTML = isStaff ? `
+        <div style="display: flex; align-items: center; gap: 10px; margin-top: 10px; padding-top: 10px; border-top: 1px dashed #e0e0e0;">
+          <label style="font-size: 0.8rem; font-weight: 700; color: #333;">Update Stage:</label>
+          <select class="staff-status-select" onchange="updateOrderStatus('${ord.id}', this.value)">
+            ${ORDER_STAGES.map(s => `<option value="${s}" ${s === ord.status ? 'selected' : ''}>${s}</option>`).join('')}
+          </select>
+        </div>
+      ` : '';
+
+      return `
+        <div class="order-card">
+          <div class="order-header-row">
+            <div>
+              <strong style="font-size: 1.05rem;">${ord.id}</strong>
+              <span style="font-size: 0.8rem; color: #666; margin-left: 10px;">${ord.date}</span>
+            </div>
+            <span class="order-status-badge ${ord.status === 'Arrived' ? 'arrived' : ''}">
+              ${ord.status}
+            </span>
+          </div>
+
+          <!-- 5-Stage Tracking Bar -->
+          <div class="tracker-wrapper">
+            <div class="tracker-steps">
+              <div class="tracker-progress-line" style="width: ${progressPercent}%;"></div>
+              ${trackerStepsHTML}
+            </div>
+          </div>
+
+          <div style="font-size: 0.88rem; display: flex; flex-direction: column; gap: 4px; color: #444;">
+            <div><strong>Customer:</strong> ${ord.name} (${ord.phone})</div>
+            <div><strong>Delivery Address:</strong> ${ord.address}</div>
+            <div><strong>Items:</strong> ${itemsListStr}</div>
+            <div style="font-weight: 700; color: #111; margin-top: 4px; font-size: 0.95rem;">Total: ${formatPrice(ord.total)}</div>
+          </div>
+
+          ${staffSelectHTML}
+        </div>
+      `;
     }
 
     /* STAFF ORDERS SYSTEM LOGIC */
     function updateOrdersBadge() {
-      const inProgressCount = orders.filter(o => o.status === 'In Progress').length;
-      document.getElementById('orders-count-badge').textContent = inProgressCount;
+      const activeCount = orders.filter(o => o.status !== 'Arrived').length;
+      document.getElementById('my-orders-count-badge').textContent = orders.length;
+      document.getElementById('orders-count-badge').textContent = activeCount;
       document.getElementById('cnt-ord-all').textContent = orders.length;
-      document.getElementById('cnt-ord-progress').textContent = inProgressCount;
-      document.getElementById('cnt-ord-complete').textContent = orders.filter(o => o.status === 'Completed').length;
+      document.getElementById('cnt-ord-progress').textContent = activeCount;
+      document.getElementById('cnt-ord-complete').textContent = orders.filter(o => o.status === 'Arrived').length;
     }
 
     function openOrdersModal() {
@@ -1635,8 +1814,8 @@
       const container = document.getElementById('orders-list-container');
 
       const filteredOrders = orders.filter(ord => {
-        if (activeOrderTab === 'IN_PROGRESS') return ord.status === 'In Progress';
-        if (activeOrderTab === 'COMPLETED') return ord.status === 'Completed';
+        if (activeOrderTab === 'IN_PROGRESS') return ord.status !== 'Arrived';
+        if (activeOrderTab === 'COMPLETED') return ord.status === 'Arrived';
         return true;
       });
 
@@ -1645,46 +1824,17 @@
         return;
       }
 
-      container.innerHTML = filteredOrders.map(ord => {
-        const isProgress = ord.status === 'In Progress';
-        const itemsListStr = ord.items.map(i => `${i.title} (x${i.qty})`).join(', ');
-
-        return `
-          <div class="order-card">
-            <div class="order-header-row">
-              <div>
-                <strong style="font-size: 1.05rem;">${ord.id}</strong>
-                <span style="font-size: 0.8rem; color: #666; margin-left: 10px;">${ord.date}</span>
-              </div>
-              <span class="order-status-badge ${isProgress ? 'progress' : 'completed'}">
-                ${ord.status}
-              </span>
-            </div>
-
-            <div style="font-size: 0.9rem; display: flex; flex-direction: column; gap: 4px;">
-              <div><strong>Customer:</strong> ${ord.name} (${ord.phone})</div>
-              <div><strong>Address:</strong> ${ord.address}</div>
-              <div><strong>Items:</strong> ${itemsListStr}</div>
-              <div style="font-weight: 700; margin-top: 4px;">Total Amount: ${formatPrice(ord.total)}</div>
-            </div>
-
-            ${isProgress ? `
-              <div style="display: flex; justify-content: flex-end; margin-top: 6px;">
-                <button class="btn-complete-order" onclick="markOrderComplete('${ord.id}')">Mark as Complete</button>
-              </div>
-            ` : ''}
-          </div>
-        `;
-      }).join('');
+      container.innerHTML = filteredOrders.map(ord => renderOrderCardHTML(ord, true)).join('');
     }
 
-    function markOrderComplete(orderId) {
+    function updateOrderStatus(orderId, newStatus) {
       const ord = orders.find(o => o.id === orderId);
       if (ord) {
-        ord.status = 'Completed';
+        ord.status = newStatus;
         localStorage.setItem('dastkari_orders', JSON.stringify(orders));
         renderOrdersList();
-        showToast(`Order ${orderId} marked as Completed!`);
+        renderCustomerOrdersList();
+        showToast(`Order ${orderId} status updated to "${newStatus}"`);
       }
     }
 
@@ -1988,7 +2138,7 @@
     function renderPills() {
       if (!catalogData || catalogData.length === 0) return;
       
-      const defaultCategories = ['ALL', 'BEDS', 'SOFAS', 'DAY BED / COT', 'ARMCHAIRS', 'CHAIRS', 'BAR STOOLS & TABLES', 'FLOOR SEATING', 'POUFFE / OTTOMAN', 'BENCH'];
+      const defaultCategories = ['ALL', 'BEDS', 'SOFAS', 'DAY BED / COT', 'ARMCHAIRS', 'CHAIRS', 'BAR STOOLS & TABLES', 'FLOOR SEATING', 'POUFFE / OTTOMAN', 'BENCH', 'MEDIA CONSOLES', 'CONSOLES', 'COFFEE TABLES', 'STORAGE / CREDENZA', 'CABINETS', 'OCCASIONAL TABLES', 'DINING TABLES', 'STUDY/OFFICE DESKS'];
       const existingCategories = catalogData.map(item => item.category.toUpperCase());
       const categories = Array.from(new Set([...defaultCategories, ...existingCategories]));
 
