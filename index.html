@@ -90,17 +90,36 @@
     }
 
     .nav-btn:hover {
-      background: #111111;
-      color: #ffffff;
+      background: #f0f0f0;
     }
 
-    /* Clean Cart Counter Text (No Red Blob) */
+    /* Dark Cart Button (Solid Black, White Text) */
+    .btn-cart {
+      background: #111111 !important;
+      color: #ffffff !important;
+      border: 1.5px solid #111111 !important;
+      padding: 8px 18px;
+      border-radius: 6px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: background 0.2s ease;
+    }
+
+    .btn-cart:hover {
+      background: #333333 !important;
+    }
+
+    /* Clean Cart Counter Text (No Brackets, No Red Blob) */
     .cart-count-text {
       font-weight: 700;
       margin-left: 2px;
+      color: #ffffff;
     }
 
-    /* Toolbar & Filters */
+    /* Toolbar & Filter Drawer */
     .toolbar {
       width: 100%;
       display: flex;
@@ -140,21 +159,43 @@
       pointer-events: none;
     }
 
-    /* Price Filter Box */
-    .price-filter-box {
-      flex: 1;
-      min-width: 250px;
+    /* Filters Tab Button & Panel */
+    .filter-tab-btn {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: #111111;
+      background: #ffffff;
+      border: 1.5px solid #111111;
+      padding: 9px 18px;
+      border-radius: 6px;
+      cursor: pointer;
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 8px;
+      transition: all 0.2s ease;
+    }
+
+    .filter-tab-btn:hover {
+      background: #111111;
+      color: #ffffff;
+    }
+
+    .filter-drawer {
+      display: none;
+      width: 100%;
       background: #f8f9fa;
-      padding: 8px 16px;
-      border-radius: 6px;
       border: 1.5px solid #222222;
+      border-radius: 8px;
+      padding: 16px 20px;
+      margin-top: 10px;
+    }
+
+    .filter-drawer.active {
+      display: block;
     }
 
     .filter-label {
-      font-size: 0.8rem;
+      font-size: 0.85rem;
       font-weight: 600;
       color: #222222;
       white-space: nowrap;
@@ -266,7 +307,7 @@
       background-color: #f5f5f5;
     }
 
-    /* High-Quality Image Downscaling (Fixes Moiré / Spider Web Artifacts on Mesh) */
+    /* High-Quality Image Downscaling (Anti-Moiré / Web Artifact Fix) */
     .card-image-wrapper img,
     .modal-main-img-box img,
     .modal-thumb img,
@@ -465,7 +506,6 @@
       position: relative;
     }
 
-    /* Standard Modal Layout */
     .grid-modal-content {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -709,8 +749,9 @@
       </h1>
       
       <div class="header-actions">
-        <button class="nav-btn" onclick="openCartModal()">
-          🛒 Cart (<span id="cart-count-badge" class="cart-count-text">0</span>)
+        <!-- Dark Cart Button with clean text counter (No Brackets / No Red Blob) -->
+        <button class="nav-btn btn-cart" onclick="openCartModal()">
+          🛒 Cart <span id="cart-count-badge" class="cart-count-text">0</span>
         </button>
         <button class="nav-btn" id="staff-auth-btn" onclick="handleAuthBtnClick()">Staff Login</button>
       </div>
@@ -725,13 +766,20 @@
         <input type="text" id="search-input" class="search-input" placeholder="Search Catalog...">
       </div>
 
-      <!-- Price Range Filter Bar -->
-      <div class="price-filter-box">
-        <label class="filter-label">Max Price: <span id="price-limit-val">₹5,00,000</span></label>
-        <input type="range" id="price-range" class="price-slider" min="10000" max="1000000" step="10000" value="500000" oninput="updatePriceFilter(this.value)">
-      </div>
+      <!-- Filters Tab Button -->
+      <button class="filter-tab-btn" onclick="toggleFilterDrawer()">
+        ⚙️ Filters
+      </button>
 
       <button class="btn-add-item" id="btn-add-new" style="display: none;" onclick="openEditModal()">+ Add New Furniture</button>
+
+      <!-- Expandable Filters Tab Panel -->
+      <div class="filter-drawer" id="filter-drawer">
+        <div style="display: flex; align-items: center; gap: 16px;">
+          <label class="filter-label">Max Price: <span id="price-limit-val">₹5,00,000</span></label>
+          <input type="range" id="price-range" class="price-slider" min="10000" max="1000000" step="10000" value="500000" oninput="updatePriceFilter(this.value)">
+        </div>
+      </div>
     </div>
   </header>
 
@@ -756,7 +804,7 @@
     <div class="catalog-grid" id="catalog-grid"></div>
   </main>
 
-  <!-- Product Details Modal (No Item ID) -->
+  <!-- Product Details Modal (Item ID Removed) -->
   <div class="modal-overlay" id="item-modal">
     <div class="modal-container">
       <button class="modal-close-btn" onclick="closeModal('item-modal')">&times;</button>
@@ -905,7 +953,7 @@
     </div>
   </div>
 
-  <!-- Toast Alert -->
+  <!-- Floating Toast Feedback -->
   <div class="toast" id="toast-msg">Item added to cart</div>
 
   <script>
@@ -938,7 +986,7 @@
       }
     }
 
-    /* Helper: Parse numeric price cleanly */
+    /* Price Utilities */
     function parsePrice(priceVal) {
       if (typeof priceVal === 'number') return priceVal;
       if (!priceVal) return 100000;
@@ -948,6 +996,11 @@
 
     function formatPrice(num) {
       return '₹' + num.toLocaleString('en-IN');
+    }
+
+    function toggleFilterDrawer() {
+      const drawer = document.getElementById('filter-drawer');
+      drawer.classList.toggle('active');
     }
 
     function updatePriceFilter(val) {
@@ -1005,7 +1058,7 @@
       }).join('');
     }
 
-    /* Cart State Management */
+    /* Cart Operations */
     function addToCart(itemId, qty = 1) {
       const item = catalogData.find(i => i.id === itemId);
       if (!item) return;
@@ -1044,11 +1097,11 @@
     }
 
     function updateCartUI() {
-      // Update header badge counter cleanly
+      // Header counter with clean text (No Brackets)
       const totalCount = cart.reduce((sum, item) => sum + item.qty, 0);
       document.getElementById('cart-count-badge').textContent = totalCount;
 
-      // Update Fullscreen Cart Items
+      // Fullscreen Cart Items
       const cartContainer = document.getElementById('cart-items-container');
       const grandTotalEl = document.getElementById('cart-grand-total');
 
@@ -1102,7 +1155,7 @@
       setTimeout(() => toast.classList.remove('show'), 2500);
     }
 
-    /* Modal Handlers */
+    /* Modal Navigation */
     function openItemModal(id) {
       const item = catalogData.find(i => i.id === id);
       if (!item) return;
@@ -1171,7 +1224,7 @@
       thumbEl.classList.add('active');
     }
 
-    /* Staff Portal Handlers */
+    /* Staff Operations */
     function updateStaffUI() {
       const indicator = document.getElementById('staff-indicator');
       const addBtn = document.getElementById('btn-add-new');
@@ -1306,7 +1359,7 @@
           showToast('Catalog auto-saved to Vercel!');
         }
       } catch (e) {
-        // Fallback for client-side static environment
+        // Fallback for client static environments
       } finally {
         if (saveBtn) saveBtn.textContent = 'Save Item & Auto-Update Catalog';
       }
