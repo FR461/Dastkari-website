@@ -93,7 +93,7 @@
       background: #f0f0f0;
     }
 
-    /* Dark Cart Button (Solid Black, White Text) */
+    /* Dark Cart Button */
     .btn-cart {
       background: #111111 !important;
       color: #ffffff !important;
@@ -112,14 +112,13 @@
       background: #333333 !important;
     }
 
-    /* Clean Cart Counter Text (No Brackets, No Red Blob) */
     .cart-count-text {
       font-weight: 700;
       margin-left: 2px;
       color: #ffffff;
     }
 
-    /* Toolbar & Filter Drawer */
+    /* Toolbar & Filters */
     .toolbar {
       width: 100%;
       display: flex;
@@ -159,7 +158,6 @@
       pointer-events: none;
     }
 
-    /* Filters Tab Button & Panel */
     .filter-tab-btn {
       font-size: 0.85rem;
       font-weight: 600;
@@ -180,13 +178,14 @@
       color: #ffffff;
     }
 
+    /* Filters Drawer Panel */
     .filter-drawer {
       display: none;
       width: 100%;
       background: #f8f9fa;
       border: 1.5px solid #222222;
       border-radius: 8px;
-      padding: 16px 20px;
+      padding: 20px;
       margin-top: 10px;
     }
 
@@ -194,17 +193,80 @@
       display: block;
     }
 
-    .filter-label {
-      font-size: 0.85rem;
-      font-weight: 600;
-      color: #222222;
-      white-space: nowrap;
+    .filter-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 20px;
     }
 
-    .price-slider {
+    /* Merged Dual-Handle Range Slider Component */
+    .slider-group {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      background: #ffffff;
+      padding: 14px 16px;
+      border-radius: 8px;
+      border: 1px solid #e0e0e0;
+    }
+
+    .slider-header {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: #222222;
+    }
+
+    .dual-slider {
+      position: relative;
       width: 100%;
+      height: 6px;
+      background: #e0e0e0;
+      border-radius: 3px;
+      margin: 12px 0 6px 0;
+    }
+
+    .dual-slider .slider-track {
+      position: absolute;
+      height: 100%;
+      background: #111111;
+      border-radius: 3px;
+    }
+
+    .dual-slider input[type="range"] {
+      position: absolute;
+      width: 100%;
+      top: -6px;
+      height: 18px;
+      background: none;
+      pointer-events: none;
+      -webkit-appearance: none;
+      appearance: none;
+      margin: 0;
+    }
+
+    .dual-slider input[type="range"]::-webkit-slider-thumb {
+      height: 18px;
+      width: 18px;
+      border-radius: 50%;
+      background: #111111;
+      pointer-events: auto;
+      -webkit-appearance: none;
       cursor: pointer;
-      accent-color: #111111;
+      border: 2px solid #ffffff;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+    }
+
+    .dual-slider input[type="range"]::-moz-range-thumb {
+      height: 18px;
+      width: 18px;
+      border-radius: 50%;
+      background: #111111;
+      pointer-events: auto;
+      cursor: pointer;
+      border: 2px solid #ffffff;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.3);
     }
 
     .btn-add-item {
@@ -307,7 +369,7 @@
       background-color: #f5f5f5;
     }
 
-    /* High-Quality Image Downscaling (Anti-Moiré / Web Artifact Fix) */
+    /* Anti-Moiré High-Quality Scaling */
     .card-image-wrapper img,
     .modal-main-img-box img,
     .modal-thumb img,
@@ -470,7 +532,7 @@
       justify-content: center;
     }
 
-    /* Modal Base Overlay */
+    /* Modals Overlay */
     .modal-overlay {
       position: fixed;
       top: 0;
@@ -576,7 +638,7 @@
       border-color: #222222;
     }
 
-    /* FULLSCREEN CART MODAL STYLES */
+    /* FULLSCREEN CART MODAL */
     #cart-modal .modal-container {
       width: 100vw !important;
       height: 100vh !important;
@@ -665,7 +727,7 @@
       align-items: center;
     }
 
-    /* Forms & Buttons */
+    /* Forms */
     .form-group {
       display: flex;
       flex-direction: column;
@@ -707,7 +769,7 @@
       background: #333333;
     }
 
-    /* Floating Toast Feedback */
+    /* Toast */
     .toast {
       position: fixed;
       bottom: 30px;
@@ -749,7 +811,7 @@
       </h1>
       
       <div class="header-actions">
-        <!-- Dark Cart Button with clean text counter (No Brackets / No Red Blob) -->
+        <!-- Dark Cart Button (No brackets) -->
         <button class="nav-btn btn-cart" onclick="openCartModal()">
           🛒 Cart <span id="cart-count-badge" class="cart-count-text">0</span>
         </button>
@@ -757,7 +819,7 @@
       </div>
     </div>
 
-    <!-- Search & Filters Toolbar -->
+    <!-- Toolbar & Expandable Filters Drawer -->
     <div class="toolbar">
       <div class="search-box">
         <svg class="search-icon" viewBox="0 0 24 24">
@@ -773,11 +835,66 @@
 
       <button class="btn-add-item" id="btn-add-new" style="display: none;" onclick="openEditModal()">+ Add New Furniture</button>
 
-      <!-- Expandable Filters Tab Panel -->
+      <!-- Expandable Filters Tab Panel with Combined Dual-Handle Sliders -->
       <div class="filter-drawer" id="filter-drawer">
-        <div style="display: flex; align-items: center; gap: 16px;">
-          <label class="filter-label">Max Price: <span id="price-limit-val">₹5,00,000</span></label>
-          <input type="range" id="price-range" class="price-slider" min="10000" max="1000000" step="10000" value="500000" oninput="updatePriceFilter(this.value)">
+        <div class="filter-grid">
+          
+          <!-- Price Dual Slider -->
+          <div class="slider-group">
+            <div class="slider-header">
+              <span>Price Range</span>
+              <span id="price-val-label">₹0 - ₹10,00,000</span>
+            </div>
+            <div class="dual-slider">
+              <div class="slider-track" id="price-track"></div>
+              <input type="range" id="price-min" min="0" max="1000000" step="10000" value="0" oninput="updateDualSlider('price')">
+              <input type="range" id="price-max" min="0" max="1000000" step="10000" value="1000000" oninput="updateDualSlider('price')">
+            </div>
+          </div>
+
+          <!-- Length Dual Slider (Inches) -->
+          <div class="slider-group">
+            <div class="slider-header">
+              <span>Length (L in inches)</span>
+              <span id="l-val-label">0" - 150"</span>
+            </div>
+            <div class="dual-slider">
+              <div class="slider-track" id="l-track"></div>
+              <input type="range" id="l-min" min="0" max="150" step="1" value="0" oninput="updateDualSlider('l')">
+              <input type="range" id="l-max" min="0" max="150" step="1" value="150" oninput="updateDualSlider('l')">
+            </div>
+          </div>
+
+          <!-- Width Dual Slider (Inches) -->
+          <div class="slider-group">
+            <div class="slider-header">
+              <span>Width (W in inches)</span>
+              <span id="w-val-label">0" - 150"</span>
+            </div>
+            <div class="dual-slider">
+              <div class="slider-track" id="w-track"></div>
+              <input type="range" id="w-min" min="0" max="150" step="1" value="0" oninput="updateDualSlider('w')">
+              <input type="range" id="w-max" min="0" max="150" step="1" value="150" oninput="updateDualSlider('w')">
+            </div>
+          </div>
+
+          <!-- Height Dual Slider (Inches) -->
+          <div class="slider-group">
+            <div class="slider-header">
+              <span>Height (H in inches)</span>
+              <span id="h-val-label">0" - 150"</span>
+            </div>
+            <div class="dual-slider">
+              <div class="slider-track" id="h-track"></div>
+              <input type="range" id="h-min" min="0" max="150" step="1" value="0" oninput="updateDualSlider('h')">
+              <input type="range" id="h-max" min="0" max="150" step="1" value="150" oninput="updateDualSlider('h')">
+            </div>
+          </div>
+
+        </div>
+
+        <div style="margin-top: 15px; display: flex; justify-content: flex-end;">
+          <button class="pill-btn" onclick="resetFilters()">Reset All Filters</button>
         </div>
       </div>
     </div>
@@ -825,8 +942,8 @@
 
           <div style="display: flex; flex-direction: column; gap: 12px; margin: 20px 0;">
             <div style="display: flex; justify-content: space-between; border-bottom: 1px solid #e0e0e0; padding-bottom: 8px;">
-              <span style="color: #666;">Dimensions</span>
-              <strong id="modal-dims">Custom Dimensions</strong>
+              <span style="color: #666;">Dimensions (L × W × H)</span>
+              <strong id="modal-dims">50" × 50" × 50"</strong>
             </div>
             <div style="display: flex; justify-content: space-between; border-bottom: 1px solid #e0e0e0; padding-bottom: 8px;">
               <span style="color: #666;">Price</span>
@@ -910,7 +1027,7 @@
     </div>
   </div>
 
-  <!-- Staff Edit / Add Item Modal -->
+  <!-- Staff Edit / Add Item Modal with 3 Dimension Input Numbers (in inches) -->
   <div class="modal-overlay" id="edit-modal">
     <div class="modal-container" style="max-width: 500px;">
       <button class="modal-close-btn" onclick="closeModal('edit-modal')">&times;</button>
@@ -934,9 +1051,14 @@
           <input type="number" id="edit-item-price" class="login-input" required placeholder="100000">
         </div>
 
+        <!-- 3 Specific Dimension Number Inputs in Inches -->
         <div>
-          <label class="form-label">Dimensions</label>
-          <input type="text" id="edit-item-dims" class="login-input" required placeholder="e.g. Custom Dimensions">
+          <label class="form-label">Dimensions (L × W × H in inches)</label>
+          <div style="display: flex; gap: 8px;">
+            <input type="number" id="edit-item-l" class="login-input" required placeholder="L (in)" value="50" min="1">
+            <input type="number" id="edit-item-w" class="login-input" required placeholder="W (in)" value="50" min="1">
+            <input type="number" id="edit-item-h" class="login-input" required placeholder="H (in)" value="50" min="1">
+          </div>
         </div>
 
         <div>
@@ -953,7 +1075,7 @@
     </div>
   </div>
 
-  <!-- Floating Toast Feedback -->
+  <!-- Toast Alert -->
   <div class="toast" id="toast-msg">Item added to cart</div>
 
   <script>
@@ -961,7 +1083,6 @@
     let cart = [];
     let activeCategory = 'ALL';
     let searchQuery = '';
-    let maxPriceFilter = 500000;
     let isStaffLoggedIn = localStorage.getItem('dastkari_staff_logged_in') === 'true';
     let currentUploadedImages = [];
 
@@ -977,6 +1098,10 @@
         if (!response.ok) throw new Error('Catalog missing');
 
         catalogData = await response.json();
+        
+        // Initialize dual sliders visual fills
+        ['price', 'l', 'w', 'h'].forEach(p => updateDualSlider(p));
+
         updateStaffUI();
         renderPills();
         renderGrid();
@@ -986,7 +1111,7 @@
       }
     }
 
-    /* Price Utilities */
+    /* Price & Dimension Parsing (Defaulting to 50" x 50" x 50") */
     function parsePrice(priceVal) {
       if (typeof priceVal === 'number') return priceVal;
       if (!priceVal) return 100000;
@@ -994,35 +1119,116 @@
       return isNaN(num) || num === 0 ? 100000 : num;
     }
 
+    function parseDims(item) {
+      let l = 50, w = 50, h = 50;
+      if (item.l !== undefined && item.w !== undefined && item.h !== undefined) {
+        return { l: Number(item.l), w: Number(item.w), h: Number(item.h) };
+      }
+      if (item.dims && typeof item.dims === 'string') {
+        const nums = item.dims.match(/\d+(\.\d+)?/g);
+        if (nums && nums.length >= 3) {
+          l = parseFloat(nums[0]);
+          w = parseFloat(nums[1]);
+          h = parseFloat(nums[2]);
+        } else if (nums && nums.length === 1) {
+          l = w = h = parseFloat(nums[0]);
+        }
+      }
+      return { l: l || 50, w: w || 50, h: h || 50 };
+    }
+
     function formatPrice(num) {
       return '₹' + num.toLocaleString('en-IN');
     }
 
+    function formatDimsStr(l, w, h) {
+      return `${l}" × ${w}" × ${h}"`;
+    }
+
+    /* Filters Drawer Toggle */
     function toggleFilterDrawer() {
       const drawer = document.getElementById('filter-drawer');
       drawer.classList.toggle('active');
     }
 
-    function updatePriceFilter(val) {
-      maxPriceFilter = parseInt(val, 10);
-      document.getElementById('price-limit-val').textContent = formatPrice(maxPriceFilter);
+    /* Merged Dual-Slider Controller */
+    function updateDualSlider(prefix) {
+      const minEl = document.getElementById(`${prefix}-min`);
+      const maxEl = document.getElementById(`${prefix}-max`);
+      const track = document.getElementById(`${prefix}-track`);
+      const label = document.getElementById(`${prefix}-val-label`);
+
+      let minVal = parseInt(minEl.value, 10);
+      let maxVal = parseInt(maxEl.value, 10);
+
+      // Prevent thumbs from crossing each other
+      if (minVal > maxVal) {
+        if (event && event.target === minEl) {
+          minEl.value = maxVal;
+          minVal = maxVal;
+        } else {
+          maxEl.value = minVal;
+          maxVal = minVal;
+        }
+      }
+
+      // Update Track Fill Width
+      const minPercent = ((minVal - minEl.min) / (minEl.max - minEl.min)) * 100;
+      const maxPercent = ((maxVal - maxEl.min) / (maxEl.max - maxEl.min)) * 100;
+      track.style.left = minPercent + '%';
+      track.style.width = (maxPercent - minPercent) + '%';
+
+      // Update Label
+      if (prefix === 'price') {
+        label.textContent = `${formatPrice(minVal)} - ${formatPrice(maxVal)}`;
+      } else {
+        label.textContent = `${minVal}" - ${maxVal}"`;
+      }
+
       renderGrid();
     }
 
+    function resetFilters() {
+      document.getElementById('price-min').value = 0;
+      document.getElementById('price-max').value = 1000000;
+      document.getElementById('l-min').value = 0;
+      document.getElementById('l-max').value = 150;
+      document.getElementById('w-min').value = 0;
+      document.getElementById('w-max').value = 150;
+      document.getElementById('h-min').value = 0;
+      document.getElementById('h-max').value = 150;
+
+      ['price', 'l', 'w', 'h'].forEach(p => updateDualSlider(p));
+    }
+
     function renderGrid() {
+      const pMin = parseInt(document.getElementById('price-min').value, 10);
+      const pMax = parseInt(document.getElementById('price-max').value, 10);
+      const lMin = parseInt(document.getElementById('l-min').value, 10);
+      const lMax = parseInt(document.getElementById('l-max').value, 10);
+      const wMin = parseInt(document.getElementById('w-min').value, 10);
+      const wMax = parseInt(document.getElementById('w-max').value, 10);
+      const hMin = parseInt(document.getElementById('h-min').value, 10);
+      const hMax = parseInt(document.getElementById('h-max').value, 10);
+
       const items = catalogData.filter(item => {
         const matchesCat = activeCategory.toUpperCase() === 'ALL' || item.category.toUpperCase() === activeCategory.toUpperCase();
         const matchesSearch = item.title.toLowerCase().includes(searchQuery) ||
                               item.category.toLowerCase().includes(searchQuery);
         
-        const rawPrice = parsePrice(item.price);
-        const matchesPrice = rawPrice <= maxPriceFilter;
+        const price = parsePrice(item.price);
+        const matchesPrice = price >= pMin && price <= pMax;
 
-        return matchesCat && matchesSearch && matchesPrice;
+        const { l, w, h } = parseDims(item);
+        const matchesL = l >= lMin && l <= lMax;
+        const matchesW = w >= wMin && w <= wMax;
+        const matchesH = h >= hMin && h <= hMax;
+
+        return matchesCat && matchesSearch && matchesPrice && matchesL && matchesW && matchesH;
       });
 
       if (items.length === 0) {
-        grid.innerHTML = `<div class="empty-state">No Furniture Found Matching Criteria</div>`;
+        grid.innerHTML = `<div class="empty-state">No Furniture Found Matching Selected Filters</div>`;
         return;
       }
 
@@ -1030,6 +1236,8 @@
         const imgSrc = (item.images && item.images.length > 0) ? item.images[0] : '';
         const numPrice = parsePrice(item.price);
         const displayPrice = formatPrice(numPrice);
+        const { l, w, h } = parseDims(item);
+        const displayDims = formatDimsStr(l, w, h);
 
         const staffControls = isStaffLoggedIn ? `
           <div class="staff-card-actions" onclick="event.stopPropagation()">
@@ -1048,7 +1256,7 @@
               <div class="card-category">${item.category}</div>
               <div class="card-footer-row">
                 <span class="card-price">${displayPrice}</span>
-                <span class="card-dims">${item.dims || 'Custom Dimensions'}</span>
+                <span class="card-dims">${displayDims}</span>
               </div>
               <button class="btn-add-cart-card" onclick="event.stopPropagation(); addToCart('${item.id}')">+ Add to Cart</button>
               ${staffControls}
@@ -1058,7 +1266,7 @@
       }).join('');
     }
 
-    /* Cart Operations */
+    /* Cart State Operations */
     function addToCart(itemId, qty = 1) {
       const item = catalogData.find(i => i.id === itemId);
       if (!item) return;
@@ -1097,7 +1305,7 @@
     }
 
     function updateCartUI() {
-      // Header counter with clean text (No Brackets)
+      // Clean counter text (No brackets)
       const totalCount = cart.reduce((sum, item) => sum + item.qty, 0);
       document.getElementById('cart-count-badge').textContent = totalCount;
 
@@ -1161,10 +1369,11 @@
       if (!item) return;
 
       const numPrice = parsePrice(item.price);
+      const { l, w, h } = parseDims(item);
 
       document.getElementById('modal-title').textContent = item.title;
       document.getElementById('modal-category').textContent = item.category;
-      document.getElementById('modal-dims').textContent = item.dims || 'Custom Dimensions';
+      document.getElementById('modal-dims').textContent = formatDimsStr(l, w, h);
       document.getElementById('modal-price').textContent = formatPrice(numPrice);
 
       const modalImg = document.getElementById('modal-img');
@@ -1224,7 +1433,7 @@
       thumbEl.classList.add('active');
     }
 
-    /* Staff Operations */
+    /* Staff Portal Operations */
     function updateStaffUI() {
       const indicator = document.getElementById('staff-indicator');
       const addBtn = document.getElementById('btn-add-new');
@@ -1289,12 +1498,18 @@
         const item = catalogData.find(i => i.id === itemId);
         if (!item) return;
 
+        const { l, w, h } = parseDims(item);
+
         heading.textContent = 'Edit Furniture Item';
         document.getElementById('edit-item-id').value = item.id;
         document.getElementById('edit-item-title').value = item.title;
         document.getElementById('edit-item-category').value = item.category;
         document.getElementById('edit-item-price').value = parsePrice(item.price);
-        document.getElementById('edit-item-dims').value = item.dims || 'Custom Dimensions';
+        
+        document.getElementById('edit-item-l').value = l;
+        document.getElementById('edit-item-w').value = w;
+        document.getElementById('edit-item-h').value = h;
+
         currentUploadedImages = item.images ? [...item.images] : [];
       } else {
         heading.textContent = 'Add New Furniture Item';
@@ -1302,7 +1517,10 @@
         document.getElementById('edit-item-title').value = '';
         document.getElementById('edit-item-category').value = '';
         document.getElementById('edit-item-price').value = 100000;
-        document.getElementById('edit-item-dims').value = '';
+        
+        document.getElementById('edit-item-l').value = 50;
+        document.getElementById('edit-item-w').value = 50;
+        document.getElementById('edit-item-h').value = 50;
       }
 
       renderUploadPreviews();
@@ -1315,7 +1533,11 @@
       const title = document.getElementById('edit-item-title').value.trim();
       const category = document.getElementById('edit-item-category').value.trim().toUpperCase();
       const price = parseInt(document.getElementById('edit-item-price').value, 10) || 100000;
-      const dims = document.getElementById('edit-item-dims').value.trim();
+
+      const l = parseInt(document.getElementById('edit-item-l').value, 10) || 50;
+      const w = parseInt(document.getElementById('edit-item-w').value, 10) || 50;
+      const h = parseInt(document.getElementById('edit-item-h').value, 10) || 50;
+      const dims = formatDimsStr(l, w, h);
 
       if (currentUploadedImages.length === 0) {
         alert('Please add at least one photo.');
@@ -1328,12 +1550,15 @@
           item.title = title;
           item.category = category;
           item.price = price;
+          item.l = l;
+          item.w = w;
+          item.h = h;
           item.dims = dims;
           item.images = currentUploadedImages;
         }
       } else {
         const newId = 'ITEM-' + Math.floor(1000 + Math.random() * 9000);
-        catalogData.unshift({ id: newId, title, category, price, dims, images: currentUploadedImages });
+        catalogData.unshift({ id: newId, title, category, price, l, w, h, dims, images: currentUploadedImages });
       }
 
       closeModal('edit-modal');
@@ -1359,7 +1584,7 @@
           showToast('Catalog auto-saved to Vercel!');
         }
       } catch (e) {
-        // Fallback for client static environments
+        // Fallback for static host
       } finally {
         if (saveBtn) saveBtn.textContent = 'Save Item & Auto-Update Catalog';
       }
