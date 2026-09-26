@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Dastkari - Bespoke Furniture</title>
   
-  <!-- Montserrat Font (Including Weight 200 for Ultra-Light DASTKARI Logo Font) -->
+  <!-- Montserrat Font (Weight 200 for Light DASTKARI Logo Font) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700&display=swap" rel="stylesheet">
@@ -26,7 +26,7 @@
       text-transform: capitalize;
     }
 
-    input, textarea {
+    input, textarea, select {
       text-transform: none !important;
     }
 
@@ -46,7 +46,7 @@
       align-items: center;
     }
 
-    /* Header Brand Title with Clean Logo & Exact Thin Typography */
+    /* Header Brand Title with Clean Logo & Thin Typography */
     .brand-container {
       display: flex;
       align-items: center;
@@ -126,7 +126,7 @@
       background: #f0f0f0;
     }
 
-    /* Dark Cart & Orders Buttons (No Emojis) */
+    /* Dark Cart & Orders Buttons */
     .btn-cart, .btn-staff-orders {
       background: #111111 !important;
       color: #ffffff !important;
@@ -209,6 +209,40 @@
     .filter-tab-btn:hover {
       background: #111111;
       color: #ffffff;
+    }
+
+    /* Category Filter Dropdown Bar */
+    .category-filter-container {
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto 25px auto;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: #fcfcfc;
+      padding: 10px 16px;
+      border: 1px solid #e0e0e0;
+      border-radius: 8px;
+    }
+
+    .category-filter-label {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: #222222;
+      white-space: nowrap;
+    }
+
+    .category-select-dropdown {
+      padding: 8px 14px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      border: 1.5px solid #222222;
+      border-radius: 6px;
+      background: #ffffff;
+      color: #111111;
+      cursor: pointer;
+      outline: none;
+      min-width: 220px;
     }
 
     /* Filters Drawer Panel */
@@ -336,29 +370,6 @@
       background: #333333;
     }
 
-    /* Category Scroll Bar */
-    .category-pills-container {
-      width: 100%;
-      max-width: 1200px;
-      margin: 0 auto 25px auto;
-      overflow-x: auto;
-      white-space: nowrap;
-      padding: 8px 0;
-      cursor: grab;
-      user-select: none;
-      -ms-overflow-style: none !important;
-      scrollbar-width: none !important;
-    }
-
-    .category-pills-container::-webkit-scrollbar {
-      display: none !important;
-    }
-
-    .category-pills-wrapper {
-      display: inline-flex;
-      gap: 10px;
-    }
-
     .pill-btn {
       padding: 8px 18px;
       font-size: 0.78rem;
@@ -418,7 +429,6 @@
       background-color: #f5f5f5;
     }
 
-    /* Anti-Moiré High-Quality Scaling */
     .card-image-wrapper img,
     .modal-main-img-box img,
     .modal-thumb img,
@@ -923,12 +933,12 @@
       </div>
       
       <div class="header-actions">
-        <!-- Staff Orders Navigation Tab (No Emojis) -->
+        <!-- Staff Orders Navigation Tab -->
         <button class="nav-btn btn-staff-orders" id="btn-staff-orders" style="display: none;" onclick="openOrdersModal()">
           Orders <span id="orders-count-badge" class="cart-count-text">0</span>
         </button>
 
-        <!-- Dark Cart Button (No Emojis) -->
+        <!-- Dark Cart Button -->
         <button class="nav-btn btn-cart" onclick="openCartModal()">
           Cart <span id="cart-count-badge" class="cart-count-text">0</span>
         </button>
@@ -1042,21 +1052,13 @@
     </div>
   </header>
 
-  <!-- Scrollable Category Pills Bar -->
-  <nav class="category-pills-container" id="pills-container">
-    <div class="category-pills-wrapper" id="pills-wrapper">
-      <button class="pill-btn active" onclick="selectCategory('ALL', this)">All</button>
-      <button class="pill-btn" onclick="selectCategory('BEDS', this)">Beds</button>
-      <button class="pill-btn" onclick="selectCategory('SOFAS', this)">Sofas</button>
-      <button class="pill-btn" onclick="selectCategory('DAY BED / COT', this)">Day Bed / Cot</button>
-      <button class="pill-btn" onclick="selectCategory('ARMCHAIRS', this)">Armchairs</button>
-      <button class="pill-btn" onclick="selectCategory('CHAIRS', this)">Chairs</button>
-      <button class="pill-btn" onclick="selectCategory('BAR STOOLS & TABLES', this)">Bar Stools & Tables</button>
-      <button class="pill-btn" onclick="selectCategory('FLOOR SEATING', this)">Floor Seating</button>
-      <button class="pill-btn" onclick="selectCategory('POUFFE / OTTOMAN', this)">Pouffe / Ottoman</button>
-      <button class="pill-btn" onclick="selectCategory('BENCH', this)">Bench</button>
-    </div>
-  </nav>
+  <!-- Category Filter Dropdown -->
+  <section class="category-filter-container">
+    <label for="category-select" class="category-filter-label">Filter Category:</label>
+    <select id="category-select" class="category-select-dropdown" onchange="selectCategory(this.value)">
+      <!-- Populated dynamically -->
+    </select>
+  </section>
 
   <!-- Catalog Grid -->
   <main class="catalog-container">
@@ -1212,8 +1214,11 @@
         </div>
 
         <div>
-          <label class="form-label">Category</label>
-          <input type="text" id="edit-item-category" class="login-input" required placeholder="e.g. ARMCHAIRS">
+          <label class="form-label">Category (Select Dropdown)</label>
+          <!-- Converted Category Field into Dropdown Menu -->
+          <select id="edit-item-category" class="login-input" required style="cursor: pointer;">
+            <!-- Options populated dynamically -->
+          </select>
         </div>
 
         <div>
@@ -1250,7 +1255,6 @@
   <script>
     let catalogData = [];
     let cart = [];
-    // Start with empty orders list (Sample Siddharth V order removed)
     let orders = JSON.parse(localStorage.getItem('dastkari_orders')) || [];
 
     let activeCategory = 'ALL';
@@ -1260,8 +1264,6 @@
     let currentUploadedImages = [];
 
     const grid = document.getElementById('catalog-grid');
-    const pillsWrapper = document.getElementById('pills-wrapper');
-    const pillsContainer = document.getElementById('pills-container');
     const searchInput = document.getElementById('search-input');
 
     async function init() {
@@ -1275,7 +1277,7 @@
         ['price', 'l', 'w', 'h'].forEach(p => updateDualSlider(p));
 
         updateStaffUI();
-        renderPills();
+        renderCategoryDropdowns();
         renderGrid();
         updateCartUI();
         updateOrdersBadge();
@@ -1786,7 +1788,7 @@
     async function deleteItem(itemId) {
       if (confirm('Delete this furniture item?')) {
         catalogData = catalogData.filter(i => i.id !== itemId);
-        renderPills();
+        renderCategoryDropdowns();
         renderGrid();
         await saveCatalogToServer();
       }
@@ -1805,7 +1807,7 @@
         heading.textContent = 'Edit Furniture Item';
         document.getElementById('edit-item-id').value = item.id;
         document.getElementById('edit-item-title').value = item.title;
-        document.getElementById('edit-item-category').value = item.category;
+        document.getElementById('edit-item-category').value = item.category.toUpperCase();
         document.getElementById('edit-item-price').value = parsePrice(item.price);
         
         document.getElementById('edit-item-l').value = l;
@@ -1817,7 +1819,7 @@
         heading.textContent = 'Add New Furniture Item';
         document.getElementById('edit-item-id').value = '';
         document.getElementById('edit-item-title').value = '';
-        document.getElementById('edit-item-category').value = '';
+        document.getElementById('edit-item-category').value = 'ARMCHAIRS';
         document.getElementById('edit-item-price').value = 100000;
         
         document.getElementById('edit-item-l').value = 50;
@@ -1864,7 +1866,7 @@
       }
 
       closeModal('edit-modal');
-      renderPills();
+      renderCategoryDropdowns();
       renderGrid();
       await saveCatalogToServer();
     }
@@ -1956,22 +1958,24 @@
       renderUploadPreviews();
     }
 
-    /* Category Navigation */
-    function renderPills() {
-      if (!catalogData || catalogData.length === 0) return;
-      const categories = ['ALL', ...new Set(catalogData.map(item => item.category))];
-      
-      pillsWrapper.innerHTML = categories.map(cat => `
-        <button class="pill-btn ${cat.toUpperCase() === activeCategory.toUpperCase() ? 'active' : ''}" onclick="selectCategory('${cat}', this)">
-          ${cat}
-        </button>
-      `).join('');
+    /* Category Dropdown Navigation Rendering */
+    function renderCategoryDropdowns() {
+      const defaultCategories = ['BEDS', 'SOFAS', 'DAY BED / COT', 'ARMCHAIRS', 'CHAIRS', 'BAR STOOLS & TABLES', 'FLOOR SEATING', 'POUFFE / OTTOMAN', 'BENCH'];
+      const existingCategories = catalogData ? catalogData.map(item => item.category.toUpperCase()) : [];
+      const allCategories = Array.from(new Set([...defaultCategories, ...existingCategories]));
+
+      // 1. Populate Main Catalog Filter Dropdown
+      const catSelect = document.getElementById('category-select');
+      catSelect.innerHTML = `<option value="ALL">All Categories</option>` +
+        allCategories.map(cat => `<option value="${cat}" ${cat === activeCategory.toUpperCase() ? 'selected' : ''}>${cat}</option>`).join('');
+
+      // 2. Populate Staff Add/Edit Modal Category Select Dropdown
+      const editCatSelect = document.getElementById('edit-item-category');
+      editCatSelect.innerHTML = allCategories.map(cat => `<option value="${cat}">${cat}</option>`).join('');
     }
 
-    function selectCategory(cat, btnEl) {
+    function selectCategory(cat) {
       activeCategory = cat;
-      document.querySelectorAll('.pill-btn').forEach(b => b.classList.remove('active'));
-      if (btnEl) btnEl.classList.add('active');
       renderGrid();
     }
 
@@ -1979,11 +1983,6 @@
     searchInput.addEventListener('input', (e) => {
       searchQuery = e.target.value.toLowerCase().trim();
       renderGrid();
-    });
-
-    pillsContainer.addEventListener('wheel', (evt) => {
-      evt.preventDefault();
-      pillsContainer.scrollLeft += evt.deltaY;
     });
 
     document.addEventListener('DOMContentLoaded', init);
