@@ -45,7 +45,7 @@
     .hero-screen {
       width: 100%;
       min-height: 100vh;
-      background: #111111;
+      background: #000000; /* Set to pure black to perfectly match logo background */
       display: flex;
       flex-direction: column;
       justify-content: center;
@@ -67,6 +67,7 @@
       height: 56px;
       object-fit: contain;
       filter: invert(1);
+      mix-blend-mode: screen; /* Blends out dark box edges seamlessly */
     }
 
     .hero-title {
