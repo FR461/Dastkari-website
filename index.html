@@ -26,7 +26,7 @@
       text-transform: capitalize;
     }
 
-    /* Prevent auto-capitalization visual shifts on form inputs */
+    /* Prevent text transformation on inputs so passwords/credentials enter exactly as typed */
     input, textarea {
       text-transform: none !important;
     }
@@ -563,8 +563,8 @@
       <button class="modal-close-btn" onclick="closeModal('staff-modal')">&times;</button>
       <h2 style="text-align: center; font-size: 1.4rem;">Staff Portal Access</h2>
       <form class="form-group" id="staff-login-form" onsubmit="handleStaffLogin(event)">
-        <input type="text" id="staff-emp-id" class="login-input" placeholder="Employee ID (admin)" required autocomplete="off" autocapitalize="none">
-        <input type="password" id="staff-password" class="login-input" placeholder="Password (dastkari2026)" required autocomplete="off" autocapitalize="none">
+        <input type="text" id="staff-emp-id" class="login-input" placeholder="Employee ID" required autocomplete="off" autocapitalize="none">
+        <input type="password" id="staff-password" class="login-input" placeholder="Password" required autocomplete="off" autocapitalize="none">
         <button type="submit" class="btn-submit">Sign In</button>
       </form>
     </div>
@@ -610,6 +610,13 @@
   </div>
 
   <script>
+    // ==========================================
+    // SET YOUR CUSTOM CREDENTIALS HERE
+    // ==========================================
+    const CUSTOM_EMP_ID = "admin";           // Change to your desired Employee ID
+    const CUSTOM_PASSWORD = "myPassword123";  // Change to your desired Password
+    // ==========================================
+
     let catalogData = [];
     let activeCategory = 'ALL';
     let searchQuery = '';
@@ -739,11 +746,10 @@
 
     function handleStaffLogin(e) {
       e.preventDefault();
-      // Converted empId to lowercase to ensure 'Admin' or 'admin' both pass
       const empId = document.getElementById('staff-emp-id').value.trim().toLowerCase();
       const password = document.getElementById('staff-password').value.trim();
 
-      if (empId === 'admin' && password === 'dastkari2026') {
+      if (empId === CUSTOM_EMP_ID.toLowerCase() && password === CUSTOM_PASSWORD) {
         isStaffLoggedIn = true;
         localStorage.setItem('dastkari_staff_logged_in', 'true');
         updateStaffUI();
@@ -751,7 +757,7 @@
         closeModal('staff-modal');
         renderGrid();
       } else {
-        alert('Invalid Employee ID or Password.');
+        alert('Invalid Employee ID or Password. Please try again.');
       }
     }
 
