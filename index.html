@@ -19,24 +19,24 @@
     }
 
     body {
-      background-color: #fcfcfc;
+      background-color: #ffffff;
       color: #111111;
-      padding: 24px 16px;
+      padding: 30px 20px;
       -webkit-font-smoothing: antialiased;
       text-transform: capitalize;
     }
 
-    input, textarea, select {
+    input, textarea {
       text-transform: none !important;
     }
 
-    /* App Header */
+    /* Header */
     .app-header {
       max-width: 1200px;
       margin: 0 auto 20px auto;
       display: flex;
       flex-direction: column;
-      gap: 16px;
+      gap: 20px;
     }
 
     .header-top {
@@ -44,91 +44,78 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      flex-wrap: wrap;
-      gap: 12px;
     }
 
     .brand-title {
-      font-size: 1.8rem;
+      font-size: 2rem;
       font-weight: 700;
-      letter-spacing: 0.5px;
+      letter-spacing: 1px;
       color: #111111;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .header-actions-group {
-      display: flex;
-      align-items: center;
-      gap: 10px;
+      text-transform: capitalize;
     }
 
     .staff-badge {
       display: inline-block;
       background: #222222;
       color: #ffffff;
-      font-size: 0.7rem;
-      padding: 4px 8px;
+      font-size: 0.75rem;
+      padding: 4px 10px;
       border-radius: 4px;
+      margin-left: 10px;
+      vertical-align: middle;
       text-transform: uppercase;
       letter-spacing: 0.5px;
     }
 
-    .btn-header {
-      font-size: 0.82rem;
+    .header-actions {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .nav-btn {
+      font-size: 0.85rem;
       font-weight: 600;
       color: #111111;
-      background: #ffffff;
-      border: 1.5px solid #222222;
-      padding: 8px 16px;
+      background: transparent;
+      border: 1.5px solid #111111;
+      padding: 8px 18px;
       border-radius: 6px;
       cursor: pointer;
       transition: all 0.2s ease;
+      text-transform: capitalize;
       display: flex;
       align-items: center;
       gap: 6px;
     }
 
-    .btn-header:hover {
+    .nav-btn:hover {
       background: #111111;
       color: #ffffff;
     }
 
-    .btn-header.btn-cart {
-      background: #111111;
-      color: #ffffff;
-      position: relative;
-    }
-
-    .btn-header.btn-cart:hover {
-      background: #333333;
-    }
-
-    .cart-badge {
-      background: #e63946;
-      color: #ffffff;
-      font-size: 0.7rem;
+    /* Clean Cart Counter Text (No Red Blob) */
+    .cart-count-text {
       font-weight: 700;
-      padding: 2px 7px;
-      border-radius: 10px;
-      margin-left: 4px;
+      margin-left: 2px;
     }
 
-    /* Toolbar & Search */
+    /* Toolbar & Filters */
     .toolbar {
       width: 100%;
       display: flex;
+      flex-wrap: wrap;
       justify-content: space-between;
       align-items: center;
-      gap: 12px;
-      padding-top: 14px;
-      border-top: 1px solid #e5e5e5;
+      gap: 16px;
+      padding-top: 15px;
+      border-top: 1px solid #e0e0e0;
     }
 
     .search-box {
       position: relative;
-      flex: 1;
+      flex: 2;
+      min-width: 240px;
     }
 
     .search-input {
@@ -140,12 +127,6 @@
       background: #ffffff;
       color: #111111;
       outline: none;
-      transition: border-color 0.2s ease;
-    }
-
-    .search-input:focus {
-      border-color: #000000;
-      box-shadow: 0 0 0 2px rgba(0,0,0,0.05);
     }
 
     .search-icon {
@@ -159,6 +140,32 @@
       pointer-events: none;
     }
 
+    /* Price Filter Box */
+    .price-filter-box {
+      flex: 1;
+      min-width: 250px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: #f8f9fa;
+      padding: 8px 16px;
+      border-radius: 6px;
+      border: 1.5px solid #222222;
+    }
+
+    .filter-label {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: #222222;
+      white-space: nowrap;
+    }
+
+    .price-slider {
+      width: 100%;
+      cursor: pointer;
+      accent-color: #111111;
+    }
+
     .btn-add-item {
       padding: 10px 16px;
       font-size: 0.85rem;
@@ -170,19 +177,21 @@
       cursor: pointer;
       white-space: nowrap;
       transition: background 0.2s ease;
+      text-transform: capitalize;
     }
 
     .btn-add-item:hover {
       background: #333333;
     }
 
+    /* Category Scroll Bar */
     .category-pills-container {
       width: 100%;
       max-width: 1200px;
-      margin: 0 auto 22px auto;
+      margin: 0 auto 25px auto;
       overflow-x: auto;
       white-space: nowrap;
-      padding: 6px 0;
+      padding: 8px 0;
       cursor: grab;
       user-select: none;
       -ms-overflow-style: none !important;
@@ -191,8 +200,6 @@
 
     .category-pills-container::-webkit-scrollbar {
       display: none !important;
-      width: 0 !important;
-      height: 0 !important;
     }
 
     .category-pills-wrapper {
@@ -204,20 +211,21 @@
       padding: 8px 18px;
       font-size: 0.78rem;
       font-weight: 600;
-      letter-spacing: 0.3px;
-      border: 1.5px solid #e0e0e0;
+      letter-spacing: 0.5px;
+      border: 1px solid #e0e0e0;
       border-radius: 20px;
       background: #ffffff;
-      color: #555555;
+      color: #666666;
       cursor: pointer;
       transition: all 0.2s ease;
       flex-shrink: 0;
+      text-transform: capitalize;
     }
 
     .pill-btn.active {
-      background: #111111;
+      background: #222222;
       color: #ffffff;
-      border-color: #111111;
+      border-color: #222222;
     }
 
     /* Catalog Grid */
@@ -228,7 +236,7 @@
 
     .catalog-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
       gap: 22px;
     }
 
@@ -236,18 +244,18 @@
       background: #ffffff;
       border: 1.5px solid #222222;
       border-radius: 12px;
-      padding: 12px;
+      padding: 10px;
       display: flex;
       flex-direction: column;
-      justify-content: space-between;
       gap: 10px;
       cursor: pointer;
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      position: relative;
+      transition: transform 0.2s ease, border-color 0.2s ease;
     }
 
     .card:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+      transform: translateY(-2px);
+      border-color: #000000;
     }
 
     .card-image-wrapper {
@@ -258,12 +266,12 @@
       background-color: #f5f5f5;
     }
 
-    /* High Quality Image Downscaling Fix for Mesh / Web Artifacts */
+    /* High-Quality Image Downscaling (Fixes Moiré / Spider Web Artifacts on Mesh) */
     .card-image-wrapper img,
     .modal-main-img-box img,
     .modal-thumb img,
-    .cart-item-thumb img,
-    .preview-thumb-box img {
+    .preview-thumb-box img,
+    .cart-item-img {
       width: 100%;
       height: 100%;
       object-fit: cover;
@@ -278,71 +286,75 @@
       display: flex;
       flex-direction: column;
       gap: 4px;
+      padding: 2px 4px;
     }
 
     .card-title {
-      font-size: 0.92rem;
+      font-size: 0.9rem;
       font-weight: 600;
-      line-height: 1.35;
+      line-height: 1.3;
       color: #111111;
+      text-transform: capitalize;
     }
 
     .card-category {
-      font-size: 0.74rem;
+      font-size: 0.75rem;
       font-weight: 500;
       color: #666666;
-      letter-spacing: 0.4px;
+      letter-spacing: 0.5px;
+      text-transform: capitalize;
     }
 
-    .card-details-row {
+    .card-footer-row {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-top: 6px;
+      margin-top: 4px;
     }
 
     .card-price {
-      font-size: 0.95rem;
+      font-size: 0.9rem;
       font-weight: 700;
       color: #111111;
     }
 
     .card-dims {
       font-size: 0.75rem;
-      color: #777777;
+      color: #888888;
     }
 
-    .btn-card-add {
+    .btn-add-cart-card {
       width: 100%;
-      padding: 8px 12px;
       margin-top: 6px;
+      padding: 8px;
       font-size: 0.8rem;
       font-weight: 600;
+      border: 1.5px solid #222222;
+      border-radius: 6px;
+      background: #ffffff;
+      color: #111111;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .btn-add-cart-card:hover {
       background: #111111;
       color: #ffffff;
-      border: 1.5px solid #111111;
-      border-radius: 6px;
-      cursor: pointer;
-      transition: background 0.2s ease;
     }
 
-    .btn-card-add:hover {
-      background: #333333;
-    }
-
-    /* Staff Controls on Card */
+    /* Staff Controls on Cards */
     .staff-card-actions {
       display: flex;
       gap: 8px;
-      margin-top: 8px;
-      padding-top: 8px;
-      border-top: 1px dashed #dddddd;
+      margin-top: 6px;
+      padding-top: 6px;
+      border-top: 1px dashed #cccccc;
     }
 
     .btn-card-edit {
       flex: 1;
       padding: 6px 10px;
-      font-size: 0.76rem;
+      font-size: 0.75rem;
       font-weight: 600;
       border-radius: 6px;
       border: 1.5px solid #222222;
@@ -354,7 +366,7 @@
     .btn-card-delete {
       flex: 1;
       padding: 6px 10px;
-      font-size: 0.76rem;
+      font-size: 0.75rem;
       font-weight: 600;
       border-radius: 6px;
       border: 1.5px solid #d9534f;
@@ -368,326 +380,33 @@
       color: #ffffff;
     }
 
-    /* Toast Notification */
-    .toast-container {
-      position: fixed;
-      bottom: 24px;
-      right: 24px;
-      z-index: 2000;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-
-    .toast-msg {
-      background: #111111;
-      color: #ffffff;
-      padding: 12px 20px;
-      border-radius: 8px;
-      font-size: 0.85rem;
-      font-weight: 500;
-      box-shadow: 0 4px 14px rgba(0,0,0,0.18);
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      animation: slideIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    }
-
-    @keyframes slideIn {
-      from { transform: translateX(100%); opacity: 0; }
-      to { transform: translateX(0); opacity: 1; }
-    }
-
-    /* Modal Overlay & Base */
-    .modal-overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.75);
-      backdrop-filter: blur(4px);
-      z-index: 1000;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.25s ease;
-      padding: 16px;
-    }
-
-    .modal-overlay.active {
-      opacity: 1;
-      pointer-events: auto;
-    }
-
-    .modal-container {
-      background: #ffffff;
-      border-radius: 12px;
-      border: 1.5px solid #222222;
-      width: 100%;
-      max-width: 800px;
-      max-height: 90vh;
-      overflow-y: auto;
-      padding: 24px;
-      position: relative;
-    }
-
-    .modal-close-btn {
-      position: absolute;
-      top: 16px;
-      right: 16px;
-      background: transparent;
-      border: none;
-      font-size: 1.5rem;
-      font-weight: 700;
-      color: #111111;
-      cursor: pointer;
-      line-height: 1;
-    }
-
-    /* Product Details Modal Grid */
-    .product-modal-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 24px;
-    }
-
-    @media (max-width: 768px) {
-      .product-modal-grid {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    .modal-main-img-box {
-      width: 100%;
-      height: 300px;
-      border-radius: 8px;
-      overflow: hidden;
-      background: #f8f9fa;
-    }
-
-    .modal-main-img-box img {
-      object-fit: contain;
-    }
-
-    .modal-thumbs {
-      display: flex;
-      gap: 8px;
-      overflow-x: auto;
-      padding: 8px 0 4px 0;
-    }
-
-    .modal-thumb {
-      width: 58px;
-      height: 58px;
-      border-radius: 6px;
-      overflow: hidden;
-      border: 2px solid transparent;
-      cursor: pointer;
-      flex-shrink: 0;
-    }
-
-    .modal-thumb.active {
-      border-color: #222222;
-    }
-
-    /* Cart Drawer / Modal */
-    .cart-items-list {
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
-      margin: 16px 0;
-      max-height: 340px;
-      overflow-y: auto;
-      padding-right: 4px;
-    }
-
-    .cart-item-row {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding-bottom: 12px;
-      border-bottom: 1px solid #eeeeee;
-    }
-
-    .cart-item-thumb {
-      width: 64px;
-      height: 64px;
-      border-radius: 6px;
-      overflow: hidden;
-      background: #f5f5f5;
-      flex-shrink: 0;
-    }
-
-    .cart-item-info {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-    }
-
-    .cart-item-title {
-      font-size: 0.88rem;
-      font-weight: 600;
-      color: #111111;
-    }
-
-    .cart-item-price {
-      font-size: 0.82rem;
-      color: #666666;
-    }
-
-    .cart-qty-controls {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      border: 1px solid #cccccc;
-      border-radius: 6px;
-      padding: 2px 6px;
-    }
-
-    .btn-qty {
-      background: transparent;
-      border: none;
-      font-size: 1rem;
-      font-weight: 700;
-      cursor: pointer;
-      padding: 2px 6px;
-      color: #222222;
-    }
-
-    .qty-display {
-      font-size: 0.85rem;
-      font-weight: 600;
-      min-width: 20px;
-      text-align: center;
-    }
-
-    .cart-item-total {
-      font-size: 0.9rem;
-      font-weight: 700;
-      min-width: 90px;
-      text-align: right;
-    }
-
-    .btn-cart-remove {
-      background: transparent;
-      border: none;
-      color: #999999;
-      font-size: 1.1rem;
-      cursor: pointer;
-      padding: 4px;
-    }
-
-    .btn-cart-remove:hover {
-      color: #d9534f;
-    }
-
-    .cart-summary {
-      border-top: 1.5px solid #222222;
-      padding-top: 16px;
-      margin-top: 10px;
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
-
-    .summary-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-size: 0.9rem;
-    }
-
-    .summary-row.total {
-      font-size: 1.1rem;
-      font-weight: 700;
-    }
-
-    /* Forms */
-    .form-group {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      width: 100%;
-    }
-
-    .form-row {
-      display: flex;
-      gap: 12px;
-    }
-
-    @media (max-width: 500px) {
-      .form-row { flex-direction: column; }
-    }
-
-    .form-label {
-      font-size: 0.78rem;
-      font-weight: 600;
-      color: #444444;
-      margin-bottom: 4px;
-      display: block;
-    }
-
-    .form-input {
-      width: 100%;
-      padding: 10px 12px;
-      border: 1.5px solid #222222;
-      border-radius: 6px;
-      font-size: 0.88rem;
-      outline: none;
-    }
-
-    .form-input:focus {
-      border-color: #000000;
-    }
-
-    .btn-submit {
-      padding: 12px;
-      font-size: 0.88rem;
-      font-weight: 600;
-      border: none;
-      border-radius: 6px;
-      background: #111111;
-      color: #ffffff;
-      cursor: pointer;
-      width: 100%;
-      margin-top: 8px;
-      transition: background 0.2s ease;
-    }
-
-    .btn-submit:hover {
-      background: #333333;
-    }
-
     /* Drag & Drop Upload Zone */
     .drag-drop-zone {
       border: 2px dashed #222222;
       border-radius: 8px;
-      padding: 18px;
+      padding: 20px;
       text-align: center;
-      background: #fafafa;
+      background: #fdfdfd;
       cursor: pointer;
-      transition: background 0.2s ease;
+      transition: background 0.2s ease, border-color 0.2s ease;
     }
 
     .drag-drop-zone.hover {
       background: #f0f0f0;
+      border-color: #000000;
     }
 
     .drop-preview-grid {
       display: flex;
-      gap: 8px;
+      gap: 10px;
       flex-wrap: wrap;
       margin-top: 10px;
     }
 
     .preview-thumb-box {
       position: relative;
-      width: 60px;
-      height: 60px;
+      width: 70px;
+      height: 70px;
       border-radius: 6px;
       overflow: hidden;
       border: 1px solid #cccccc;
@@ -710,12 +429,272 @@
       justify-content: center;
     }
 
+    /* Modal Base Overlay */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.8);
+      backdrop-filter: blur(4px);
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s ease;
+      padding: 20px;
+    }
+
+    .modal-overlay.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .modal-container {
+      background: #ffffff;
+      border-radius: 12px;
+      border: 1.5px solid #222222;
+      width: 100%;
+      max-width: 850px;
+      max-height: 90vh;
+      overflow-y: auto;
+      padding: 24px;
+      position: relative;
+    }
+
+    /* Standard Modal Layout */
+    .grid-modal-content {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+
+    @media (max-width: 768px) {
+      .grid-modal-content {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .modal-close-btn {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      background: transparent;
+      border: none;
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: #111111;
+      cursor: pointer;
+      z-index: 10;
+    }
+
+    .modal-gallery {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .modal-main-img-box {
+      width: 100%;
+      height: 320px;
+      border-radius: 8px;
+      overflow: hidden;
+      background: #f8f9fa;
+    }
+
+    .modal-main-img-box img {
+      object-fit: contain;
+    }
+
+    .modal-thumbs {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding-bottom: 4px;
+      -ms-overflow-style: none !important;
+      scrollbar-width: none !important;
+    }
+
+    .modal-thumbs::-webkit-scrollbar {
+      display: none !important;
+    }
+
+    .modal-thumb {
+      width: 60px;
+      height: 60px;
+      border-radius: 6px;
+      overflow: hidden;
+      border: 2px solid transparent;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+
+    .modal-thumb.active {
+      border-color: #222222;
+    }
+
+    /* FULLSCREEN CART MODAL STYLES */
+    #cart-modal .modal-container {
+      width: 100vw !important;
+      height: 100vh !important;
+      max-width: 100vw !important;
+      max-height: 100vh !important;
+      border-radius: 0 !important;
+      margin: 0 !important;
+      border: none !important;
+      padding: 40px !important;
+      display: flex !important;
+      flex-direction: column !important;
+      justify-content: space-between !important;
+      box-sizing: border-box !important;
+    }
+
+    .cart-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 2px solid #111111;
+      padding-bottom: 20px;
+    }
+
+    .cart-items-wrapper {
+      flex: 1;
+      overflow-y: auto;
+      margin: 25px 0;
+      padding-right: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .cart-item-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px;
+      border: 1.5px solid #e0e0e0;
+      border-radius: 8px;
+      gap: 20px;
+    }
+
+    .cart-item-info {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex: 2;
+    }
+
+    .cart-item-img {
+      width: 80px;
+      height: 80px;
+      border-radius: 6px;
+      object-fit: cover;
+      background: #f5f5f5;
+    }
+
+    .cart-qty-controls {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      border: 1.5px solid #222222;
+      border-radius: 6px;
+      padding: 4px 8px;
+    }
+
+    .btn-qty {
+      background: transparent;
+      border: none;
+      font-size: 1.1rem;
+      font-weight: 700;
+      cursor: pointer;
+      width: 24px;
+      height: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .cart-footer {
+      border-top: 2px solid #111111;
+      padding-top: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    /* Forms & Buttons */
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      width: 100%;
+      padding: 10px 0;
+    }
+
+    .form-label {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: #444444;
+      text-transform: capitalize;
+    }
+
+    .login-input {
+      width: 100%;
+      padding: 10px 14px;
+      border: 1.5px solid #222222;
+      border-radius: 6px;
+      font-size: 0.9rem;
+      outline: none;
+    }
+
+    .btn-submit {
+      padding: 12px 24px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      border: none;
+      border-radius: 6px;
+      background: #222222;
+      color: #ffffff;
+      cursor: pointer;
+      text-transform: capitalize;
+      transition: background 0.2s ease;
+    }
+
+    .btn-submit:hover {
+      background: #333333;
+    }
+
+    /* Floating Toast Feedback */
+    .toast {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      background: #111111;
+      color: #ffffff;
+      padding: 12px 24px;
+      border-radius: 6px;
+      font-size: 0.88rem;
+      font-weight: 500;
+      z-index: 2000;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: all 0.3s ease;
+      pointer-events: none;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
     .empty-state, .error-msg {
       grid-column: 1 / -1;
       text-align: center;
-      padding: 48px 20px;
+      padding: 40px 20px;
       color: #666666;
-      font-size: 0.95rem;
     }
   </style>
 </head>
@@ -729,21 +708,29 @@
         <span id="staff-indicator" class="staff-badge" style="display: none;">Staff Mode Active</span>
       </h1>
       
-      <div class="header-actions-group">
-        <button class="btn-header btn-cart" onclick="openCartModal()">
-          🛒 Cart <span class="cart-badge" id="cart-count-badge">0</span>
+      <div class="header-actions">
+        <button class="nav-btn" onclick="openCartModal()">
+          🛒 Cart (<span id="cart-count-badge" class="cart-count-text">0</span>)
         </button>
-        <button class="btn-header" id="staff-auth-btn" onclick="handleAuthBtnClick()">Staff Login</button>
+        <button class="nav-btn" id="staff-auth-btn" onclick="handleAuthBtnClick()">Staff Login</button>
       </div>
     </div>
 
+    <!-- Search & Filters Toolbar -->
     <div class="toolbar">
       <div class="search-box">
         <svg class="search-icon" viewBox="0 0 24 24">
           <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
         </svg>
-        <input type="text" id="search-input" class="search-input" placeholder="Search catalog by title, category...">
+        <input type="text" id="search-input" class="search-input" placeholder="Search Catalog...">
       </div>
+
+      <!-- Price Range Filter Bar -->
+      <div class="price-filter-box">
+        <label class="filter-label">Max Price: <span id="price-limit-val">₹5,00,000</span></label>
+        <input type="range" id="price-range" class="price-slider" min="10000" max="1000000" step="10000" value="500000" oninput="updatePriceFilter(this.value)">
+      </div>
+
       <button class="btn-add-item" id="btn-add-new" style="display: none;" onclick="openEditModal()">+ Add New Furniture</button>
     </div>
   </header>
@@ -764,35 +751,20 @@
     </div>
   </nav>
 
-  <!-- Catalog Grid Container -->
+  <!-- Catalog Grid -->
   <main class="catalog-container">
     <div class="catalog-grid" id="catalog-grid"></div>
   </main>
 
-  <!-- Toast Notification Container -->
-  <div class="toast-container" id="toast-container"></div>
-
-  <!-- Cart Modal / Drawer -->
-  <div class="modal-overlay" id="cart-modal">
-    <div class="modal-container" style="max-width: 520px;">
-      <button class="modal-close-btn" onclick="closeModal('cart-modal')">&times;</button>
-      <h2 style="font-size: 1.3rem; font-weight: 700; margin-bottom: 12px;">Your Selection Cart</h2>
-      
-      <div id="cart-content-area">
-        <!-- Rendered dynamically via JS -->
-      </div>
-    </div>
-  </div>
-
-  <!-- Product Details Modal -->
+  <!-- Product Details Modal (No Item ID) -->
   <div class="modal-overlay" id="item-modal">
     <div class="modal-container">
       <button class="modal-close-btn" onclick="closeModal('item-modal')">&times;</button>
       
-      <div class="product-modal-grid">
+      <div class="grid-modal-content">
         <div class="modal-gallery">
           <div class="modal-main-img-box">
-            <img id="modal-img" src="" alt="Furniture Detail">
+            <img id="modal-img" src="" alt="Detail View">
           </div>
           <div class="modal-thumbs" id="modal-thumbs"></div>
         </div>
@@ -800,129 +772,127 @@
         <div class="modal-details" style="display: flex; flex-direction: column; justify-content: space-between;">
           <div>
             <span class="card-category" id="modal-category">Category</span>
-            <h2 id="modal-title" style="margin-top: 4px; font-size: 1.3rem;">Title</h2>
-            
-            <div style="display: flex; flex-direction: column; gap: 10px; margin: 20px 0; font-size: 0.88rem;">
-              <div style="display: flex; justify-content: space-between; border-bottom: 1px solid #eeeeee; padding-bottom: 8px;">
-                <span style="color: #666;">Dimensions</span>
-                <strong id="modal-dims">Custom Dimensions</strong>
-              </div>
-              <div style="display: flex; justify-content: space-between; border-bottom: 1px solid #eeeeee; padding-bottom: 8px;">
-                <span style="color: #666;">Price</span>
-                <strong id="modal-price" style="font-size: 1.1rem; color: #111111;">₹1,00,000</strong>
-              </div>
+            <h2 id="modal-title" style="margin-top: 4px; font-size: 1.5rem;">Title</h2>
+          </div>
+
+          <div style="display: flex; flex-direction: column; gap: 12px; margin: 20px 0;">
+            <div style="display: flex; justify-content: space-between; border-bottom: 1px solid #e0e0e0; padding-bottom: 8px;">
+              <span style="color: #666;">Dimensions</span>
+              <strong id="modal-dims">Custom Dimensions</strong>
+            </div>
+            <div style="display: flex; justify-content: space-between; border-bottom: 1px solid #e0e0e0; padding-bottom: 8px;">
+              <span style="color: #666;">Price</span>
+              <strong id="modal-price" style="font-size: 1.1rem;">₹1,00,000</strong>
             </div>
           </div>
 
-          <button class="btn-submit" id="modal-add-cart-btn">Add to Cart</button>
+          <button class="btn-submit" id="modal-add-cart-btn" style="width: 100%;">+ Add to Cart</button>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- Checkout Modal -->
+  <!-- FULLSCREEN CART MODAL -->
+  <div class="modal-overlay" id="cart-modal">
+    <div class="modal-container">
+      <div class="cart-header">
+        <h2>Your Shopping Cart</h2>
+        <button class="modal-close-btn" onclick="closeModal('cart-modal')">&times;</button>
+      </div>
+
+      <div class="cart-items-wrapper" id="cart-items-container">
+        <!-- Rendered via JS -->
+      </div>
+
+      <div class="cart-footer">
+        <div style="font-size: 1.4rem; font-weight: 700;">
+          Total: <span id="cart-grand-total">₹0</span>
+        </div>
+        <button class="btn-submit" style="padding: 14px 40px; font-size: 1rem;" onclick="openCheckoutModal()">Proceed to Checkout</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- CHECKOUT MODAL -->
   <div class="modal-overlay" id="checkout-modal">
     <div class="modal-container" style="max-width: 500px;">
       <button class="modal-close-btn" onclick="closeModal('checkout-modal')">&times;</button>
-      <h2 style="font-size: 1.3rem; font-weight: 700; margin-bottom: 16px;">Complete Order Details</h2>
+      <h2 style="text-align: center; font-size: 1.4rem; margin-bottom: 10px;">Order Checkout</h2>
       
-      <form class="form-group" onsubmit="handlePlaceOrder(event)">
-        <div class="form-row">
-          <div style="flex: 1;">
-            <label class="form-label">Full Name</label>
-            <input type="text" class="form-input" required placeholder="e.g. Rahul Sharma">
-          </div>
-          <div style="flex: 1;">
-            <label class="form-label">Phone Number</label>
-            <input type="tel" class="form-input" required placeholder="+91 98765 43210">
-          </div>
-        </div>
-
+      <form class="form-group" onsubmit="handleCheckout(event)">
         <div>
-          <label class="form-label">Email Address</label>
-          <input type="email" class="form-input" required placeholder="name@example.com">
+          <label class="form-label">Full Name</label>
+          <input type="text" class="login-input" required placeholder="John Doe">
         </div>
-
         <div>
           <label class="form-label">Delivery Address</label>
-          <input type="text" class="form-input" required placeholder="Street, Apartment / House No.">
+          <textarea class="login-input" required placeholder="Enter full shipping address..." rows="3"></textarea>
+        </div>
+        <div>
+          <label class="form-label">Phone Number</label>
+          <input type="tel" class="login-input" required placeholder="+91 98765 43210">
+        </div>
+        
+        <div style="background: #f8f9fa; padding: 12px; border-radius: 6px; margin: 10px 0;">
+          <div style="display: flex; justify-content: space-between; font-weight: 600;">
+            <span>Subtotal:</span>
+            <span id="checkout-subtotal">₹0</span>
+          </div>
+          <div style="display: flex; justify-content: space-between; font-size: 0.85rem; color: #666; margin-top: 4px;">
+            <span>Shipping:</span>
+            <span>Complimentary</span>
+          </div>
         </div>
 
-        <div class="form-row">
-          <div style="flex: 1;">
-            <label class="form-label">City</label>
-            <input type="text" class="form-input" required placeholder="e.g. Mumbai">
-          </div>
-          <div style="flex: 1;">
-            <label class="form-label">Pincode</label>
-            <input type="text" class="form-input" required placeholder="e.g. 400001">
-          </div>
-        </div>
-
-        <div style="background: #fafafa; border: 1px solid #e0e0e0; border-radius: 8px; padding: 12px; margin-top: 8px;">
-          <div style="display: flex; justify-content: space-between; font-size: 0.88rem; margin-bottom: 6px;">
-            <span>Order Total</span>
-            <strong id="checkout-summary-total">₹1,00,000</strong>
-          </div>
-          <div style="font-size: 0.75rem; color: #28a745; font-weight: 600;">✓ Includes Complimentary Bespoke Delivery & Installation</div>
-        </div>
-
-        <button type="submit" class="btn-submit" style="margin-top: 14px;">Place Order</button>
+        <button type="submit" class="btn-submit" style="width: 100%;">Place Bespoke Order</button>
       </form>
     </div>
   </div>
 
   <!-- Staff Login Modal -->
   <div class="modal-overlay" id="staff-modal">
-    <div class="modal-container" style="max-width: 400px;">
+    <div class="modal-container" style="max-width: 420px;">
       <button class="modal-close-btn" onclick="closeModal('staff-modal')">&times;</button>
-      <h2 style="text-align: center; font-size: 1.3rem; font-weight: 700; margin-bottom: 16px;">Staff Portal Access</h2>
-      
+      <h2 style="text-align: center; font-size: 1.4rem; margin-bottom: 10px;">Staff Portal Access</h2>
       <form class="form-group" id="staff-login-form" onsubmit="handleStaffLogin(event)">
-        <div>
-          <label class="form-label">Employee ID</label>
-          <input type="text" id="staff-emp-id" class="form-input" placeholder="bespoke staff" required autocomplete="off" autocapitalize="none">
-        </div>
-        <div>
-          <label class="form-label">Password</label>
-          <input type="password" id="staff-password" class="form-input" placeholder="dastkari26" required autocomplete="off" autocapitalize="none">
-        </div>
-        <button type="submit" class="btn-submit">Sign In</button>
+        <input type="text" id="staff-emp-id" class="login-input" placeholder="Employee ID (Bespoke Staff)" required autocomplete="off" autocapitalize="none">
+        <input type="password" id="staff-password" class="login-input" placeholder="Password (Dastkari26)" required autocomplete="off" autocapitalize="none">
+        <button type="submit" class="btn-submit" style="width: 100%;">Sign In</button>
       </form>
     </div>
   </div>
 
   <!-- Staff Edit / Add Item Modal -->
   <div class="modal-overlay" id="edit-modal">
-    <div class="modal-container" style="max-width: 480px;">
+    <div class="modal-container" style="max-width: 500px;">
       <button class="modal-close-btn" onclick="closeModal('edit-modal')">&times;</button>
-      <h2 id="edit-modal-heading" style="text-align: center; font-size: 1.3rem; font-weight: 700; margin-bottom: 16px;">Edit Furniture Item</h2>
+      <h2 id="edit-modal-heading" style="text-align: center; font-size: 1.4rem; margin-bottom: 10px;">Edit Furniture Item</h2>
       
       <form class="form-group" onsubmit="handleSaveItem(event)">
         <input type="hidden" id="edit-item-id">
         
         <div>
           <label class="form-label">Item Title</label>
-          <input type="text" id="edit-item-title" class="form-input" required placeholder="e.g. Royal Armchair">
+          <input type="text" id="edit-item-title" class="login-input" required placeholder="e.g. Royal Armchair">
         </div>
 
         <div>
           <label class="form-label">Category</label>
-          <input type="text" id="edit-item-category" class="form-input" required placeholder="e.g. ARMCHAIRS">
+          <input type="text" id="edit-item-category" class="login-input" required placeholder="e.g. ARMCHAIRS">
         </div>
 
         <div>
-          <label class="form-label">Price (in ₹ Rupees)</label>
-          <input type="number" id="edit-item-price" class="form-input" required placeholder="100000" value="100000">
+          <label class="form-label">Price (Numeric / ₹)</label>
+          <input type="number" id="edit-item-price" class="login-input" required placeholder="100000">
         </div>
 
         <div>
           <label class="form-label">Dimensions</label>
-          <input type="text" id="edit-item-dims" class="form-input" required placeholder="e.g. Custom Dimensions">
+          <input type="text" id="edit-item-dims" class="login-input" required placeholder="e.g. Custom Dimensions">
         </div>
 
         <div>
-          <label class="form-label">Product Photos (High Quality Mesh Resampling Enabled)</label>
+          <label class="form-label">Drag & Drop Product Photos</label>
           <div class="drag-drop-zone" id="drop-zone" onclick="document.getElementById('file-input').click()">
             <p style="font-size: 0.82rem; color: #666666;">Drag & drop images here or <strong>click to browse</strong></p>
             <input type="file" id="file-input" multiple accept="image/*" style="display: none;" onchange="handleFileSelect(event)">
@@ -930,30 +900,20 @@
           <div class="drop-preview-grid" id="drop-preview-grid"></div>
         </div>
 
-        <button type="submit" class="btn-submit" id="save-btn">Save Item & Auto-Update Catalog</button>
+        <button type="submit" class="btn-submit" id="save-btn" style="width: 100%;">Save Item & Auto-Update Catalog</button>
       </form>
     </div>
   </div>
 
-  <script>
-    // Fallback catalog initial data
-    const defaultCatalog = [
-      { id: "ITEM-001", title: "Dastkari Bespoke BEDS", category: "BEDS", price: 100000, dims: "Custom Dimensions", images: ["./Assets/P1_page_100_2.jpeg", "./Assets/P1_page_100_1.jpeg"] },
-      { id: "ITEM-011", title: "Dastkari Bespoke SOFAS", category: "SOFAS", price: 100000, dims: "Custom Dimensions", images: ["./Assets/P1_page_10_3.jpeg", "./Assets/P1_page_10_2.jpeg"] },
-      { id: "ITEM-038", title: "Dastkari Bespoke DAY BED / COT", category: "DAY BED / COT", price: 100000, dims: "Custom Dimensions", images: ["./Assets/P1_page_134_3.jpeg", "./Assets/P1_page_134_1.jpeg"] },
-      { id: "ITEM-075", title: "Dastkari Bespoke ARMCHAIRS", category: "ARMCHAIRS", price: 100000, dims: "Custom Dimensions", images: ["./Assets/P1_page_39_3.jpeg", "./Assets/P1_page_39_2.jpeg"] },
-      { id: "ITEM-089", title: "Dastkari Bespoke CHAIRS", category: "CHAIRS", price: 100000, dims: "Custom Dimensions", images: ["./Assets/P1_page_54_3.jpeg", "./Assets/P1_page_54_1.jpeg"] },
-      { id: "ITEM-100", title: "Dastkari Bespoke BAR STOOLS & TABLES", category: "BAR STOOLS & TABLES", price: 100000, dims: "Custom Dimensions", images: ["./Assets/P1_page_65_2.jpeg", "./Assets/P1_page_65_1.jpeg"] },
-      { id: "ITEM-106", title: "Dastkari Bespoke FLOOR SEATING", category: "FLOOR SEATING", price: 100000, dims: "Custom Dimensions", images: ["./Assets/P1_page_71_1.jpeg", "./Assets/P1_page_71_2.jpeg"] },
-      { id: "ITEM-110", title: "Dastkari Bespoke POUFFE / OTTOMAN", category: "POUFFE / OTTOMAN", price: 100000, dims: "Custom Dimensions", images: ["./Assets/P1_page_76_1.jpeg", "./Assets/P1_page_76_2.jpeg"] },
-      { id: "ITEM-116", title: "Dastkari Bespoke BENCH", category: "BENCH", price: 100000, dims: "Custom Dimensions", images: ["./Assets/P1_page_82_1.jpeg"] },
-      { id: "ITEM-169", title: "Dastkari Bespoke CABINETS", category: "CABINETS", price: 100000, dims: "Custom Dimensions", images: ["./Assets/P2_page_134_1.jpeg", "./Assets/P2_page_134_2.jpeg"] }
-    ];
+  <!-- Toast Alert -->
+  <div class="toast" id="toast-msg">Item added to cart</div>
 
+  <script>
     let catalogData = [];
-    let cart = []; // Array of { item: Object, quantity: Number }
+    let cart = [];
     let activeCategory = 'ALL';
     let searchQuery = '';
+    let maxPriceFilter = 500000;
     let isStaffLoggedIn = localStorage.getItem('dastkari_staff_logged_in') === 'true';
     let currentUploadedImages = [];
 
@@ -962,50 +922,37 @@
     const pillsContainer = document.getElementById('pills-container');
     const searchInput = document.getElementById('search-input');
 
-    // Utility: Currency Formatter for Indian Rupees
-    function formatRupees(amount) {
-      const num = Number(amount) || 100000;
-      return '₹' + num.toLocaleString('en-IN');
-    }
-
     async function init() {
       try {
         let response = await fetch('./catalog_data.json');
         if (!response.ok) response = await fetch('./Assets/catalog_data.json');
-        if (!response.ok) throw new Error('Catalog data file unavailable.');
+        if (!response.ok) throw new Error('Catalog missing');
 
-        let rawData = await response.json();
-        // Ensure all items have numeric price defaulting to 100000
-        catalogData = rawData.map(item => ({
-          ...item,
-          price: (typeof item.price === 'number') ? item.price : 100000
-        }));
+        catalogData = await response.json();
+        updateStaffUI();
+        renderPills();
+        renderGrid();
+        updateCartUI();
       } catch (err) {
-        console.warn('Using default initial catalog data:', err);
-        catalogData = [...defaultCatalog];
+        grid.innerHTML = `<div class="error-msg">Could Not Load catalog_data.json</div>`;
       }
-
-      updateStaffUI();
-      renderPills();
-      renderGrid();
-      updateCartBadge();
     }
 
-    function renderPills() {
-      if (!catalogData || catalogData.length === 0) return;
-      const categories = ['ALL', ...new Set(catalogData.map(item => item.category))];
-      
-      pillsWrapper.innerHTML = categories.map(cat => `
-        <button class="pill-btn ${cat.toUpperCase() === activeCategory.toUpperCase() ? 'active' : ''}" onclick="selectCategory('${cat}', this)">
-          ${cat}
-        </button>
-      `).join('');
+    /* Helper: Parse numeric price cleanly */
+    function parsePrice(priceVal) {
+      if (typeof priceVal === 'number') return priceVal;
+      if (!priceVal) return 100000;
+      const num = parseInt(priceVal.toString().replace(/[^0-9]/g, ''), 10);
+      return isNaN(num) || num === 0 ? 100000 : num;
     }
 
-    function selectCategory(cat, btnEl) {
-      activeCategory = cat;
-      document.querySelectorAll('.pill-btn').forEach(b => b.classList.remove('active'));
-      if (btnEl) btnEl.classList.add('active');
+    function formatPrice(num) {
+      return '₹' + num.toLocaleString('en-IN');
+    }
+
+    function updatePriceFilter(val) {
+      maxPriceFilter = parseInt(val, 10);
+      document.getElementById('price-limit-val').textContent = formatPrice(maxPriceFilter);
       renderGrid();
     }
 
@@ -1014,17 +961,22 @@
         const matchesCat = activeCategory.toUpperCase() === 'ALL' || item.category.toUpperCase() === activeCategory.toUpperCase();
         const matchesSearch = item.title.toLowerCase().includes(searchQuery) ||
                               item.category.toLowerCase().includes(searchQuery);
-        return matchesCat && matchesSearch;
+        
+        const rawPrice = parsePrice(item.price);
+        const matchesPrice = rawPrice <= maxPriceFilter;
+
+        return matchesCat && matchesSearch && matchesPrice;
       });
 
       if (items.length === 0) {
-        grid.innerHTML = `<div class="empty-state">No Furniture Items Found</div>`;
+        grid.innerHTML = `<div class="empty-state">No Furniture Found Matching Criteria</div>`;
         return;
       }
 
       grid.innerHTML = items.map(item => {
         const imgSrc = (item.images && item.images.length > 0) ? item.images[0] : '';
-        const priceFormatted = formatRupees(item.price);
+        const numPrice = parsePrice(item.price);
+        const displayPrice = formatPrice(numPrice);
 
         const staffControls = isStaffLoggedIn ? `
           <div class="staff-card-actions" onclick="event.stopPropagation()">
@@ -1035,24 +987,17 @@
 
         return `
           <div class="card" onclick="openItemModal('${item.id}')">
-            <div>
-              <div class="card-image-wrapper">
-                <img src="${imgSrc}" alt="${item.title}" loading="lazy" onerror="this.src='https://placehold.co/400x300/f5f5f5/222222?text=Dastkari+Bespoke'">
-              </div>
-              <div class="card-info" style="margin-top: 10px;">
-                <div class="card-title">${item.title}</div>
-                <div class="card-category">${item.category}</div>
-                <div class="card-details-row">
-                  <span class="card-price">${priceFormatted}</span>
-                  <span class="card-dims">${item.dims}</span>
-                </div>
-              </div>
+            <div class="card-image-wrapper">
+              <img src="${imgSrc}" alt="${item.title}" loading="lazy" onerror="this.src='https://via.placeholder.com/240?text=No+Image'">
             </div>
-            
-            <div>
-              <button class="btn-card-add" onclick="event.stopPropagation(); addToCart('${item.id}')">
-                + Add to Cart
-              </button>
+            <div class="card-info">
+              <div class="card-title">${item.title}</div>
+              <div class="card-category">${item.category}</div>
+              <div class="card-footer-row">
+                <span class="card-price">${displayPrice}</span>
+                <span class="card-dims">${item.dims || 'Custom Dimensions'}</span>
+              </div>
+              <button class="btn-add-cart-card" onclick="event.stopPropagation(); addToCart('${item.id}')">+ Add to Cart</button>
               ${staffControls}
             </div>
           </div>
@@ -1060,147 +1005,173 @@
       }).join('');
     }
 
-    function addToCart(itemId) {
+    /* Cart State Management */
+    function addToCart(itemId, qty = 1) {
       const item = catalogData.find(i => i.id === itemId);
       if (!item) return;
 
-      const existing = cart.find(c => c.item.id === itemId);
+      const price = parsePrice(item.price);
+      const existing = cart.find(c => c.id === itemId);
+
       if (existing) {
-        existing.quantity += 1;
+        existing.qty += qty;
       } else {
-        cart.push({ item, quantity: 1 });
+        cart.push({
+          id: item.id,
+          title: item.title,
+          category: item.category,
+          price: price,
+          image: (item.images && item.images.length > 0) ? item.images[0] : '',
+          qty: qty
+        });
       }
 
-      updateCartBadge();
-      showToast(`Added "${item.title}" to cart`);
+      updateCartUI();
+      showToast(`Added "${item.title}" to Cart`);
     }
 
-    function updateCartBadge() {
-      const totalCount = cart.reduce((sum, c) => sum + c.quantity, 0);
+    function updateCartQty(index, change) {
+      cart[index].qty += change;
+      if (cart[index].qty <= 0) {
+        cart.splice(index, 1);
+      }
+      updateCartUI();
+    }
+
+    function removeFromCart(index) {
+      cart.splice(index, 1);
+      updateCartUI();
+    }
+
+    function updateCartUI() {
+      // Update header badge counter cleanly
+      const totalCount = cart.reduce((sum, item) => sum + item.qty, 0);
       document.getElementById('cart-count-badge').textContent = totalCount;
-    }
 
-    function updateQuantity(itemId, delta) {
-      const cartIndex = cart.findIndex(c => c.item.id === itemId);
-      if (cartIndex > -1) {
-        cart[cartIndex].quantity += delta;
-        if (cart[cartIndex].quantity <= 0) {
-          cart.splice(cartIndex, 1);
-        }
-      }
-      updateCartBadge();
-      renderCartDrawer();
-    }
-
-    function removeFromCart(itemId) {
-      cart = cart.filter(c => c.item.id !== itemId);
-      updateCartBadge();
-      renderCartDrawer();
-    }
-
-    function openCartModal() {
-      renderCartDrawer();
-      document.getElementById('cart-modal').classList.add('active');
-    }
-
-    function renderCartDrawer() {
-      const container = document.getElementById('cart-content-area');
+      // Update Fullscreen Cart Items
+      const cartContainer = document.getElementById('cart-items-container');
+      const grandTotalEl = document.getElementById('cart-grand-total');
 
       if (cart.length === 0) {
-        container.innerHTML = `
-          <div style="text-align: center; padding: 40px 10px; color: #777;">
-            <p style="font-size: 1rem; margin-bottom: 12px;">Your cart is currently empty.</p>
-            <button class="btn-submit" style="max-width: 200px; margin: 0 auto;" onclick="closeModal('cart-modal')">Browse Collection</button>
-          </div>
-        `;
+        cartContainer.innerHTML = `<div class="empty-state" style="font-size: 1.1rem;">Your shopping cart is empty.</div>`;
+        grandTotalEl.textContent = '₹0';
         return;
       }
 
-      let subtotal = 0;
-
-      const itemsHtml = cart.map(c => {
-        const itemTotal = c.item.price * c.quantity;
-        subtotal += itemTotal;
-        const imgSrc = (c.item.images && c.item.images.length > 0) ? c.item.images[0] : '';
+      let totalSum = 0;
+      cartContainer.innerHTML = cart.map((item, idx) => {
+        const itemTotal = item.price * item.qty;
+        totalSum += itemTotal;
 
         return `
           <div class="cart-item-row">
-            <div class="cart-item-thumb">
-              <img src="${imgSrc}" alt="${c.item.title}">
-            </div>
             <div class="cart-item-info">
-              <div class="cart-item-title">${c.item.title}</div>
-              <div class="cart-item-price">${formatRupees(c.item.price)} each</div>
+              <img src="${item.image}" class="cart-item-img" alt="${item.title}">
+              <div>
+                <div style="font-weight: 600; font-size: 1rem;">${item.title}</div>
+                <div style="font-size: 0.8rem; color: #666;">${item.category}</div>
+                <div style="font-size: 0.9rem; font-weight: 700; margin-top: 4px;">${formatPrice(item.price)}</div>
+              </div>
             </div>
-            <div class="cart-qty-controls">
-              <button class="btn-qty" onclick="updateQuantity('${c.item.id}', -1)">-</button>
-              <span class="qty-display">${c.quantity}</span>
-              <button class="btn-qty" onclick="updateQuantity('${c.item.id}', 1)">+</button>
+
+            <div style="display: flex; align-items: center; gap: 20px;">
+              <div class="cart-qty-controls">
+                <button class="btn-qty" onclick="updateCartQty(${idx}, -1)">-</button>
+                <span style="font-weight: 600; padding: 0 8px;">${item.qty}</span>
+                <button class="btn-qty" onclick="updateCartQty(${idx}, 1)">+</button>
+              </div>
+
+              <div style="font-size: 1rem; font-weight: 700; width: 110px; text-align: right;">
+                ${formatPrice(itemTotal)}
+              </div>
+
+              <button onclick="removeFromCart(${idx})" style="background: none; border: none; font-size: 1.2rem; cursor: pointer; color: #888;">&times;</button>
             </div>
-            <div class="cart-item-total">${formatRupees(itemTotal)}</div>
-            <button class="btn-cart-remove" onclick="removeFromCart('${c.item.id}')" title="Remove item">&times;</button>
           </div>
         `;
       }).join('');
 
-      container.innerHTML = `
-        <div class="cart-items-list">
-          ${itemsHtml}
-        </div>
-        <div class="cart-summary">
-          <div class="summary-row">
-            <span style="color: #666;">Subtotal</span>
-            <strong>${formatRupees(subtotal)}</strong>
+      grandTotalEl.textContent = formatPrice(totalSum);
+      document.getElementById('checkout-subtotal').textContent = formatPrice(totalSum);
+    }
+
+    function showToast(msg) {
+      const toast = document.getElementById('toast-msg');
+      toast.textContent = msg;
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 2500);
+    }
+
+    /* Modal Handlers */
+    function openItemModal(id) {
+      const item = catalogData.find(i => i.id === id);
+      if (!item) return;
+
+      const numPrice = parsePrice(item.price);
+
+      document.getElementById('modal-title').textContent = item.title;
+      document.getElementById('modal-category').textContent = item.category;
+      document.getElementById('modal-dims').textContent = item.dims || 'Custom Dimensions';
+      document.getElementById('modal-price').textContent = formatPrice(numPrice);
+
+      const modalImg = document.getElementById('modal-img');
+      const modalThumbs = document.getElementById('modal-thumbs');
+
+      if (item.images && item.images.length > 0) {
+        modalImg.src = item.images[0];
+        modalThumbs.innerHTML = item.images.map((img, idx) => `
+          <div class="modal-thumb ${idx === 0 ? 'active' : ''}" onclick="setModalImage('${img}', this, event)">
+            <img src="${img}" alt="Thumbnail">
           </div>
-          <div class="summary-row">
-            <span style="color: #666;">Bespoke White-Glove Delivery</span>
-            <span style="color: #28a745; font-weight: 600;">Complimentary</span>
-          </div>
-          <div class="summary-row total">
-            <span>Total</span>
-            <span>${formatRupees(subtotal)}</span>
-          </div>
-          <button class="btn-submit" style="margin-top: 8px;" onclick="openCheckoutModal()">Proceed to Checkout</button>
-        </div>
-      `;
+        `).join('');
+      }
+
+      document.getElementById('modal-add-cart-btn').onclick = () => {
+        addToCart(item.id);
+        closeModal('item-modal');
+      };
+
+      document.getElementById('item-modal').classList.add('active');
+    }
+
+    function openCartModal() {
+      updateCartUI();
+      document.getElementById('cart-modal').classList.add('active');
     }
 
     function openCheckoutModal() {
-      if (cart.length === 0) return;
+      if (cart.length === 0) {
+        alert('Your cart is empty!');
+        return;
+      }
       closeModal('cart-modal');
-
-      const total = cart.reduce((sum, c) => sum + (c.item.price * c.quantity), 0);
-      document.getElementById('checkout-summary-total').textContent = formatRupees(total);
-
       document.getElementById('checkout-modal').classList.add('active');
     }
 
-    function handlePlaceOrder(e) {
+    function handleCheckout(e) {
       e.preventDefault();
-      
-      const orderRef = 'DST-' + Math.floor(100000 + Math.random() * 900000);
-      alert(`🎉 Thank you for your order!\n\nOrder Ref: #${orderRef}\nOur bespoke design concierge will contact you shortly to coordinate delivery details.`);
-
+      alert('Order placed successfully! We will contact you regarding delivery.');
       cart = [];
-      updateCartBadge();
+      updateCartUI();
       closeModal('checkout-modal');
     }
 
-    function showToast(message) {
-      const container = document.getElementById('toast-container');
-      const toast = document.createElement('div');
-      toast.className = 'toast-msg';
-      toast.innerHTML = `<span>✓</span> <span>${message}</span>`;
-
-      container.appendChild(toast);
-      setTimeout(() => {
-        toast.style.opacity = '0';
-        toast.style.transform = 'translateX(100%)';
-        toast.style.transition = 'all 0.3s ease';
-        setTimeout(() => toast.remove(), 300);
-      }, 2500);
+    function openStaffModal() {
+      document.getElementById('staff-modal').classList.add('active');
     }
 
+    function closeModal(modalId) {
+      document.getElementById(modalId).classList.remove('active');
+    }
+
+    function setModalImage(src, thumbEl, event) {
+      event.stopPropagation();
+      document.getElementById('modal-img').src = src;
+      document.querySelectorAll('.modal-thumb').forEach(t => t.classList.remove('active'));
+      thumbEl.classList.add('active');
+    }
+
+    /* Staff Portal Handlers */
     function updateStaffUI() {
       const indicator = document.getElementById('staff-indicator');
       const addBtn = document.getElementById('btn-add-new');
@@ -1223,9 +1194,8 @@
         localStorage.setItem('dastkari_staff_logged_in', 'false');
         updateStaffUI();
         renderGrid();
-        showToast('Staff logged out');
       } else {
-        document.getElementById('staff-modal').classList.add('active');
+        openStaffModal();
       }
     }
 
@@ -1244,14 +1214,13 @@
         document.getElementById('staff-login-form').reset();
         closeModal('staff-modal');
         renderGrid();
-        showToast('Staff access granted');
       } else {
-        alert('Invalid Employee ID or Password. Please check credentials.');
+        alert('Invalid Employee ID or Password.');
       }
     }
 
     async function deleteItem(itemId) {
-      if (confirm('Are you sure you want to remove this bespoke furniture piece?')) {
+      if (confirm('Delete this furniture item?')) {
         catalogData = catalogData.filter(i => i.id !== itemId);
         renderPills();
         renderGrid();
@@ -1271,16 +1240,16 @@
         document.getElementById('edit-item-id').value = item.id;
         document.getElementById('edit-item-title').value = item.title;
         document.getElementById('edit-item-category').value = item.category;
-        document.getElementById('edit-item-price').value = item.price || 100000;
-        document.getElementById('edit-item-dims').value = item.dims;
+        document.getElementById('edit-item-price').value = parsePrice(item.price);
+        document.getElementById('edit-item-dims').value = item.dims || 'Custom Dimensions';
         currentUploadedImages = item.images ? [...item.images] : [];
       } else {
         heading.textContent = 'Add New Furniture Item';
         document.getElementById('edit-item-id').value = '';
         document.getElementById('edit-item-title').value = '';
         document.getElementById('edit-item-category').value = '';
-        document.getElementById('edit-item-price').value = '100000';
-        document.getElementById('edit-item-dims').value = 'Custom Dimensions';
+        document.getElementById('edit-item-price').value = 100000;
+        document.getElementById('edit-item-dims').value = '';
       }
 
       renderUploadPreviews();
@@ -1292,11 +1261,11 @@
       const id = document.getElementById('edit-item-id').value;
       const title = document.getElementById('edit-item-title').value.trim();
       const category = document.getElementById('edit-item-category').value.trim().toUpperCase();
-      const price = Number(document.getElementById('edit-item-price').value) || 100000;
+      const price = parseInt(document.getElementById('edit-item-price').value, 10) || 100000;
       const dims = document.getElementById('edit-item-dims').value.trim();
 
       if (currentUploadedImages.length === 0) {
-        alert('Please add at least one product photo.');
+        alert('Please add at least one photo.');
         return;
       }
 
@@ -1334,29 +1303,28 @@
         });
 
         if (response.ok) {
-          showToast('Catalog synchronized with server');
-        } else {
-          console.warn('Backend endpoint not responding; changes stored in active session.');
+          showToast('Catalog auto-saved to Vercel!');
         }
       } catch (e) {
-        console.warn('Could not reach backend API server.');
+        // Fallback for client-side static environment
       } finally {
         if (saveBtn) saveBtn.textContent = 'Save Item & Auto-Update Catalog';
       }
     }
 
+    /* Drag & Drop Upload Logic */
     const dropZone = document.getElementById('drop-zone');
 
-    ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
-      dropZone.addEventListener(eventName, (e) => { e.preventDefault(); e.stopPropagation(); }, false);
+    ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(evt => {
+      dropZone.addEventListener(evt, (e) => { e.preventDefault(); e.stopPropagation(); });
     });
 
-    ['dragenter', 'dragover'].forEach(eventName => {
-      dropZone.addEventListener(eventName, () => dropZone.classList.add('hover'), false);
+    ['dragenter', 'dragover'].forEach(evt => {
+      dropZone.addEventListener(evt, () => dropZone.classList.add('hover'));
     });
 
-    ['dragleave', 'drop'].forEach(eventName => {
-      dropZone.addEventListener(eventName, () => dropZone.classList.remove('hover'), false);
+    ['dragleave', 'drop'].forEach(evt => {
+      dropZone.addEventListener(evt, () => dropZone.classList.remove('hover'));
     });
 
     dropZone.addEventListener('drop', (e) => processFiles(e.dataTransfer.files));
@@ -1375,18 +1343,17 @@
           img.src = e.target.result;
           img.onload = () => {
             const canvas = document.createElement('canvas');
-            const MAX_WIDTH = 1200; // Sharp resolution for high-frequency fine mesh
+            const MAX_WIDTH = 1200;
             const scaleSize = MAX_WIDTH / img.width;
             canvas.width = (img.width > MAX_WIDTH) ? MAX_WIDTH : img.width;
             canvas.height = (img.width > MAX_WIDTH) ? img.height * scaleSize : img.height;
 
             const ctx = canvas.getContext('2d');
             ctx.imageSmoothingEnabled = true;
-            ctx.imageSmoothingQuality = 'high'; // High-quality bicubic interpolation prevents moiré distortion
+            ctx.imageSmoothingQuality = 'high';
             ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
             
-            const compressedDataUrl = canvas.toDataURL('image/jpeg', 0.9);
-            currentUploadedImages.push(compressedDataUrl);
+            currentUploadedImages.push(canvas.toDataURL('image/jpeg', 0.9));
             renderUploadPreviews();
           };
         };
@@ -1398,7 +1365,7 @@
       const grid = document.getElementById('drop-preview-grid');
       grid.innerHTML = currentUploadedImages.map((src, idx) => `
         <div class="preview-thumb-box">
-          <img src="${src}" alt="Upload preview">
+          <img src="${src}" alt="Uploaded photo">
           <button type="button" class="remove-thumb-btn" onclick="removeUploadedImage(${idx})">&times;</button>
         </div>
       `).join('');
@@ -1409,72 +1376,34 @@
       renderUploadPreviews();
     }
 
-    /* Product Detail Modal */
-    function openItemModal(id) {
-      const item = catalogData.find(i => i.id === id);
-      if (!item) return;
-
-      document.getElementById('modal-title').textContent = item.title;
-      document.getElementById('modal-category').textContent = item.category;
-      document.getElementById('modal-dims').textContent = item.dims;
-      document.getElementById('modal-price').textContent = formatRupees(item.price);
-
-      const modalImg = document.getElementById('modal-img');
-      const modalThumbs = document.getElementById('modal-thumbs');
-
-      if (item.images && item.images.length > 0) {
-        modalImg.src = item.images[0];
-        modalThumbs.innerHTML = item.images.map((img, idx) => `
-          <div class="modal-thumb ${idx === 0 ? 'active' : ''}" onclick="setModalImage('${img}', this, event)">
-            <img src="${img}" alt="Thumbnail">
-          </div>
-        `).join('');
-      }
-
-      const addBtn = document.getElementById('modal-add-cart-btn');
-      addBtn.onclick = () => {
-        addToCart(item.id);
-        closeModal('item-modal');
-      };
-
-      document.getElementById('item-modal').classList.add('active');
+    /* Category Navigation */
+    function renderPills() {
+      if (!catalogData || catalogData.length === 0) return;
+      const categories = ['ALL', ...new Set(catalogData.map(item => item.category))];
+      
+      pillsWrapper.innerHTML = categories.map(cat => `
+        <button class="pill-btn ${cat.toUpperCase() === activeCategory.toUpperCase() ? 'active' : ''}" onclick="selectCategory('${cat}', this)">
+          ${cat}
+        </button>
+      `).join('');
     }
 
-    function setModalImage(src, thumbEl, event) {
-      event.stopPropagation();
-      document.getElementById('modal-img').src = src;
-      document.querySelectorAll('.modal-thumb').forEach(t => t.classList.remove('active'));
-      thumbEl.classList.add('active');
+    function selectCategory(cat, btnEl) {
+      activeCategory = cat;
+      document.querySelectorAll('.pill-btn').forEach(b => b.classList.remove('active'));
+      if (btnEl) btnEl.classList.add('active');
+      renderGrid();
     }
 
-    function closeModal(modalId) {
-      document.getElementById(modalId).classList.remove('active');
-    }
-
-    /* Category Scroll & Drag */
-    pillsContainer.addEventListener('wheel', (evt) => {
-      evt.preventDefault();
-      pillsContainer.scrollLeft += evt.deltaY;
-    });
-
-    let isDown = false, startX, scrollLeft;
-    pillsContainer.addEventListener('mousedown', (e) => {
-      isDown = true;
-      startX = e.pageX - pillsContainer.offsetLeft;
-      scrollLeft = pillsContainer.scrollLeft;
-    });
-    pillsContainer.addEventListener('mouseleave', () => { isDown = false; });
-    pillsContainer.addEventListener('mouseup', () => { isDown = false; });
-    pillsContainer.addEventListener('mousemove', (e) => {
-      if(!isDown) return;
-      e.preventDefault();
-      const x = e.pageX - pillsContainer.offsetLeft;
-      pillsContainer.scrollLeft = scrollLeft - (x - startX) * 2;
-    });
-
+    /* Event Listeners */
     searchInput.addEventListener('input', (e) => {
       searchQuery = e.target.value.toLowerCase().trim();
       renderGrid();
+    });
+
+    pillsContainer.addEventListener('wheel', (evt) => {
+      evt.preventDefault();
+      pillsContainer.scrollLeft += evt.deltaY;
     });
 
     document.addEventListener('DOMContentLoaded', init);
