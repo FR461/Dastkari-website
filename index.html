@@ -18,19 +18,120 @@
       font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, sans-serif;
     }
 
-    html {
+    html, body {
       scroll-behavior: smooth;
-    }
-
-    body {
       background-color: #ffffff;
       color: #111111;
-      padding: 30px 20px;
       -webkit-font-smoothing: antialiased;
+      /* Hide Scrollbars Everywhere */
+      -ms-overflow-style: none !important;
+      scrollbar-width: none !important;
+    }
+
+    /* Hide scrollbar for Chrome, Safari, Opera */
+    html::-webkit-scrollbar, 
+    body::-webkit-scrollbar,
+    ::-webkit-scrollbar {
+      display: none !important;
+      width: 0 !important;
+      height: 0 !important;
     }
 
     input, textarea, select {
       font-family: inherit;
+    }
+
+    /* 1. FRONT HERO SCREEN (3 PICS) */
+    .hero-screen {
+      width: 100%;
+      min-height: 85vh;
+      background: #111111;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 40px 20px;
+    }
+
+    .hero-grid {
+      max-width: 1200px;
+      width: 100%;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    @media (max-width: 768px) {
+      .hero-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .hero-img-card {
+      width: 100%;
+      height: 60vh;
+      min-height: 400px;
+      border-radius: 8px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .hero-img-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: grayscale(100%);
+      transition: filter 0.4s ease, transform 0.4s ease;
+    }
+
+    .hero-img-card:hover img {
+      filter: grayscale(0%);
+      transform: scale(1.03);
+    }
+
+    /* 2. PHILOSOPHY SECTION */
+    .philosophy-section {
+      width: 100%;
+      background: #fafafa;
+      border-bottom: 1px solid #e0e0e0;
+      padding: 90px 20px;
+    }
+
+    .philosophy-container {
+      max-width: 850px;
+      margin: 0 auto;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .philosophy-heading {
+      font-size: 1.1rem;
+      letter-spacing: 6px;
+      font-weight: 300;
+      text-transform: uppercase;
+      color: #666666;
+      margin-bottom: 10px;
+    }
+
+    .philosophy-text {
+      font-size: 1.15rem;
+      line-height: 1.85;
+      font-weight: 300;
+      color: #222222;
+    }
+
+    .philosophy-text.highlight {
+      font-size: 1.2rem;
+      font-weight: 400;
+      color: #000000;
+      margin-top: 10px;
+    }
+
+    /* 3. CATALOG APP CONTAINER */
+    .app-main-wrapper {
+      padding: 50px 20px;
     }
 
     /* Header */
@@ -375,10 +476,6 @@
       cursor: grabbing;
     }
 
-    .category-pills-container::-webkit-scrollbar {
-      display: none !important;
-    }
-
     .category-pills-wrapper {
       display: inline-flex;
       gap: 12px;
@@ -653,10 +750,11 @@
       transform: translateY(0);
     }
 
+    /* PRODUCT DETAIL CARD LAYOUT WITH ENLARGED RIGHT-SIDE FONTS */
     .grid-modal-content {
       display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 24px;
+      grid-template-columns: 1.1fr 1fr;
+      gap: 30px;
     }
 
     @media (max-width: 768px) {
@@ -686,14 +784,14 @@
 
     .modal-main-img-box {
       width: 100%;
-      height: 320px;
+      height: 380px;
       border-radius: 8px;
       overflow: hidden;
       background: #f8f9fa;
     }
 
     .modal-main-img-box img {
-      object-fit: contain;
+      object-fit: cover;
     }
 
     .modal-thumbs {
@@ -702,17 +800,11 @@
       overflow-x: auto;
       padding-bottom: 4px;
       scroll-behavior: smooth;
-      -ms-overflow-style: none !important;
-      scrollbar-width: none !important;
-    }
-
-    .modal-thumbs::-webkit-scrollbar {
-      display: none !important;
     }
 
     .modal-thumb {
-      width: 60px;
-      height: 60px;
+      width: 65px;
+      height: 65px;
       border-radius: 6px;
       overflow: hidden;
       border: 2px solid transparent;
@@ -1020,167 +1112,202 @@
 </head>
 <body>
 
-  <!-- App Header -->
-  <header class="app-header">
-    <div class="header-top">
-      <div class="brand-container">
-        <!-- Clean Hamsa Logo -->
-        <img src="hamsa.png" alt="Hamsa Logo" class="brand-logo-clean" onerror="this.style.display='none'">
-        <div>
-          <h1 class="brand-title">
-            DASTKARI
-            <span id="staff-indicator" class="staff-badge" style="display: none;">Staff Mode Active</span>
-          </h1>
-          <div class="brand-subtitle">Bespoke Furniture</div>
-        </div>
+  <!-- 1. FRONT SCREEN WITH 3 CRAFT PICTURES -->
+  <section class="hero-screen">
+    <div class="hero-grid">
+      <div class="hero-img-card">
+        <img src="craft1.jpg" alt="Wood Lathe Craftsmanship" onerror="this.src='https://images.unsplash.com/photo-1544816155-12df9643f363?q=80&w=800'">
       </div>
-      
-      <div class="header-actions">
-        <!-- Customer My Orders Button (Hidden in Staff Mode) -->
-        <button class="nav-btn btn-my-orders" id="btn-my-orders" onclick="openCustomerOrdersModal()">
-          My Orders <span id="my-orders-count-badge" class="cart-count-text">0</span>
-        </button>
-
-        <!-- Staff Orders Navigation Tab -->
-        <button class="nav-btn btn-staff-orders" id="btn-staff-orders" style="display: none;" onclick="openOrdersModal()">
-          Staff Orders <span id="orders-count-badge" class="cart-count-text">0</span>
-        </button>
-
-        <!-- Dark Cart Button -->
-        <button class="nav-btn btn-cart" onclick="openCartModal()">
-          Cart <span id="cart-count-badge" class="cart-count-text">0</span>
-        </button>
-
-        <!-- Staff Login Button -->
-        <button class="nav-btn" id="staff-auth-btn" onclick="handleAuthBtnClick()">Staff Login</button>
-
-        <!-- Customer Sign In Button (Hidden in Staff Mode) -->
-        <button class="nav-btn btn-cust-sign" id="cust-auth-btn" onclick="handleCustomerAuthClick()">Sign In</button>
+      <div class="hero-img-card">
+        <img src="craft2.jpg" alt="Hand Stitching Craftsmanship" onerror="this.src='https://images.unsplash.com/photo-1584992236310-6edddc08acff?q=80&w=800'">
+      </div>
+      <div class="hero-img-card">
+        <img src="craft3.jpg" alt="Metal Welding Craftsmanship" onerror="this.src='https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?q=80&w=800'">
       </div>
     </div>
+  </section>
 
-    <!-- Toolbar & Expandable Filters Drawer -->
-    <div class="toolbar">
-      <div class="search-box">
-        <svg class="search-icon" viewBox="0 0 24 24">
-          <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
-        </svg>
-        <input type="text" id="search-input" class="search-input" placeholder="Search Catalog...">
-      </div>
-
-      <!-- Filters Tab Button -->
-      <button class="filter-tab-btn" onclick="toggleFilterDrawer()">
-        Filters
-      </button>
-
-      <button class="btn-add-item" id="btn-add-new" style="display: none;" onclick="openEditModal()">+ Add New Furniture</button>
-
-      <!-- Expandable Filters Tab Panel -->
-      <div class="filter-drawer" id="filter-drawer">
-
-        <!-- STAFF ONLY: Range Upper Limit Configurator -->
-        <div class="staff-slider-cfg-box" id="staff-slider-cfg" style="display: none;">
-          <div style="font-weight: 700; font-size: 0.85rem; color: #111;">Staff Portal: Edit Slider Upper Limits</div>
-          <div class="staff-cfg-grid">
-            <div>
-              <label class="form-label">Max Price (₹)</label>
-              <input type="number" id="cfg-price-max" class="login-input" value="1000000" step="10000" style="padding: 6px 10px; font-size: 0.8rem;">
-            </div>
-            <div>
-              <label class="form-label">Max L (Inches)</label>
-              <input type="number" id="cfg-l-max" class="login-input" value="150" step="5" style="padding: 6px 10px; font-size: 0.8rem;">
-            </div>
-            <div>
-              <label class="form-label">Max W (Inches)</label>
-              <input type="number" id="cfg-w-max" class="login-input" value="150" step="5" style="padding: 6px 10px; font-size: 0.8rem;">
-            </div>
-            <div>
-              <label class="form-label">Max H (Inches)</label>
-              <input type="number" id="cfg-h-max" class="login-input" value="150" step="5" style="padding: 6px 10px; font-size: 0.8rem;">
-            </div>
-          </div>
-          <button class="btn-submit" style="margin-top: 10px; padding: 8px 16px; font-size: 0.8rem;" onclick="applyStaffSliderConfig()">Apply New Slider Bounds</button>
-        </div>
-
-        <div class="filter-grid">
-          
-          <!-- Price Dual Slider -->
-          <div class="slider-group">
-            <div class="slider-header">
-              <span>Price Range</span>
-              <span id="price-val-label">₹0 - ₹10,00,000</span>
-            </div>
-            <div class="dual-slider">
-              <div class="slider-track" id="price-track"></div>
-              <input type="range" id="price-min" min="0" max="1000000" step="10000" value="0" oninput="updateDualSlider('price')">
-              <input type="range" id="price-max" min="0" max="1000000" step="10000" value="1000000" oninput="updateDualSlider('price')">
-            </div>
-          </div>
-
-          <!-- Length Dual Slider -->
-          <div class="slider-group">
-            <div class="slider-header">
-              <span>Length (L in inches)</span>
-              <span id="l-val-label">0" - 150"</span>
-            </div>
-            <div class="dual-slider">
-              <div class="slider-track" id="l-track"></div>
-              <input type="range" id="l-min" min="0" max="150" step="1" value="0" oninput="updateDualSlider('l')">
-              <input type="range" id="l-max" min="0" max="150" step="1" value="150" oninput="updateDualSlider('l')">
-            </div>
-          </div>
-
-          <!-- Width Dual Slider -->
-          <div class="slider-group">
-            <div class="slider-header">
-              <span>Width (W in inches)</span>
-              <span id="w-val-label">0" - 150"</span>
-            </div>
-            <div class="dual-slider">
-              <div class="slider-track" id="w-track"></div>
-              <input type="range" id="w-min" min="0" max="150" step="1" value="0" oninput="updateDualSlider('w')">
-              <input type="range" id="w-max" min="0" max="150" step="1" value="150" oninput="updateDualSlider('w')">
-            </div>
-          </div>
-
-          <!-- Height Dual Slider -->
-          <div class="slider-group">
-            <div class="slider-header">
-              <span>Height (H in inches)</span>
-              <span id="h-val-label">0" - 150"</span>
-            </div>
-            <div class="dual-slider">
-              <div class="slider-track" id="h-track"></div>
-              <input type="range" id="h-min" min="0" max="150" step="1" value="0" oninput="updateDualSlider('h')">
-              <input type="range" id="h-max" min="0" max="150" step="1" value="150" oninput="updateDualSlider('h')">
-            </div>
-          </div>
-
-        </div>
-
-        <div style="margin-top: 15px; display: flex; justify-content: flex-end;">
-          <button class="pill-btn" onclick="resetFilters()">Reset All Filters</button>
-        </div>
-      </div>
+  <!-- 2. BRAND PHILOSOPHY SECTION (SCROLL DOWN) -->
+  <section class="philosophy-section">
+    <div class="philosophy-container">
+      <h2 class="philosophy-heading">OUR PHILOSOPHY</h2>
+      <p class="philosophy-text">
+        At the intersection of time-honed craftsmanship and contemporary design lies our philosophy: when manufacturing constraints guide our creative journey rather than limit it. Each piece emerges from a deep understanding of material and method, where traditional handcrafting techniques and modern processes integrate.
+      </p>
+      <p class="philosophy-text">
+        In an era where automation dominates, we stand as a bridge between the past and future of furniture making. Our workshop serves as a laboratory where artisans and designers collaborate, transforming age-old wisdom into pieces that transcend time.
+      </p>
+      <p class="philosophy-text highlight">
+        <strong>We specialize in:</strong> Bespoke furniture design for residential projects. Our tailor-made solutions align with the architect’s/designer’s vision, helping them create spaces in which furniture integrates seamlessly.
+      </p>
     </div>
-  </header>
+  </section>
 
-  <!-- Category Pills Bar -->
-  <nav class="category-pills-container" id="pills-container">
-    <div class="category-pills-wrapper" id="pills-wrapper"></div>
-  </nav>
+  <!-- 3. MAIN CATALOG & APP SECTION -->
+  <div class="app-main-wrapper">
+    <!-- App Header -->
+    <header class="app-header">
+      <div class="header-top">
+        <div class="brand-container">
+          <!-- Clean Hamsa Logo -->
+          <img src="hamsa.png" alt="Hamsa Logo" class="brand-logo-clean" onerror="this.style.display='none'">
+          <div>
+            <h1 class="brand-title">
+              DASTKARI
+              <span id="staff-indicator" class="staff-badge" style="display: none;">Staff Mode Active</span>
+            </h1>
+            <div class="brand-subtitle">Bespoke Furniture</div>
+          </div>
+        </div>
+        
+        <div class="header-actions">
+          <!-- Customer My Orders Button (Hidden in Staff Mode) -->
+          <button class="nav-btn btn-my-orders" id="btn-my-orders" onclick="openCustomerOrdersModal()">
+            My Orders <span id="my-orders-count-badge" class="cart-count-text">0</span>
+          </button>
 
-  <!-- Catalog Grid -->
-  <main class="catalog-container">
-    <div class="catalog-grid" id="catalog-grid"></div>
-  </main>
+          <!-- Staff Orders Navigation Tab -->
+          <button class="nav-btn btn-staff-orders" id="btn-staff-orders" style="display: none;" onclick="openOrdersModal()">
+            Staff Orders <span id="orders-count-badge" class="cart-count-text">0</span>
+          </button>
 
-  <!-- Product Details Modal -->
+          <!-- Dark Cart Button -->
+          <button class="nav-btn btn-cart" onclick="openCartModal()">
+            Cart <span id="cart-count-badge" class="cart-count-text">0</span>
+          </button>
+
+          <!-- Staff Login Button -->
+          <button class="nav-btn" id="staff-auth-btn" onclick="handleAuthBtnClick()">Staff Login</button>
+
+          <!-- Customer Sign In Button (Hidden in Staff Mode) -->
+          <button class="nav-btn btn-cust-sign" id="cust-auth-btn" onclick="handleCustomerAuthClick()">Sign In</button>
+        </div>
+      </div>
+
+      <!-- Toolbar & Expandable Filters Drawer -->
+      <div class="toolbar">
+        <div class="search-box">
+          <svg class="search-icon" viewBox="0 0 24 24">
+            <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
+          </svg>
+          <input type="text" id="search-input" class="search-input" placeholder="Search Catalog...">
+        </div>
+
+        <!-- Filters Tab Button -->
+        <button class="filter-tab-btn" onclick="toggleFilterDrawer()">
+          Filters
+        </button>
+
+        <button class="btn-add-item" id="btn-add-new" style="display: none;" onclick="openEditModal()">+ Add New Furniture</button>
+
+        <!-- Expandable Filters Tab Panel -->
+        <div class="filter-drawer" id="filter-drawer">
+
+          <!-- STAFF ONLY: Range Upper Limit Configurator -->
+          <div class="staff-slider-cfg-box" id="staff-slider-cfg" style="display: none;">
+            <div style="font-weight: 700; font-size: 0.85rem; color: #111;">Staff Portal: Edit Slider Upper Limits</div>
+            <div class="staff-cfg-grid">
+              <div>
+                <label class="form-label">Max Price (₹)</label>
+                <input type="number" id="cfg-price-max" class="login-input" value="1000000" step="10000" style="padding: 6px 10px; font-size: 0.8rem;">
+              </div>
+              <div>
+                <label class="form-label">Max L (Inches)</label>
+                <input type="number" id="cfg-l-max" class="login-input" value="150" step="5" style="padding: 6px 10px; font-size: 0.8rem;">
+              </div>
+              <div>
+                <label class="form-label">Max W (Inches)</label>
+                <input type="number" id="cfg-w-max" class="login-input" value="150" step="5" style="padding: 6px 10px; font-size: 0.8rem;">
+              </div>
+              <div>
+                <label class="form-label">Max H (Inches)</label>
+                <input type="number" id="cfg-h-max" class="login-input" value="150" step="5" style="padding: 6px 10px; font-size: 0.8rem;">
+              </div>
+            </div>
+            <button class="btn-submit" style="margin-top: 10px; padding: 8px 16px; font-size: 0.8rem;" onclick="applyStaffSliderConfig()">Apply New Slider Bounds</button>
+          </div>
+
+          <div class="filter-grid">
+            
+            <!-- Price Dual Slider -->
+            <div class="slider-group">
+              <div class="slider-header">
+                <span>Price Range</span>
+                <span id="price-val-label">₹0 - ₹10,00,000</span>
+              </div>
+              <div class="dual-slider">
+                <div class="slider-track" id="price-track"></div>
+                <input type="range" id="price-min" min="0" max="1000000" step="10000" value="0" oninput="updateDualSlider('price')">
+                <input type="range" id="price-max" min="0" max="1000000" step="10000" value="1000000" oninput="updateDualSlider('price')">
+              </div>
+            </div>
+
+            <!-- Length Dual Slider -->
+            <div class="slider-group">
+              <div class="slider-header">
+                <span>Length (L in inches)</span>
+                <span id="l-val-label">0" - 150"</span>
+              </div>
+              <div class="dual-slider">
+                <div class="slider-track" id="l-track"></div>
+                <input type="range" id="l-min" min="0" max="150" step="1" value="0" oninput="updateDualSlider('l')">
+                <input type="range" id="l-max" min="0" max="150" step="1" value="150" oninput="updateDualSlider('l')">
+              </div>
+            </div>
+
+            <!-- Width Dual Slider -->
+            <div class="slider-group">
+              <div class="slider-header">
+                <span>Width (W in inches)</span>
+                <span id="w-val-label">0" - 150"</span>
+              </div>
+              <div class="dual-slider">
+                <div class="slider-track" id="w-track"></div>
+                <input type="range" id="w-min" min="0" max="150" step="1" value="0" oninput="updateDualSlider('w')">
+                <input type="range" id="w-max" min="0" max="150" step="1" value="150" oninput="updateDualSlider('w')">
+              </div>
+            </div>
+
+            <!-- Height Dual Slider -->
+            <div class="slider-group">
+              <div class="slider-header">
+                <span>Height (H in inches)</span>
+                <span id="h-val-label">0" - 150"</span>
+              </div>
+              <div class="dual-slider">
+                <div class="slider-track" id="h-track"></div>
+                <input type="range" id="h-min" min="0" max="150" step="1" value="0" oninput="updateDualSlider('h')">
+                <input type="range" id="h-max" min="0" max="150" step="1" value="150" oninput="updateDualSlider('h')">
+              </div>
+            </div>
+
+          </div>
+
+          <div style="margin-top: 15px; display: flex; justify-content: flex-end;">
+            <button class="pill-btn" onclick="resetFilters()">Reset All Filters</button>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Category Pills Bar -->
+    <nav class="category-pills-container" id="pills-container">
+      <div class="category-pills-wrapper" id="pills-wrapper"></div>
+    </nav>
+
+    <!-- Catalog Grid -->
+    <main class="catalog-container">
+      <div class="catalog-grid" id="catalog-grid"></div>
+    </main>
+  </div>
+
+  <!-- PRODUCT DETAILS MODAL (PICTURES ON LEFT, ENLARGED FONTS & DESCRIPTION ON RIGHT) -->
   <div class="modal-overlay" id="item-modal">
     <div class="modal-container">
       <button class="modal-close-btn" onclick="closeModal('item-modal')">&times;</button>
       
       <div class="grid-modal-content">
+        <!-- Left Side: Product Pictures -->
         <div class="modal-gallery">
           <div class="modal-main-img-box">
             <img id="modal-img" src="" alt="Detail View">
@@ -1188,24 +1315,30 @@
           <div class="modal-thumbs" id="modal-thumbs"></div>
         </div>
 
+        <!-- Right Side: Product Details & Description with ENLARGED Typography -->
         <div class="modal-details" style="display: flex; flex-direction: column; justify-content: space-between;">
           <div>
-            <span class="card-category" id="modal-category">Category</span>
-            <h2 id="modal-title" style="margin-top: 4px; font-size: 1.5rem;">Title</h2>
+            <span class="card-category" id="modal-category" style="font-size: 0.95rem; font-weight: 600; letter-spacing: 1.5px; color: #777; text-transform: uppercase;">Category</span>
+            <h2 id="modal-title" style="margin-top: 6px; font-size: 2rem; font-weight: 400; line-height: 1.2; color: #111;">Title</h2>
+            
+            <!-- Description Block -->
+            <p id="modal-desc" style="margin-top: 18px; font-size: 1.1rem; line-height: 1.7; color: #444444; font-weight: 300;">
+              A bespoke craftsmanship of Dastkari
+            </p>
           </div>
 
-          <div style="display: flex; flex-direction: column; gap: 12px; margin: 20px 0;">
-            <div style="display: flex; justify-content: space-between; border-bottom: 1px solid #e0e0e0; padding-bottom: 8px;">
+          <div style="display: flex; flex-direction: column; gap: 16px; margin: 30px 0 20px 0;">
+            <div style="display: flex; justify-content: space-between; border-bottom: 1px solid #e0e0e0; padding-bottom: 10px; font-size: 1.05rem;">
               <span style="color: #666;">Dimensions (L × W × H)</span>
-              <strong id="modal-dims">50" × 50" × 50"</strong>
+              <strong id="modal-dims" style="font-size: 1.15rem; font-weight: 600;">50" × 50" × 50"</strong>
             </div>
-            <div style="display: flex; justify-content: space-between; border-bottom: 1px solid #e0e0e0; padding-bottom: 8px;">
+            <div style="display: flex; justify-content: space-between; border-bottom: 1px solid #e0e0e0; padding-bottom: 10px; font-size: 1.05rem;">
               <span style="color: #666;">Price</span>
-              <strong id="modal-price" style="font-size: 1.1rem;">₹1,00,000</strong>
+              <strong id="modal-price" style="font-size: 1.4rem; font-weight: 700; color: #111;">₹1,00,000</strong>
             </div>
           </div>
 
-          <button class="btn-submit" id="modal-add-cart-btn" style="width: 100%;">+ Add to Cart</button>
+          <button class="btn-submit" id="modal-add-cart-btn" style="width: 100%; font-size: 1rem; padding: 14px;">+ Add to Cart</button>
         </div>
       </div>
     </div>
@@ -1347,7 +1480,7 @@
     </div>
   </div>
 
-  <!-- Staff Edit / Add Item Modal -->
+  <!-- Staff Edit / Add Item Modal (WITH DESCRIPTION FIELD) -->
   <div class="modal-overlay" id="edit-modal">
     <div class="modal-container" style="max-width: 500px;">
       <button class="modal-close-btn" onclick="closeModal('edit-modal')">&times;</button>
@@ -1364,6 +1497,11 @@
         <div>
           <label class="form-label">Category</label>
           <select id="edit-item-category" class="login-input" required style="cursor: pointer;"></select>
+        </div>
+
+        <div>
+          <label class="form-label">Description</label>
+          <textarea id="edit-item-desc" class="login-input" rows="3" placeholder="Enter product description...">A bespoke craftsmanship of Dastkari</textarea>
         </div>
 
         <div>
@@ -1992,7 +2130,7 @@
       setTimeout(() => toast.classList.remove('show'), 2500);
     }
 
-    /* Navigation Modals */
+    /* Navigation Modals & Product Detail Card View */
     function openItemModal(id) {
       const item = catalogData.find(i => i.id === id);
       if (!item) return;
@@ -2002,6 +2140,7 @@
 
       document.getElementById('modal-title').textContent = item.title;
       document.getElementById('modal-category').textContent = item.category;
+      document.getElementById('modal-desc').textContent = item.description || "A bespoke craftsmanship of Dastkari";
       document.getElementById('modal-dims').textContent = formatDimsStr(l, w, h);
       document.getElementById('modal-price').textContent = formatPrice(numPrice);
 
@@ -2132,6 +2271,7 @@
         document.getElementById('edit-item-id').value = item.id;
         document.getElementById('edit-item-title').value = item.title;
         document.getElementById('edit-item-category').value = item.category.toUpperCase();
+        document.getElementById('edit-item-desc').value = item.description || "A bespoke craftsmanship of Dastkari";
         document.getElementById('edit-item-price').value = parsePrice(item.price);
         
         document.getElementById('edit-item-l').value = l;
@@ -2144,6 +2284,7 @@
         document.getElementById('edit-item-id').value = '';
         document.getElementById('edit-item-title').value = '';
         document.getElementById('edit-item-category').value = 'ARMCHAIRS';
+        document.getElementById('edit-item-desc').value = "A bespoke craftsmanship of Dastkari";
         document.getElementById('edit-item-price').value = 100000;
         
         document.getElementById('edit-item-l').value = 50;
@@ -2160,6 +2301,7 @@
       const id = document.getElementById('edit-item-id').value;
       const title = document.getElementById('edit-item-title').value.trim();
       const category = document.getElementById('edit-item-category').value.trim().toUpperCase();
+      const description = document.getElementById('edit-item-desc').value.trim() || "A bespoke craftsmanship of Dastkari";
       const price = parseInt(document.getElementById('edit-item-price').value, 10) || 100000;
 
       const l = parseInt(document.getElementById('edit-item-l').value, 10) || 50;
@@ -2177,6 +2319,7 @@
         if (item) {
           item.title = title;
           item.category = category;
+          item.description = description;
           item.price = price;
           item.l = l;
           item.w = w;
@@ -2186,7 +2329,7 @@
         }
       } else {
         const newId = 'ITEM-' + Math.floor(1000 + Math.random() * 9000);
-        catalogData.unshift({ id: newId, title, category, price, l, w, h, dims, images: currentUploadedImages });
+        catalogData.unshift({ id: newId, title, category, description, price, l, w, h, dims, images: currentUploadedImages });
       }
 
       closeModal('edit-modal');
