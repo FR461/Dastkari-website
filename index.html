@@ -5,10 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Dastkari - Bespoke Furniture</title>
   
-  <!-- Montserrat Font -->
+  <!-- Montserrat & Julius Sans One Fonts (Matching Dastkari Logo Typography) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Julius+Sans+One&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
   <style>
     * {
@@ -46,33 +46,42 @@
       align-items: center;
     }
 
-    /* Header Brand Title with Squared Logo */
+    /* Header Brand Title with Clean Logo (No Box) & Exact Typography */
     .brand-container {
       display: flex;
       align-items: center;
       gap: 14px;
     }
 
-    .brand-logo-square {
-      width: 48px;
-      height: 48px;
-      aspect-ratio: 1 / 1;
-      object-fit: cover;
-      border-radius: 6px;
-      border: 1.5px solid #111111;
+    .brand-logo-clean {
+      width: 44px;
+      height: 44px;
+      object-fit: contain;
+      border: none !important;
+      background: transparent !important;
       display: block;
     }
 
     .brand-title {
-      font-size: 1.8rem;
-      font-weight: 700;
-      letter-spacing: 0.5px;
+      font-family: 'Julius Sans One', sans-serif;
+      font-size: 1.9rem;
+      font-weight: 400;
+      letter-spacing: 5px;
       color: #111111;
-      text-transform: capitalize;
+      text-transform: uppercase;
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 12px;
       flex-wrap: wrap;
+    }
+
+    .brand-subtitle {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 500;
+      letter-spacing: 1px;
+      color: #666666;
+      text-transform: capitalize;
     }
 
     .staff-badge {
@@ -85,6 +94,7 @@
       vertical-align: middle;
       text-transform: uppercase;
       letter-spacing: 0.5px;
+      font-family: 'Montserrat', sans-serif;
     }
 
     .header-actions {
@@ -113,8 +123,8 @@
       background: #f0f0f0;
     }
 
-    /* Dark Cart Button */
-    .btn-cart {
+    /* Dark Cart & Orders Buttons */
+    .btn-cart, .btn-staff-orders {
       background: #111111 !important;
       color: #ffffff !important;
       border: 1.5px solid #111111 !important;
@@ -128,7 +138,7 @@
       transition: background 0.2s ease;
     }
 
-    .btn-cart:hover {
+    .btn-cart:hover, .btn-staff-orders:hover {
       background: #333333 !important;
     }
 
@@ -763,6 +773,62 @@
       align-items: center;
     }
 
+    /* Staff Orders System Layout */
+    .order-card {
+      background: #ffffff;
+      border: 1.5px solid #222222;
+      border-radius: 10px;
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .order-header-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #eeeeee;
+      padding-bottom: 10px;
+    }
+
+    .order-status-badge {
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .order-status-badge.progress {
+      background: #fff3cd;
+      color: #856404;
+      border: 1px solid #ffeeba;
+    }
+
+    .order-status-badge.completed {
+      background: #d4edda;
+      color: #155724;
+      border: 1px solid #c3e6cb;
+    }
+
+    .btn-complete-order {
+      padding: 8px 16px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      background: #155724;
+      color: #ffffff;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.2s ease;
+    }
+
+    .btn-complete-order:hover {
+      background: #0b3814;
+    }
+
     /* Forms */
     .form-group {
       display: flex;
@@ -842,16 +908,24 @@
   <header class="app-header">
     <div class="header-top">
       <div class="brand-container">
-        <!-- Squared Hamsa Logo -->
-        <img src="hamsa.png" alt="Hamsa Logo" class="brand-logo-square" onerror="this.style.display='none'">
-        <h1 class="brand-title">
-          Dastkari - Bespoke Furniture 
-          <span id="staff-indicator" class="staff-badge" style="display: none;">Staff Mode Active</span>
-        </h1>
+        <!-- Clean Hamsa Logo (No Box/Border) -->
+        <img src="hamsa.png" alt="Hamsa Logo" class="brand-logo-clean" onerror="this.style.display='none'">
+        <div>
+          <h1 class="brand-title">
+            DASTKARI
+            <span id="staff-indicator" class="staff-badge" style="display: none;">Staff Mode Active</span>
+          </h1>
+          <div class="brand-subtitle">Bespoke Furniture</div>
+        </div>
       </div>
       
       <div class="header-actions">
-        <!-- Dark Cart Button (No brackets) -->
+        <!-- Staff Orders Navigation Tab (Visible when Staff Mode active) -->
+        <button class="nav-btn btn-staff-orders" id="btn-staff-orders" style="display: none;" onclick="openOrdersModal()">
+          📦 Orders <span id="orders-count-badge" class="cart-count-text">0</span>
+        </button>
+
+        <!-- Dark Cart Button -->
         <button class="nav-btn btn-cart" onclick="openCartModal()">
           🛒 Cart <span id="cart-count-badge" class="cart-count-text">0</span>
         </button>
@@ -878,7 +952,7 @@
       <!-- Expandable Filters Tab Panel -->
       <div class="filter-drawer" id="filter-drawer">
 
-        <!-- STAFF ONLY: Interactive Range Upper Limit Configurator -->
+        <!-- STAFF ONLY: Range Upper Limit Configurator -->
         <div class="staff-slider-cfg-box" id="staff-slider-cfg" style="display: none;">
           <div style="font-weight: 700; font-size: 0.85rem; color: #111;">⚙️ Staff Portal: Edit Slider Upper Limits</div>
           <div class="staff-cfg-grid">
@@ -986,7 +1060,7 @@
     <div class="catalog-grid" id="catalog-grid"></div>
   </main>
 
-  <!-- Product Details Modal (Item ID Removed) -->
+  <!-- Product Details Modal -->
   <div class="modal-overlay" id="item-modal">
     <div class="modal-container">
       <button class="modal-close-btn" onclick="closeModal('item-modal')">&times;</button>
@@ -1052,15 +1126,15 @@
       <form class="form-group" onsubmit="handleCheckout(event)">
         <div>
           <label class="form-label">Full Name</label>
-          <input type="text" class="login-input" required placeholder="John Doe">
+          <input type="text" id="chk-name" class="login-input" required placeholder="John Doe">
         </div>
         <div>
           <label class="form-label">Delivery Address</label>
-          <textarea class="login-input" required placeholder="Enter full shipping address..." rows="3"></textarea>
+          <textarea id="chk-address" class="login-input" required placeholder="Enter full shipping address..." rows="3"></textarea>
         </div>
         <div>
           <label class="form-label">Phone Number</label>
-          <input type="tel" class="login-input" required placeholder="+91 98765 43210">
+          <input type="tel" id="chk-phone" class="login-input" required placeholder="+91 98765 43210">
         </div>
         
         <div style="background: #f8f9fa; padding: 12px; border-radius: 6px; margin: 10px 0;">
@@ -1079,6 +1153,34 @@
     </div>
   </div>
 
+  <!-- STAFF ORDERS PORTAL MODAL -->
+  <div class="modal-overlay" id="orders-modal">
+    <div class="modal-container" style="max-width: 900px;">
+      <div class="cart-header">
+        <h2>📦 Staff Order Management</h2>
+        <button class="modal-close-btn" onclick="closeModal('orders-modal')">&times;</button>
+      </div>
+
+      <!-- Filter Tabs inside Orders System -->
+      <div style="display: flex; gap: 10px; margin: 20px 0 10px 0; border-bottom: 1px solid #e0e0e0; padding-bottom: 12px; flex-wrap: wrap;">
+        <button class="pill-btn active" id="tab-ord-all" onclick="setOrderTab('ALL', this)">
+          All Orders (<span id="cnt-ord-all">0</span>)
+        </button>
+        <button class="pill-btn" id="tab-ord-progress" onclick="setOrderTab('IN_PROGRESS', this)">
+          In Progress (<span id="cnt-ord-progress">0</span>)
+        </button>
+        <button class="pill-btn" id="tab-ord-complete" onclick="setOrderTab('COMPLETED', this)">
+          Completed (<span id="cnt-ord-complete">0</span>)
+        </button>
+      </div>
+
+      <!-- Orders Container List -->
+      <div id="orders-list-container" style="display: flex; flex-direction: column; gap: 16px; margin-top: 15px; max-height: 60vh; overflow-y: auto;">
+        <!-- Rendered via JS -->
+      </div>
+    </div>
+  </div>
+
   <!-- Staff Login Modal -->
   <div class="modal-overlay" id="staff-modal">
     <div class="modal-container" style="max-width: 420px;">
@@ -1092,7 +1194,7 @@
     </div>
   </div>
 
-  <!-- Staff Edit / Add Item Modal with 3 Dimension Input Numbers (in inches) -->
+  <!-- Staff Edit / Add Item Modal -->
   <div class="modal-overlay" id="edit-modal">
     <div class="modal-container" style="max-width: 500px;">
       <button class="modal-close-btn" onclick="closeModal('edit-modal')">&times;</button>
@@ -1116,7 +1218,6 @@
           <input type="number" id="edit-item-price" class="login-input" required placeholder="100000">
         </div>
 
-        <!-- 3 Specific Dimension Number Inputs in Inches -->
         <div>
           <label class="form-label">Dimensions (L × W × H in inches)</label>
           <div style="display: flex; gap: 8px;">
@@ -1146,7 +1247,21 @@
   <script>
     let catalogData = [];
     let cart = [];
+    let orders = JSON.parse(localStorage.getItem('dastkari_orders')) || [
+      {
+        id: 'ORD-10021',
+        name: 'Siddharth V.',
+        address: 'Banjara Hills, Hyderabad, Telangana',
+        phone: '+91 98765 43210',
+        total: 100000,
+        status: 'In Progress',
+        date: '24 Sep 2026, 02:30 PM',
+        items: [{ title: 'Dastkari Bespoke Armchair', qty: 1, price: 100000 }]
+      }
+    ];
+
     let activeCategory = 'ALL';
+    let activeOrderTab = 'ALL';
     let searchQuery = '';
     let isStaffLoggedIn = localStorage.getItem('dastkari_staff_logged_in') === 'true';
     let currentUploadedImages = [];
@@ -1170,12 +1285,13 @@
         renderPills();
         renderGrid();
         updateCartUI();
+        updateOrdersBadge();
       } catch (err) {
         grid.innerHTML = `<div class="error-msg">Could Not Load catalog_data.json</div>`;
       }
     }
 
-    /* Price & Dimension Parsing */
+    /* Helper Parsing Functions */
     function parsePrice(priceVal) {
       if (typeof priceVal === 'number') return priceVal;
       if (!priceVal) return 100000;
@@ -1215,14 +1331,13 @@
       drawer.classList.toggle('active');
     }
 
-    /* Staff Edit Slider Bounds */
+    /* Staff Config Sliders */
     function applyStaffSliderConfig() {
       const newPriceMax = parseInt(document.getElementById('cfg-price-max').value, 10) || 1000000;
       const newLMax = parseInt(document.getElementById('cfg-l-max').value, 10) || 150;
       const newWMax = parseInt(document.getElementById('cfg-w-max').value, 10) || 150;
       const newHMax = parseInt(document.getElementById('cfg-h-max').value, 10) || 150;
 
-      // Update max properties on input ranges
       document.getElementById('price-min').max = newPriceMax;
       document.getElementById('price-max').max = newPriceMax;
       document.getElementById('price-max').value = newPriceMax;
@@ -1243,7 +1358,7 @@
       showToast('Slider bounds updated by Staff!');
     }
 
-    /* Dual-Slider Controller */
+    /* Dual Slider Logic */
     function updateDualSlider(prefix) {
       const minEl = document.getElementById(`${prefix}-min`);
       const maxEl = document.getElementById(`${prefix}-max`);
@@ -1443,6 +1558,115 @@
       document.getElementById('checkout-subtotal').textContent = formatPrice(totalSum);
     }
 
+    /* Checkout & Order Generation */
+    function handleCheckout(e) {
+      e.preventDefault();
+
+      const name = document.getElementById('chk-name').value.trim();
+      const address = document.getElementById('chk-address').value.trim();
+      const phone = document.getElementById('chk-phone').value.trim();
+      const totalSum = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+
+      const newOrder = {
+        id: 'ORD-' + Math.floor(10000 + Math.random() * 90000),
+        name: name,
+        address: address,
+        phone: phone,
+        total: totalSum,
+        status: 'In Progress',
+        date: new Date().toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' }),
+        items: [...cart]
+      };
+
+      orders.unshift(newOrder);
+      localStorage.setItem('dastkari_orders', JSON.stringify(orders));
+
+      cart = [];
+      updateCartUI();
+      updateOrdersBadge();
+      closeModal('checkout-modal');
+      alert(`Order Placed Successfully! Order Reference: ${newOrder.id}`);
+    }
+
+    /* STAFF ORDERS SYSTEM LOGIC */
+    function updateOrdersBadge() {
+      const inProgressCount = orders.filter(o => o.status === 'In Progress').length;
+      document.getElementById('orders-count-badge').textContent = inProgressCount;
+      document.getElementById('cnt-ord-all').textContent = orders.length;
+      document.getElementById('cnt-ord-progress').textContent = inProgressCount;
+      document.getElementById('cnt-ord-complete').textContent = orders.filter(o => o.status === 'Completed').length;
+    }
+
+    function openOrdersModal() {
+      renderOrdersList();
+      document.getElementById('orders-modal').classList.add('active');
+    }
+
+    function setOrderTab(tabName, btnEl) {
+      activeOrderTab = tabName;
+      document.querySelectorAll('#orders-modal .pill-btn').forEach(b => b.classList.remove('active'));
+      if (btnEl) btnEl.classList.add('active');
+      renderOrdersList();
+    }
+
+    function renderOrdersList() {
+      updateOrdersBadge();
+      const container = document.getElementById('orders-list-container');
+
+      const filteredOrders = orders.filter(ord => {
+        if (activeOrderTab === 'IN_PROGRESS') return ord.status === 'In Progress';
+        if (activeOrderTab === 'COMPLETED') return ord.status === 'Completed';
+        return true;
+      });
+
+      if (filteredOrders.length === 0) {
+        container.innerHTML = `<div class="empty-state">No Orders Found in this Tab.</div>`;
+        return;
+      }
+
+      container.innerHTML = filteredOrders.map(ord => {
+        const isProgress = ord.status === 'In Progress';
+        const itemsListStr = ord.items.map(i => `${i.title} (x${i.qty})`).join(', ');
+
+        return `
+          <div class="order-card">
+            <div class="order-header-row">
+              <div>
+                <strong style="font-size: 1.05rem;">${ord.id}</strong>
+                <span style="font-size: 0.8rem; color: #666; margin-left: 10px;">${ord.date}</span>
+              </div>
+              <span class="order-status-badge ${isProgress ? 'progress' : 'completed'}">
+                ${ord.status}
+              </span>
+            </div>
+
+            <div style="font-size: 0.9rem; display: flex; flex-direction: column; gap: 4px;">
+              <div><strong>Customer:</strong> ${ord.name} (${ord.phone})</div>
+              <div><strong>Address:</strong> ${ord.address}</div>
+              <div><strong>Items:</strong> ${itemsListStr}</div>
+              <div style="font-weight: 700; margin-top: 4px;">Total Amount: ${formatPrice(ord.total)}</div>
+            </div>
+
+            ${isProgress ? `
+              <div style="display: flex; justify-content: flex-end; margin-top: 6px;">
+                <button class="btn-complete-order" onclick="markOrderComplete('${ord.id}')">✓ Mark as Complete</button>
+              </div>
+            ` : ''}
+          </div>
+        `;
+      }).join('');
+    }
+
+    function markOrderComplete(orderId) {
+      const ord = orders.find(o => o.id === orderId);
+      if (ord) {
+        ord.status = 'Completed';
+        localStorage.setItem('dastkari_orders', JSON.stringify(orders));
+        renderOrdersList();
+        showToast(`Order ${orderId} marked as Completed!`);
+      }
+    }
+
     function showToast(msg) {
       const toast = document.getElementById('toast-msg');
       toast.textContent = msg;
@@ -1450,7 +1674,7 @@
       setTimeout(() => toast.classList.remove('show'), 2500);
     }
 
-    /* Modal Navigation */
+    /* Navigation Modals */
     function openItemModal(id) {
       const item = catalogData.find(i => i.id === id);
       if (!item) return;
@@ -1497,14 +1721,6 @@
       document.getElementById('checkout-modal').classList.add('active');
     }
 
-    function handleCheckout(e) {
-      e.preventDefault();
-      alert('Order placed successfully! We will contact you regarding delivery.');
-      cart = [];
-      updateCartUI();
-      closeModal('checkout-modal');
-    }
-
     function openStaffModal() {
       document.getElementById('staff-modal').classList.add('active');
     }
@@ -1520,21 +1736,24 @@
       thumbEl.classList.add('active');
     }
 
-    /* Staff Operations */
+    /* Staff Mode Handlers */
     function updateStaffUI() {
       const indicator = document.getElementById('staff-indicator');
       const addBtn = document.getElementById('btn-add-new');
+      const ordersBtn = document.getElementById('btn-staff-orders');
       const authBtn = document.getElementById('staff-auth-btn');
       const sliderCfgBox = document.getElementById('staff-slider-cfg');
 
       if (isStaffLoggedIn) {
         indicator.style.display = 'inline-block';
         addBtn.style.display = 'inline-block';
+        ordersBtn.style.display = 'flex';
         if (sliderCfgBox) sliderCfgBox.style.display = 'block';
         authBtn.textContent = 'Staff (Logout)';
       } else {
         indicator.style.display = 'none';
         addBtn.style.display = 'none';
+        ordersBtn.style.display = 'none';
         if (sliderCfgBox) sliderCfgBox.style.display = 'none';
         authBtn.textContent = 'Staff Login';
       }
@@ -1680,7 +1899,7 @@
       }
     }
 
-    /* Drag & Drop Upload */
+    /* Drag & Drop Upload Logic */
     const dropZone = document.getElementById('drop-zone');
 
     ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(evt => {
