@@ -46,12 +46,33 @@
       align-items: center;
     }
 
+    /* Header Brand Title with Squared Logo */
+    .brand-container {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .brand-logo-square {
+      width: 48px;
+      height: 48px;
+      aspect-ratio: 1 / 1;
+      object-fit: cover;
+      border-radius: 6px;
+      border: 1.5px solid #111111;
+      display: block;
+    }
+
     .brand-title {
-      font-size: 2rem;
+      font-size: 1.8rem;
       font-weight: 700;
-      letter-spacing: 1px;
+      letter-spacing: 0.5px;
       color: #111111;
       text-transform: capitalize;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
     }
 
     .staff-badge {
@@ -61,7 +82,6 @@
       font-size: 0.75rem;
       padding: 4px 10px;
       border-radius: 4px;
-      margin-left: 10px;
       vertical-align: middle;
       text-transform: uppercase;
       letter-spacing: 0.5px;
@@ -199,7 +219,23 @@
       gap: 20px;
     }
 
-    /* Merged Dual-Handle Range Slider Component */
+    /* Staff Config Box Inside Filters Drawer */
+    .staff-slider-cfg-box {
+      background: #ffffff;
+      border: 1.5px dashed #111111;
+      border-radius: 8px;
+      padding: 14px;
+      margin-bottom: 18px;
+    }
+
+    .staff-cfg-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+      gap: 12px;
+      margin-top: 10px;
+    }
+
+    /* Merged Dual-Handle Range Slider */
     .slider-group {
       display: flex;
       flex-direction: column;
@@ -805,10 +841,14 @@
   <!-- App Header -->
   <header class="app-header">
     <div class="header-top">
-      <h1 class="brand-title">
-        Dastkari - Bespoke Furniture 
-        <span id="staff-indicator" class="staff-badge" style="display: none;">Staff Mode Active</span>
-      </h1>
+      <div class="brand-container">
+        <!-- Squared Hamsa Logo -->
+        <img src="hamsa.png" alt="Hamsa Logo" class="brand-logo-square" onerror="this.style.display='none'">
+        <h1 class="brand-title">
+          Dastkari - Bespoke Furniture 
+          <span id="staff-indicator" class="staff-badge" style="display: none;">Staff Mode Active</span>
+        </h1>
+      </div>
       
       <div class="header-actions">
         <!-- Dark Cart Button (No brackets) -->
@@ -835,8 +875,33 @@
 
       <button class="btn-add-item" id="btn-add-new" style="display: none;" onclick="openEditModal()">+ Add New Furniture</button>
 
-      <!-- Expandable Filters Tab Panel with Combined Dual-Handle Sliders -->
+      <!-- Expandable Filters Tab Panel -->
       <div class="filter-drawer" id="filter-drawer">
+
+        <!-- STAFF ONLY: Interactive Range Upper Limit Configurator -->
+        <div class="staff-slider-cfg-box" id="staff-slider-cfg" style="display: none;">
+          <div style="font-weight: 700; font-size: 0.85rem; color: #111;">⚙️ Staff Portal: Edit Slider Upper Limits</div>
+          <div class="staff-cfg-grid">
+            <div>
+              <label class="form-label">Max Price (₹)</label>
+              <input type="number" id="cfg-price-max" class="login-input" value="1000000" step="10000" style="padding: 6px 10px; font-size: 0.8rem;">
+            </div>
+            <div>
+              <label class="form-label">Max L (Inches)</label>
+              <input type="number" id="cfg-l-max" class="login-input" value="150" step="5" style="padding: 6px 10px; font-size: 0.8rem;">
+            </div>
+            <div>
+              <label class="form-label">Max W (Inches)</label>
+              <input type="number" id="cfg-w-max" class="login-input" value="150" step="5" style="padding: 6px 10px; font-size: 0.8rem;">
+            </div>
+            <div>
+              <label class="form-label">Max H (Inches)</label>
+              <input type="number" id="cfg-h-max" class="login-input" value="150" step="5" style="padding: 6px 10px; font-size: 0.8rem;">
+            </div>
+          </div>
+          <button class="btn-submit" style="margin-top: 10px; padding: 8px 16px; font-size: 0.8rem;" onclick="applyStaffSliderConfig()">Apply New Slider Bounds</button>
+        </div>
+
         <div class="filter-grid">
           
           <!-- Price Dual Slider -->
@@ -1099,7 +1164,6 @@
 
         catalogData = await response.json();
         
-        // Initialize dual sliders visual fills
         ['price', 'l', 'w', 'h'].forEach(p => updateDualSlider(p));
 
         updateStaffUI();
@@ -1111,7 +1175,7 @@
       }
     }
 
-    /* Price & Dimension Parsing (Defaulting to 50" x 50" x 50") */
+    /* Price & Dimension Parsing */
     function parsePrice(priceVal) {
       if (typeof priceVal === 'number') return priceVal;
       if (!priceVal) return 100000;
@@ -1151,7 +1215,35 @@
       drawer.classList.toggle('active');
     }
 
-    /* Merged Dual-Slider Controller */
+    /* Staff Edit Slider Bounds */
+    function applyStaffSliderConfig() {
+      const newPriceMax = parseInt(document.getElementById('cfg-price-max').value, 10) || 1000000;
+      const newLMax = parseInt(document.getElementById('cfg-l-max').value, 10) || 150;
+      const newWMax = parseInt(document.getElementById('cfg-w-max').value, 10) || 150;
+      const newHMax = parseInt(document.getElementById('cfg-h-max').value, 10) || 150;
+
+      // Update max properties on input ranges
+      document.getElementById('price-min').max = newPriceMax;
+      document.getElementById('price-max').max = newPriceMax;
+      document.getElementById('price-max').value = newPriceMax;
+
+      document.getElementById('l-min').max = newLMax;
+      document.getElementById('l-max').max = newLMax;
+      document.getElementById('l-max').value = newLMax;
+
+      document.getElementById('w-min').max = newWMax;
+      document.getElementById('w-max').max = newWMax;
+      document.getElementById('w-max').value = newWMax;
+
+      document.getElementById('h-min').max = newHMax;
+      document.getElementById('h-max').max = newHMax;
+      document.getElementById('h-max').value = newHMax;
+
+      ['price', 'l', 'w', 'h'].forEach(p => updateDualSlider(p));
+      showToast('Slider bounds updated by Staff!');
+    }
+
+    /* Dual-Slider Controller */
     function updateDualSlider(prefix) {
       const minEl = document.getElementById(`${prefix}-min`);
       const maxEl = document.getElementById(`${prefix}-max`);
@@ -1161,7 +1253,6 @@
       let minVal = parseInt(minEl.value, 10);
       let maxVal = parseInt(maxEl.value, 10);
 
-      // Prevent thumbs from crossing each other
       if (minVal > maxVal) {
         if (event && event.target === minEl) {
           minEl.value = maxVal;
@@ -1172,13 +1263,11 @@
         }
       }
 
-      // Update Track Fill Width
       const minPercent = ((minVal - minEl.min) / (minEl.max - minEl.min)) * 100;
       const maxPercent = ((maxVal - maxEl.min) / (maxEl.max - maxEl.min)) * 100;
       track.style.left = minPercent + '%';
       track.style.width = (maxPercent - minPercent) + '%';
 
-      // Update Label
       if (prefix === 'price') {
         label.textContent = `${formatPrice(minVal)} - ${formatPrice(maxVal)}`;
       } else {
@@ -1190,13 +1279,13 @@
 
     function resetFilters() {
       document.getElementById('price-min').value = 0;
-      document.getElementById('price-max').value = 1000000;
+      document.getElementById('price-max').value = document.getElementById('price-max').max;
       document.getElementById('l-min').value = 0;
-      document.getElementById('l-max').value = 150;
+      document.getElementById('l-max').value = document.getElementById('l-max').max;
       document.getElementById('w-min').value = 0;
-      document.getElementById('w-max').value = 150;
+      document.getElementById('w-max').value = document.getElementById('w-max').max;
       document.getElementById('h-min').value = 0;
-      document.getElementById('h-max').value = 150;
+      document.getElementById('h-max').value = document.getElementById('h-max').max;
 
       ['price', 'l', 'w', 'h'].forEach(p => updateDualSlider(p));
     }
@@ -1266,7 +1355,7 @@
       }).join('');
     }
 
-    /* Cart State Operations */
+    /* Cart Operations */
     function addToCart(itemId, qty = 1) {
       const item = catalogData.find(i => i.id === itemId);
       if (!item) return;
@@ -1305,11 +1394,9 @@
     }
 
     function updateCartUI() {
-      // Clean counter text (No brackets)
       const totalCount = cart.reduce((sum, item) => sum + item.qty, 0);
       document.getElementById('cart-count-badge').textContent = totalCount;
 
-      // Fullscreen Cart Items
       const cartContainer = document.getElementById('cart-items-container');
       const grandTotalEl = document.getElementById('cart-grand-total');
 
@@ -1433,19 +1520,22 @@
       thumbEl.classList.add('active');
     }
 
-    /* Staff Portal Operations */
+    /* Staff Operations */
     function updateStaffUI() {
       const indicator = document.getElementById('staff-indicator');
       const addBtn = document.getElementById('btn-add-new');
       const authBtn = document.getElementById('staff-auth-btn');
+      const sliderCfgBox = document.getElementById('staff-slider-cfg');
 
       if (isStaffLoggedIn) {
         indicator.style.display = 'inline-block';
         addBtn.style.display = 'inline-block';
+        if (sliderCfgBox) sliderCfgBox.style.display = 'block';
         authBtn.textContent = 'Staff (Logout)';
       } else {
         indicator.style.display = 'none';
         addBtn.style.display = 'none';
+        if (sliderCfgBox) sliderCfgBox.style.display = 'none';
         authBtn.textContent = 'Staff Login';
       }
     }
@@ -1584,13 +1674,13 @@
           showToast('Catalog auto-saved to Vercel!');
         }
       } catch (e) {
-        // Fallback for static host
+        // Fallback
       } finally {
         if (saveBtn) saveBtn.textContent = 'Save Item & Auto-Update Catalog';
       }
     }
 
-    /* Drag & Drop Upload Logic */
+    /* Drag & Drop Upload */
     const dropZone = document.getElementById('drop-zone');
 
     ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(evt => {
