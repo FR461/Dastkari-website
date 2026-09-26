@@ -39,13 +39,17 @@
   },
   {
     "id": "ITEM-004",
-    "title": "Dastkari Bespoke BEDS (Page #103)",
+    "title": "Some very nice Bed",
     "category": "BEDS",
-    "price": "Price on Request",
-    "dims": "Custom Dimensions",
+    "price": 999720,
+    "dims": "80\" × 70\" × 50\"",
     "images": [
       "./Assets/P1_page_103_1.jpeg"
-    ]
+    ],
+    "description": "A bespoke craftsmanship of Dastkari",
+    "l": 80,
+    "w": 70,
+    "h": 50
   },
   {
     "id": "ITEM-005",
