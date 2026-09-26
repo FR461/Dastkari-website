@@ -16,7 +16,6 @@
       margin: 0;
       padding: 0;
       font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, sans-serif;
-      text-transform: capitalize;
     }
 
     body {
@@ -24,6 +23,12 @@
       color: #111111;
       padding: 30px 20px;
       -webkit-font-smoothing: antialiased;
+      text-transform: capitalize; /* Title Case across text elements */
+    }
+
+    /* Prevent auto-capitalization on form inputs so credentials can be typed normally */
+    input, textarea {
+      text-transform: none;
     }
 
     /* Header */
@@ -47,6 +52,20 @@
       font-weight: 700;
       letter-spacing: 1px;
       color: #111111;
+      text-transform: capitalize;
+    }
+
+    .staff-badge {
+      display: inline-block;
+      background: #222222;
+      color: #ffffff;
+      font-size: 0.75rem;
+      padding: 4px 10px;
+      border-radius: 4px;
+      margin-left: 10px;
+      vertical-align: middle;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
     }
 
     .staff-login-btn {
@@ -59,6 +78,7 @@
       border-radius: 6px;
       cursor: pointer;
       transition: all 0.2s ease;
+      text-transform: capitalize;
     }
 
     .staff-login-btn:hover {
@@ -66,18 +86,7 @@
       color: #ffffff;
     }
 
-    .staff-badge {
-      display: inline-block;
-      background: #222222;
-      color: #ffffff;
-      font-size: 0.7rem;
-      padding: 2px 8px;
-      border-radius: 4px;
-      margin-left: 10px;
-      vertical-align: middle;
-    }
-
-    /* Search Toolbar */
+    /* Search & Actions Toolbar */
     .toolbar {
       width: 100%;
       display: flex;
@@ -126,6 +135,7 @@
       cursor: pointer;
       white-space: nowrap;
       transition: background 0.2s ease;
+      text-transform: capitalize;
     }
 
     .btn-add-item:hover {
@@ -142,8 +152,8 @@
       padding: 8px 0;
       cursor: grab;
       user-select: none;
-      -ms-overflow-style: none !important;  /* IE and Edge */
-      scrollbar-width: none !important;  /* Firefox */
+      -ms-overflow-style: none !important;
+      scrollbar-width: none !important;
     }
 
     .category-pills-container::-webkit-scrollbar,
@@ -177,6 +187,7 @@
       cursor: pointer;
       transition: all 0.2s ease;
       flex-shrink: 0;
+      text-transform: capitalize;
     }
 
     .pill-btn.active {
@@ -243,6 +254,7 @@
       font-weight: 600;
       line-height: 1.3;
       color: #111111;
+      text-transform: capitalize;
     }
 
     .card-category {
@@ -250,6 +262,7 @@
       font-weight: 500;
       color: #666666;
       letter-spacing: 0.5px;
+      text-transform: capitalize;
     }
 
     .card-footer-row {
@@ -273,32 +286,34 @@
     /* Staff Controls on Cards */
     .staff-card-actions {
       display: flex;
-      gap: 6px;
-      margin-top: 6px;
-      padding-top: 6px;
-      border-top: 1px dashed #e0e0e0;
+      gap: 8px;
+      margin-top: 8px;
+      padding-top: 8px;
+      border-top: 1px dashed #cccccc;
     }
 
-    .btn-card-action {
+    .btn-card-edit {
       flex: 1;
-      padding: 6px;
-      font-size: 0.75rem;
+      padding: 6px 10px;
+      font-size: 0.78rem;
       font-weight: 600;
-      border-radius: 4px;
-      border: 1px solid #222222;
-      background: #ffffff;
-      color: #111111;
+      border-radius: 6px;
+      border: 1.5px solid #222222;
+      background: #222222;
+      color: #ffffff;
       cursor: pointer;
-      text-align: center;
-    }
-
-    .btn-card-action:hover {
-      background: #f0f0f0;
     }
 
     .btn-card-delete {
-      border-color: #d9534f;
+      flex: 1;
+      padding: 6px 10px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      border-radius: 6px;
+      border: 1.5px solid #d9534f;
+      background: #ffffff;
       color: #d9534f;
+      cursor: pointer;
     }
 
     .btn-card-delete:hover {
@@ -394,12 +409,8 @@
       scrollbar-width: none !important;
     }
 
-    .modal-thumbs::-webkit-scrollbar,
-    .modal-thumbs::-webkit-scrollbar-track,
-    .modal-thumbs::-webkit-scrollbar-thumb {
+    .modal-thumbs::-webkit-scrollbar {
       display: none !important;
-      width: 0 !important;
-      height: 0 !important;
     }
 
     .modal-thumb {
@@ -435,6 +446,7 @@
       font-size: 0.8rem;
       font-weight: 600;
       color: #444444;
+      text-transform: capitalize;
     }
 
     .login-input {
@@ -457,6 +469,7 @@
       cursor: pointer;
       width: 100%;
       margin-top: 10px;
+      text-transform: capitalize;
     }
 
     .empty-state, .error-msg {
@@ -472,7 +485,7 @@
   <!-- Header -->
   <header class="app-header">
     <div class="header-top">
-      <h1 class="brand-title">Dastkari - Bespoke Furniture <span id="staff-indicator" class="staff-badge" style="display: none;">Staff Mode</span></h1>
+      <h1 class="brand-title">Dastkari - Bespoke Furniture <span id="staff-indicator" class="staff-badge" style="display: none;">Staff Mode Active</span></h1>
       <button class="staff-login-btn" id="staff-auth-btn" onclick="handleAuthBtnClick()">Staff Login</button>
     </div>
 
@@ -552,8 +565,8 @@
       <button class="modal-close-btn" onclick="closeModal('staff-modal')">&times;</button>
       <h2 style="text-align: center; font-size: 1.4rem;">Staff Portal Access</h2>
       <form class="form-group" id="staff-login-form" onsubmit="handleStaffLogin(event)">
-        <input type="text" id="staff-emp-id" class="login-input" placeholder="Employee ID (admin)" required>
-        <input type="password" id="staff-password" class="login-input" placeholder="Password (dastkari2026)" required>
+        <input type="text" id="staff-emp-id" class="login-input" placeholder="Employee ID (admin)" required autocomplete="off">
+        <input type="password" id="staff-password" class="login-input" placeholder="Password (dastkari2026)" required autocomplete="off">
         <button type="submit" class="btn-submit">Sign In</button>
       </form>
     </div>
@@ -580,16 +593,16 @@
 
         <div>
           <label class="form-label">Price</label>
-          <input type="text" id="edit-item-price" class="login-input" required placeholder="e.g. ₹ 45,000">
+          <input type="text" id="edit-item-price" class="login-input" required placeholder="e.g. Price On Request">
         </div>
 
         <div>
           <label class="form-label">Dimensions</label>
-          <input type="text" id="edit-item-dims" class="login-input" required placeholder="e.g. 32W x 34D x 36H">
+          <input type="text" id="edit-item-dims" class="login-input" required placeholder="e.g. Custom Dimensions">
         </div>
 
         <div>
-          <label class="form-label">Image URL (Comma Separated for Multiple)</label>
+          <label class="form-label">Image URL (Comma separated for multiple)</label>
           <input type="text" id="edit-item-images" class="login-input" required placeholder="https://example.com/photo.jpg">
         </div>
 
@@ -602,7 +615,7 @@
     let catalogData = [];
     let activeCategory = 'ALL';
     let searchQuery = '';
-    let isStaffLoggedIn = false;
+    let isStaffLoggedIn = localStorage.getItem('dastkari_staff_logged_in') === 'true';
 
     const grid = document.getElementById('catalog-grid');
     const pillsWrapper = document.getElementById('pills-wrapper');
@@ -610,16 +623,47 @@
     const searchInput = document.getElementById('search-input');
 
     async function init() {
-      try {
-        let response = await fetch('./catalog_data.json');
-        if (!response.ok) response = await fetch('./Assets/catalog_data.json');
-        if (!response.ok) throw new Error('Catalog data missing.');
-
-        catalogData = await response.json();
+      // Check for saved local data first
+      const storedCatalog = localStorage.getItem('dastkari_catalog_data');
+      if (storedCatalog) {
+        catalogData = JSON.parse(storedCatalog);
+        updateStaffUI();
         renderPills();
         renderGrid();
-      } catch (err) {
-        grid.innerHTML = `<div class="error-msg">Could Not Load catalog_data.json</div>`;
+      } else {
+        try {
+          let response = await fetch('./catalog_data.json');
+          if (!response.ok) response = await fetch('./Assets/catalog_data.json');
+          if (!response.ok) throw new Error('Catalog data missing.');
+
+          catalogData = await response.json();
+          saveCatalogLocal();
+          updateStaffUI();
+          renderPills();
+          renderGrid();
+        } catch (err) {
+          grid.innerHTML = `<div class="error-msg">Could Not Load catalog_data.json</div>`;
+        }
+      }
+    }
+
+    function saveCatalogLocal() {
+      localStorage.setItem('dastkari_catalog_data', JSON.stringify(catalogData));
+    }
+
+    function updateStaffUI() {
+      const indicator = document.getElementById('staff-indicator');
+      const addBtn = document.getElementById('btn-add-new');
+      const authBtn = document.getElementById('staff-auth-btn');
+
+      if (isStaffLoggedIn) {
+        indicator.style.display = 'inline-block';
+        addBtn.style.display = 'inline-block';
+        authBtn.textContent = 'Staff (Logout)';
+      } else {
+        indicator.style.display = 'none';
+        addBtn.style.display = 'none';
+        authBtn.textContent = 'Staff Login';
       }
     }
 
@@ -660,8 +704,8 @@
 
         const staffControls = isStaffLoggedIn ? `
           <div class="staff-card-actions" onclick="event.stopPropagation()">
-            <button class="btn-card-action" onclick="openEditModal('${item.id}')">Edit</button>
-            <button class="btn-card-action btn-card-delete" onclick="deleteItem('${item.id}')">Delete</button>
+            <button class="btn-card-edit" onclick="openEditModal('${item.id}')">Edit</button>
+            <button class="btn-card-delete" onclick="deleteItem('${item.id}')">Delete</button>
           </div>
         ` : '';
 
@@ -688,9 +732,8 @@
     function handleAuthBtnClick() {
       if (isStaffLoggedIn) {
         isStaffLoggedIn = false;
-        document.getElementById('staff-indicator').style.display = 'none';
-        document.getElementById('btn-add-new').style.display = 'none';
-        document.getElementById('staff-auth-btn').textContent = 'Staff Login';
+        localStorage.setItem('dastkari_staff_logged_in', 'false');
+        updateStaffUI();
         renderGrid();
       } else {
         openStaffModal();
@@ -704,9 +747,8 @@
 
       if (empId === 'admin' && password === 'dastkari2026') {
         isStaffLoggedIn = true;
-        document.getElementById('staff-indicator').style.display = 'inline-block';
-        document.getElementById('btn-add-new').style.display = 'inline-block';
-        document.getElementById('staff-auth-btn').textContent = 'Staff (Logout)';
+        localStorage.setItem('dastkari_staff_logged_in', 'true');
+        updateStaffUI();
         document.getElementById('staff-login-form').reset();
         closeModal('staff-modal');
         renderGrid();
@@ -719,6 +761,7 @@
     function deleteItem(itemId) {
       if (confirm('Are you sure you want to delete this furniture item?')) {
         catalogData = catalogData.filter(i => i.id !== itemId);
+        saveCatalogLocal();
         renderPills();
         renderGrid();
       }
@@ -775,6 +818,7 @@
         catalogData.unshift({ id: newId, title, category, price, dims, images });
       }
 
+      saveCatalogLocal();
       closeModal('edit-modal');
       renderPills();
       renderGrid();
