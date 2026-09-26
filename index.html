@@ -1483,7 +1483,7 @@
     function updateCustomerUI() {
       const btn = document.getElementById('cust-auth-btn');
       if (currentCustomer && currentCustomer.phone) {
-        btn.textContent = `Sign Out (${currentCustomer.name.split(' ')[0]})`;
+        btn.textContent = 'Sign Out';
       } else {
         btn.textContent = 'Sign In';
       }
@@ -1492,7 +1492,7 @@
 
     function handleCustomerAuthClick() {
       if (currentCustomer) {
-        if (confirm(`Sign out of account (${currentCustomer.name})?`)) {
+        if (confirm('Sign out of your account?')) {
           currentCustomer = null;
           localStorage.removeItem('dastkari_current_customer');
           updateCustomerUI();
@@ -1535,7 +1535,7 @@
 
       updateCustomerUI();
       closeModal('cust-login-modal');
-      showToast(`Welcome back, ${name}!`);
+      showToast('Signed in successfully!');
 
       if (pendingActionAfterLogin === 'MY_ORDERS') {
         openCustomerOrdersModal();
@@ -1855,7 +1855,7 @@
 
       if (!currentCustomer) return;
 
-      infoEl.textContent = `Signed in as: ${currentCustomer.name} (${currentCustomer.phone})`;
+      infoEl.textContent = `Account Phone: ${currentCustomer.phone}`;
 
       // STRICTLY filter orders for signed-in customer phone
       const custOrders = orders.filter(o => cleanPhone(o.customerPhone || o.phone) === cleanPhone(currentCustomer.phone));
