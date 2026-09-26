@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Dastkari - Bespoke Furniture</title>
   
-  <!-- Montserrat Font (Weight 200 for Light DASTKARI Logo Font) -->
+  <!-- Montserrat Font (Including Weight 200 for Light DASTKARI Logo Font) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700&display=swap" rel="stylesheet">
@@ -16,6 +16,10 @@
       margin: 0;
       padding: 0;
       font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+
+    html {
+      scroll-behavior: smooth;
     }
 
     body {
@@ -115,7 +119,7 @@
       padding: 8px 18px;
       border-radius: 6px;
       cursor: pointer;
-      transition: all 0.2s ease;
+      transition: all 0.25s ease;
       text-transform: capitalize;
       display: flex;
       align-items: center;
@@ -138,7 +142,7 @@
       display: flex;
       align-items: center;
       gap: 6px;
-      transition: background 0.2s ease;
+      transition: background 0.25s ease;
     }
 
     .btn-cart:hover, .btn-staff-orders:hover {
@@ -203,7 +207,7 @@
       display: flex;
       align-items: center;
       gap: 8px;
-      transition: all 0.2s ease;
+      transition: all 0.25s ease;
     }
 
     .filter-tab-btn:hover {
@@ -211,53 +215,26 @@
       color: #ffffff;
     }
 
-    /* Category Filter Dropdown Bar */
-    .category-filter-container {
-      width: 100%;
-      max-width: 1200px;
-      margin: 0 auto 25px auto;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      background: #fcfcfc;
-      padding: 10px 16px;
-      border: 1px solid #e0e0e0;
-      border-radius: 8px;
-    }
-
-    .category-filter-label {
-      font-size: 0.85rem;
-      font-weight: 600;
-      color: #222222;
-      white-space: nowrap;
-    }
-
-    .category-select-dropdown {
-      padding: 8px 14px;
-      font-size: 0.85rem;
-      font-weight: 600;
-      border: 1.5px solid #222222;
-      border-radius: 6px;
-      background: #ffffff;
-      color: #111111;
-      cursor: pointer;
-      outline: none;
-      min-width: 220px;
-    }
-
-    /* Filters Drawer Panel */
+    /* Expandable Filters Drawer Panel with Smooth Expand/Collapse */
     .filter-drawer {
-      display: none;
+      max-height: 0;
+      opacity: 0;
+      overflow: hidden;
+      transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease, margin 0.3s ease, padding 0.3s ease;
       width: 100%;
       background: #f8f9fa;
-      border: 1.5px solid #222222;
+      border: 1.5px solid transparent;
       border-radius: 8px;
-      padding: 20px;
-      margin-top: 10px;
+      padding: 0 20px;
+      margin-top: 0;
     }
 
     .filter-drawer.active {
-      display: block;
+      max-height: 1200px;
+      opacity: 1;
+      padding: 20px;
+      margin-top: 10px;
+      border-color: #222222;
     }
 
     .filter-grid {
@@ -282,7 +259,7 @@
       margin-top: 10px;
     }
 
-    /* Merged Dual-Handle Range Slider */
+    /* Dual-Handle Range Slider */
     .slider-group {
       display: flex;
       flex-direction: column;
@@ -315,6 +292,7 @@
       height: 100%;
       background: #111111;
       border-radius: 3px;
+      transition: left 0.1s ease, width 0.1s ease;
     }
 
     .dual-slider input[type="range"] {
@@ -362,7 +340,7 @@
       border-radius: 6px;
       cursor: pointer;
       white-space: nowrap;
-      transition: background 0.2s ease;
+      transition: background 0.25s ease;
       text-transform: capitalize;
     }
 
@@ -370,25 +348,61 @@
       background: #333333;
     }
 
+    /* Scrollable Category Pills Bar with Smooth Momentum Scrolling */
+    .category-pills-container {
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto 25px auto;
+      overflow-x: auto;
+      white-space: nowrap;
+      padding: 10px 0;
+      cursor: grab;
+      user-select: none;
+      scroll-behavior: smooth;
+      -webkit-overflow-scrolling: touch;
+      -ms-overflow-style: none !important;
+      scrollbar-width: none !important;
+    }
+
+    .category-pills-container:active {
+      cursor: grabbing;
+    }
+
+    .category-pills-container::-webkit-scrollbar {
+      display: none !important;
+    }
+
+    .category-pills-wrapper {
+      display: inline-flex;
+      gap: 12px;
+    }
+
     .pill-btn {
-      padding: 8px 18px;
+      padding: 9px 20px;
       font-size: 0.78rem;
       font-weight: 600;
       letter-spacing: 0.5px;
-      border: 1px solid #e0e0e0;
+      border: 1.5px solid #e0e0e0;
       border-radius: 20px;
       background: #ffffff;
       color: #666666;
       cursor: pointer;
-      transition: all 0.2s ease;
+      transition: all 0.25s cubic-bezier(0.25, 0.8, 0.25, 1);
       flex-shrink: 0;
       text-transform: capitalize;
+      outline: none;
+    }
+
+    .pill-btn:hover {
+      border-color: #111111;
+      color: #111111;
     }
 
     .pill-btn.active {
       background: #222222;
       color: #ffffff;
       border-color: #222222;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
     }
 
     /* Catalog Grid */
@@ -401,6 +415,7 @@
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
       gap: 22px;
+      transition: opacity 0.25s ease;
     }
 
     .card {
@@ -413,12 +428,13 @@
       gap: 10px;
       cursor: pointer;
       position: relative;
-      transition: transform 0.2s ease, border-color 0.2s ease;
+      transition: transform 0.25s cubic-bezier(0.25, 0.8, 0.25, 1), border-color 0.25s ease, box-shadow 0.25s ease;
     }
 
     .card:hover {
-      transform: translateY(-2px);
+      transform: translateY(-3px);
       border-color: #000000;
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
     }
 
     .card-image-wrapper {
@@ -496,7 +512,7 @@
       background: #ffffff;
       color: #111111;
       cursor: pointer;
-      transition: all 0.2s ease;
+      transition: all 0.25s ease;
     }
 
     .btn-add-cart-card:hover {
@@ -550,7 +566,7 @@
       text-align: center;
       background: #fdfdfd;
       cursor: pointer;
-      transition: background 0.2s ease, border-color 0.2s ease;
+      transition: background 0.25s ease, border-color 0.25s ease;
     }
 
     .drag-drop-zone.hover {
@@ -591,22 +607,22 @@
       justify-content: center;
     }
 
-    /* Modals Overlay */
+    /* Modals Overlay with Smooth Transitions */
     .modal-overlay {
       position: fixed;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
-      background: rgba(0, 0, 0, 0.8);
-      backdrop-filter: blur(4px);
+      background: rgba(0, 0, 0, 0.75);
+      backdrop-filter: blur(5px);
       z-index: 1000;
       display: flex;
       align-items: center;
       justify-content: center;
       opacity: 0;
       pointer-events: none;
-      transition: opacity 0.25s ease;
+      transition: opacity 0.3s ease;
       padding: 20px;
     }
 
@@ -625,6 +641,12 @@
       overflow-y: auto;
       padding: 24px;
       position: relative;
+      transform: translateY(15px);
+      transition: transform 0.3s ease;
+    }
+
+    .modal-overlay.active .modal-container {
+      transform: translateY(0);
     }
 
     .grid-modal-content {
@@ -675,6 +697,7 @@
       gap: 8px;
       overflow-x: auto;
       padding-bottom: 4px;
+      scroll-behavior: smooth;
       -ms-overflow-style: none !important;
       scrollbar-width: none !important;
     }
@@ -691,6 +714,7 @@
       border: 2px solid transparent;
       cursor: pointer;
       flex-shrink: 0;
+      transition: border-color 0.2s ease;
     }
 
     .modal-thumb.active {
@@ -835,7 +859,7 @@
       border: none;
       border-radius: 6px;
       cursor: pointer;
-      transition: background 0.2s ease;
+      transition: background 0.25s ease;
     }
 
     .btn-complete-order:hover {
@@ -877,7 +901,7 @@
       color: #ffffff;
       cursor: pointer;
       text-transform: capitalize;
-      transition: background 0.2s ease;
+      transition: background 0.25s ease;
     }
 
     .btn-submit:hover {
@@ -1052,13 +1076,12 @@
     </div>
   </header>
 
-  <!-- Category Filter Dropdown -->
-  <section class="category-filter-container">
-    <label for="category-select" class="category-filter-label">Filter Category:</label>
-    <select id="category-select" class="category-select-dropdown" onchange="selectCategory(this.value)">
-      <!-- Populated dynamically -->
-    </select>
-  </section>
+  <!-- Restored Scrollable Category Pills Bar with Smooth Drag & Scroll -->
+  <nav class="category-pills-container" id="pills-container">
+    <div class="category-pills-wrapper" id="pills-wrapper">
+      <!-- Populated dynamically via renderPills() -->
+    </div>
+  </nav>
 
   <!-- Catalog Grid -->
   <main class="catalog-container">
@@ -1214,8 +1237,8 @@
         </div>
 
         <div>
-          <label class="form-label">Category (Select Dropdown)</label>
-          <!-- Converted Category Field into Dropdown Menu -->
+          <label class="form-label">Category (Dropdown Menu)</label>
+          <!-- Furniture Category Dropdown in Staff Form -->
           <select id="edit-item-category" class="login-input" required style="cursor: pointer;">
             <!-- Options populated dynamically -->
           </select>
@@ -1264,6 +1287,8 @@
     let currentUploadedImages = [];
 
     const grid = document.getElementById('catalog-grid');
+    const pillsWrapper = document.getElementById('pills-wrapper');
+    const pillsContainer = document.getElementById('pills-container');
     const searchInput = document.getElementById('search-input');
 
     async function init() {
@@ -1277,10 +1302,11 @@
         ['price', 'l', 'w', 'h'].forEach(p => updateDualSlider(p));
 
         updateStaffUI();
-        renderCategoryDropdowns();
+        renderPills();
         renderGrid();
         updateCartUI();
         updateOrdersBadge();
+        setupSmoothDragScroll();
       } catch (err) {
         grid.innerHTML = `<div class="error-msg">Could Not Load catalog_data.json</div>`;
       }
@@ -1788,7 +1814,7 @@
     async function deleteItem(itemId) {
       if (confirm('Delete this furniture item?')) {
         catalogData = catalogData.filter(i => i.id !== itemId);
-        renderCategoryDropdowns();
+        renderPills();
         renderGrid();
         await saveCatalogToServer();
       }
@@ -1866,7 +1892,7 @@
       }
 
       closeModal('edit-modal');
-      renderCategoryDropdowns();
+      renderPills();
       renderGrid();
       await saveCatalogToServer();
     }
@@ -1958,25 +1984,70 @@
       renderUploadPreviews();
     }
 
-    /* Category Dropdown Navigation Rendering */
-    function renderCategoryDropdowns() {
-      const defaultCategories = ['BEDS', 'SOFAS', 'DAY BED / COT', 'ARMCHAIRS', 'CHAIRS', 'BAR STOOLS & TABLES', 'FLOOR SEATING', 'POUFFE / OTTOMAN', 'BENCH'];
-      const existingCategories = catalogData ? catalogData.map(item => item.category.toUpperCase()) : [];
-      const allCategories = Array.from(new Set([...defaultCategories, ...existingCategories]));
+    /* Category Navigation Pills Rendering */
+    function renderPills() {
+      if (!catalogData || catalogData.length === 0) return;
+      
+      const defaultCategories = ['ALL', 'BEDS', 'SOFAS', 'DAY BED / COT', 'ARMCHAIRS', 'CHAIRS', 'BAR STOOLS & TABLES', 'FLOOR SEATING', 'POUFFE / OTTOMAN', 'BENCH'];
+      const existingCategories = catalogData.map(item => item.category.toUpperCase());
+      const categories = Array.from(new Set([...defaultCategories, ...existingCategories]));
 
-      // 1. Populate Main Catalog Filter Dropdown
-      const catSelect = document.getElementById('category-select');
-      catSelect.innerHTML = `<option value="ALL">All Categories</option>` +
-        allCategories.map(cat => `<option value="${cat}" ${cat === activeCategory.toUpperCase() ? 'selected' : ''}>${cat}</option>`).join('');
+      // 1. Populate Category Scroll Pills Bar
+      pillsWrapper.innerHTML = categories.map(cat => `
+        <button class="pill-btn ${cat.toUpperCase() === activeCategory.toUpperCase() ? 'active' : ''}" onclick="selectCategory('${cat}', this)">
+          ${cat}
+        </button>
+      `).join('');
 
       // 2. Populate Staff Add/Edit Modal Category Select Dropdown
       const editCatSelect = document.getElementById('edit-item-category');
-      editCatSelect.innerHTML = allCategories.map(cat => `<option value="${cat}">${cat}</option>`).join('');
+      if (editCatSelect) {
+        editCatSelect.innerHTML = categories.filter(c => c !== 'ALL').map(cat => `<option value="${cat}">${cat}</option>`).join('');
+      }
     }
 
-    function selectCategory(cat) {
+    function selectCategory(cat, btnEl) {
       activeCategory = cat;
+      document.querySelectorAll('.pill-btn').forEach(b => b.classList.remove('active'));
+      
+      if (btnEl) {
+        btnEl.classList.add('active');
+        // Smoothly scroll active category into the center of the bar
+        btnEl.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+      }
+      
       renderGrid();
+    }
+
+    /* Smooth Mouse Drag & Wheel Momentum Scroll Setup */
+    function setupSmoothDragScroll() {
+      let isMouseDown = false;
+      let startX, scrollLeft;
+
+      pillsContainer.addEventListener('mousedown', (e) => {
+        isMouseDown = true;
+        startX = e.pageX - pillsContainer.offsetLeft;
+        scrollLeft = pillsContainer.scrollLeft;
+      });
+
+      pillsContainer.addEventListener('mouseleave', () => { isMouseDown = false; });
+      pillsContainer.addEventListener('mouseup', () => { isMouseDown = false; });
+
+      pillsContainer.addEventListener('mousemove', (e) => {
+        if (!isMouseDown) return;
+        e.preventDefault();
+        const x = e.pageX - pillsContainer.offsetLeft;
+        const walk = (x - startX) * 1.5;
+        pillsContainer.scrollLeft = scrollLeft - walk;
+      });
+
+      pillsContainer.addEventListener('wheel', (evt) => {
+        evt.preventDefault();
+        pillsContainer.scrollBy({
+          left: evt.deltaY * 1.5,
+          behavior: 'smooth'
+        });
+      }, { passive: false });
     }
 
     /* Event Listeners */
