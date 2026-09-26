@@ -23,12 +23,12 @@
       color: #111111;
       padding: 30px 20px;
       -webkit-font-smoothing: antialiased;
-      text-transform: capitalize; /* Title Case across text elements */
+      text-transform: capitalize;
     }
 
-    /* Prevent auto-capitalization on form inputs so credentials can be typed normally */
+    /* Prevent auto-capitalization visual shifts on form inputs */
     input, textarea {
-      text-transform: none;
+      text-transform: none !important;
     }
 
     /* Header */
@@ -142,7 +142,7 @@
       background: #333333;
     }
 
-    /* Category Scroll Bar - Strictly Hidden Scrollbar */
+    /* Category Scroll Bar */
     .category-pills-container {
       width: 100%;
       max-width: 1200px;
@@ -226,7 +226,6 @@
       border-color: #000000;
     }
 
-    /* Front Card Image: Fill Card (Cover) */
     .card-image-wrapper {
       width: 100%;
       height: 220px;
@@ -384,7 +383,6 @@
       gap: 12px;
     }
 
-    /* Inside Modal Image: Entire Image (Contain) */
     .modal-main-img-box {
       width: 100%;
       height: 320px;
@@ -565,8 +563,8 @@
       <button class="modal-close-btn" onclick="closeModal('staff-modal')">&times;</button>
       <h2 style="text-align: center; font-size: 1.4rem;">Staff Portal Access</h2>
       <form class="form-group" id="staff-login-form" onsubmit="handleStaffLogin(event)">
-        <input type="text" id="staff-emp-id" class="login-input" placeholder="Employee ID (admin)" required autocomplete="off">
-        <input type="password" id="staff-password" class="login-input" placeholder="Password (dastkari2026)" required autocomplete="off">
+        <input type="text" id="staff-emp-id" class="login-input" placeholder="Employee ID (admin)" required autocomplete="off" autocapitalize="none">
+        <input type="password" id="staff-password" class="login-input" placeholder="Password (dastkari2026)" required autocomplete="off" autocapitalize="none">
         <button type="submit" class="btn-submit">Sign In</button>
       </form>
     </div>
@@ -623,7 +621,6 @@
     const searchInput = document.getElementById('search-input');
 
     async function init() {
-      // Check for saved local data first
       const storedCatalog = localStorage.getItem('dastkari_catalog_data');
       if (storedCatalog) {
         catalogData = JSON.parse(storedCatalog);
@@ -742,7 +739,8 @@
 
     function handleStaffLogin(e) {
       e.preventDefault();
-      const empId = document.getElementById('staff-emp-id').value.trim();
+      // Converted empId to lowercase to ensure 'Admin' or 'admin' both pass
+      const empId = document.getElementById('staff-emp-id').value.trim().toLowerCase();
       const password = document.getElementById('staff-password').value.trim();
 
       if (empId === 'admin' && password === 'dastkari2026') {
@@ -803,7 +801,6 @@
       const images = rawImages.split(',').map(img => img.trim()).filter(img => img !== '');
 
       if (id) {
-        // Edit existing
         const item = catalogData.find(i => i.id === id);
         if (item) {
           item.title = title;
@@ -813,7 +810,6 @@
           item.images = images;
         }
       } else {
-        // Add new
         const newId = 'ITEM-' + Math.floor(1000 + Math.random() * 9000);
         catalogData.unshift({ id: newId, title, category, price, dims, images });
       }
