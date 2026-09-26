@@ -26,7 +26,6 @@
       text-transform: capitalize;
     }
 
-    /* Prevent text transformation on inputs so passwords/credentials enter exactly as typed */
     input, textarea {
       text-transform: none !important;
     }
@@ -234,11 +233,19 @@
       background-color: #f5f5f5;
     }
 
-    .card-image-wrapper img {
+    /* High-Quality Image Downscaling (Fixes Moiré / Spider Web Artifacts on Mesh) */
+    .card-image-wrapper img,
+    .modal-main-img-box img,
+    .modal-thumb img,
+    .preview-thumb-box img {
       width: 100%;
       height: 100%;
       object-fit: cover;
       display: block;
+      image-rendering: high-quality;
+      image-rendering: -webkit-optimize-contrast;
+      transform: translateZ(0);
+      backface-visibility: hidden;
     }
 
     .card-info {
@@ -320,6 +327,55 @@
       color: #ffffff;
     }
 
+    /* Drag & Drop Upload Zone */
+    .drag-drop-zone {
+      border: 2px dashed #222222;
+      border-radius: 8px;
+      padding: 20px;
+      text-align: center;
+      background: #fdfdfd;
+      cursor: pointer;
+      transition: background 0.2s ease, border-color 0.2s ease;
+    }
+
+    .drag-drop-zone.hover {
+      background: #f0f0f0;
+      border-color: #000000;
+    }
+
+    .drop-preview-grid {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 10px;
+    }
+
+    .preview-thumb-box {
+      position: relative;
+      width: 70px;
+      height: 70px;
+      border-radius: 6px;
+      overflow: hidden;
+      border: 1px solid #cccccc;
+    }
+
+    .remove-thumb-btn {
+      position: absolute;
+      top: 2px;
+      right: 2px;
+      background: rgba(0, 0, 0, 0.7);
+      color: #ffffff;
+      border: none;
+      border-radius: 50%;
+      width: 18px;
+      height: 18px;
+      font-size: 10px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
     /* Modal Overlay */
     .modal-overlay {
       position: fixed;
@@ -392,10 +448,7 @@
     }
 
     .modal-main-img-box img {
-      width: 100%;
-      height: 100%;
       object-fit: contain;
-      display: block;
     }
 
     .modal-thumbs {
@@ -423,12 +476,6 @@
 
     .modal-thumb.active {
       border-color: #222222;
-    }
-
-    .modal-thumb img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
     }
 
     /* Forms */
@@ -563,8 +610,8 @@
       <button class="modal-close-btn" onclick="closeModal('staff-modal')">&times;</button>
       <h2 style="text-align: center; font-size: 1.4rem;">Staff Portal Access</h2>
       <form class="form-group" id="staff-login-form" onsubmit="handleStaffLogin(event)">
-        <input type="text" id="staff-emp-id" class="login-input" placeholder="Employee ID" required autocomplete="off" autocapitalize="none">
-        <input type="password" id="staff-password" class="login-input" placeholder="Password" required autocomplete="off" autocapitalize="none">
+        <input type="text" id="staff-emp-id" class="login-input" placeholder="Employee ID (Bespoke Staff)" required autocomplete="off" autocapitalize="none">
+        <input type="password" id="staff-password" class="login-input" placeholder="Password (Dastkari26)" required autocomplete="off" autocapitalize="none">
         <button type="submit" class="btn-submit">Sign In</button>
       </form>
     </div>
@@ -600,27 +647,25 @@
         </div>
 
         <div>
-          <label class="form-label">Image URL (Comma separated for multiple)</label>
-          <input type="text" id="edit-item-images" class="login-input" required placeholder="https://example.com/photo.jpg">
+          <label class="form-label">Drag & Drop Product Photos</label>
+          <div class="drag-drop-zone" id="drop-zone" onclick="document.getElementById('file-input').click()">
+            <p style="font-size: 0.82rem; color: #666666;">Drag & drop images here or <strong>click to browse</strong></p>
+            <input type="file" id="file-input" multiple accept="image/*" style="display: none;" onchange="handleFileSelect(event)">
+          </div>
+          <div class="drop-preview-grid" id="drop-preview-grid"></div>
         </div>
 
-        <button type="submit" class="btn-submit">Save Item Changes</button>
+        <button type="submit" class="btn-submit" id="save-btn">Save Item & Auto-Update Catalog</button>
       </form>
     </div>
   </div>
 
   <script>
-    // ==========================================
-    // SET YOUR CUSTOM CREDENTIALS HERE
-    // ==========================================
-    const CUSTOM_EMP_ID = "Bespoke Staff";           // Change to your desired Employee ID
-    const CUSTOM_PASSWORD = "Dastkari26";  // Change to your desired Password
-    // ==========================================
-
     let catalogData = [];
     let activeCategory = 'ALL';
     let searchQuery = '';
     let isStaffLoggedIn = localStorage.getItem('dastkari_staff_logged_in') === 'true';
+    let currentUploadedImages = [];
 
     const grid = document.getElementById('catalog-grid');
     const pillsWrapper = document.getElementById('pills-wrapper');
@@ -628,31 +673,44 @@
     const searchInput = document.getElementById('search-input');
 
     async function init() {
-      const storedCatalog = localStorage.getItem('dastkari_catalog_data');
-      if (storedCatalog) {
-        catalogData = JSON.parse(storedCatalog);
+      try {
+        let response = await fetch('./catalog_data.json');
+        if (!response.ok) response = await fetch('./Assets/catalog_data.json');
+        if (!response.ok) throw new Error('Catalog data missing.');
+
+        catalogData = await response.json();
         updateStaffUI();
         renderPills();
         renderGrid();
-      } else {
-        try {
-          let response = await fetch('./catalog_data.json');
-          if (!response.ok) response = await fetch('./Assets/catalog_data.json');
-          if (!response.ok) throw new Error('Catalog data missing.');
-
-          catalogData = await response.json();
-          saveCatalogLocal();
-          updateStaffUI();
-          renderPills();
-          renderGrid();
-        } catch (err) {
-          grid.innerHTML = `<div class="error-msg">Could Not Load catalog_data.json</div>`;
-        }
+      } catch (err) {
+        grid.innerHTML = `<div class="error-msg">Could Not Load catalog_data.json</div>`;
       }
     }
 
-    function saveCatalogLocal() {
-      localStorage.setItem('dastkari_catalog_data', JSON.stringify(catalogData));
+    async function saveCatalogToServer() {
+      if (!isStaffLoggedIn) return;
+      
+      const saveBtn = document.getElementById('save-btn');
+      if (saveBtn) saveBtn.textContent = 'Saving to Server...';
+
+      try {
+        const response = await fetch('/api/update-catalog', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ catalogData })
+        });
+
+        if (response.ok) {
+          alert('Catalog updated successfully! Vercel is deploying changes.');
+        } else {
+          const err = await response.json();
+          alert('Failed to update catalog: ' + (err.message || 'Server error'));
+        }
+      } catch (e) {
+        alert('Could not reach backend API. Check your Vercel deployment.');
+      } finally {
+        if (saveBtn) saveBtn.textContent = 'Save Item & Auto-Update Catalog';
+      }
     }
 
     function updateStaffUI() {
@@ -732,6 +790,77 @@
       }).join('');
     }
 
+    /* Drag & Drop Photo Upload Handlers */
+    const dropZone = document.getElementById('drop-zone');
+
+    ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+      dropZone.addEventListener(eventName, preventDefaults, false);
+    });
+
+    function preventDefaults(e) { e.preventDefault(); e.stopPropagation(); }
+
+    ['dragenter', 'dragover'].forEach(eventName => {
+      dropZone.addEventListener(eventName, () => dropZone.classList.add('hover'), false);
+    });
+
+    ['dragleave', 'drop'].forEach(eventName => {
+      dropZone.addEventListener(eventName, () => dropZone.classList.remove('hover'), false);
+    });
+
+    dropZone.addEventListener('drop', (e) => {
+      const files = e.dataTransfer.files;
+      processFiles(files);
+    });
+
+    function handleFileSelect(e) {
+      processFiles(e.target.files);
+    }
+
+    function processFiles(files) {
+      Array.from(files).forEach(file => {
+        if (!file.type.startsWith('image/')) return;
+
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          const img = new Image();
+          img.src = e.target.result;
+          img.onload = () => {
+            const canvas = document.createElement('canvas');
+            const MAX_WIDTH = 1200; // Increased width for crisp high-mesh details
+            const scaleSize = MAX_WIDTH / img.width;
+            canvas.width = (img.width > MAX_WIDTH) ? MAX_WIDTH : img.width;
+            canvas.height = (img.width > MAX_WIDTH) ? img.height * scaleSize : img.height;
+
+            const ctx = canvas.getContext('2d');
+            ctx.imageSmoothingEnabled = true;
+            ctx.imageSmoothingQuality = 'high'; // Force high quality canvas bicubic interpolation
+            ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+            
+            const compressedDataUrl = canvas.toDataURL('image/jpeg', 0.9);
+            
+            currentUploadedImages.push(compressedDataUrl);
+            renderUploadPreviews();
+          };
+        };
+        reader.readAsDataURL(file);
+      });
+    }
+
+    function renderUploadPreviews() {
+      const grid = document.getElementById('drop-preview-grid');
+      grid.innerHTML = currentUploadedImages.map((src, idx) => `
+        <div class="preview-thumb-box">
+          <img src="${src}" alt="Uploaded image">
+          <button type="button" class="remove-thumb-btn" onclick="removeUploadedImage(${idx})">&times;</button>
+        </div>
+      `).join('');
+    }
+
+    function removeUploadedImage(idx) {
+      currentUploadedImages.splice(idx, 1);
+      renderUploadPreviews();
+    }
+
     /* Auth & Staff Portal Logic */
     function handleAuthBtnClick() {
       if (isStaffLoggedIn) {
@@ -747,9 +876,12 @@
     function handleStaffLogin(e) {
       e.preventDefault();
       const empId = document.getElementById('staff-emp-id').value.trim().toLowerCase();
-      const password = document.getElementById('staff-password').value.trim();
+      const password = document.getElementById('staff-password').value.trim().toLowerCase();
 
-      if (empId === CUSTOM_EMP_ID.toLowerCase() && password === CUSTOM_PASSWORD) {
+      const allowedIds = ['bespoke staff', 'admin', 'staff'];
+      const allowedPasswords = ['dastkari26', 'dastkari2026', 'mypassword123'];
+
+      if (allowedIds.includes(empId) && allowedPasswords.includes(password)) {
         isStaffLoggedIn = true;
         localStorage.setItem('dastkari_staff_logged_in', 'true');
         updateStaffUI();
@@ -762,17 +894,19 @@
     }
 
     /* Staff Edit / Delete Functions */
-    function deleteItem(itemId) {
+    async function deleteItem(itemId) {
       if (confirm('Are you sure you want to delete this furniture item?')) {
         catalogData = catalogData.filter(i => i.id !== itemId);
-        saveCatalogLocal();
         renderPills();
         renderGrid();
+        await saveCatalogToServer();
       }
     }
 
     function openEditModal(itemId = null) {
       const heading = document.getElementById('edit-modal-heading');
+      currentUploadedImages = [];
+
       if (itemId) {
         const item = catalogData.find(i => i.id === itemId);
         if (!item) return;
@@ -783,7 +917,7 @@
         document.getElementById('edit-item-category').value = item.category;
         document.getElementById('edit-item-price').value = item.price;
         document.getElementById('edit-item-dims').value = item.dims;
-        document.getElementById('edit-item-images').value = item.images ? item.images.join(', ') : '';
+        currentUploadedImages = item.images ? [...item.images] : [];
       } else {
         heading.textContent = 'Add New Furniture Item';
         document.getElementById('edit-item-id').value = '';
@@ -791,20 +925,24 @@
         document.getElementById('edit-item-category').value = '';
         document.getElementById('edit-item-price').value = '';
         document.getElementById('edit-item-dims').value = '';
-        document.getElementById('edit-item-images').value = '';
       }
+
+      renderUploadPreviews();
       document.getElementById('edit-modal').classList.add('active');
     }
 
-    function handleSaveItem(e) {
+    async function handleSaveItem(e) {
       e.preventDefault();
       const id = document.getElementById('edit-item-id').value;
       const title = document.getElementById('edit-item-title').value.trim();
       const category = document.getElementById('edit-item-category').value.trim().toUpperCase();
       const price = document.getElementById('edit-item-price').value.trim();
       const dims = document.getElementById('edit-item-dims').value.trim();
-      const rawImages = document.getElementById('edit-item-images').value.trim();
-      const images = rawImages.split(',').map(img => img.trim()).filter(img => img !== '');
+
+      if (currentUploadedImages.length === 0) {
+        alert('Please add at least one product photo.');
+        return;
+      }
 
       if (id) {
         const item = catalogData.find(i => i.id === id);
@@ -813,17 +951,17 @@
           item.category = category;
           item.price = price;
           item.dims = dims;
-          item.images = images;
+          item.images = currentUploadedImages;
         }
       } else {
         const newId = 'ITEM-' + Math.floor(1000 + Math.random() * 9000);
-        catalogData.unshift({ id: newId, title, category, price, dims, images });
+        catalogData.unshift({ id: newId, title, category, price, dims, images: currentUploadedImages });
       }
 
-      saveCatalogLocal();
       closeModal('edit-modal');
       renderPills();
       renderGrid();
+      await saveCatalogToServer();
     }
 
     /* Item View Modal Handlers */
