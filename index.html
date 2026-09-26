@@ -66,19 +66,31 @@
       color: #ffffff;
     }
 
+    .staff-badge {
+      display: inline-block;
+      background: #222222;
+      color: #ffffff;
+      font-size: 0.7rem;
+      padding: 2px 8px;
+      border-radius: 4px;
+      margin-left: 10px;
+      vertical-align: middle;
+    }
+
     /* Search Toolbar */
     .toolbar {
       width: 100%;
       display: flex;
       justify-content: space-between;
       align-items: center;
+      gap: 12px;
       padding-top: 15px;
       border-top: 1px solid #e0e0e0;
     }
 
     .search-box {
       position: relative;
-      width: 100%;
+      flex: 1;
     }
 
     .search-input {
@@ -101,6 +113,23 @@
       height: 16px;
       fill: #666666;
       pointer-events: none;
+    }
+
+    .btn-add-item {
+      padding: 10px 16px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      background: #111111;
+      color: #ffffff;
+      border: 1.5px solid #111111;
+      border-radius: 6px;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: background 0.2s ease;
+    }
+
+    .btn-add-item:hover {
+      background: #333333;
     }
 
     /* Category Scroll Bar - Strictly Hidden Scrollbar */
@@ -177,6 +206,7 @@
       flex-direction: column;
       gap: 10px;
       cursor: pointer;
+      position: relative;
       transition: transform 0.2s ease, border-color 0.2s ease;
     }
 
@@ -238,6 +268,42 @@
     .card-dims {
       font-size: 0.75rem;
       color: #888888;
+    }
+
+    /* Staff Controls on Cards */
+    .staff-card-actions {
+      display: flex;
+      gap: 6px;
+      margin-top: 6px;
+      padding-top: 6px;
+      border-top: 1px dashed #e0e0e0;
+    }
+
+    .btn-card-action {
+      flex: 1;
+      padding: 6px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      border-radius: 4px;
+      border: 1px solid #222222;
+      background: #ffffff;
+      color: #111111;
+      cursor: pointer;
+      text-align: center;
+    }
+
+    .btn-card-action:hover {
+      background: #f0f0f0;
+    }
+
+    .btn-card-delete {
+      border-color: #d9534f;
+      color: #d9534f;
+    }
+
+    .btn-card-delete:hover {
+      background: #d9534f;
+      color: #ffffff;
     }
 
     /* Modal Overlay */
@@ -356,17 +422,23 @@
       object-fit: cover;
     }
 
-    .login-form {
+    /* Forms */
+    .form-group {
       display: flex;
       flex-direction: column;
-      gap: 14px;
+      gap: 12px;
       width: 100%;
-      max-width: 360px;
-      margin: 0 auto;
-      padding: 20px 0;
+      padding: 10px 0;
+    }
+
+    .form-label {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: #444444;
     }
 
     .login-input {
+      width: 100%;
       padding: 10px 14px;
       border: 1.5px solid #222222;
       border-radius: 6px;
@@ -383,6 +455,8 @@
       background: #222222;
       color: #ffffff;
       cursor: pointer;
+      width: 100%;
+      margin-top: 10px;
     }
 
     .empty-state, .error-msg {
@@ -398,8 +472,8 @@
   <!-- Header -->
   <header class="app-header">
     <div class="header-top">
-      <h1 class="brand-title">Dastkari - Bespoke Furniture</h1>
-      <button class="staff-login-btn" onclick="openStaffModal()">Staff Login</button>
+      <h1 class="brand-title">Dastkari - Bespoke Furniture <span id="staff-indicator" class="staff-badge" style="display: none;">Staff Mode</span></h1>
+      <button class="staff-login-btn" id="staff-auth-btn" onclick="handleAuthBtnClick()">Staff Login</button>
     </div>
 
     <div class="toolbar">
@@ -409,6 +483,7 @@
         </svg>
         <input type="text" id="search-input" class="search-input" placeholder="Search Catalog...">
       </div>
+      <button class="btn-add-item" id="btn-add-new" style="display: none;" onclick="openEditModal()">+ Add New Furniture</button>
     </div>
   </header>
 
@@ -445,13 +520,13 @@
         <div class="modal-thumbs" id="modal-thumbs"></div>
       </div>
 
-      <div class="modal-details">
+      <div class="modal-details" style="display: flex; flex-direction: column; justify-content: space-between;">
         <div>
           <span class="card-category" id="modal-category">Category</span>
           <h2 id="modal-title" style="margin-top: 4px;">Title</h2>
         </div>
 
-        <div style="display: flex; flex-direction: column; gap: 8px; font-size: 0.88rem;">
+        <div style="display: flex; flex-direction: column; gap: 8px; font-size: 0.88rem; margin: 20px 0;">
           <div style="display: flex; justify-content: space-between; border-bottom: 1px solid #e0e0e0; padding-bottom: 6px;">
             <span style="color: #666;">Item ID</span>
             <strong id="modal-id">ITEM-000</strong>
@@ -476,10 +551,49 @@
     <div class="modal-container" style="max-width: 420px; grid-template-columns: 1fr;">
       <button class="modal-close-btn" onclick="closeModal('staff-modal')">&times;</button>
       <h2 style="text-align: center; font-size: 1.4rem;">Staff Portal Access</h2>
-      <form class="login-form" id="staff-login-form" onsubmit="handleStaffLogin(event)">
-        <input type="text" id="staff-emp-id" class="login-input" placeholder="Employee ID" required>
-        <input type="password" id="staff-password" class="login-input" placeholder="Password" required>
+      <form class="form-group" id="staff-login-form" onsubmit="handleStaffLogin(event)">
+        <input type="text" id="staff-emp-id" class="login-input" placeholder="Employee ID (admin)" required>
+        <input type="password" id="staff-password" class="login-input" placeholder="Password (dastkari2026)" required>
         <button type="submit" class="btn-submit">Sign In</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Staff Edit / Add Item Modal -->
+  <div class="modal-overlay" id="edit-modal">
+    <div class="modal-container" style="max-width: 500px; grid-template-columns: 1fr;">
+      <button class="modal-close-btn" onclick="closeModal('edit-modal')">&times;</button>
+      <h2 id="edit-modal-heading" style="text-align: center; font-size: 1.4rem;">Edit Furniture Item</h2>
+      
+      <form class="form-group" onsubmit="handleSaveItem(event)">
+        <input type="hidden" id="edit-item-id">
+        
+        <div>
+          <label class="form-label">Item Title</label>
+          <input type="text" id="edit-item-title" class="login-input" required placeholder="e.g. Royal Armchair">
+        </div>
+
+        <div>
+          <label class="form-label">Category</label>
+          <input type="text" id="edit-item-category" class="login-input" required placeholder="e.g. ARMCHAIRS">
+        </div>
+
+        <div>
+          <label class="form-label">Price</label>
+          <input type="text" id="edit-item-price" class="login-input" required placeholder="e.g. ₹ 45,000">
+        </div>
+
+        <div>
+          <label class="form-label">Dimensions</label>
+          <input type="text" id="edit-item-dims" class="login-input" required placeholder="e.g. 32W x 34D x 36H">
+        </div>
+
+        <div>
+          <label class="form-label">Image URL (Comma Separated for Multiple)</label>
+          <input type="text" id="edit-item-images" class="login-input" required placeholder="https://example.com/photo.jpg">
+        </div>
+
+        <button type="submit" class="btn-submit">Save Item Changes</button>
       </form>
     </div>
   </div>
@@ -488,6 +602,7 @@
     let catalogData = [];
     let activeCategory = 'ALL';
     let searchQuery = '';
+    let isStaffLoggedIn = false;
 
     const grid = document.getElementById('catalog-grid');
     const pillsWrapper = document.getElementById('pills-wrapper');
@@ -543,6 +658,13 @@
       grid.innerHTML = items.map(item => {
         const imgSrc = (item.images && item.images.length > 0) ? item.images[0] : '';
 
+        const staffControls = isStaffLoggedIn ? `
+          <div class="staff-card-actions" onclick="event.stopPropagation()">
+            <button class="btn-card-action" onclick="openEditModal('${item.id}')">Edit</button>
+            <button class="btn-card-action btn-card-delete" onclick="deleteItem('${item.id}')">Delete</button>
+          </div>
+        ` : '';
+
         return `
           <div class="card" onclick="openItemModal('${item.id}')">
             <div class="card-image-wrapper">
@@ -555,13 +677,110 @@
                 <span class="card-price">${item.price}</span>
                 <span class="card-dims">${item.dims}</span>
               </div>
+              ${staffControls}
             </div>
           </div>
         `;
       }).join('');
     }
 
-    /* Modal Handlers */
+    /* Auth & Staff Portal Logic */
+    function handleAuthBtnClick() {
+      if (isStaffLoggedIn) {
+        isStaffLoggedIn = false;
+        document.getElementById('staff-indicator').style.display = 'none';
+        document.getElementById('btn-add-new').style.display = 'none';
+        document.getElementById('staff-auth-btn').textContent = 'Staff Login';
+        renderGrid();
+      } else {
+        openStaffModal();
+      }
+    }
+
+    function handleStaffLogin(e) {
+      e.preventDefault();
+      const empId = document.getElementById('staff-emp-id').value.trim();
+      const password = document.getElementById('staff-password').value.trim();
+
+      if (empId === 'admin' && password === 'dastkari2026') {
+        isStaffLoggedIn = true;
+        document.getElementById('staff-indicator').style.display = 'inline-block';
+        document.getElementById('btn-add-new').style.display = 'inline-block';
+        document.getElementById('staff-auth-btn').textContent = 'Staff (Logout)';
+        document.getElementById('staff-login-form').reset();
+        closeModal('staff-modal');
+        renderGrid();
+      } else {
+        alert('Invalid Employee ID or Password.');
+      }
+    }
+
+    /* Staff Edit / Delete Functions */
+    function deleteItem(itemId) {
+      if (confirm('Are you sure you want to delete this furniture item?')) {
+        catalogData = catalogData.filter(i => i.id !== itemId);
+        renderPills();
+        renderGrid();
+      }
+    }
+
+    function openEditModal(itemId = null) {
+      const heading = document.getElementById('edit-modal-heading');
+      if (itemId) {
+        const item = catalogData.find(i => i.id === itemId);
+        if (!item) return;
+
+        heading.textContent = 'Edit Furniture Item';
+        document.getElementById('edit-item-id').value = item.id;
+        document.getElementById('edit-item-title').value = item.title;
+        document.getElementById('edit-item-category').value = item.category;
+        document.getElementById('edit-item-price').value = item.price;
+        document.getElementById('edit-item-dims').value = item.dims;
+        document.getElementById('edit-item-images').value = item.images ? item.images.join(', ') : '';
+      } else {
+        heading.textContent = 'Add New Furniture Item';
+        document.getElementById('edit-item-id').value = '';
+        document.getElementById('edit-item-title').value = '';
+        document.getElementById('edit-item-category').value = '';
+        document.getElementById('edit-item-price').value = '';
+        document.getElementById('edit-item-dims').value = '';
+        document.getElementById('edit-item-images').value = '';
+      }
+      document.getElementById('edit-modal').classList.add('active');
+    }
+
+    function handleSaveItem(e) {
+      e.preventDefault();
+      const id = document.getElementById('edit-item-id').value;
+      const title = document.getElementById('edit-item-title').value.trim();
+      const category = document.getElementById('edit-item-category').value.trim().toUpperCase();
+      const price = document.getElementById('edit-item-price').value.trim();
+      const dims = document.getElementById('edit-item-dims').value.trim();
+      const rawImages = document.getElementById('edit-item-images').value.trim();
+      const images = rawImages.split(',').map(img => img.trim()).filter(img => img !== '');
+
+      if (id) {
+        // Edit existing
+        const item = catalogData.find(i => i.id === id);
+        if (item) {
+          item.title = title;
+          item.category = category;
+          item.price = price;
+          item.dims = dims;
+          item.images = images;
+        }
+      } else {
+        // Add new
+        const newId = 'ITEM-' + Math.floor(1000 + Math.random() * 9000);
+        catalogData.unshift({ id: newId, title, category, price, dims, images });
+      }
+
+      closeModal('edit-modal');
+      renderPills();
+      renderGrid();
+    }
+
+    /* Item View Modal Handlers */
     function openItemModal(id) {
       const item = catalogData.find(i => i.id === id);
       if (!item) return;
@@ -602,26 +821,7 @@
       thumbEl.classList.add('active');
     }
 
-    /* Staff Login Validation Logic */
-    function handleStaffLogin(e) {
-      e.preventDefault();
-      const empId = document.getElementById('staff-emp-id').value.trim();
-      const password = document.getElementById('staff-password').value.trim();
-
-      // Hardcoded Credentials
-      const VALID_EMP_ID = 'admin';
-      const VALID_PASSWORD = 'dastkari2026';
-
-      if (empId === VALID_EMP_ID && password === VALID_PASSWORD) {
-        alert('Access Granted! Welcome to the Staff Portal.');
-        document.getElementById('staff-login-form').reset();
-        closeModal('staff-modal');
-      } else {
-        alert('Invalid Employee ID or Password. Please try again.');
-      }
-    }
-
-    /* Horizontal Scrolling via Mouse Wheel, Drag, and Touch */
+    /* Horizontal Drag & Scroll */
     pillsContainer.addEventListener('wheel', (evt) => {
       evt.preventDefault();
       pillsContainer.scrollLeft += evt.deltaY;
