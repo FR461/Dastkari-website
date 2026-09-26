@@ -5,10 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Dastkari - Bespoke Furniture</title>
   
-  <!-- Montserrat & Julius Sans One Fonts (Matching Dastkari Logo Typography) -->
+  <!-- Montserrat Font (Including Weight 200 for Ultra-Light DASTKARI Logo Font) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Julius+Sans+One&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700&display=swap" rel="stylesheet">
 
   <style>
     * {
@@ -46,11 +46,11 @@
       align-items: center;
     }
 
-    /* Header Brand Title with Clean Logo (No Box) & Exact Typography */
+    /* Header Brand Title with Clean Logo & Exact Thin Typography */
     .brand-container {
       display: flex;
       align-items: center;
-      gap: 14px;
+      gap: 16px;
     }
 
     .brand-logo-clean {
@@ -63,12 +63,13 @@
     }
 
     .brand-title {
-      font-family: 'Julius Sans One', sans-serif;
-      font-size: 1.9rem;
-      font-weight: 400;
-      letter-spacing: 5px;
+      font-family: 'Montserrat', 'Century Gothic', sans-serif;
+      font-size: 2.2rem;
+      font-weight: 200;
+      letter-spacing: 8px;
       color: #111111;
       text-transform: uppercase;
+      line-height: 1;
       display: flex;
       align-items: center;
       gap: 12px;
@@ -77,24 +78,26 @@
 
     .brand-subtitle {
       font-family: 'Montserrat', sans-serif;
-      font-size: 0.85rem;
-      font-weight: 500;
-      letter-spacing: 1px;
-      color: #666666;
+      font-size: 0.9rem;
+      font-weight: 300;
+      letter-spacing: 2px;
+      color: #555555;
       text-transform: capitalize;
+      margin-top: 4px;
     }
 
     .staff-badge {
       display: inline-block;
       background: #222222;
       color: #ffffff;
-      font-size: 0.75rem;
-      padding: 4px 10px;
+      font-size: 0.7rem;
+      padding: 3px 8px;
       border-radius: 4px;
       vertical-align: middle;
       text-transform: uppercase;
-      letter-spacing: 0.5px;
+      letter-spacing: 1px;
       font-family: 'Montserrat', sans-serif;
+      font-weight: 600;
     }
 
     .header-actions {
@@ -123,7 +126,7 @@
       background: #f0f0f0;
     }
 
-    /* Dark Cart & Orders Buttons */
+    /* Dark Cart & Orders Buttons (No Emojis) */
     .btn-cart, .btn-staff-orders {
       background: #111111 !important;
       color: #ffffff !important;
@@ -920,14 +923,14 @@
       </div>
       
       <div class="header-actions">
-        <!-- Staff Orders Navigation Tab (Visible when Staff Mode active) -->
+        <!-- Staff Orders Navigation Tab (No Emojis) -->
         <button class="nav-btn btn-staff-orders" id="btn-staff-orders" style="display: none;" onclick="openOrdersModal()">
-          📦 Orders <span id="orders-count-badge" class="cart-count-text">0</span>
+          Orders <span id="orders-count-badge" class="cart-count-text">0</span>
         </button>
 
-        <!-- Dark Cart Button -->
+        <!-- Dark Cart Button (No Emojis) -->
         <button class="nav-btn btn-cart" onclick="openCartModal()">
-          🛒 Cart <span id="cart-count-badge" class="cart-count-text">0</span>
+          Cart <span id="cart-count-badge" class="cart-count-text">0</span>
         </button>
         <button class="nav-btn" id="staff-auth-btn" onclick="handleAuthBtnClick()">Staff Login</button>
       </div>
@@ -944,7 +947,7 @@
 
       <!-- Filters Tab Button -->
       <button class="filter-tab-btn" onclick="toggleFilterDrawer()">
-        ⚙️ Filters
+        Filters
       </button>
 
       <button class="btn-add-item" id="btn-add-new" style="display: none;" onclick="openEditModal()">+ Add New Furniture</button>
@@ -954,7 +957,7 @@
 
         <!-- STAFF ONLY: Range Upper Limit Configurator -->
         <div class="staff-slider-cfg-box" id="staff-slider-cfg" style="display: none;">
-          <div style="font-weight: 700; font-size: 0.85rem; color: #111;">⚙️ Staff Portal: Edit Slider Upper Limits</div>
+          <div style="font-weight: 700; font-size: 0.85rem; color: #111;">Staff Portal: Edit Slider Upper Limits</div>
           <div class="staff-cfg-grid">
             <div>
               <label class="form-label">Max Price (₹)</label>
@@ -1157,7 +1160,7 @@
   <div class="modal-overlay" id="orders-modal">
     <div class="modal-container" style="max-width: 900px;">
       <div class="cart-header">
-        <h2>📦 Staff Order Management</h2>
+        <h2>Staff Order Management</h2>
         <button class="modal-close-btn" onclick="closeModal('orders-modal')">&times;</button>
       </div>
 
@@ -1247,18 +1250,8 @@
   <script>
     let catalogData = [];
     let cart = [];
-    let orders = JSON.parse(localStorage.getItem('dastkari_orders')) || [
-      {
-        id: 'ORD-10021',
-        name: 'Siddharth V.',
-        address: 'Banjara Hills, Hyderabad, Telangana',
-        phone: '+91 98765 43210',
-        total: 100000,
-        status: 'In Progress',
-        date: '24 Sep 2026, 02:30 PM',
-        items: [{ title: 'Dastkari Bespoke Armchair', qty: 1, price: 100000 }]
-      }
-    ];
+    // Start with empty orders list (Sample Siddharth V order removed)
+    let orders = JSON.parse(localStorage.getItem('dastkari_orders')) || [];
 
     let activeCategory = 'ALL';
     let activeOrderTab = 'ALL';
@@ -1649,7 +1642,7 @@
 
             ${isProgress ? `
               <div style="display: flex; justify-content: flex-end; margin-top: 6px;">
-                <button class="btn-complete-order" onclick="markOrderComplete('${ord.id}')">✓ Mark as Complete</button>
+                <button class="btn-complete-order" onclick="markOrderComplete('${ord.id}')">Mark as Complete</button>
               </div>
             ` : ''}
           </div>
