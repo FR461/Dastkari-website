@@ -1036,8 +1036,8 @@
       </div>
       
       <div class="header-actions">
-        <!-- Customer My Orders Button -->
-        <button class="nav-btn btn-my-orders" onclick="openCustomerOrdersModal()">
+        <!-- Customer My Orders Button (Hidden in Staff Mode) -->
+        <button class="nav-btn btn-my-orders" id="btn-my-orders" onclick="openCustomerOrdersModal()">
           My Orders <span id="my-orders-count-badge" class="cart-count-text">0</span>
         </button>
 
@@ -1054,7 +1054,7 @@
         <!-- Staff Login Button -->
         <button class="nav-btn" id="staff-auth-btn" onclick="handleAuthBtnClick()">Staff Login</button>
 
-        <!-- Customer Sign In Button (Positioned to the RIGHT of Staff Login) -->
+        <!-- Customer Sign In Button (Hidden in Staff Mode) -->
         <button class="nav-btn btn-cust-sign" id="cust-auth-btn" onclick="handleCustomerAuthClick()">Sign In</button>
       </div>
     </div>
@@ -2052,6 +2052,8 @@
       const ordersBtn = document.getElementById('btn-staff-orders');
       const authBtn = document.getElementById('staff-auth-btn');
       const sliderCfgBox = document.getElementById('staff-slider-cfg');
+      const myOrdersBtn = document.getElementById('btn-my-orders');
+      const custAuthBtn = document.getElementById('cust-auth-btn');
 
       if (isStaffLoggedIn) {
         indicator.style.display = 'inline-block';
@@ -2059,12 +2061,20 @@
         ordersBtn.style.display = 'flex';
         if (sliderCfgBox) sliderCfgBox.style.display = 'block';
         authBtn.textContent = 'Staff (Logout)';
+
+        // Hide Customer-Specific Buttons in Staff Mode
+        if (myOrdersBtn) myOrdersBtn.style.display = 'none';
+        if (custAuthBtn) custAuthBtn.style.display = 'none';
       } else {
         indicator.style.display = 'none';
         addBtn.style.display = 'none';
         ordersBtn.style.display = 'none';
         if (sliderCfgBox) sliderCfgBox.style.display = 'none';
         authBtn.textContent = 'Staff Login';
+
+        // Show Customer-Specific Buttons for Normal View
+        if (myOrdersBtn) myOrdersBtn.style.display = 'flex';
+        if (custAuthBtn) custAuthBtn.style.display = 'flex';
       }
     }
 
