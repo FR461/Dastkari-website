@@ -27,11 +27,10 @@
       color: #111111;
       padding: 30px 20px;
       -webkit-font-smoothing: antialiased;
-      text-transform: capitalize;
     }
 
     input, textarea, select {
-      text-transform: none !important;
+      font-family: inherit;
     }
 
     /* Header */
@@ -86,7 +85,6 @@
       font-weight: 300;
       letter-spacing: 2px;
       color: #555555;
-      text-transform: capitalize;
       margin-top: 4px;
     }
 
@@ -121,7 +119,6 @@
       border-radius: 6px;
       cursor: pointer;
       transition: all 0.25s ease;
-      text-transform: capitalize;
       display: flex;
       align-items: center;
       gap: 6px;
@@ -352,7 +349,6 @@
       cursor: pointer;
       white-space: nowrap;
       transition: background 0.25s ease;
-      text-transform: capitalize;
     }
 
     .btn-add-item:hover {
@@ -400,7 +396,6 @@
       cursor: pointer;
       transition: all 0.25s cubic-bezier(0.25, 0.8, 0.25, 1);
       flex-shrink: 0;
-      text-transform: capitalize;
       outline: none;
     }
 
@@ -483,7 +478,6 @@
       font-weight: 600;
       line-height: 1.3;
       color: #111111;
-      text-transform: capitalize;
     }
 
     .card-category {
@@ -491,7 +485,6 @@
       font-weight: 500;
       color: #666666;
       letter-spacing: 0.5px;
-      text-transform: capitalize;
     }
 
     .card-footer-row {
@@ -937,7 +930,6 @@
       font-size: 0.72rem;
       font-weight: 600;
       color: #888888;
-      text-transform: capitalize;
     }
 
     .tracker-step.active .step-label,
@@ -968,7 +960,6 @@
       font-size: 0.8rem;
       font-weight: 600;
       color: #444444;
-      text-transform: capitalize;
     }
 
     .login-input {
@@ -989,7 +980,6 @@
       background: #222222;
       color: #ffffff;
       cursor: pointer;
-      text-transform: capitalize;
       transition: background 0.25s ease;
     }
 
@@ -1288,7 +1278,7 @@
       <form class="form-group" id="cust-login-form" onsubmit="handleCustomerLoginSubmit(event)">
         <div>
           <label class="form-label">Full Name</label>
-          <input type="text" id="cust-login-name" class="login-input" placeholder="e.g. Mohd Hassan" required>
+          <input type="text" id="cust-login-name" class="login-input" placeholder="e.g. John Doe" required>
         </div>
         <div>
           <label class="form-label">Mobile Phone / ID</label>
@@ -1420,7 +1410,7 @@
     
     let isStaffLoggedIn = localStorage.getItem('dastkari_staff_logged_in') === 'true';
     let currentCustomer = JSON.parse(localStorage.getItem('dastkari_current_customer')) || null;
-    let pendingActionAfterLogin = null; // 'MY_ORDERS' or 'CHECKOUT'
+    let pendingActionAfterLogin = null;
 
     let currentUploadedImages = [];
 
