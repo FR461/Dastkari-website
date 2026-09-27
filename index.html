@@ -39,7 +39,7 @@
       font-family: inherit;
     }
 
-    /* 1. FRONT HERO SCREEN WITH TOP BRAND HEADER & DUAL 3D FLIP CARDS */
+    /* HERO SCREEN */
     .hero-screen {
       width: 100%;
       min-height: 100vh;
@@ -190,7 +190,6 @@
       height: 100%;
       object-fit: cover;
       display: block;
-      filter: grayscale(0%);
     }
 
     .hero-nav-dots {
@@ -216,7 +215,7 @@
       border-radius: 12px;
     }
 
-    /* 2. PHILOSOPHY SECTION */
+    /* PHILOSOPHY SECTION */
     .philosophy-section {
       width: 100%;
       background: #fafafa;
@@ -256,7 +255,7 @@
       margin-top: 10px;
     }
 
-    /* 3. CATALOG APP CONTAINER */
+    /* CATALOG APP CONTAINER */
     .app-main-wrapper {
       padding: 50px 20px;
     }
@@ -704,43 +703,6 @@
       transform: scale(1.03);
     }
 
-    /* Like Button on Cards */
-    .card-like-btn {
-      position: absolute;
-      top: 10px;
-      right: 10px;
-      background: rgba(255, 255, 255, 0.85);
-      backdrop-filter: blur(4px);
-      border: none;
-      border-radius: 50%;
-      width: 34px;
-      height: 34px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      transition: transform 0.2s ease, background 0.2s ease;
-      z-index: 5;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.15);
-    }
-
-    .card-like-btn:hover {
-      transform: scale(1.12);
-      background: #ffffff;
-    }
-
-    .card-like-btn svg {
-      width: 18px;
-      height: 18px;
-      fill: #bbbbbb;
-      transition: fill 0.2s ease, transform 0.2s ease;
-    }
-
-    .card-like-btn.liked svg {
-      fill: #e74c3c;
-    }
-
-    /* Staff Like Badge */
     .staff-like-badge {
       display: inline-flex;
       align-items: center;
@@ -849,54 +811,6 @@
       color: #ffffff;
     }
 
-    .drag-drop-zone {
-      border: 2px dashed #222222;
-      border-radius: 8px;
-      padding: 20px;
-      text-align: center;
-      background: #fdfdfd;
-      cursor: pointer;
-      transition: background 0.25s ease, border-color 0.25s ease;
-    }
-
-    .drag-drop-zone.hover {
-      background: #f0f0f0;
-      border-color: #000000;
-    }
-
-    .drop-preview-grid {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-      margin-top: 10px;
-    }
-
-    .preview-thumb-box {
-      position: relative;
-      width: 70px;
-      height: 70px;
-      border-radius: 6px;
-      overflow: hidden;
-      border: 1px solid #cccccc;
-    }
-
-    .remove-thumb-btn {
-      position: absolute;
-      top: 2px;
-      right: 2px;
-      background: rgba(0, 0, 0, 0.7);
-      color: #ffffff;
-      border: none;
-      border-radius: 50%;
-      width: 18px;
-      height: 18px;
-      font-size: 10px;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
     /* Modals Overlay */
     .modal-overlay {
       position: fixed;
@@ -952,7 +866,8 @@
       box-sizing: border-box !important;
       display: flex !important;
       flex-direction: column !important;
-      justify-content: center !important;
+      justify-content: space-between !important;
+      overflow-y: auto !important;
     }
 
     .grid-modal-content {
@@ -960,7 +875,6 @@
       grid-template-columns: 1.2fr 1fr;
       gap: 50px;
       align-items: center;
-      height: 100%;
       max-width: 1400px;
       margin: 0 auto;
       width: 100%;
@@ -972,7 +886,6 @@
       }
       .grid-modal-content {
         grid-template-columns: 1fr;
-        overflow-y: auto;
       }
     }
 
@@ -1053,6 +966,100 @@
       border-color: #222222;
     }
 
+    /* NEURAL RECOMMENDATIONS STRIP */
+    .recommender-section {
+      max-width: 1400px;
+      width: 100%;
+      margin: 30px auto 0 auto;
+      padding-top: 20px;
+      border-top: 1px solid #e0e0e0;
+    }
+
+    .recommender-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 14px;
+    }
+
+    .recommender-title {
+      font-size: 0.95rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #111111;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .neural-tag {
+      font-size: 0.68rem;
+      background: #111111;
+      color: #ffffff;
+      padding: 3px 8px;
+      border-radius: 12px;
+      letter-spacing: 1px;
+      font-weight: 600;
+    }
+
+    .recommendations-scroll-grid {
+      display: flex;
+      gap: 16px;
+      overflow-x: auto;
+      padding-bottom: 10px;
+      scroll-behavior: smooth;
+    }
+
+    .rec-card {
+      min-width: 200px;
+      max-width: 220px;
+      background: #fafafa;
+      border: 1px solid #e5e5e5;
+      border-radius: 8px;
+      padding: 10px;
+      cursor: pointer;
+      transition: transform 0.25s ease, border-color 0.25s ease;
+      flex-shrink: 0;
+    }
+
+    .rec-card:hover {
+      transform: translateY(-3px);
+      border-color: #111111;
+    }
+
+    .rec-card-img {
+      width: 100%;
+      height: 120px;
+      object-fit: cover;
+      border-radius: 6px;
+    }
+
+    .rec-card-title {
+      font-size: 0.8rem;
+      font-weight: 600;
+      margin-top: 6px;
+      color: #111;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .rec-card-price {
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: #444;
+      margin-top: 2px;
+    }
+
+    .rec-match-badge {
+      font-size: 0.65rem;
+      color: #27ae60;
+      font-weight: 700;
+      margin-top: 4px;
+      display: block;
+    }
+
     /* FULLSCREEN CART MODAL */
     #cart-modal .modal-container {
       width: 100vw !important;
@@ -1080,7 +1087,7 @@
     .cart-items-wrapper {
       flex: 1;
       overflow-y: auto;
-      margin: 25px 0;
+      margin: 20px 0;
       padding-right: 10px;
       display: flex;
       flex-direction: column;
@@ -1273,7 +1280,6 @@
       cursor: pointer;
     }
 
-    /* Forms */
     .form-group {
       display: flex;
       flex-direction: column;
@@ -1313,7 +1319,6 @@
       background: #333333;
     }
 
-    /* Toast */
     .toast {
       position: fixed;
       bottom: 30px;
@@ -1346,7 +1351,7 @@
 </head>
 <body>
 
-  <!-- 1. FRONT SCREEN WITH TOP BRAND HEADER & DUAL SYNCHRONIZED 3D FLIP CARDS -->
+  <!-- 1. FRONT HERO SCREEN -->
   <section class="hero-screen">
     <div class="hero-brand-header">
       <img src="hamsa.png" alt="Hamsa Logo" class="hero-logo" onerror="this.style.display='none'">
@@ -1409,30 +1414,23 @@
         </div>
         
         <div class="header-actions">
-          <!-- Customer My Orders Button (Requires Authentication) -->
           <button class="nav-btn btn-my-orders" id="btn-my-orders" onclick="openCustomerOrdersModal()">
             My Orders <span id="my-orders-count-badge" class="cart-count-text">0</span>
           </button>
 
-          <!-- Staff Orders Navigation Tab -->
           <button class="nav-btn btn-staff-orders" id="btn-staff-orders" style="display: none;" onclick="openOrdersModal()">
             Staff Orders <span id="orders-count-badge" class="cart-count-text">0</span>
           </button>
 
-          <!-- Dark Cart Button -->
           <button class="nav-btn btn-cart" onclick="openCartModal()">
             Cart <span id="cart-count-badge" class="cart-count-text">0</span>
           </button>
 
-          <!-- Staff Login Button -->
           <button class="nav-btn" id="staff-auth-btn" onclick="handleAuthBtnClick()">Staff Login</button>
-
-          <!-- Customer Sign In Button -->
           <button class="nav-btn btn-cust-sign" id="cust-auth-btn" onclick="handleCustomerAuthClick()">Sign In</button>
         </div>
       </div>
 
-      <!-- Toolbar & Filters -->
       <div class="toolbar">
         <div class="search-box">
           <svg class="search-icon" viewBox="0 0 24 24">
@@ -1441,35 +1439,31 @@
           <input type="text" id="search-input" class="search-input" placeholder="Search Catalog...">
         </div>
 
-        <button class="filter-tab-btn" onclick="toggleFilterDrawer()">
-          Filters
-        </button>
-
+        <button class="filter-tab-btn" onclick="toggleFilterDrawer()">Filters</button>
         <button class="btn-add-item" id="btn-add-new" style="display: none;" onclick="openEditModal()">+ Add New Furniture</button>
 
-        <!-- Filters Drawer -->
         <div class="filter-drawer" id="filter-drawer">
           <div class="staff-slider-cfg-box" id="staff-slider-cfg" style="display: none;">
             <div style="font-weight: 700; font-size: 0.85rem; color: #111;">Staff Portal: Edit Slider Upper Limits</div>
             <div class="staff-cfg-grid">
               <div>
                 <label class="form-label">Max Price (₹)</label>
-                <input type="number" id="cfg-price-max" class="login-input" value="1000000" step="10000" style="padding: 6px 10px; font-size: 0.8rem;">
+                <input type="number" id="cfg-price-max" class="login-input" value="1000000" step="10000">
               </div>
               <div>
                 <label class="form-label">Max L (Inches)</label>
-                <input type="number" id="cfg-l-max" class="login-input" value="150" step="5" style="padding: 6px 10px; font-size: 0.8rem;">
+                <input type="number" id="cfg-l-max" class="login-input" value="150" step="5">
               </div>
               <div>
                 <label class="form-label">Max W (Inches)</label>
-                <input type="number" id="cfg-w-max" class="login-input" value="150" step="5" style="padding: 6px 10px; font-size: 0.8rem;">
+                <input type="number" id="cfg-w-max" class="login-input" value="150" step="5">
               </div>
               <div>
                 <label class="form-label">Max H (Inches)</label>
-                <input type="number" id="cfg-h-max" class="login-input" value="150" step="5" style="padding: 6px 10px; font-size: 0.8rem;">
+                <input type="number" id="cfg-h-max" class="login-input" value="150" step="5">
               </div>
             </div>
-            <button class="btn-submit" style="margin-top: 10px; padding: 8px 16px; font-size: 0.8rem;" onclick="applyStaffSliderConfig()">Apply New Slider Bounds</button>
+            <button class="btn-submit" style="margin-top: 10px;" onclick="applyStaffSliderConfig()">Apply New Bounds</button>
           </div>
 
           <div class="filter-grid">
@@ -1529,18 +1523,16 @@
       </div>
     </header>
 
-    <!-- Category Pills Bar -->
     <nav class="category-pills-container" id="pills-container">
       <div class="category-pills-wrapper" id="pills-wrapper"></div>
     </nav>
 
-    <!-- Catalog Grid -->
     <main class="catalog-container">
       <div class="catalog-grid" id="catalog-grid"></div>
     </main>
   </div>
 
-  <!-- FULLSCREEN PRODUCT DETAILS MODAL -->
+  <!-- FULLSCREEN PRODUCT DETAILS MODAL (WITH LIKE, SHARE & NEURAL RECOMMENDER) -->
   <div class="modal-overlay" id="item-modal">
     <div class="modal-container">
       <button class="modal-close-btn" onclick="closeModal('item-modal')">&times;</button>
@@ -1577,14 +1569,30 @@
             </div>
           </div>
 
-          <div style="display: flex; gap: 12px;">
-            <button class="btn-submit" id="modal-add-cart-btn" style="flex: 3; font-size: 1.1rem; padding: 16px;">+ Add to Cart</button>
-            <button class="nav-btn" id="modal-like-btn" style="flex: 1; justify-content: center; font-size: 1.1rem; gap: 8px; border-width: 2px;" onclick="handleModalLikeClick()">
-              <span>❤️</span> Like
+          <!-- ACTION BUTTONS: Add to Cart, Like, and Share -->
+          <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+            <button class="btn-submit" id="modal-add-cart-btn" style="flex: 3; min-width: 180px; font-size: 1.1rem; padding: 16px;">+ Add to Cart</button>
+            <button class="nav-btn" id="modal-like-btn" style="flex: 1; min-width: 100px; justify-content: center; font-size: 1.05rem; border-width: 2px;" onclick="handleModalLikeClick()">
+              <span>🤍</span> Like
+            </button>
+            <button class="nav-btn" id="modal-share-btn" style="flex: 1; min-width: 100px; justify-content: center; font-size: 1.05rem; border-width: 2px;" onclick="handleModalShareClick()">
+              <span>↗</span> Share
             </button>
           </div>
         </div>
       </div>
+
+      <!-- SERVER NEURAL RECOMMENDER SECTION -->
+      <div class="recommender-section" id="neural-recommender-section">
+        <div class="recommender-header">
+          <div class="recommender-title">
+            <span>Pairs Well With (Color & Contrast Match)</span>
+            <span class="neural-tag">NEURAL MATCH</span>
+          </div>
+        </div>
+        <div class="recommendations-scroll-grid" id="neural-rec-container"></div>
+      </div>
+
     </div>
   </div>
 
@@ -1597,6 +1605,17 @@
       </div>
 
       <div class="cart-items-wrapper" id="cart-items-container"></div>
+
+      <!-- Cart Recommender Strip -->
+      <div class="recommender-section" id="cart-rec-section" style="margin: 0 0 20px 0; padding-top: 15px;">
+        <div class="recommender-header">
+          <div class="recommender-title">
+            <span>Suggested Accessories For Your Cart</span>
+            <span class="neural-tag">AI COLOR PAIRING</span>
+          </div>
+        </div>
+        <div class="recommendations-scroll-grid" id="cart-rec-container"></div>
+      </div>
 
       <div class="cart-footer">
         <div style="font-size: 1.4rem; font-weight: 700;">
@@ -1643,7 +1662,7 @@
     </div>
   </div>
 
-  <!-- CUSTOMER SIGN IN / REGISTRATION MODAL -->
+  <!-- CUSTOMER SIGN IN MODAL -->
   <div class="modal-overlay" id="cust-login-modal">
     <div class="modal-container" style="max-width: 420px;">
       <button class="modal-close-btn" onclick="closeModal('cust-login-modal')">&times;</button>
@@ -1710,7 +1729,7 @@
     </div>
   </div>
 
-  <!-- Staff Login Modal -->
+  <!-- STAFF LOGIN MODAL -->
   <div class="modal-overlay" id="staff-modal">
     <div class="modal-container" style="max-width: 420px;">
       <button class="modal-close-btn" onclick="closeModal('staff-modal')">&times;</button>
@@ -1723,7 +1742,7 @@
     </div>
   </div>
 
-  <!-- Staff Edit / Add Item Modal -->
+  <!-- STAFF EDIT / ADD ITEM MODAL -->
   <div class="modal-overlay" id="edit-modal">
     <div class="modal-container" style="max-width: 500px;">
       <button class="modal-close-btn" onclick="closeModal('edit-modal')">&times;</button>
@@ -1850,7 +1869,7 @@
       startHeroTimer();
     }
 
-    /* 2. SCROLL REVEAL (INTERSECTION OBSERVER) */
+    /* 2. SCROLL REVEAL OBSERVER */
     let scrollObserver = null;
 
     function initScrollObserver() {
@@ -1872,14 +1891,13 @@
       });
     }
 
-    /* 3. CATALOG & APP LOGIC WITH LIKES & STRICT AUTH */
+    /* 3. APP CORE LOGIC */
     const ORDER_STAGES = ['Being made', 'Final touches', 'Being packed', 'Being shipped', 'Arrived'];
 
     let catalogData = [];
     let cart = [];
     let orders = JSON.parse(localStorage.getItem('dastkari_orders')) || [];
 
-    // Customer Likes Persistence
     let userLikes = JSON.parse(localStorage.getItem('dastkari_user_likes')) || [];
     let itemLikesMap = JSON.parse(localStorage.getItem('dastkari_item_likes')) || {};
 
@@ -1910,10 +1928,9 @@
 
         catalogData = await response.json();
         
-        // Initialize default likes into map
         catalogData.forEach(item => {
           if (itemLikesMap[item.id] === undefined) {
-            itemLikesMap[item.id] = item.likes || Math.floor(Math.random() * 8); // Default interest points
+            itemLikesMap[item.id] = item.likes || Math.floor(Math.random() * 8);
           }
         });
 
@@ -1926,6 +1943,13 @@
         updateCartUI();
         updateOrdersBadge();
         setupSmoothDragScroll();
+
+        // Check for URL deep link (e.g. ?item=ITEM-102)
+        const urlParams = new URLSearchParams(window.location.search);
+        const sharedItemId = urlParams.get('item');
+        if (sharedItemId) {
+          setTimeout(() => openItemModal(sharedItemId), 600);
+        }
       } catch (err) {
         grid.innerHTML = `<div class="error-msg">Could Not Load catalog_data.json</div>`;
       }
@@ -1969,10 +1993,8 @@
       return p ? p.replace(/[^0-9]/g, '') : '';
     }
 
-    /* CUSTOMER LIKES / FAVORITES SYSTEM */
-    function toggleLike(itemId, event) {
-      if (event) event.stopPropagation();
-
+    /* ITEM SCREEN ONLY FAVORITING */
+    function toggleLike(itemId) {
       const idx = userLikes.indexOf(itemId);
       if (idx > -1) {
         userLikes.splice(idx, 1);
@@ -1987,14 +2009,34 @@
       localStorage.setItem('dastkari_user_likes', JSON.stringify(userLikes));
       localStorage.setItem('dastkari_item_likes', JSON.stringify(itemLikesMap));
 
-      renderGrid();
-
+      // Strictly update in-place without touching or re-rendering the catalog grid (prevents screen bounce!)
       if (currentActiveItemId === itemId) {
         updateModalLikeState(itemId);
       }
     }
 
-    /* CUSTOMER SIGN IN & SESSION MANAGEMENT */
+    /* ITEM SCREEN ONLY SHARE FEATURE */
+    function handleModalShareClick() {
+      if (!currentActiveItemId) return;
+      const item = catalogData.find(i => i.id === currentActiveItemId);
+      if (!item) return;
+
+      const shareUrl = `${window.location.origin}${window.location.pathname}?item=${item.id}`;
+
+      if (navigator.share) {
+        navigator.share({
+          title: `Dastkari - ${item.title}`,
+          text: `Check out ${item.title} on Dastkari Bespoke Furniture:`,
+          url: shareUrl
+        }).catch(() => {});
+      } else {
+        navigator.clipboard.writeText(shareUrl).then(() => {
+          showToast('Product link copied to clipboard!');
+        });
+      }
+    }
+
+    /* CUSTOMER AUTH */
     function updateCustomerUI() {
       const btn = document.getElementById('cust-auth-btn');
       if (currentCustomer && currentCustomer.phone) {
@@ -2060,7 +2102,6 @@
       pendingActionAfterLogin = null;
     }
 
-    /* Filters Drawer Toggle */
     function toggleFilterDrawer() {
       const drawer = document.getElementById('filter-drawer');
       drawer.classList.toggle('active');
@@ -2138,7 +2179,7 @@
       ['price', 'l', 'w', 'h'].forEach(p => updateDualSlider(p));
     }
 
-    /* RENDER CATALOG GRID WITH LIKE BUTTONS & STAFF LIKES INDICATOR */
+    /* RENDER CATALOG GRID (NO BOUNCING / REFLAWS) */
     function renderGrid() {
       const pMin = parseInt(document.getElementById('price-min').value, 10);
       const pMax = parseInt(document.getElementById('price-max').value, 10);
@@ -2193,10 +2234,8 @@
           const { l, w, h } = parseDims(item);
           const displayDims = formatDimsStr(l, w, h);
 
-          const isLiked = userLikes.includes(item.id);
           const totalLikesCount = itemLikesMap[item.id] || 0;
 
-          // Staff Badge for Likes
           const staffLikeBadgeHTML = isStaffLoggedIn ? `
             <span class="staff-like-badge">❤️ ${totalLikesCount} Likes</span>
           ` : '';
@@ -2211,11 +2250,6 @@
           htmlOutput += `
             <div class="card float-up" onclick="openItemModal('${item.id}')">
               <div class="card-image-wrapper">
-                <button class="card-like-btn ${isLiked ? 'liked' : ''}" onclick="toggleLike('${item.id}', event)" title="Like Item">
-                  <svg viewBox="0 0 24 24">
-                    <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
-                  </svg>
-                </button>
                 <img src="${imgSrc}" alt="${item.title}" loading="lazy" onerror="this.src='https://via.placeholder.com/240?text=No+Image'">
               </div>
               <div class="card-info">
@@ -2257,11 +2291,13 @@
           category: item.category,
           price: price,
           image: (item.images && item.images.length > 0) ? item.images[0] : '',
+          recommended_ids: item.recommended_ids || [],
           qty: qty
         });
       }
 
       updateCartUI();
+      renderCartRecommendations();
       showToast(`Added "${item.title}" to Cart`);
     }
 
@@ -2271,11 +2307,13 @@
         cart.splice(index, 1);
       }
       updateCartUI();
+      renderCartRecommendations();
     }
 
     function removeFromCart(index) {
       cart.splice(index, 1);
       updateCartUI();
+      renderCartRecommendations();
     }
 
     function updateCartUI() {
@@ -2328,7 +2366,7 @@
       document.getElementById('checkout-subtotal').textContent = formatPrice(totalSum);
     }
 
-    /* Checkout & Order Generation */
+    /* Checkout */
     function openCheckoutModal() {
       if (cart.length === 0) {
         alert('Your cart is empty!');
@@ -2385,9 +2423,8 @@
       showToast(`Order Placed! Reference: ${newOrder.id}`);
     }
 
-    /* STRICT CUSTOMER MY ORDERS ACCESS */
+    /* CUSTOMER MY ORDERS */
     function openCustomerOrdersModal() {
-      // MANDATORY SECURITY GUARD: Require Customer Sign In first
       if (!currentCustomer || !currentCustomer.phone) {
         openCustomerAuthModal('You must sign in with your Name and Mobile Phone to view your orders.', 'MY_ORDERS');
         return;
@@ -2408,7 +2445,6 @@
 
       infoEl.textContent = `Account Name: ${currentCustomer.name} | Phone: ${currentCustomer.phone}`;
 
-      // Strictly filter orders matching current logged-in customer phone
       const custOrders = orders.filter(o => cleanPhone(o.customerPhone || o.phone) === cleanPhone(currentCustomer.phone));
       
       if (custOrders.length === 0) {
@@ -2477,7 +2513,7 @@
       `;
     }
 
-    /* STAFF ORDERS SYSTEM LOGIC */
+    /* STAFF ORDERS SYSTEM */
     function updateOrdersBadge() {
       const activeCount = orders.filter(o => o.status !== 'Arrived').length;
       
@@ -2541,7 +2577,7 @@
       setTimeout(() => toast.classList.remove('show'), 2500);
     }
 
-    /* PRODUCT DETAIL MODAL */
+    /* PRODUCT DETAIL MODAL & NEURAL RECOMMENDATIONS */
     function openItemModal(id) {
       const item = catalogData.find(i => i.id === id);
       if (!item) return;
@@ -2573,7 +2609,68 @@
         closeModal('item-modal');
       };
 
+      // Render Neural Recommendations for this item
+      renderItemRecommendations(item);
+
       document.getElementById('item-modal').classList.add('active');
+    }
+
+    function renderItemRecommendations(item) {
+      const recContainer = document.getElementById('neural-rec-container');
+      let recs = [];
+
+      if (item.recommended_ids && item.recommended_ids.length > 0) {
+        recs = catalogData.filter(i => item.recommended_ids.includes(i.id));
+      }
+
+      // Fallback complementary matching by category if server embedding vector not generated yet
+      if (recs.length === 0) {
+        recs = catalogData.filter(i => i.id !== item.id && i.category.toUpperCase() !== item.category.toUpperCase()).slice(0, 5);
+      }
+
+      recContainer.innerHTML = recs.map(r => `
+        <div class="rec-card" onclick="openItemModal('${r.id}')">
+          <img src="${r.images[0]}" class="rec-card-img" alt="${r.title}">
+          <div class="rec-card-title">${r.title}</div>
+          <div class="rec-card-price">${formatPrice(parsePrice(r.price))}</div>
+          <span class="rec-match-badge">✦ Color & Style Complement</span>
+        </div>
+      `).join('');
+    }
+
+    function renderCartRecommendations() {
+      const recContainer = document.getElementById('cart-rec-container');
+      const cartRecSection = document.getElementById('cart-rec-section');
+
+      if (cart.length === 0) {
+        cartRecSection.style.display = 'none';
+        return;
+      }
+
+      cartRecSection.style.display = 'block';
+
+      // Gather complementary recommendation IDs from items in cart
+      const cartItemIds = cart.map(c => c.id);
+      let recIds = [];
+
+      cart.forEach(c => {
+        if (c.recommended_ids) recIds.push(...c.recommended_ids);
+      });
+
+      let recs = catalogData.filter(i => recIds.includes(i.id) && !cartItemIds.includes(i.id));
+
+      if (recs.length === 0) {
+        recs = catalogData.filter(i => !cartItemIds.includes(i.id)).slice(0, 4);
+      }
+
+      recContainer.innerHTML = recs.map(r => `
+        <div class="rec-card" onclick="closeModal('cart-modal'); openItemModal('${r.id}');">
+          <img src="${r.images[0]}" class="rec-card-img" alt="${r.title}">
+          <div class="rec-card-title">${r.title}</div>
+          <div class="rec-card-price">${formatPrice(parsePrice(r.price))}</div>
+          <button class="btn-add-cart-card" style="margin-top: 6px; padding: 4px; font-size: 0.72rem;" onclick="event.stopPropagation(); addToCart('${r.id}')">+ Add to Cart</button>
+        </div>
+      `).join('');
     }
 
     function updateModalLikeState(id) {
@@ -2617,7 +2714,7 @@
       tempImg.onload = function() {
         const aspect = tempImg.naturalWidth / tempImg.naturalHeight;
         const maxW = gallery.clientWidth || 550;
-        const maxH = window.innerHeight * 0.58;
+        const maxH = window.innerHeight * 0.52;
 
         let targetW, targetH;
 
@@ -2650,6 +2747,7 @@
 
     function openCartModal() {
       updateCartUI();
+      renderCartRecommendations();
       document.getElementById('cart-modal').classList.add('active');
     }
 
@@ -2817,7 +2915,7 @@
       if (!isStaffLoggedIn) return;
       
       const saveBtn = document.getElementById('save-btn');
-      if (saveBtn) saveBtn.textContent = 'Saving to Server...';
+      if (saveBtn) saveBtn.textContent = 'Saving & Running Neural Match...';
 
       try {
         const response = await fetch('/api/update-catalog', {
@@ -2827,7 +2925,7 @@
         });
 
         if (response.ok) {
-          showToast('Catalog auto-saved to Vercel!');
+          showToast('Catalog updated & neural recommendations computed!');
         }
       } catch (e) {
         // Fallback
@@ -2836,7 +2934,7 @@
       }
     }
 
-    /* Drag & Drop Upload Logic */
+    /* Drag & Drop Upload */
     const dropZone = document.getElementById('drop-zone');
 
     ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(evt => {
@@ -2900,7 +2998,7 @@
       renderUploadPreviews();
     }
 
-    /* Category Navigation Pills */
+    /* Category Pills */
     function renderPills() {
       if (!catalogData || catalogData.length === 0) return;
       
