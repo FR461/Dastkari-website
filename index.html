@@ -690,10 +690,10 @@
       transform: translateY(0);
     }
 
-    /* Furniture Card & Adaptive Image Box */
+    /* Furniture Card - Soft Subtle Shadow & No Heavy Outline */
     .card {
       background: #ffffff;
-      border: 1.5px solid #222222;
+      border: 1px solid rgba(0, 0, 0, 0.05); /* Insignificant subtle border */
       border-radius: 12px;
       padding: 12px;
       display: flex;
@@ -701,37 +701,30 @@
       gap: 12px;
       cursor: pointer;
       position: relative;
-      transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1), border-color 0.25s ease, box-shadow 0.25s ease;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04); /* Insignificant soft shadow */
+      transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1), box-shadow 0.3s ease;
     }
 
     .card:hover {
-      transform: translateY(-4px);
-      border-color: #000000;
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+      transform: translateY(-5px);
+      box-shadow: 0 10px 28px rgba(0, 0, 0, 0.08);
     }
 
-    /* Responsive, Adaptive Image Box (Fits full piece without cut-offs) */
+    /* Front Card Image Box: Fills the entire photo frame */
     .card-image-wrapper {
       width: 100%;
-      height: 220px;
+      height: 240px;
       border-radius: 8px;
       overflow: hidden;
-      background-color: #fcfcfc;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 6px;
-      transition: height 0.4s ease;
+      background-color: #f8f8f8;
     }
 
     .card-image-wrapper img {
-      max-width: 100%;
-      max-height: 100%;
-      width: auto;
-      height: auto;
-      object-fit: contain; /* Prevents cut-offs for wide daybeds/sofas */
+      width: 100%;
+      height: 100%;
+      object-fit: cover; /* Fully fills the container on front catalog cards */
       display: block;
-      transition: transform 0.3s ease;
+      transition: transform 0.35s ease;
     }
 
     .card:hover .card-image-wrapper img {
@@ -925,7 +918,7 @@
       transform: translateY(0);
     }
 
-    /* FULLSCREEN PRODUCT DETAIL MODAL & ADAPTIVE IMAGE STAGING */
+    /* FULLSCREEN PRODUCT DETAIL MODAL */
     #item-modal .modal-container {
       width: 100vw !important;
       height: 100vh !important;
@@ -983,12 +976,11 @@
       justify-content: center;
     }
 
-    /* Smooth Dynamic Container for Detail View Images */
+    /* Dynamic Adaptive Container for Detail View Photos */
     .modal-main-img-box {
       width: 100%;
-      min-height: 250px;
-      max-height: 550px;
-      height: 55vh;
+      height: 480px; /* Adapts dynamically via JS */
+      max-height: 62vh;
       border-radius: 10px;
       overflow: hidden;
       background: #f8f9fa;
@@ -996,17 +988,16 @@
       align-items: center;
       justify-content: center;
       padding: 10px;
+      /* Smooth container height transformation */
       transition: height 0.4s cubic-bezier(0.25, 1, 0.5, 1);
     }
 
     .modal-main-img-box img {
-      max-width: 100%;
-      max-height: 100%;
-      width: auto;
-      height: auto;
-      object-fit: contain; /* Never crops wide pieces */
+      width: 100%;
+      height: 100%;
+      object-fit: contain; /* Prevents cut-offs */
       display: block;
-      transition: opacity 0.35s ease, transform 0.35s cubic-bezier(0.25, 1, 0.5, 1);
+      transition: opacity 0.25s ease, transform 0.25s cubic-bezier(0.25, 1, 0.5, 1);
     }
 
     .modal-thumbs {
@@ -1033,9 +1024,9 @@
     }
 
     .modal-thumb img {
-      max-width: 100%;
-      max-height: 100%;
-      object-fit: contain;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
     }
 
     .modal-thumb.active {
@@ -1097,7 +1088,7 @@
       width: 80px;
       height: 80px;
       border-radius: 6px;
-      object-fit: contain;
+      object-fit: cover;
       background: #f5f5f5;
     }
 
@@ -2495,7 +2486,7 @@
       setTimeout(() => toast.classList.remove('show'), 2500);
     }
 
-    /* NAVIGATION MODALS & ADAPTIVE PRODUCT DETAIL VIEW */
+    /* NAVIGATION MODALS & DYNAMIC ADAPTIVE PRODUCT DETAIL VIEW */
     function openItemModal(id) {
       const item = catalogData.find(i => i.id === id);
       if (!item) return;
@@ -2529,19 +2520,37 @@
       document.getElementById('item-modal').classList.add('active');
     }
 
+    /* Dynamic Container Shape Transitioning for Modal Detail Photos */
     function setModalImage(src, thumbEl, event) {
       if (event) event.stopPropagation();
       const modalImg = document.getElementById('modal-img');
-      
-      // Smooth fade transition for changing photos
-      modalImg.style.opacity = '0';
-      modalImg.style.transform = 'scale(0.98)';
+      const mainBox = document.getElementById('modal-main-box');
 
-      setTimeout(() => {
-        modalImg.src = src;
-        modalImg.style.opacity = '1';
-        modalImg.style.transform = 'scale(1)';
-      }, 150);
+      // Preload image to calculate natural dimensions & aspect ratio
+      const tempImg = new Image();
+      tempImg.src = src;
+      tempImg.onload = function() {
+        const aspect = tempImg.naturalWidth / tempImg.naturalHeight;
+        const boxWidth = mainBox.clientWidth || 500;
+        
+        let targetHeight = boxWidth / aspect;
+        const maxHeight = window.innerHeight * 0.62;
+        
+        if (targetHeight > maxHeight) targetHeight = maxHeight;
+        if (targetHeight < 220) targetHeight = 220;
+
+        // Smoothly animate the container shape/height to fit the photo precisely
+        mainBox.style.height = `${targetHeight}px`;
+
+        modalImg.style.opacity = '0';
+        modalImg.style.transform = 'scale(0.98)';
+
+        setTimeout(() => {
+          modalImg.src = src;
+          modalImg.style.opacity = '1';
+          modalImg.style.transform = 'scale(1)';
+        }, 150);
+      };
 
       if (thumbEl) {
         document.querySelectorAll('.modal-thumb').forEach(t => t.classList.remove('active'));
