@@ -974,29 +974,29 @@
       gap: 16px;
       height: 100%;
       justify-content: center;
+      align-items: center; /* Center adaptive container horizontally */
+      width: 100%;
     }
 
-    /* Dynamic Adaptive Container for Detail View Photos */
+    /* Fully Adaptive Container: Dynamically resizes both Width & Height to match pic aspect ratio */
     .modal-main-img-box {
-      width: 100%;
-      height: 480px; /* Adapts dynamically via JS */
-      max-height: 62vh;
       border-radius: 10px;
       overflow: hidden;
-      background: #f8f9fa;
+      background: transparent;
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 10px;
-      /* Smooth container height transformation */
-      transition: height 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+      padding: 0;
+      /* Smooth container dimensions transition */
+      transition: width 0.4s cubic-bezier(0.25, 1, 0.5, 1), height 0.4s cubic-bezier(0.25, 1, 0.5, 1);
     }
 
     .modal-main-img-box img {
       width: 100%;
       height: 100%;
-      object-fit: contain; /* Prevents cut-offs */
+      object-fit: cover; /* Exact fit inside container with zero whitespace */
       display: block;
+      border-radius: 10px;
       transition: opacity 0.25s ease, transform 0.25s cubic-bezier(0.25, 1, 0.5, 1);
     }
 
@@ -1006,6 +1006,7 @@
       overflow-x: auto;
       padding-bottom: 4px;
       scroll-behavior: smooth;
+      max-width: 100%;
     }
 
     .modal-thumb {
@@ -2486,7 +2487,7 @@
       setTimeout(() => toast.classList.remove('show'), 2500);
     }
 
-    /* NAVIGATION MODALS & DYNAMIC ADAPTIVE PRODUCT DETAIL VIEW */
+    /* NAVIGATION MODALS & PERFECT ADAPTIVE PRODUCT DETAIL VIEW */
     function openItemModal(id) {
       const item = catalogData.find(i => i.id === id);
       if (!item) return;
@@ -2520,27 +2521,38 @@
       document.getElementById('item-modal').classList.add('active');
     }
 
-    /* Dynamic Container Shape Transitioning for Modal Detail Photos */
+    /* Dynamically Calculates BOTH Width and Height to wrap around the picture without white space */
     function setModalImage(src, thumbEl, event) {
       if (event) event.stopPropagation();
       const modalImg = document.getElementById('modal-img');
       const mainBox = document.getElementById('modal-main-box');
+      const gallery = mainBox.parentElement;
 
-      // Preload image to calculate natural dimensions & aspect ratio
+      // Preload image to calculate exact aspect ratio
       const tempImg = new Image();
       tempImg.src = src;
       tempImg.onload = function() {
         const aspect = tempImg.naturalWidth / tempImg.naturalHeight;
-        const boxWidth = mainBox.clientWidth || 500;
         
-        let targetHeight = boxWidth / aspect;
-        const maxHeight = window.innerHeight * 0.62;
-        
-        if (targetHeight > maxHeight) targetHeight = maxHeight;
-        if (targetHeight < 220) targetHeight = 220;
+        // Define maximum boundaries inside left gallery column
+        const maxW = gallery.clientWidth || 550;
+        const maxH = window.innerHeight * 0.58;
 
-        // Smoothly animate the container shape/height to fit the photo precisely
-        mainBox.style.height = `${targetHeight}px`;
+        let targetW, targetH;
+
+        if (maxW / maxH > aspect) {
+          // Height constrained (e.g., vertical portrait photos)
+          targetH = maxH;
+          targetW = maxH * aspect;
+        } else {
+          // Width constrained (e.g., wide landscape photos)
+          targetW = maxW;
+          targetH = maxW / aspect;
+        }
+
+        // Apply both width and height dynamically so the container equals image size
+        mainBox.style.width = `${targetW}px`;
+        mainBox.style.height = `${targetH}px`;
 
         modalImg.style.opacity = '0';
         modalImg.style.transform = 'scale(0.98)';
