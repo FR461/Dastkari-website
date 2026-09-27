@@ -41,38 +41,92 @@
       font-family: inherit;
     }
 
-    /* 1. FRONT HERO SCREEN WITH BRANDING */
+    /* 1. FRONT HERO SCREEN WITH ANIMATED STORYTELLING */
     .hero-screen {
       width: 100%;
       min-height: 100vh;
-      background: #000000; /* Set to pure black to perfectly match logo background */
+      background: #000000;
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      padding: 50px 20px;
+      padding: 60px 20px 40px 20px;
+      position: relative;
+      overflow: hidden;
     }
 
-    .hero-brand-header {
+    .hero-container {
+      max-width: 1200px;
+      width: 100%;
+      height: 65vh;
+      min-height: 480px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      align-items: center;
+      position: relative;
+    }
+
+    @media (max-width: 850px) {
+      .hero-container {
+        grid-template-columns: 1fr;
+        height: auto;
+      }
+    }
+
+    /* Left Side: 3D Flipping Card for Quotes & Brand */
+    .hero-text-wrapper {
+      perspective: 1200px;
+      width: 100%;
+      height: 100%;
+      min-height: 380px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .hero-text-card {
+      width: 100%;
+      height: 100%;
+      position: relative;
+      transform-style: preserve-3d;
+      transition: transform 0.9s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .hero-text-face {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      backface-visibility: hidden;
       display: flex;
       flex-direction: column;
-      align-items: center;
-      gap: 12px;
-      margin-bottom: 40px;
-      text-align: center;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 40px;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 12px;
+      background: rgba(18, 18, 18, 0.85);
+      backdrop-filter: blur(12px);
+      box-shadow: 0 20px 50px rgba(0,0,0,0.5);
     }
 
-    .hero-logo {
-      width: 56px;
-      height: 56px;
-      object-fit: contain;
-      filter: invert(1);
-      mix-blend-mode: screen; /* Blends out dark box edges seamlessly */
+    .hero-text-face.back {
+      transform: rotateY(180deg);
     }
 
-    .hero-title {
-      font-family: 'Montserrat', 'Century Gothic', sans-serif;
-      font-size: 3rem;
+    .hero-quote-text {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 2.1rem;
+      font-weight: 200;
+      line-height: 1.4;
+      letter-spacing: 2px;
+      color: #ffffff;
+      text-transform: uppercase;
+    }
+
+    .hero-brand-title {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 3.4rem;
       font-weight: 200;
       letter-spacing: 12px;
       color: #ffffff;
@@ -80,53 +134,84 @@
       line-height: 1;
     }
 
-    .hero-subtitle {
-      font-size: 0.95rem;
+    .hero-brand-author {
+      font-size: 1.1rem;
       font-weight: 300;
       letter-spacing: 4px;
       color: #bbbbbb;
       text-transform: uppercase;
-      margin-top: 4px;
-    }
-
-    .hero-grid {
-      max-width: 1200px;
+      margin-top: 16px;
+      padding-top: 16px;
+      border-top: 1px solid rgba(255, 255, 255, 0.2);
       width: 100%;
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 20px;
     }
 
-    @media (max-width: 768px) {
-      .hero-grid {
-        grid-template-columns: 1fr;
-      }
-      .hero-title {
-        font-size: 2.2rem;
-        letter-spacing: 8px;
-      }
-    }
-
-    .hero-img-card {
-      width: 100%;
-      height: 55vh;
-      min-height: 380px;
-      border-radius: 8px;
-      overflow: hidden;
+    /* Right Side: Image Stage with Slide Effects */
+    .hero-img-stage {
       position: relative;
+      width: 100%;
+      height: 100%;
+      min-height: 380px;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      box-shadow: 0 20px 50px rgba(0,0,0,0.5);
     }
 
-    .hero-img-card img {
+    .hero-slide-img {
+      position: absolute;
+      top: 0;
+      left: 0;
       width: 100%;
       height: 100%;
       object-fit: cover;
       filter: grayscale(100%);
-      transition: filter 0.4s ease, transform 0.4s ease;
+      transition: transform 0.9s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.8s ease, filter 0.5s ease;
+      opacity: 0;
+      pointer-events: none;
     }
 
-    .hero-img-card:hover img {
+    .hero-slide-img.active {
+      opacity: 1;
+      transform: translate(0, 0) scale(1) !important;
       filter: grayscale(0%);
-      transform: scale(1.03);
+      pointer-events: auto;
+    }
+
+    .hero-slide-img.from-left {
+      transform: translateX(-100%);
+    }
+
+    .hero-slide-img.from-top {
+      transform: translateY(-100%);
+    }
+
+    .hero-slide-img.from-right {
+      transform: translateX(100%);
+    }
+
+    /* Navigation Indicator Dots */
+    .hero-nav-dots {
+      display: flex;
+      gap: 12px;
+      margin-top: 30px;
+      z-index: 10;
+    }
+
+    .hero-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      border: 1px solid #ffffff;
+      background: transparent;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .hero-dot.active {
+      background: #ffffff;
+      width: 32px;
+      border-radius: 12px;
     }
 
     /* 2. PHILOSOPHY SECTION */
@@ -1179,26 +1264,38 @@
 </head>
 <body>
 
-  <!-- 1. FRONT SCREEN WITH BRANDING HEADER & 3 CRAFT PICTURES -->
+  <!-- 1. FRONT SCREEN WITH ANIMATED STORYTELLING HERO SEQUENCE -->
   <section class="hero-screen">
-    <!-- Centered Brand Logo and Title -->
-    <div class="hero-brand-header">
-      <img src="hamsa.png" alt="Hamsa Logo" class="hero-logo" onerror="this.style.display='none'">
-      <h1 class="hero-title">DASTKARI</h1>
-      <div class="hero-subtitle">Bespoke Furniture</div>
+    <div class="hero-container">
+      
+      <!-- Left Side: 3D Flipping Quote/Brand Card -->
+      <div class="hero-text-wrapper">
+        <div class="hero-text-card" id="hero-text-card">
+          <!-- Front Face (Quote 1 & Brand Title) -->
+          <div class="hero-text-face" id="hero-face-front">
+            <div class="hero-quote-text">“THE DETAILS ARE NOT THE DETAILS, THEY MAKE THE DESIGN”</div>
+          </div>
+          <!-- Back Face (Quote 2) -->
+          <div class="hero-text-face back" id="hero-face-back">
+            <div class="hero-quote-text">“EMBRACING CONSTRAINTS MAKES DESIGN GRACEFUL”</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Side: Craft Photos Stage -->
+      <div class="hero-img-stage">
+        <img src="./Assets/Craft_1.png" id="hero-img-1" class="hero-slide-img from-left active" alt="Wood Lathe Craftsmanship" onerror="this.src='https://images.unsplash.com/photo-1544816155-12df9643f363?q=80&w=800'">
+        <img src="./Assets/Craft_2.png" id="hero-img-2" class="hero-slide-img from-top" alt="Hand Stitching Craftsmanship" onerror="this.src='https://images.unsplash.com/photo-1584992236310-6edddc08acff?q=80&w=800'">
+        <img src="./Assets/Craft_3.png" id="hero-img-3" class="hero-slide-img from-right" alt="Metal Welding Craftsmanship" onerror="this.src='https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?q=80&w=800'">
+      </div>
+
     </div>
 
-    <!-- 3 Photos Grid -->
-    <div class="hero-grid">
-      <div class="hero-img-card">
-        <img src="./Assets/Craft_1.png" alt="Wood Lathe Craftsmanship" onerror="this.src='https://images.unsplash.com/photo-1544816155-12df9643f363?q=80&w=800'">
-      </div>
-      <div class="hero-img-card">
-        <img src="./Assets/Craft_2.png" alt="Hand Stitching Craftsmanship" onerror="this.src='https://images.unsplash.com/photo-1584992236310-6edddc08acff?q=80&w=800'">
-      </div>
-      <div class="hero-img-card">
-        <img src="./Assets/Craft_3.png" alt="Metal Welding Craftsmanship" onerror="this.src='https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?q=80&w=800'">
-      </div>
+    <!-- Navigation Dots for Slideshow -->
+    <div class="hero-nav-dots">
+      <div class="hero-dot active" onclick="goToHeroSlide(0)"></div>
+      <div class="hero-dot" onclick="goToHeroSlide(1)"></div>
+      <div class="hero-dot" onclick="goToHeroSlide(2)"></div>
     </div>
   </section>
 
@@ -1611,6 +1708,72 @@
   <div class="toast" id="toast-msg">Item added to cart</div>
 
   <script>
+    /* HERO STORYTELLING SLIDESHOW TIMELINE LOGIC */
+    let currentHeroSlide = 0;
+    let heroTimer = null;
+
+    function initHeroSlideshow() {
+      showHeroSlide(0);
+      startHeroTimer();
+    }
+
+    function startHeroTimer() {
+      if (heroTimer) clearInterval(heroTimer);
+      heroTimer = setInterval(() => {
+        currentHeroSlide = (currentHeroSlide + 1) % 3;
+        showHeroSlide(currentHeroSlide);
+      }, 5000);
+    }
+
+    function goToHeroSlide(index) {
+      currentHeroSlide = index;
+      showHeroSlide(currentHeroSlide);
+      startHeroTimer(); // Reset interval
+    }
+
+    function showHeroSlide(index) {
+      const card = document.getElementById('hero-text-card');
+      const dots = document.querySelectorAll('.hero-dot');
+      const frontFace = document.getElementById('hero-face-front');
+      
+      const img1 = document.getElementById('hero-img-1');
+      const img2 = document.getElementById('hero-img-2');
+      const img3 = document.getElementById('hero-img-3');
+
+      dots.forEach((d, i) => d.classList.toggle('active', i === index));
+
+      if (index === 0) {
+        // Slide 1: Craft 1 from Left, Quote 1
+        frontFace.innerHTML = `
+          <div class="hero-quote-text">“THE DETAILS ARE NOT THE DETAILS, THEY MAKE THE DESIGN”</div>
+        `;
+        card.style.transform = 'rotateY(0deg)';
+
+        img1.className = 'hero-slide-img active';
+        img2.className = 'hero-slide-img from-top';
+        img3.className = 'hero-slide-img from-right';
+      } else if (index === 1) {
+        // Slide 2: Craft 2 from Top, Quote 2 (Flip 180deg)
+        card.style.transform = 'rotateY(180deg)';
+
+        img1.className = 'hero-slide-img from-left';
+        img2.className = 'hero-slide-img active';
+        img3.className = 'hero-slide-img from-right';
+      } else if (index === 2) {
+        // Slide 3: Craft 3 from Right, DASTKARI By Nawazish Kirmani (Flip 360deg)
+        frontFace.innerHTML = `
+          <div class="hero-brand-title">DASTKARI</div>
+          <div class="hero-brand-author">By Nawazish Kirmani</div>
+        `;
+        card.style.transform = 'rotateY(360deg)';
+
+        img1.className = 'hero-slide-img from-left';
+        img2.className = 'hero-slide-img from-top';
+        img3.className = 'hero-slide-img active';
+      }
+    }
+
+    /* CATALOG & APP LOGIC */
     const ORDER_STAGES = ['Being made', 'Final touches', 'Being packed', 'Being shipped', 'Arrived'];
 
     let catalogData = [];
@@ -1633,6 +1796,8 @@
     const searchInput = document.getElementById('search-input');
 
     async function init() {
+      initHeroSlideshow();
+
       try {
         let response = await fetch('./catalog_data.json');
         if (!response.ok) response = await fetch('./Assets/catalog_data.json');
