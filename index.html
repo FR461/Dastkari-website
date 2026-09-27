@@ -642,7 +642,7 @@
       box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
     }
 
-    /* Catalog Grid */
+    /* Catalog Grid & Category Separators */
     .catalog-container {
       max-width: 1200px;
       margin: 0 auto;
@@ -650,51 +650,92 @@
 
     .catalog-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-      gap: 22px;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 28px 22px;
       transition: opacity 0.25s ease;
     }
 
+    /* Category Separator Header (Spans full width) */
+    .category-separator {
+      grid-column: 1 / -1;
+      margin: 45px 0 15px 0;
+      padding-bottom: 12px;
+      border-bottom: 1px solid #111111;
+    }
+
+    .category-separator:first-child {
+      margin-top: 10px;
+    }
+
+    .category-separator-title {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 1.8rem;
+      font-weight: 200;
+      letter-spacing: 10px;
+      text-transform: uppercase;
+      color: #111111;
+      line-height: 1.2;
+    }
+
+    /* SCROLL REVEAL FLOAT-UP ANIMATION */
+    .float-up {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 0.65s cubic-bezier(0.16, 1, 0.3, 1), transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);
+      will-change: opacity, transform;
+    }
+
+    .float-up.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Furniture Card & Adaptive Image Box */
     .card {
       background: #ffffff;
       border: 1.5px solid #222222;
       border-radius: 12px;
-      padding: 10px;
+      padding: 12px;
       display: flex;
       flex-direction: column;
-      gap: 10px;
+      gap: 12px;
       cursor: pointer;
       position: relative;
-      transition: transform 0.25s cubic-bezier(0.25, 0.8, 0.25, 1), border-color 0.25s ease, box-shadow 0.25s ease;
+      transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1), border-color 0.25s ease, box-shadow 0.25s ease;
     }
 
     .card:hover {
-      transform: translateY(-3px);
+      transform: translateY(-4px);
       border-color: #000000;
-      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
     }
 
+    /* Responsive, Adaptive Image Box (Fits full piece without cut-offs) */
     .card-image-wrapper {
       width: 100%;
       height: 220px;
       border-radius: 8px;
       overflow: hidden;
-      background-color: #f5f5f5;
+      background-color: #fcfcfc;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 6px;
+      transition: height 0.4s ease;
     }
 
-    .card-image-wrapper img,
-    .modal-main-img-box img,
-    .modal-thumb img,
-    .preview-thumb-box img,
-    .cart-item-img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
+    .card-image-wrapper img {
+      max-width: 100%;
+      max-height: 100%;
+      width: auto;
+      height: auto;
+      object-fit: contain; /* Prevents cut-offs for wide daybeds/sofas */
       display: block;
-      image-rendering: high-quality;
-      image-rendering: -webkit-optimize-contrast;
-      transform: translateZ(0);
-      backface-visibility: hidden;
+      transition: transform 0.3s ease;
+    }
+
+    .card:hover .card-image-wrapper img {
+      transform: scale(1.03);
     }
 
     .card-info {
@@ -705,7 +746,7 @@
     }
 
     .card-title {
-      font-size: 0.9rem;
+      font-size: 0.92rem;
       font-weight: 600;
       line-height: 1.3;
       color: #111111;
@@ -884,7 +925,7 @@
       transform: translateY(0);
     }
 
-    /* FULLSCREEN PRODUCT DETAIL MODAL */
+    /* FULLSCREEN PRODUCT DETAIL MODAL & ADAPTIVE IMAGE STAGING */
     #item-modal .modal-container {
       width: 100vw !important;
       height: 100vh !important;
@@ -942,17 +983,30 @@
       justify-content: center;
     }
 
+    /* Smooth Dynamic Container for Detail View Images */
     .modal-main-img-box {
       width: 100%;
-      height: 60vh;
+      min-height: 250px;
       max-height: 550px;
+      height: 55vh;
       border-radius: 10px;
       overflow: hidden;
       background: #f8f9fa;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px;
+      transition: height 0.4s cubic-bezier(0.25, 1, 0.5, 1);
     }
 
     .modal-main-img-box img {
-      object-fit: cover;
+      max-width: 100%;
+      max-height: 100%;
+      width: auto;
+      height: auto;
+      object-fit: contain; /* Never crops wide pieces */
+      display: block;
+      transition: opacity 0.35s ease, transform 0.35s cubic-bezier(0.25, 1, 0.5, 1);
     }
 
     .modal-thumbs {
@@ -971,7 +1025,17 @@
       border: 2px solid transparent;
       cursor: pointer;
       flex-shrink: 0;
+      background: #f8f9fa;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       transition: border-color 0.2s ease;
+    }
+
+    .modal-thumb img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
     }
 
     .modal-thumb.active {
@@ -1033,7 +1097,7 @@
       width: 80px;
       height: 80px;
       border-radius: 6px;
-      object-fit: cover;
+      object-fit: contain;
       background: #f5f5f5;
     }
 
@@ -1313,7 +1377,7 @@
 
   <!-- 2. BRAND PHILOSOPHY SECTION (SCROLL DOWN) -->
   <section class="philosophy-section">
-    <div class="philosophy-container">
+    <div class="philosophy-container float-up">
       <h2 class="philosophy-heading">OUR PHILOSOPHY</h2>
       <p class="philosophy-text">
         At the intersection of time-honed craftsmanship and contemporary design lies our philosophy: when manufacturing constraints guide our creative journey rather than limit it. Each piece emerges from a deep understanding of material and method, where traditional handcrafting techniques and modern processes integrate.
@@ -1479,13 +1543,13 @@
       <div class="category-pills-wrapper" id="pills-wrapper"></div>
     </nav>
 
-    <!-- Catalog Grid -->
+    <!-- Catalog Grid with Category Dividers -->
     <main class="catalog-container">
       <div class="catalog-grid" id="catalog-grid"></div>
     </main>
   </div>
 
-  <!-- FULLSCREEN PRODUCT DETAILS MODAL -->
+  <!-- FULLSCREEN PRODUCT DETAILS MODAL WITH ADAPTIVE CONTAINER -->
   <div class="modal-overlay" id="item-modal">
     <div class="modal-container">
       <button class="modal-close-btn" onclick="closeModal('item-modal')">&times;</button>
@@ -1493,13 +1557,13 @@
       <div class="grid-modal-content">
         <!-- Left Side: Product Pictures -->
         <div class="modal-gallery">
-          <div class="modal-main-img-box">
+          <div class="modal-main-img-box" id="modal-main-box">
             <img id="modal-img" src="" alt="Detail View">
           </div>
           <div class="modal-thumbs" id="modal-thumbs"></div>
         </div>
 
-        <!-- Right Side: Product Details & Description with ENLARGED Typography -->
+        <!-- Right Side: Product Details & Description -->
         <div class="modal-details" style="display: flex; flex-direction: column; justify-content: center; gap: 20px;">
           <div>
             <span class="card-category" id="modal-category" style="font-size: 1.05rem; font-weight: 600; letter-spacing: 2px; color: #777; text-transform: uppercase;">Category</span>
@@ -1664,7 +1728,7 @@
     </div>
   </div>
 
-  <!-- Staff Edit / Add Item Modal (WITH DESCRIPTION FIELD) -->
+  <!-- Staff Edit / Add Item Modal -->
   <div class="modal-overlay" id="edit-modal">
     <div class="modal-container" style="max-width: 500px;">
       <button class="modal-close-btn" onclick="closeModal('edit-modal')">&times;</button>
@@ -1720,20 +1784,18 @@
   <div class="toast" id="toast-msg">Item added to cart</div>
 
   <script>
-    /* DUAL SYNCHRONIZED 3D FLIP SLIDESHOW LOGIC */
+    /* 1. DUAL SYNCHRONIZED 3D FLIP SLIDESHOW LOGIC */
     let currentHeroSlide = 0;
     let heroTimer = null;
     let rotLeft = 0;
     let rotRight = 0;
 
-    // Content Array for Left Card per Slide
     const SLIDE_LEFT_CONTENTS = [
       `<div class="hero-text-content"><div class="hero-quote-text">“THE DETAILS ARE NOT THE DETAILS, THEY MAKE THE DESIGN”</div></div>`,
       `<img src="./Assets/Craft_2.png" class="hero-img-content" alt="Craft 2" onerror="this.src='https://images.unsplash.com/photo-1584992236310-6edddc08acff?q=80&w=800'">`,
       `<div class="hero-text-content"><div class="hero-brand-title">DASTKARI</div><div class="hero-brand-author">By Nawazish Kirmani</div></div>`
     ];
 
-    // Content Array for Right Card per Slide
     const SLIDE_RIGHT_CONTENTS = [
       `<img src="./Assets/Craft_1.png" class="hero-img-content" alt="Craft 1" onerror="this.src='https://images.unsplash.com/photo-1544816155-12df9643f363?q=80&w=800'">`,
       `<div class="hero-text-content"><div class="hero-quote-text">“EMBRACING CONSTRAINTS MAKES DESIGN GRACEFUL”</div></div>`,
@@ -1741,7 +1803,6 @@
     ];
 
     function initHeroSlideshow() {
-      // Set Initial Slide 0 Content
       document.getElementById('left-face-front').innerHTML = SLIDE_LEFT_CONTENTS[0];
       document.getElementById('left-face-back').innerHTML = SLIDE_LEFT_CONTENTS[1];
 
@@ -1780,16 +1841,13 @@
       rotRight += 180;
 
       if (isFrontVisible) {
-        // Prepare hidden back faces with target content before flipping to them
         leftBack.innerHTML = SLIDE_LEFT_CONTENTS[index];
         rightBack.innerHTML = SLIDE_RIGHT_CONTENTS[index];
       } else {
-        // Prepare hidden front faces with target content before flipping to them
         leftFront.innerHTML = SLIDE_LEFT_CONTENTS[index];
         rightFront.innerHTML = SLIDE_RIGHT_CONTENTS[index];
       }
 
-      // Execute Single 180° Forward Flip for both cards
       cardLeft.style.transform = `rotateY(${rotLeft}deg)`;
       cardRight.style.transform = `rotateY(${rotRight}deg)`;
 
@@ -1797,7 +1855,29 @@
       startHeroTimer();
     }
 
-    /* CATALOG & APP LOGIC */
+    /* 2. SCROLL REVEAL (INTERSECTION OBSERVER) FOR FLOAT-UP ANIMATIONS */
+    let scrollObserver = null;
+
+    function initScrollObserver() {
+      if ('IntersectionObserver' in window) {
+        scrollObserver = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('visible');
+            }
+          });
+        }, { threshold: 0.1 });
+      }
+    }
+
+    function attachScrollReveal() {
+      if (!scrollObserver) return;
+      document.querySelectorAll('.float-up').forEach(el => {
+        scrollObserver.observe(el);
+      });
+    }
+
+    /* 3. CATALOG & APP LOGIC WITH CATEGORY SEPARATORS */
     const ORDER_STAGES = ['Being made', 'Final touches', 'Being packed', 'Being shipped', 'Arrived'];
 
     let catalogData = [];
@@ -1821,6 +1901,7 @@
 
     async function init() {
       initHeroSlideshow();
+      initScrollObserver();
 
       try {
         let response = await fetch('./catalog_data.json');
@@ -2027,6 +2108,7 @@
       ['price', 'l', 'w', 'h'].forEach(p => updateDualSlider(p));
     }
 
+    /* RENDER GRID WITH CATEGORY SEPARATORS & FLOAT-UP ANIMATIONS */
     function renderGrid() {
       const pMin = parseInt(document.getElementById('price-min').value, 10);
       const pMax = parseInt(document.getElementById('price-max').value, 10);
@@ -2037,7 +2119,7 @@
       const hMin = parseInt(document.getElementById('h-min').value, 10);
       const hMax = parseInt(document.getElementById('h-max').value, 10);
 
-      const items = catalogData.filter(item => {
+      const filteredItems = catalogData.filter(item => {
         const matchesCat = activeCategory.toUpperCase() === 'ALL' || item.category.toUpperCase() === activeCategory.toUpperCase();
         const matchesSearch = item.title.toLowerCase().includes(searchQuery) ||
                               item.category.toLowerCase().includes(searchQuery);
@@ -2053,43 +2135,66 @@
         return matchesCat && matchesSearch && matchesPrice && matchesL && matchesW && matchesH;
       });
 
-      if (items.length === 0) {
+      if (filteredItems.length === 0) {
         grid.innerHTML = `<div class="empty-state">No Furniture Found Matching Selected Filters</div>`;
         return;
       }
 
-      grid.innerHTML = items.map(item => {
-        const imgSrc = (item.images && item.images.length > 0) ? item.images[0] : '';
-        const numPrice = parsePrice(item.price);
-        const displayPrice = formatPrice(numPrice);
-        const { l, w, h } = parseDims(item);
-        const displayDims = formatDimsStr(l, w, h);
+      // Group filtered items by category for separators
+      const grouped = {};
+      filteredItems.forEach(item => {
+        const catKey = item.category.toUpperCase();
+        if (!grouped[catKey]) grouped[catKey] = [];
+        grouped[catKey].push(item);
+      });
 
-        const staffControls = isStaffLoggedIn ? `
-          <div class="staff-card-actions" onclick="event.stopPropagation()">
-            <button class="btn-card-edit" onclick="openEditModal('${item.id}')">Edit</button>
-            <button class="btn-card-delete" onclick="deleteItem('${item.id}')">Delete</button>
-          </div>
-        ` : '';
+      let htmlOutput = '';
 
-        return `
-          <div class="card" onclick="openItemModal('${item.id}')">
-            <div class="card-image-wrapper">
-              <img src="${imgSrc}" alt="${item.title}" loading="lazy" onerror="this.src='https://via.placeholder.com/240?text=No+Image'">
-            </div>
-            <div class="card-info">
-              <div class="card-title">${item.title}</div>
-              <div class="card-category">${item.category}</div>
-              <div class="card-footer-row">
-                <span class="card-price">${displayPrice}</span>
-                <span class="card-dims">${displayDims}</span>
-              </div>
-              <button class="btn-add-cart-card" onclick="event.stopPropagation(); addToCart('${item.id}')">+ Add to Cart</button>
-              ${staffControls}
-            </div>
+      for (const catName in grouped) {
+        // Section Separator Title with Divider Line
+        htmlOutput += `
+          <div class="category-separator float-up">
+            <h2 class="category-separator-title">${catName}</h2>
           </div>
         `;
-      }).join('');
+
+        // Render furniture cards under this category group
+        grouped[catName].forEach(item => {
+          const imgSrc = (item.images && item.images.length > 0) ? item.images[0] : '';
+          const numPrice = parsePrice(item.price);
+          const displayPrice = formatPrice(numPrice);
+          const { l, w, h } = parseDims(item);
+          const displayDims = formatDimsStr(l, w, h);
+
+          const staffControls = isStaffLoggedIn ? `
+            <div class="staff-card-actions" onclick="event.stopPropagation()">
+              <button class="btn-card-edit" onclick="openEditModal('${item.id}')">Edit</button>
+              <button class="btn-card-delete" onclick="deleteItem('${item.id}')">Delete</button>
+            </div>
+          ` : '';
+
+          htmlOutput += `
+            <div class="card float-up" onclick="openItemModal('${item.id}')">
+              <div class="card-image-wrapper">
+                <img src="${imgSrc}" alt="${item.title}" loading="lazy" onerror="this.src='https://via.placeholder.com/240?text=No+Image'">
+              </div>
+              <div class="card-info">
+                <div class="card-title">${item.title}</div>
+                <div class="card-category">${item.category}</div>
+                <div class="card-footer-row">
+                  <span class="card-price">${displayPrice}</span>
+                  <span class="card-dims">${displayDims}</span>
+                </div>
+                <button class="btn-add-cart-card" onclick="event.stopPropagation(); addToCart('${item.id}')">+ Add to Cart</button>
+                ${staffControls}
+              </div>
+            </div>
+          `;
+        });
+      }
+
+      grid.innerHTML = htmlOutput;
+      attachScrollReveal();
     }
 
     /* Cart Operations */
@@ -2390,7 +2495,7 @@
       setTimeout(() => toast.classList.remove('show'), 2500);
     }
 
-    /* Navigation Modals & Product Detail Card View */
+    /* NAVIGATION MODALS & ADAPTIVE PRODUCT DETAIL VIEW */
     function openItemModal(id) {
       const item = catalogData.find(i => i.id === id);
       if (!item) return;
@@ -2408,7 +2513,7 @@
       const modalThumbs = document.getElementById('modal-thumbs');
 
       if (item.images && item.images.length > 0) {
-        modalImg.src = item.images[0];
+        setModalImage(item.images[0], null, null);
         modalThumbs.innerHTML = item.images.map((img, idx) => `
           <div class="modal-thumb ${idx === 0 ? 'active' : ''}" onclick="setModalImage('${img}', this, event)">
             <img src="${img}" alt="Thumbnail">
@@ -2424,6 +2529,26 @@
       document.getElementById('item-modal').classList.add('active');
     }
 
+    function setModalImage(src, thumbEl, event) {
+      if (event) event.stopPropagation();
+      const modalImg = document.getElementById('modal-img');
+      
+      // Smooth fade transition for changing photos
+      modalImg.style.opacity = '0';
+      modalImg.style.transform = 'scale(0.98)';
+
+      setTimeout(() => {
+        modalImg.src = src;
+        modalImg.style.opacity = '1';
+        modalImg.style.transform = 'scale(1)';
+      }, 150);
+
+      if (thumbEl) {
+        document.querySelectorAll('.modal-thumb').forEach(t => t.classList.remove('active'));
+        thumbEl.classList.add('active');
+      }
+    }
+
     function openCartModal() {
       updateCartUI();
       document.getElementById('cart-modal').classList.add('active');
@@ -2435,13 +2560,6 @@
 
     function closeModal(modalId) {
       document.getElementById(modalId).classList.remove('active');
-    }
-
-    function setModalImage(src, thumbEl, event) {
-      event.stopPropagation();
-      document.getElementById('modal-img').src = src;
-      document.querySelectorAll('.modal-thumb').forEach(t => t.classList.remove('active'));
-      thumbEl.classList.add('active');
     }
 
     /* Staff Mode Handlers */
