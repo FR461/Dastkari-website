@@ -23,12 +23,10 @@
       background-color: #ffffff;
       color: #111111;
       -webkit-font-smoothing: antialiased;
-      /* Hide Scrollbars Everywhere */
       -ms-overflow-style: none !important;
       scrollbar-width: none !important;
     }
 
-    /* Hide scrollbar for Chrome, Safari, Opera */
     html::-webkit-scrollbar, 
     body::-webkit-scrollbar,
     ::-webkit-scrollbar {
@@ -55,7 +53,6 @@
       overflow: hidden;
     }
 
-    /* Top Logo & Title Header */
     .hero-brand-header {
       display: flex;
       flex-direction: column;
@@ -71,7 +68,7 @@
       height: 52px;
       object-fit: contain;
       filter: invert(1);
-      mix-blend-mode: screen; /* Blends out pure black box background */
+      mix-blend-mode: screen;
     }
 
     .hero-title {
@@ -111,7 +108,6 @@
       }
     }
 
-    /* 3D Flip Card Wrappers for Both Left and Right Sides */
     .hero-card-wrapper {
       perspective: 1200px;
       width: 100%;
@@ -145,7 +141,6 @@
       transform: rotateY(180deg);
     }
 
-    /* Text Face Inner Formatting */
     .hero-text-content {
       width: 100%;
       height: 100%;
@@ -190,7 +185,6 @@
       width: 100%;
     }
 
-    /* Image Face Inner Formatting */
     .hero-img-content {
       width: 100%;
       height: 100%;
@@ -199,7 +193,6 @@
       filter: grayscale(0%);
     }
 
-    /* Navigation Indicator Dots */
     .hero-nav-dots {
       display: flex;
       gap: 12px;
@@ -268,7 +261,6 @@
       padding: 50px 20px;
     }
 
-    /* Header */
     .app-header {
       max-width: 1200px;
       margin: 0 auto 20px auto;
@@ -284,7 +276,6 @@
       align-items: center;
     }
 
-    /* Header Brand Title */
     .brand-container {
       display: flex;
       align-items: center;
@@ -363,7 +354,6 @@
       background: #f0f0f0;
     }
 
-    /* Buttons Style */
     .btn-cart, .btn-staff-orders, .btn-my-orders {
       background: #111111 !important;
       color: #ffffff !important;
@@ -458,7 +448,6 @@
       color: #ffffff;
     }
 
-    /* Expandable Filters Drawer Panel */
     .filter-drawer {
       max-height: 0;
       opacity: 0;
@@ -486,7 +475,6 @@
       gap: 20px;
     }
 
-    /* Staff Config Box */
     .staff-slider-cfg-box {
       background: #ffffff;
       border: 1.5px dashed #111111;
@@ -502,7 +490,6 @@
       margin-top: 10px;
     }
 
-    /* Dual-Handle Range Slider */
     .slider-group {
       display: flex;
       flex-direction: column;
@@ -557,17 +544,6 @@
       background: #111111;
       pointer-events: auto;
       -webkit-appearance: none;
-      cursor: pointer;
-      border: 2px solid #ffffff;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.3);
-    }
-
-    .dual-slider input[type="range"]::-moz-range-thumb {
-      height: 18px;
-      width: 18px;
-      border-radius: 50%;
-      background: #111111;
-      pointer-events: auto;
       cursor: pointer;
       border: 2px solid #ffffff;
       box-shadow: 0 1px 3px rgba(0,0,0,0.3);
@@ -655,7 +631,6 @@
       transition: opacity 0.25s ease;
     }
 
-    /* Category Separator Header (Spans full width) */
     .category-separator {
       grid-column: 1 / -1;
       margin: 45px 0 15px 0;
@@ -677,7 +652,6 @@
       line-height: 1.2;
     }
 
-    /* SCROLL REVEAL FLOAT-UP ANIMATION */
     .float-up {
       opacity: 0;
       transform: translateY(40px);
@@ -690,10 +664,9 @@
       transform: translateY(0);
     }
 
-    /* Furniture Card - Soft Subtle Shadow & No Heavy Outline */
     .card {
       background: #ffffff;
-      border: 1px solid rgba(0, 0, 0, 0.05); /* Insignificant subtle border */
+      border: 1px solid rgba(0, 0, 0, 0.05);
       border-radius: 12px;
       padding: 12px;
       display: flex;
@@ -701,7 +674,7 @@
       gap: 12px;
       cursor: pointer;
       position: relative;
-      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04); /* Insignificant soft shadow */
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
       transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1), box-shadow 0.3s ease;
     }
 
@@ -710,8 +683,8 @@
       box-shadow: 0 10px 28px rgba(0, 0, 0, 0.08);
     }
 
-    /* Front Card Image Box: Fills the entire photo frame */
     .card-image-wrapper {
+      position: relative;
       width: 100%;
       height: 240px;
       border-radius: 8px;
@@ -722,13 +695,63 @@
     .card-image-wrapper img {
       width: 100%;
       height: 100%;
-      object-fit: cover; /* Fully fills the container on front catalog cards */
+      object-fit: cover;
       display: block;
       transition: transform 0.35s ease;
     }
 
     .card:hover .card-image-wrapper img {
       transform: scale(1.03);
+    }
+
+    /* Like Button on Cards */
+    .card-like-btn {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(4px);
+      border: none;
+      border-radius: 50%;
+      width: 34px;
+      height: 34px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: transform 0.2s ease, background 0.2s ease;
+      z-index: 5;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+    }
+
+    .card-like-btn:hover {
+      transform: scale(1.12);
+      background: #ffffff;
+    }
+
+    .card-like-btn svg {
+      width: 18px;
+      height: 18px;
+      fill: #bbbbbb;
+      transition: fill 0.2s ease, transform 0.2s ease;
+    }
+
+    .card-like-btn.liked svg {
+      fill: #e74c3c;
+    }
+
+    /* Staff Like Badge */
+    .staff-like-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: #e74c3c;
+      background: rgba(231, 76, 60, 0.1);
+      padding: 3px 8px;
+      border-radius: 12px;
+      border: 1px solid rgba(231, 76, 60, 0.2);
     }
 
     .card-info {
@@ -789,7 +812,6 @@
       color: #ffffff;
     }
 
-    /* Staff Controls on Cards */
     .staff-card-actions {
       display: flex;
       gap: 8px;
@@ -827,7 +849,6 @@
       color: #ffffff;
     }
 
-    /* Drag & Drop Zone */
     .drag-drop-zone {
       border: 2px dashed #222222;
       border-radius: 8px;
@@ -974,11 +995,10 @@
       gap: 16px;
       height: 100%;
       justify-content: center;
-      align-items: center; /* Center adaptive container horizontally */
+      align-items: center;
       width: 100%;
     }
 
-    /* Fully Adaptive Container: Dynamically resizes both Width & Height to match pic aspect ratio */
     .modal-main-img-box {
       border-radius: 10px;
       overflow: hidden;
@@ -987,14 +1007,13 @@
       align-items: center;
       justify-content: center;
       padding: 0;
-      /* Smooth container dimensions transition */
       transition: width 0.4s cubic-bezier(0.25, 1, 0.5, 1), height 0.4s cubic-bezier(0.25, 1, 0.5, 1);
     }
 
     .modal-main-img-box img {
       width: 100%;
       height: 100%;
-      object-fit: cover; /* Exact fit inside container with zero whitespace */
+      object-fit: cover;
       display: block;
       border-radius: 10px;
       transition: opacity 0.25s ease, transform 0.25s cubic-bezier(0.25, 1, 0.5, 1);
@@ -1123,7 +1142,6 @@
       align-items: center;
     }
 
-    /* Orders Card & 5-Stage Tracking Bar */
     .order-card {
       background: #ffffff;
       border: 1.5px solid #222222;
@@ -1162,7 +1180,6 @@
       border-color: #c3e6cb;
     }
 
-    /* 5-Stage Tracker Component */
     .tracker-wrapper {
       margin: 10px 0;
       padding: 10px 0;
@@ -1331,17 +1348,13 @@
 
   <!-- 1. FRONT SCREEN WITH TOP BRAND HEADER & DUAL SYNCHRONIZED 3D FLIP CARDS -->
   <section class="hero-screen">
-    <!-- Top Logo & Brand Title Header -->
     <div class="hero-brand-header">
       <img src="hamsa.png" alt="Hamsa Logo" class="hero-logo" onerror="this.style.display='none'">
       <h1 class="hero-title">DASTKARI</h1>
       <div class="hero-subtitle">Bespoke Furniture</div>
     </div>
 
-    <!-- Interactive Hero Container: 2 Flipping Cards -->
     <div class="hero-container">
-      
-      <!-- LEFT CARD WRAPPER -->
       <div class="hero-card-wrapper">
         <div class="hero-card" id="hero-card-left">
           <div class="hero-face" id="left-face-front"></div>
@@ -1349,17 +1362,14 @@
         </div>
       </div>
 
-      <!-- RIGHT CARD WRAPPER -->
       <div class="hero-card-wrapper">
         <div class="hero-card" id="hero-card-right">
           <div class="hero-face" id="right-face-front"></div>
           <div class="hero-face back" id="right-face-back"></div>
         </div>
       </div>
-
     </div>
 
-    <!-- Navigation Dots for Slideshow -->
     <div class="hero-nav-dots">
       <div class="hero-dot active" onclick="goToHeroSlide(0)"></div>
       <div class="hero-dot" onclick="goToHeroSlide(1)"></div>
@@ -1367,7 +1377,7 @@
     </div>
   </section>
 
-  <!-- 2. BRAND PHILOSOPHY SECTION (SCROLL DOWN) -->
+  <!-- 2. BRAND PHILOSOPHY SECTION -->
   <section class="philosophy-section">
     <div class="philosophy-container float-up">
       <h2 class="philosophy-heading">OUR PHILOSOPHY</h2>
@@ -1385,11 +1395,9 @@
 
   <!-- 3. MAIN CATALOG & APP SECTION -->
   <div class="app-main-wrapper">
-    <!-- App Header -->
     <header class="app-header">
       <div class="header-top">
         <div class="brand-container">
-          <!-- Clean Hamsa Logo -->
           <img src="hamsa.png" alt="Hamsa Logo" class="brand-logo-clean" onerror="this.style.display='none'">
           <div>
             <h1 class="brand-title">
@@ -1401,7 +1409,7 @@
         </div>
         
         <div class="header-actions">
-          <!-- Customer My Orders Button (Hidden in Staff Mode) -->
+          <!-- Customer My Orders Button (Requires Authentication) -->
           <button class="nav-btn btn-my-orders" id="btn-my-orders" onclick="openCustomerOrdersModal()">
             My Orders <span id="my-orders-count-badge" class="cart-count-text">0</span>
           </button>
@@ -1419,12 +1427,12 @@
           <!-- Staff Login Button -->
           <button class="nav-btn" id="staff-auth-btn" onclick="handleAuthBtnClick()">Staff Login</button>
 
-          <!-- Customer Sign In Button (Hidden in Staff Mode) -->
+          <!-- Customer Sign In Button -->
           <button class="nav-btn btn-cust-sign" id="cust-auth-btn" onclick="handleCustomerAuthClick()">Sign In</button>
         </div>
       </div>
 
-      <!-- Toolbar & Expandable Filters Drawer -->
+      <!-- Toolbar & Filters -->
       <div class="toolbar">
         <div class="search-box">
           <svg class="search-icon" viewBox="0 0 24 24">
@@ -1433,17 +1441,14 @@
           <input type="text" id="search-input" class="search-input" placeholder="Search Catalog...">
         </div>
 
-        <!-- Filters Tab Button -->
         <button class="filter-tab-btn" onclick="toggleFilterDrawer()">
           Filters
         </button>
 
         <button class="btn-add-item" id="btn-add-new" style="display: none;" onclick="openEditModal()">+ Add New Furniture</button>
 
-        <!-- Expandable Filters Tab Panel -->
+        <!-- Filters Drawer -->
         <div class="filter-drawer" id="filter-drawer">
-
-          <!-- STAFF ONLY: Range Upper Limit Configurator -->
           <div class="staff-slider-cfg-box" id="staff-slider-cfg" style="display: none;">
             <div style="font-weight: 700; font-size: 0.85rem; color: #111;">Staff Portal: Edit Slider Upper Limits</div>
             <div class="staff-cfg-grid">
@@ -1468,8 +1473,6 @@
           </div>
 
           <div class="filter-grid">
-            
-            <!-- Price Dual Slider -->
             <div class="slider-group">
               <div class="slider-header">
                 <span>Price Range</span>
@@ -1482,7 +1485,6 @@
               </div>
             </div>
 
-            <!-- Length Dual Slider -->
             <div class="slider-group">
               <div class="slider-header">
                 <span>Length (L in inches)</span>
@@ -1495,7 +1497,6 @@
               </div>
             </div>
 
-            <!-- Width Dual Slider -->
             <div class="slider-group">
               <div class="slider-header">
                 <span>Width (W in inches)</span>
@@ -1508,7 +1509,6 @@
               </div>
             </div>
 
-            <!-- Height Dual Slider -->
             <div class="slider-group">
               <div class="slider-header">
                 <span>Height (H in inches)</span>
@@ -1520,7 +1520,6 @@
                 <input type="range" id="h-max" min="0" max="150" step="1" value="150" oninput="updateDualSlider('h')">
               </div>
             </div>
-
           </div>
 
           <div style="margin-top: 15px; display: flex; justify-content: flex-end;">
@@ -1535,19 +1534,18 @@
       <div class="category-pills-wrapper" id="pills-wrapper"></div>
     </nav>
 
-    <!-- Catalog Grid with Category Dividers -->
+    <!-- Catalog Grid -->
     <main class="catalog-container">
       <div class="catalog-grid" id="catalog-grid"></div>
     </main>
   </div>
 
-  <!-- FULLSCREEN PRODUCT DETAILS MODAL WITH ADAPTIVE CONTAINER -->
+  <!-- FULLSCREEN PRODUCT DETAILS MODAL -->
   <div class="modal-overlay" id="item-modal">
     <div class="modal-container">
       <button class="modal-close-btn" onclick="closeModal('item-modal')">&times;</button>
       
       <div class="grid-modal-content">
-        <!-- Left Side: Product Pictures -->
         <div class="modal-gallery">
           <div class="modal-main-img-box" id="modal-main-box">
             <img id="modal-img" src="" alt="Detail View">
@@ -1555,13 +1553,14 @@
           <div class="modal-thumbs" id="modal-thumbs"></div>
         </div>
 
-        <!-- Right Side: Product Details & Description -->
         <div class="modal-details" style="display: flex; flex-direction: column; justify-content: center; gap: 20px;">
           <div>
-            <span class="card-category" id="modal-category" style="font-size: 1.05rem; font-weight: 600; letter-spacing: 2px; color: #777; text-transform: uppercase;">Category</span>
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <span class="card-category" id="modal-category" style="font-size: 1.05rem; font-weight: 600; letter-spacing: 2px; color: #777; text-transform: uppercase;">Category</span>
+              <span id="modal-staff-like-indicator" class="staff-like-badge" style="display: none; font-size: 0.85rem; padding: 4px 10px;">❤️ 0 Likes</span>
+            </div>
             <h2 id="modal-title" style="margin-top: 10px; font-size: 2.6rem; font-weight: 300; line-height: 1.2; color: #111;">Title</h2>
             
-            <!-- Description Block -->
             <p id="modal-desc" style="margin-top: 24px; font-size: 1.25rem; line-height: 1.8; color: #444444; font-weight: 300;">
               A bespoke craftsmanship of Dastkari
             </p>
@@ -1578,7 +1577,12 @@
             </div>
           </div>
 
-          <button class="btn-submit" id="modal-add-cart-btn" style="width: 100%; font-size: 1.1rem; padding: 16px;">+ Add to Cart</button>
+          <div style="display: flex; gap: 12px;">
+            <button class="btn-submit" id="modal-add-cart-btn" style="flex: 3; font-size: 1.1rem; padding: 16px;">+ Add to Cart</button>
+            <button class="nav-btn" id="modal-like-btn" style="flex: 1; justify-content: center; font-size: 1.1rem; gap: 8px; border-width: 2px;" onclick="handleModalLikeClick()">
+              <span>❤️</span> Like
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -1667,7 +1671,7 @@
     </div>
   </div>
 
-  <!-- CUSTOMER MY ORDERS MODAL WITH 5-STAGE TRACKER -->
+  <!-- CUSTOMER MY ORDERS MODAL -->
   <div class="modal-overlay" id="customer-orders-modal">
     <div class="modal-container" style="max-width: 850px;">
       <div class="cart-header">
@@ -1690,7 +1694,6 @@
         <button class="modal-close-btn" onclick="closeModal('orders-modal')">&times;</button>
       </div>
 
-      <!-- Filter Tabs -->
       <div style="display: flex; gap: 10px; margin: 20px 0 10px 0; border-bottom: 1px solid #e0e0e0; padding-bottom: 12px; flex-wrap: wrap;">
         <button class="pill-btn active" onclick="setOrderTab('ALL', this)">
           All Orders (<span id="cnt-ord-all">0</span>)
@@ -1847,7 +1850,7 @@
       startHeroTimer();
     }
 
-    /* 2. SCROLL REVEAL (INTERSECTION OBSERVER) FOR FLOAT-UP ANIMATIONS */
+    /* 2. SCROLL REVEAL (INTERSECTION OBSERVER) */
     let scrollObserver = null;
 
     function initScrollObserver() {
@@ -1869,12 +1872,16 @@
       });
     }
 
-    /* 3. CATALOG & APP LOGIC WITH CATEGORY SEPARATORS */
+    /* 3. CATALOG & APP LOGIC WITH LIKES & STRICT AUTH */
     const ORDER_STAGES = ['Being made', 'Final touches', 'Being packed', 'Being shipped', 'Arrived'];
 
     let catalogData = [];
     let cart = [];
     let orders = JSON.parse(localStorage.getItem('dastkari_orders')) || [];
+
+    // Customer Likes Persistence
+    let userLikes = JSON.parse(localStorage.getItem('dastkari_user_likes')) || [];
+    let itemLikesMap = JSON.parse(localStorage.getItem('dastkari_item_likes')) || {};
 
     let activeCategory = 'ALL';
     let activeOrderTab = 'ALL';
@@ -1882,6 +1889,7 @@
     
     let isStaffLoggedIn = localStorage.getItem('dastkari_staff_logged_in') === 'true';
     let currentCustomer = JSON.parse(localStorage.getItem('dastkari_current_customer')) || null;
+    let currentActiveItemId = null;
     let pendingActionAfterLogin = null;
 
     let currentUploadedImages = [];
@@ -1902,6 +1910,13 @@
 
         catalogData = await response.json();
         
+        // Initialize default likes into map
+        catalogData.forEach(item => {
+          if (itemLikesMap[item.id] === undefined) {
+            itemLikesMap[item.id] = item.likes || Math.floor(Math.random() * 8); // Default interest points
+          }
+        });
+
         ['price', 'l', 'w', 'h'].forEach(p => updateDualSlider(p));
 
         updateStaffUI();
@@ -1952,6 +1967,31 @@
 
     function cleanPhone(p) {
       return p ? p.replace(/[^0-9]/g, '') : '';
+    }
+
+    /* CUSTOMER LIKES / FAVORITES SYSTEM */
+    function toggleLike(itemId, event) {
+      if (event) event.stopPropagation();
+
+      const idx = userLikes.indexOf(itemId);
+      if (idx > -1) {
+        userLikes.splice(idx, 1);
+        itemLikesMap[itemId] = Math.max(0, (itemLikesMap[itemId] || 1) - 1);
+        showToast('Removed from favorites');
+      } else {
+        userLikes.push(itemId);
+        itemLikesMap[itemId] = (itemLikesMap[itemId] || 0) + 1;
+        showToast('Added to favorites ❤️');
+      }
+
+      localStorage.setItem('dastkari_user_likes', JSON.stringify(userLikes));
+      localStorage.setItem('dastkari_item_likes', JSON.stringify(itemLikesMap));
+
+      renderGrid();
+
+      if (currentActiveItemId === itemId) {
+        updateModalLikeState(itemId);
+      }
     }
 
     /* CUSTOMER SIGN IN & SESSION MANAGEMENT */
@@ -2026,7 +2066,6 @@
       drawer.classList.toggle('active');
     }
 
-    /* Staff Config Sliders */
     function applyStaffSliderConfig() {
       const newPriceMax = parseInt(document.getElementById('cfg-price-max').value, 10) || 1000000;
       const newLMax = parseInt(document.getElementById('cfg-l-max').value, 10) || 150;
@@ -2053,7 +2092,6 @@
       showToast('Slider bounds updated by Staff!');
     }
 
-    /* Dual Slider Logic */
     function updateDualSlider(prefix) {
       const minEl = document.getElementById(`${prefix}-min`);
       const maxEl = document.getElementById(`${prefix}-max`);
@@ -2100,7 +2138,7 @@
       ['price', 'l', 'w', 'h'].forEach(p => updateDualSlider(p));
     }
 
-    /* RENDER GRID WITH CATEGORY SEPARATORS & FLOAT-UP ANIMATIONS */
+    /* RENDER CATALOG GRID WITH LIKE BUTTONS & STAFF LIKES INDICATOR */
     function renderGrid() {
       const pMin = parseInt(document.getElementById('price-min').value, 10);
       const pMax = parseInt(document.getElementById('price-max').value, 10);
@@ -2132,7 +2170,6 @@
         return;
       }
 
-      // Group filtered items by category for separators
       const grouped = {};
       filteredItems.forEach(item => {
         const catKey = item.category.toUpperCase();
@@ -2143,20 +2180,26 @@
       let htmlOutput = '';
 
       for (const catName in grouped) {
-        // Section Separator Title with Divider Line
         htmlOutput += `
           <div class="category-separator float-up">
             <h2 class="category-separator-title">${catName}</h2>
           </div>
         `;
 
-        // Render furniture cards under this category group
         grouped[catName].forEach(item => {
           const imgSrc = (item.images && item.images.length > 0) ? item.images[0] : '';
           const numPrice = parsePrice(item.price);
           const displayPrice = formatPrice(numPrice);
           const { l, w, h } = parseDims(item);
           const displayDims = formatDimsStr(l, w, h);
+
+          const isLiked = userLikes.includes(item.id);
+          const totalLikesCount = itemLikesMap[item.id] || 0;
+
+          // Staff Badge for Likes
+          const staffLikeBadgeHTML = isStaffLoggedIn ? `
+            <span class="staff-like-badge">❤️ ${totalLikesCount} Likes</span>
+          ` : '';
 
           const staffControls = isStaffLoggedIn ? `
             <div class="staff-card-actions" onclick="event.stopPropagation()">
@@ -2168,10 +2211,18 @@
           htmlOutput += `
             <div class="card float-up" onclick="openItemModal('${item.id}')">
               <div class="card-image-wrapper">
+                <button class="card-like-btn ${isLiked ? 'liked' : ''}" onclick="toggleLike('${item.id}', event)" title="Like Item">
+                  <svg viewBox="0 0 24 24">
+                    <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                  </svg>
+                </button>
                 <img src="${imgSrc}" alt="${item.title}" loading="lazy" onerror="this.src='https://via.placeholder.com/240?text=No+Image'">
               </div>
               <div class="card-info">
-                <div class="card-title">${item.title}</div>
+                <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 6px;">
+                  <div class="card-title">${item.title}</div>
+                  ${staffLikeBadgeHTML}
+                </div>
                 <div class="card-category">${item.category}</div>
                 <div class="card-footer-row">
                   <span class="card-price">${displayPrice}</span>
@@ -2334,10 +2385,11 @@
       showToast(`Order Placed! Reference: ${newOrder.id}`);
     }
 
-    /* CUSTOMER MY ORDERS PORTAL */
+    /* STRICT CUSTOMER MY ORDERS ACCESS */
     function openCustomerOrdersModal() {
-      if (!currentCustomer) {
-        openCustomerAuthModal('Please sign in to view and track your orders.', 'MY_ORDERS');
+      // MANDATORY SECURITY GUARD: Require Customer Sign In first
+      if (!currentCustomer || !currentCustomer.phone) {
+        openCustomerAuthModal('You must sign in with your Name and Mobile Phone to view your orders.', 'MY_ORDERS');
         return;
       }
 
@@ -2349,10 +2401,14 @@
       const container = document.getElementById('customer-orders-container');
       const infoEl = document.getElementById('cust-order-account-info');
 
-      if (!currentCustomer) return;
+      if (!currentCustomer || !currentCustomer.phone) {
+        container.innerHTML = `<div class="empty-state">Please sign in to view your orders.</div>`;
+        return;
+      }
 
-      infoEl.textContent = `Account Phone: ${currentCustomer.phone}`;
+      infoEl.textContent = `Account Name: ${currentCustomer.name} | Phone: ${currentCustomer.phone}`;
 
+      // Strictly filter orders matching current logged-in customer phone
       const custOrders = orders.filter(o => cleanPhone(o.customerPhone || o.phone) === cleanPhone(currentCustomer.phone));
       
       if (custOrders.length === 0) {
@@ -2363,7 +2419,6 @@
       container.innerHTML = custOrders.map(ord => renderOrderCardHTML(ord, false)).join('');
     }
 
-    /* Generates Order Card HTML */
     function renderOrderCardHTML(ord, isStaff = false) {
       const currentStageIndex = ORDER_STAGES.indexOf(ord.status) !== -1 ? ORDER_STAGES.indexOf(ord.status) : 0;
       const progressPercent = (currentStageIndex / (ORDER_STAGES.length - 1)) * 80;
@@ -2403,7 +2458,6 @@
             </span>
           </div>
 
-          <!-- 5-Stage Tracking Bar -->
           <div class="tracker-wrapper">
             <div class="tracker-steps">
               <div class="tracker-progress-line" style="width: ${progressPercent}%;"></div>
@@ -2487,11 +2541,12 @@
       setTimeout(() => toast.classList.remove('show'), 2500);
     }
 
-    /* NAVIGATION MODALS & PERFECT ADAPTIVE PRODUCT DETAIL VIEW */
+    /* PRODUCT DETAIL MODAL */
     function openItemModal(id) {
       const item = catalogData.find(i => i.id === id);
       if (!item) return;
 
+      currentActiveItemId = id;
       const numPrice = parsePrice(item.price);
       const { l, w, h } = parseDims(item);
 
@@ -2501,9 +2556,9 @@
       document.getElementById('modal-dims').textContent = formatDimsStr(l, w, h);
       document.getElementById('modal-price').textContent = formatPrice(numPrice);
 
-      const modalImg = document.getElementById('modal-img');
-      const modalThumbs = document.getElementById('modal-thumbs');
+      updateModalLikeState(id);
 
+      const modalThumbs = document.getElementById('modal-thumbs');
       if (item.images && item.images.length > 0) {
         setModalImage(item.images[0], null, null);
         modalThumbs.innerHTML = item.images.map((img, idx) => `
@@ -2521,36 +2576,59 @@
       document.getElementById('item-modal').classList.add('active');
     }
 
-    /* Dynamically Calculates BOTH Width and Height to wrap around the picture without white space */
+    function updateModalLikeState(id) {
+      const isLiked = userLikes.includes(id);
+      const totalLikes = itemLikesMap[id] || 0;
+      const modalLikeBtn = document.getElementById('modal-like-btn');
+      const staffLikeInd = document.getElementById('modal-staff-like-indicator');
+
+      if (isLiked) {
+        modalLikeBtn.style.background = '#111111';
+        modalLikeBtn.style.color = '#ffffff';
+        modalLikeBtn.innerHTML = '<span>❤️</span> Liked';
+      } else {
+        modalLikeBtn.style.background = 'transparent';
+        modalLikeBtn.style.color = '#111111';
+        modalLikeBtn.innerHTML = '<span>🤍</span> Like';
+      }
+
+      if (isStaffLoggedIn) {
+        staffLikeInd.style.display = 'inline-block';
+        staffLikeInd.textContent = `❤️ ${totalLikes} Likes`;
+      } else {
+        staffLikeInd.style.display = 'none';
+      }
+    }
+
+    function handleModalLikeClick() {
+      if (currentActiveItemId) {
+        toggleLike(currentActiveItemId);
+      }
+    }
+
     function setModalImage(src, thumbEl, event) {
       if (event) event.stopPropagation();
       const modalImg = document.getElementById('modal-img');
       const mainBox = document.getElementById('modal-main-box');
       const gallery = mainBox.parentElement;
 
-      // Preload image to calculate exact aspect ratio
       const tempImg = new Image();
       tempImg.src = src;
       tempImg.onload = function() {
         const aspect = tempImg.naturalWidth / tempImg.naturalHeight;
-        
-        // Define maximum boundaries inside left gallery column
         const maxW = gallery.clientWidth || 550;
         const maxH = window.innerHeight * 0.58;
 
         let targetW, targetH;
 
         if (maxW / maxH > aspect) {
-          // Height constrained (e.g., vertical portrait photos)
           targetH = maxH;
           targetW = maxH * aspect;
         } else {
-          // Width constrained (e.g., wide landscape photos)
           targetW = maxW;
           targetH = maxW / aspect;
         }
 
-        // Apply both width and height dynamically so the container equals image size
         mainBox.style.width = `${targetW}px`;
         mainBox.style.height = `${targetH}px`;
 
@@ -2822,7 +2900,7 @@
       renderUploadPreviews();
     }
 
-    /* Category Navigation Pills Rendering */
+    /* Category Navigation Pills */
     function renderPills() {
       if (!catalogData || catalogData.length === 0) return;
       
@@ -2854,7 +2932,6 @@
       renderGrid();
     }
 
-    /* Smooth Drag & Scroll */
     function setupSmoothDragScroll() {
       let isMouseDown = false;
       let startX, scrollLeft;
@@ -2885,7 +2962,6 @@
       }, { passive: false });
     }
 
-    /* Event Listeners */
     searchInput.addEventListener('input', (e) => {
       searchQuery = e.target.value.toLowerCase().trim();
       renderGrid();
