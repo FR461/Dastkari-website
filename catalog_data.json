@@ -853,16 +853,20 @@
   },
   {
     "id": "ITEM-078",
-    "title": "Dastkari Bespoke ARMCHAIRS (Page #42)",
+    "title": "ST - ACR 23 - Simplo",
     "category": "ARMCHAIRS",
-    "price": "Price on Request",
-    "dims": "Custom Dimensions",
+    "price": 100000,
+    "dims": "50\" × 50\" × 50\"",
     "images": [
       "./Assets/P1_page_42_2.jpeg",
       "./Assets/P1_page_42_1.jpeg",
       "./Assets/P1_page_42_4.jpeg",
       "./Assets/P1_page_42_3.jpeg"
-    ]
+    ],
+    "description": "A bespoke craftsmanship of Dastkari",
+    "l": 50,
+    "w": 50,
+    "h": 50
   },
   {
     "id": "ITEM-079",
