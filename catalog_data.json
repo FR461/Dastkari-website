@@ -924,15 +924,19 @@
   },
   {
     "id": "ITEM-084",
-    "title": "Dastkari Bespoke ARMCHAIRS (Page #48)",
+    "title": "ST - ACR 22 - Haathi",
     "category": "ARMCHAIRS",
-    "price": "Price on Request",
-    "dims": "Custom Dimensions",
+    "price": 100000,
+    "dims": "50\" × 50\" × 50\"",
     "images": [
       "./Assets/P1_page_48_2.jpeg",
       "./Assets/P1_page_48_3.jpeg",
       "./Assets/P1_page_48_1.jpeg"
-    ]
+    ],
+    "description": "A bespoke craftsmanship of Dastkari",
+    "l": 50,
+    "w": 50,
+    "h": 50
   },
   {
     "id": "ITEM-085",
