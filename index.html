@@ -41,7 +41,7 @@
       font-family: inherit;
     }
 
-    /* 1. FRONT HERO SCREEN WITH ANIMATED STORYTELLING */
+    /* 1. FRONT HERO SCREEN WITH TOP LOGO & ANIMATED STORYTELLING */
     .hero-screen {
       width: 100%;
       min-height: 100vh;
@@ -50,19 +50,56 @@
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      padding: 60px 20px 40px 20px;
+      padding: 50px 20px 40px 20px;
       position: relative;
       overflow: hidden;
+    }
+
+    /* Top Logo & Title Header */
+    .hero-brand-header {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 30px;
+      text-align: center;
+      z-index: 10;
+    }
+
+    .hero-logo {
+      width: 52px;
+      height: 52px;
+      object-fit: contain;
+      filter: invert(1);
+      mix-blend-mode: screen; /* Blends out pure black box background */
+    }
+
+    .hero-title {
+      font-family: 'Montserrat', 'Century Gothic', sans-serif;
+      font-size: 2.4rem;
+      font-weight: 200;
+      letter-spacing: 12px;
+      color: #ffffff;
+      text-transform: uppercase;
+      line-height: 1;
+    }
+
+    .hero-subtitle {
+      font-size: 0.88rem;
+      font-weight: 300;
+      letter-spacing: 4px;
+      color: #bbbbbb;
+      text-transform: uppercase;
     }
 
     .hero-container {
       max-width: 1200px;
       width: 100%;
-      height: 65vh;
-      min-height: 480px;
+      height: 58vh;
+      min-height: 420px;
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 40px;
+      gap: 30px;
       align-items: center;
       position: relative;
     }
@@ -79,7 +116,7 @@
       perspective: 1200px;
       width: 100%;
       height: 100%;
-      min-height: 380px;
+      min-height: 350px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -116,9 +153,9 @@
 
     .hero-quote-text {
       font-family: 'Montserrat', sans-serif;
-      font-size: 2.1rem;
+      font-size: 2rem;
       font-weight: 200;
-      line-height: 1.4;
+      line-height: 1.45;
       letter-spacing: 2px;
       color: #ffffff;
       text-transform: uppercase;
@@ -126,7 +163,7 @@
 
     .hero-brand-title {
       font-family: 'Montserrat', sans-serif;
-      font-size: 3.4rem;
+      font-size: 3.2rem;
       font-weight: 200;
       letter-spacing: 12px;
       color: #ffffff;
@@ -135,7 +172,7 @@
     }
 
     .hero-brand-author {
-      font-size: 1.1rem;
+      font-size: 1.05rem;
       font-weight: 300;
       letter-spacing: 4px;
       color: #bbbbbb;
@@ -151,7 +188,7 @@
       position: relative;
       width: 100%;
       height: 100%;
-      min-height: 380px;
+      min-height: 350px;
       border-radius: 12px;
       overflow: hidden;
       border: 1px solid rgba(255, 255, 255, 0.15);
@@ -194,7 +231,7 @@
     .hero-nav-dots {
       display: flex;
       gap: 12px;
-      margin-top: 30px;
+      margin-top: 25px;
       z-index: 10;
     }
 
@@ -1264,18 +1301,26 @@
 </head>
 <body>
 
-  <!-- 1. FRONT SCREEN WITH ANIMATED STORYTELLING HERO SEQUENCE -->
+  <!-- 1. FRONT SCREEN WITH TOP BRAND HEADER & ANIMATED STORYTELLING HERO -->
   <section class="hero-screen">
+    <!-- Restored Top Logo & Brand Title Header -->
+    <div class="hero-brand-header">
+      <img src="hamsa.png" alt="Hamsa Logo" class="hero-logo" onerror="this.style.display='none'">
+      <h1 class="hero-title">DASTKARI</h1>
+      <div class="hero-subtitle">Bespoke Furniture</div>
+    </div>
+
+    <!-- Interactive Hero Container -->
     <div class="hero-container">
       
-      <!-- Left Side: 3D Flipping Quote/Brand Card -->
+      <!-- Left Side: Continuous 180° Single-Forward-Flip Card -->
       <div class="hero-text-wrapper">
         <div class="hero-text-card" id="hero-text-card">
-          <!-- Front Face (Quote 1 & Brand Title) -->
+          <!-- Front Face -->
           <div class="hero-text-face" id="hero-face-front">
             <div class="hero-quote-text">“THE DETAILS ARE NOT THE DETAILS, THEY MAKE THE DESIGN”</div>
           </div>
-          <!-- Back Face (Quote 2) -->
+          <!-- Back Face -->
           <div class="hero-text-face back" id="hero-face-back">
             <div class="hero-quote-text">“EMBRACING CONSTRAINTS MAKES DESIGN GRACEFUL”</div>
           </div>
@@ -1708,69 +1753,67 @@
   <div class="toast" id="toast-msg">Item added to cart</div>
 
   <script>
-    /* HERO STORYTELLING SLIDESHOW TIMELINE LOGIC */
+    /* HERO STORYTELLING SLIDESHOW WITH CONTINUOUS 180° SINGLE-FORWARD-FLIP */
     let currentHeroSlide = 0;
     let heroTimer = null;
+    let currentRotation = 0;
+
+    const SLIDE_CONTENTS = [
+      `<div class="hero-quote-text">“THE DETAILS ARE NOT THE DETAILS, THEY MAKE THE DESIGN”</div>`,
+      `<div class="hero-quote-text">“EMBRACING CONSTRAINTS MAKES DESIGN GRACEFUL”</div>`,
+      `<div class="hero-brand-title">DASTKARI</div><div class="hero-brand-author">By Nawazish Kirmani</div>`
+    ];
 
     function initHeroSlideshow() {
-      showHeroSlide(0);
+      // Set initial state
+      document.getElementById('hero-face-front').innerHTML = SLIDE_CONTENTS[0];
+      document.getElementById('hero-face-back').innerHTML = SLIDE_CONTENTS[1];
       startHeroTimer();
     }
 
     function startHeroTimer() {
       if (heroTimer) clearInterval(heroTimer);
       heroTimer = setInterval(() => {
-        currentHeroSlide = (currentHeroSlide + 1) % 3;
-        showHeroSlide(currentHeroSlide);
+        const nextIndex = (currentHeroSlide + 1) % 3;
+        goToHeroSlide(nextIndex);
       }, 5000);
     }
 
     function goToHeroSlide(index) {
-      currentHeroSlide = index;
-      showHeroSlide(currentHeroSlide);
-      startHeroTimer(); // Reset interval
-    }
+      if (index === currentHeroSlide && currentRotation !== 0) return;
 
-    function showHeroSlide(index) {
       const card = document.getElementById('hero-text-card');
-      const dots = document.querySelectorAll('.hero-dot');
       const frontFace = document.getElementById('hero-face-front');
-      
+      const backFace = document.getElementById('hero-face-back');
+      const dots = document.querySelectorAll('.hero-dot');
+
       const img1 = document.getElementById('hero-img-1');
       const img2 = document.getElementById('hero-img-2');
       const img3 = document.getElementById('hero-img-3');
 
       dots.forEach((d, i) => d.classList.toggle('active', i === index));
 
-      if (index === 0) {
-        // Slide 1: Craft 1 from Left, Quote 1
-        frontFace.innerHTML = `
-          <div class="hero-quote-text">“THE DETAILS ARE NOT THE DETAILS, THEY MAKE THE DESIGN”</div>
-        `;
-        card.style.transform = 'rotateY(0deg)';
+      // Always perform a single +180° forward flip
+      const isFrontVisible = (currentRotation % 360 === 0);
+      currentRotation += 180;
 
-        img1.className = 'hero-slide-img active';
-        img2.className = 'hero-slide-img from-top';
-        img3.className = 'hero-slide-img from-right';
-      } else if (index === 1) {
-        // Slide 2: Craft 2 from Top, Quote 2 (Flip 180deg)
-        card.style.transform = 'rotateY(180deg)';
-
-        img1.className = 'hero-slide-img from-left';
-        img2.className = 'hero-slide-img active';
-        img3.className = 'hero-slide-img from-right';
-      } else if (index === 2) {
-        // Slide 3: Craft 3 from Right, DASTKARI By Nawazish Kirmani (Flip 360deg)
-        frontFace.innerHTML = `
-          <div class="hero-brand-title">DASTKARI</div>
-          <div class="hero-brand-author">By Nawazish Kirmani</div>
-        `;
-        card.style.transform = 'rotateY(360deg)';
-
-        img1.className = 'hero-slide-img from-left';
-        img2.className = 'hero-slide-img from-top';
-        img3.className = 'hero-slide-img active';
+      if (isFrontVisible) {
+        // We are currently showing front face, so load target content into hidden BACK face before rotating to it
+        backFace.innerHTML = SLIDE_CONTENTS[index];
+      } else {
+        // We are currently showing back face, so load target content into hidden FRONT face before rotating to it
+        frontFace.innerHTML = SLIDE_CONTENTS[index];
       }
+
+      card.style.transform = `rotateY(${currentRotation}deg)`;
+
+      // Image slide transitions
+      img1.className = 'hero-slide-img from-left' + (index === 0 ? ' active' : '');
+      img2.className = 'hero-slide-img from-top' + (index === 1 ? ' active' : '');
+      img3.className = 'hero-slide-img from-right' + (index === 2 ? ' active' : '');
+
+      currentHeroSlide = index;
+      startHeroTimer();
     }
 
     /* CATALOG & APP LOGIC */
@@ -2163,7 +2206,6 @@
         return;
       }
 
-      // Customer MUST sign in to place order
       if (!currentCustomer) {
         closeModal('cart-modal');
         openCustomerAuthModal('Please sign in to complete your checkout.', 'CHECKOUT');
@@ -2172,7 +2214,6 @@
 
       closeModal('cart-modal');
       
-      // Auto-fill checkout fields
       document.getElementById('chk-name').value = currentCustomer.name || '';
       document.getElementById('chk-phone').value = currentCustomer.phone || '';
 
@@ -2217,7 +2258,6 @@
 
     /* CUSTOMER MY ORDERS PORTAL */
     function openCustomerOrdersModal() {
-      // Customer MUST sign in to find/view their orders
       if (!currentCustomer) {
         openCustomerAuthModal('Please sign in to view and track your orders.', 'MY_ORDERS');
         return;
@@ -2235,7 +2275,6 @@
 
       infoEl.textContent = `Account Phone: ${currentCustomer.phone}`;
 
-      // STRICTLY filter orders for signed-in customer phone
       const custOrders = orders.filter(o => cleanPhone(o.customerPhone || o.phone) === cleanPhone(currentCustomer.phone));
       
       if (custOrders.length === 0) {
@@ -2441,7 +2480,6 @@
         if (sliderCfgBox) sliderCfgBox.style.display = 'block';
         authBtn.textContent = 'Staff (Logout)';
 
-        // Hide Customer-Specific Buttons in Staff Mode
         if (myOrdersBtn) myOrdersBtn.style.display = 'none';
         if (custAuthBtn) custAuthBtn.style.display = 'none';
       } else {
@@ -2451,7 +2489,6 @@
         if (sliderCfgBox) sliderCfgBox.style.display = 'none';
         authBtn.textContent = 'Staff Login';
 
-        // Show Customer-Specific Buttons for Normal View
         if (myOrdersBtn) myOrdersBtn.style.display = 'flex';
         if (custAuthBtn) custAuthBtn.style.display = 'flex';
       }
