@@ -940,14 +940,18 @@
   },
   {
     "id": "ITEM-085",
-    "title": "Dastkari Bespoke ARMCHAIRS (Page #49)",
+    "title": "ST - ACR 26 - Kureen",
     "category": "ARMCHAIRS",
-    "price": "Price on Request",
-    "dims": "Custom Dimensions",
+    "price": 100000,
+    "dims": "50\" × 50\" × 50\"",
     "images": [
       "./Assets/P1_page_49_1.jpeg",
       "./Assets/P1_page_49_2.jpeg"
-    ]
+    ],
+    "description": "A bespoke craftsmanship of Dastkari",
+    "l": 50,
+    "w": 50,
+    "h": 50
   },
   {
     "id": "ITEM-086",
