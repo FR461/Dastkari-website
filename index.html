@@ -41,7 +41,7 @@
       font-family: inherit;
     }
 
-    /* 1. FRONT HERO SCREEN WITH TOP LOGO & ANIMATED STORYTELLING */
+    /* 1. FRONT HERO SCREEN WITH TOP BRAND HEADER & DUAL 3D FLIP CARDS */
     .hero-screen {
       width: 100%;
       min-height: 100vh;
@@ -111,8 +111,8 @@
       }
     }
 
-    /* Left Side: 3D Flipping Card for Quotes & Brand */
-    .hero-text-wrapper {
+    /* 3D Flip Card Wrappers for Both Left and Right Sides */
+    .hero-card-wrapper {
       perspective: 1200px;
       width: 100%;
       height: 100%;
@@ -122,7 +122,7 @@
       justify-content: center;
     }
 
-    .hero-text-card {
+    .hero-card {
       width: 100%;
       height: 100%;
       position: relative;
@@ -130,25 +130,32 @@
       transition: transform 0.9s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
-    .hero-text-face {
+    .hero-face {
       position: absolute;
       width: 100%;
       height: 100%;
       backface-visibility: hidden;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+    }
+
+    .hero-face.back {
+      transform: rotateY(180deg);
+    }
+
+    /* Text Face Inner Formatting */
+    .hero-text-content {
+      width: 100%;
+      height: 100%;
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: flex-start;
       padding: 40px;
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      border-radius: 12px;
-      background: rgba(18, 18, 18, 0.85);
+      background: rgba(18, 18, 18, 0.9);
       backdrop-filter: blur(12px);
-      box-shadow: 0 20px 50px rgba(0,0,0,0.5);
-    }
-
-    .hero-text-face.back {
-      transform: rotateY(180deg);
     }
 
     .hero-quote-text {
@@ -183,48 +190,13 @@
       width: 100%;
     }
 
-    /* Right Side: Image Stage with Slide Effects */
-    .hero-img-stage {
-      position: relative;
-      width: 100%;
-      height: 100%;
-      min-height: 350px;
-      border-radius: 12px;
-      overflow: hidden;
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      box-shadow: 0 20px 50px rgba(0,0,0,0.5);
-    }
-
-    .hero-slide-img {
-      position: absolute;
-      top: 0;
-      left: 0;
+    /* Image Face Inner Formatting */
+    .hero-img-content {
       width: 100%;
       height: 100%;
       object-fit: cover;
-      filter: grayscale(100%);
-      transition: transform 0.9s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.8s ease, filter 0.5s ease;
-      opacity: 0;
-      pointer-events: none;
-    }
-
-    .hero-slide-img.active {
-      opacity: 1;
-      transform: translate(0, 0) scale(1) !important;
+      display: block;
       filter: grayscale(0%);
-      pointer-events: auto;
-    }
-
-    .hero-slide-img.from-left {
-      transform: translateX(-100%);
-    }
-
-    .hero-slide-img.from-top {
-      transform: translateY(-100%);
-    }
-
-    .hero-slide-img.from-right {
-      transform: translateX(100%);
     }
 
     /* Navigation Indicator Dots */
@@ -1301,37 +1273,32 @@
 </head>
 <body>
 
-  <!-- 1. FRONT SCREEN WITH TOP BRAND HEADER & ANIMATED STORYTELLING HERO -->
+  <!-- 1. FRONT SCREEN WITH TOP BRAND HEADER & DUAL SYNCHRONIZED 3D FLIP CARDS -->
   <section class="hero-screen">
-    <!-- Restored Top Logo & Brand Title Header -->
+    <!-- Top Logo & Brand Title Header -->
     <div class="hero-brand-header">
       <img src="hamsa.png" alt="Hamsa Logo" class="hero-logo" onerror="this.style.display='none'">
       <h1 class="hero-title">DASTKARI</h1>
       <div class="hero-subtitle">Bespoke Furniture</div>
     </div>
 
-    <!-- Interactive Hero Container -->
+    <!-- Interactive Hero Container: 2 Flipping Cards -->
     <div class="hero-container">
       
-      <!-- Left Side: Continuous 180° Single-Forward-Flip Card -->
-      <div class="hero-text-wrapper">
-        <div class="hero-text-card" id="hero-text-card">
-          <!-- Front Face -->
-          <div class="hero-text-face" id="hero-face-front">
-            <div class="hero-quote-text">“THE DETAILS ARE NOT THE DETAILS, THEY MAKE THE DESIGN”</div>
-          </div>
-          <!-- Back Face -->
-          <div class="hero-text-face back" id="hero-face-back">
-            <div class="hero-quote-text">“EMBRACING CONSTRAINTS MAKES DESIGN GRACEFUL”</div>
-          </div>
+      <!-- LEFT CARD WRAPPER -->
+      <div class="hero-card-wrapper">
+        <div class="hero-card" id="hero-card-left">
+          <div class="hero-face" id="left-face-front"></div>
+          <div class="hero-face back" id="left-face-back"></div>
         </div>
       </div>
 
-      <!-- Right Side: Craft Photos Stage -->
-      <div class="hero-img-stage">
-        <img src="./Assets/Craft_1.png" id="hero-img-1" class="hero-slide-img from-left active" alt="Wood Lathe Craftsmanship" onerror="this.src='https://images.unsplash.com/photo-1544816155-12df9643f363?q=80&w=800'">
-        <img src="./Assets/Craft_2.png" id="hero-img-2" class="hero-slide-img from-top" alt="Hand Stitching Craftsmanship" onerror="this.src='https://images.unsplash.com/photo-1584992236310-6edddc08acff?q=80&w=800'">
-        <img src="./Assets/Craft_3.png" id="hero-img-3" class="hero-slide-img from-right" alt="Metal Welding Craftsmanship" onerror="this.src='https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?q=80&w=800'">
+      <!-- RIGHT CARD WRAPPER -->
+      <div class="hero-card-wrapper">
+        <div class="hero-card" id="hero-card-right">
+          <div class="hero-face" id="right-face-front"></div>
+          <div class="hero-face back" id="right-face-back"></div>
+        </div>
       </div>
 
     </div>
@@ -1753,21 +1720,34 @@
   <div class="toast" id="toast-msg">Item added to cart</div>
 
   <script>
-    /* HERO STORYTELLING SLIDESHOW WITH CONTINUOUS 180° SINGLE-FORWARD-FLIP */
+    /* DUAL SYNCHRONIZED 3D FLIP SLIDESHOW LOGIC */
     let currentHeroSlide = 0;
     let heroTimer = null;
-    let currentRotation = 0;
+    let rotLeft = 0;
+    let rotRight = 0;
 
-    const SLIDE_CONTENTS = [
-      `<div class="hero-quote-text">“THE DETAILS ARE NOT THE DETAILS, THEY MAKE THE DESIGN”</div>`,
-      `<div class="hero-quote-text">“EMBRACING CONSTRAINTS MAKES DESIGN GRACEFUL”</div>`,
-      `<div class="hero-brand-title">DASTKARI</div><div class="hero-brand-author">By Nawazish Kirmani</div>`
+    // Content Array for Left Card per Slide
+    const SLIDE_LEFT_CONTENTS = [
+      `<div class="hero-text-content"><div class="hero-quote-text">“THE DETAILS ARE NOT THE DETAILS, THEY MAKE THE DESIGN”</div></div>`,
+      `<img src="./Assets/Craft_2.png" class="hero-img-content" alt="Craft 2" onerror="this.src='https://images.unsplash.com/photo-1584992236310-6edddc08acff?q=80&w=800'">`,
+      `<div class="hero-text-content"><div class="hero-brand-title">DASTKARI</div><div class="hero-brand-author">By Nawazish Kirmani</div></div>`
+    ];
+
+    // Content Array for Right Card per Slide
+    const SLIDE_RIGHT_CONTENTS = [
+      `<img src="./Assets/Craft_1.png" class="hero-img-content" alt="Craft 1" onerror="this.src='https://images.unsplash.com/photo-1544816155-12df9643f363?q=80&w=800'">`,
+      `<div class="hero-text-content"><div class="hero-quote-text">“EMBRACING CONSTRAINTS MAKES DESIGN GRACEFUL”</div></div>`,
+      `<img src="./Assets/Craft_3.png" class="hero-img-content" alt="Craft 3" onerror="this.src='https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?q=80&w=800'">'`
     ];
 
     function initHeroSlideshow() {
-      // Set initial state
-      document.getElementById('hero-face-front').innerHTML = SLIDE_CONTENTS[0];
-      document.getElementById('hero-face-back').innerHTML = SLIDE_CONTENTS[1];
+      // Set Initial Slide 0 Content
+      document.getElementById('left-face-front').innerHTML = SLIDE_LEFT_CONTENTS[0];
+      document.getElementById('left-face-back').innerHTML = SLIDE_LEFT_CONTENTS[1];
+
+      document.getElementById('right-face-front').innerHTML = SLIDE_RIGHT_CONTENTS[0];
+      document.getElementById('right-face-back').innerHTML = SLIDE_RIGHT_CONTENTS[1];
+
       startHeroTimer();
     }
 
@@ -1780,37 +1760,38 @@
     }
 
     function goToHeroSlide(index) {
-      if (index === currentHeroSlide && currentRotation !== 0) return;
+      if (index === currentHeroSlide && rotLeft !== 0) return;
 
-      const card = document.getElementById('hero-text-card');
-      const frontFace = document.getElementById('hero-face-front');
-      const backFace = document.getElementById('hero-face-back');
+      const cardLeft = document.getElementById('hero-card-left');
+      const cardRight = document.getElementById('hero-card-right');
+
+      const leftFront = document.getElementById('left-face-front');
+      const leftBack = document.getElementById('left-face-back');
+
+      const rightFront = document.getElementById('right-face-front');
+      const rightBack = document.getElementById('right-face-back');
+
       const dots = document.querySelectorAll('.hero-dot');
-
-      const img1 = document.getElementById('hero-img-1');
-      const img2 = document.getElementById('hero-img-2');
-      const img3 = document.getElementById('hero-img-3');
-
       dots.forEach((d, i) => d.classList.toggle('active', i === index));
 
-      // Always perform a single +180° forward flip
-      const isFrontVisible = (currentRotation % 360 === 0);
-      currentRotation += 180;
+      const isFrontVisible = (rotLeft / 180) % 2 === 0;
+
+      rotLeft += 180;
+      rotRight += 180;
 
       if (isFrontVisible) {
-        // We are currently showing front face, so load target content into hidden BACK face before rotating to it
-        backFace.innerHTML = SLIDE_CONTENTS[index];
+        // Prepare hidden back faces with target content before flipping to them
+        leftBack.innerHTML = SLIDE_LEFT_CONTENTS[index];
+        rightBack.innerHTML = SLIDE_RIGHT_CONTENTS[index];
       } else {
-        // We are currently showing back face, so load target content into hidden FRONT face before rotating to it
-        frontFace.innerHTML = SLIDE_CONTENTS[index];
+        // Prepare hidden front faces with target content before flipping to them
+        leftFront.innerHTML = SLIDE_LEFT_CONTENTS[index];
+        rightFront.innerHTML = SLIDE_RIGHT_CONTENTS[index];
       }
 
-      card.style.transform = `rotateY(${currentRotation}deg)`;
-
-      // Image slide transitions
-      img1.className = 'hero-slide-img from-left' + (index === 0 ? ' active' : '');
-      img2.className = 'hero-slide-img from-top' + (index === 1 ? ' active' : '');
-      img3.className = 'hero-slide-img from-right' + (index === 2 ? ' active' : '');
+      // Execute Single 180° Forward Flip for both cards
+      cardLeft.style.transform = `rotateY(${rotLeft}deg)`;
+      cardRight.style.transform = `rotateY(${rotRight}deg)`;
 
       currentHeroSlide = index;
       startHeroTimer();
