@@ -1954,7 +1954,7 @@
     }
 
     function cleanPhone(p) {
-      return p ? p.replace(/[^0-9]/g, '') : '';
+      return p ? p.toString().replace(/[^0-9]/g, '') : '';
     }
 
     /* ITEM SCREEN ONLY FAVORITING (NO GRID RE-RENDER / NO BOUNCE) */
@@ -2003,7 +2003,7 @@
     /* CUSTOMER AUTH */
     function updateCustomerUI() {
       const btn = document.getElementById('cust-auth-btn');
-      if (currentCustomer && currentCustomer.phone) {
+      if (currentCustomer && cleanPhone(currentCustomer.phone)) {
         btn.textContent = 'Sign Out';
       } else {
         btn.textContent = 'Sign In';
@@ -2012,10 +2012,11 @@
     }
 
     function handleCustomerAuthClick() {
-      if (currentCustomer) {
+      if (currentCustomer && cleanPhone(currentCustomer.phone)) {
         if (confirm('Sign out of your account?')) {
           currentCustomer = null;
           localStorage.removeItem('dastkari_current_customer');
+          document.getElementById('customer-orders-container').innerHTML = '';
           updateCustomerUI();
           showToast('Signed out successfully');
         }
@@ -2372,7 +2373,7 @@
         return;
       }
 
-      if (!currentCustomer) {
+      if (!currentCustomer || !cleanPhone(currentCustomer.phone)) {
         closeModal('cart-modal');
         openCustomerAuthModal('Please sign in to complete your checkout.', 'CHECKOUT');
         return;
@@ -2389,14 +2390,20 @@
     function handleCheckout(e) {
       e.preventDefault();
 
-      if (!currentCustomer) {
-        openCustomerAuthModal('Please sign in to place your order.', 'CHECKOUT');
+      const phone = cleanPhone(document.getElementById('chk-phone').value.trim());
+      const name = document.getElementById('chk-name').value.trim();
+      const address = document.getElementById('chk-address').value.trim();
+
+      if (!phone || !name) {
+        alert('Please enter a valid Name and Phone Number.');
         return;
       }
 
-      const name = document.getElementById('chk-name').value.trim();
-      const address = document.getElementById('chk-address').value.trim();
-      const phone = cleanPhone(document.getElementById('chk-phone').value.trim());
+      // Maintain user session
+      currentCustomer = { name, phone };
+      localStorage.setItem('dastkari_current_customer', JSON.stringify(currentCustomer));
+      updateCustomerUI();
+
       const totalSum = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
 
       const newOrder = {
@@ -2424,7 +2431,8 @@
 
     /* CUSTOMER MY ORDERS */
     function openCustomerOrdersModal() {
-      if (!currentCustomer || !currentCustomer.phone) {
+      const userPhone = currentCustomer ? cleanPhone(currentCustomer.phone) : '';
+      if (!currentCustomer || !userPhone) {
         openCustomerAuthModal('You must sign in with your Name and Mobile Phone to view your orders.', 'MY_ORDERS');
         return;
       }
@@ -2437,14 +2445,19 @@
       const container = document.getElementById('customer-orders-container');
       const infoEl = document.getElementById('cust-order-account-info');
 
-      if (!currentCustomer || !currentCustomer.phone) {
+      const userPhone = currentCustomer ? cleanPhone(currentCustomer.phone) : '';
+
+      if (!currentCustomer || !userPhone) {
         container.innerHTML = `<div class="empty-state">Please sign in to view your orders.</div>`;
         return;
       }
 
       infoEl.textContent = `Account Name: ${currentCustomer.name} | Phone: ${currentCustomer.phone}`;
 
-      const custOrders = orders.filter(o => cleanPhone(o.customerPhone || o.phone) === cleanPhone(currentCustomer.phone));
+      const custOrders = orders.filter(o => {
+        const orderPhone = cleanPhone(o.customerPhone || o.phone);
+        return orderPhone && orderPhone === userPhone;
+      });
       
       if (custOrders.length === 0) {
         container.innerHTML = `<div class="empty-state">No orders found associated with phone number <strong>${currentCustomer.phone}</strong>.</div>`;
@@ -2517,8 +2530,12 @@
       const activeCount = orders.filter(o => o.status !== 'Arrived').length;
       
       let custOrdersCount = 0;
-      if (currentCustomer && currentCustomer.phone) {
-        custOrdersCount = orders.filter(o => cleanPhone(o.customerPhone || o.phone) === cleanPhone(currentCustomer.phone)).length;
+      const userPhone = currentCustomer ? cleanPhone(currentCustomer.phone) : '';
+      if (userPhone) {
+        custOrdersCount = orders.filter(o => {
+          const orderPhone = cleanPhone(o.customerPhone || o.phone);
+          return orderPhone && orderPhone === userPhone;
+        }).length;
       }
 
       document.getElementById('my-orders-count-badge').textContent = custOrdersCount;
@@ -2529,6 +2546,10 @@
     }
 
     function openOrdersModal() {
+      if (!isStaffLoggedIn) {
+        openStaffModal();
+        return;
+      }
       renderOrdersList();
       document.getElementById('orders-modal').classList.add('active');
     }
@@ -2541,6 +2562,8 @@
     }
 
     function renderOrdersList() {
+      if (!isStaffLoggedIn) return;
+
       updateOrdersBadge();
       const container = document.getElementById('orders-list-container');
 
@@ -2559,6 +2582,8 @@
     }
 
     function updateOrderStatus(orderId, newStatus) {
+      if (!isStaffLoggedIn) return;
+
       const ord = orders.find(o => o.id === orderId);
       if (ord) {
         ord.status = newStatus;
@@ -2760,6 +2785,7 @@
     }
 
     async function deleteItem(itemId) {
+      if (!isStaffLoggedIn) return;
       if (confirm('Delete this furniture item?')) {
         catalogData = catalogData.filter(i => i.id !== itemId);
         renderPills();
@@ -2769,6 +2795,10 @@
     }
 
     function openEditModal(itemId = null) {
+      if (!isStaffLoggedIn) {
+        openStaffModal();
+        return;
+      }
       const heading = document.getElementById('edit-modal-heading');
       currentUploadedImages = [];
 
@@ -2809,6 +2839,8 @@
 
     async function handleSaveItem(e) {
       e.preventDefault();
+      if (!isStaffLoggedIn) return;
+
       const id = document.getElementById('edit-item-id').value;
       const title = document.getElementById('edit-item-title').value.trim();
       const category = document.getElementById('edit-item-category').value.trim().toUpperCase();
