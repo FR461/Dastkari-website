@@ -703,19 +703,6 @@
       transform: scale(1.03);
     }
 
-    .staff-like-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-      font-size: 0.72rem;
-      font-weight: 700;
-      color: #e74c3c;
-      background: rgba(231, 76, 60, 0.1);
-      padding: 3px 8px;
-      border-radius: 12px;
-      border: 1px solid rgba(231, 76, 60, 0.2);
-    }
-
     .card-info {
       display: flex;
       flex-direction: column;
@@ -772,6 +759,44 @@
     .btn-add-cart-card:hover {
       background: #111111;
       color: #ffffff;
+    }
+
+    /* INLINE CARD STEPPER */
+    .card-qty-stepper {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border: 1.5px solid #111111;
+      border-radius: 6px;
+      padding: 3px 8px;
+      margin-top: 6px;
+      background: #ffffff;
+    }
+
+    .btn-card-qty {
+      background: transparent;
+      border: none;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      width: 26px;
+      height: 26px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #111111;
+      border-radius: 4px;
+      transition: background 0.2s ease;
+    }
+
+    .btn-card-qty:hover {
+      background: #f0f0f0;
+    }
+
+    .card-qty-num {
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: #111111;
     }
 
     .staff-card-actions {
@@ -1509,7 +1534,7 @@
     </main>
   </div>
 
-  <!-- FULLSCREEN PRODUCT DETAILS MODAL (WITH LIKE & SHARE BUTTONS) -->
+  <!-- FULLSCREEN PRODUCT DETAILS MODAL -->
   <div class="modal-overlay" id="item-modal">
     <div class="modal-container">
       <button class="modal-close-btn" onclick="closeModal('item-modal')">&times;</button>
@@ -1524,10 +1549,7 @@
 
         <div class="modal-details" style="display: flex; flex-direction: column; justify-content: center; gap: 20px;">
           <div>
-            <div style="display: flex; justify-content: space-between; align-items: center;">
-              <span class="card-category" id="modal-category" style="font-size: 1.05rem; font-weight: 600; letter-spacing: 2px; color: #777; text-transform: uppercase;">Category</span>
-              <span id="modal-staff-like-indicator" class="staff-like-badge" style="display: none; font-size: 0.85rem; padding: 4px 10px;">❤️ 0 Likes</span>
-            </div>
+            <span class="card-category" id="modal-category" style="font-size: 1.05rem; font-weight: 600; letter-spacing: 2px; color: #777; text-transform: uppercase;">Category</span>
             <h2 id="modal-title" style="margin-top: 10px; font-size: 2.6rem; font-weight: 300; line-height: 1.2; color: #111;">Title</h2>
             
             <p id="modal-desc" style="margin-top: 24px; font-size: 1.25rem; line-height: 1.8; color: #444444; font-weight: 300;">
@@ -1546,14 +1568,16 @@
             </div>
           </div>
 
-          <!-- ACTION BUTTONS: Add to Cart, Like, and Share -->
+          <!-- ACTION BUTTONS: Add to Cart, Save & Share -->
           <div style="display: flex; gap: 12px; flex-wrap: wrap;">
             <button class="btn-submit" id="modal-add-cart-btn" style="flex: 3; min-width: 180px; font-size: 1.1rem; padding: 16px;">+ Add to Cart</button>
-            <button class="nav-btn" id="modal-like-btn" style="flex: 1; min-width: 100px; justify-content: center; font-size: 1.05rem; border-width: 2px;" onclick="handleModalLikeClick()">
-              <span>🤍</span> Like
+            <button class="nav-btn" id="modal-like-btn" style="flex: 1; min-width: 110px; justify-content: center; font-size: 1rem; border-width: 1.5px;" onclick="handleModalLikeClick()">
+              <svg id="modal-heart-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+              <span id="modal-like-text">Save</span>
             </button>
-            <button class="nav-btn" id="modal-share-btn" style="flex: 1; min-width: 100px; justify-content: center; font-size: 1.05rem; border-width: 2px;" onclick="handleModalShareClick()">
-              <span>↗</span> Share
+            <button class="nav-btn" id="modal-share-btn" style="flex: 1; min-width: 110px; justify-content: center; font-size: 1rem; border-width: 1.5px;" onclick="handleModalShareClick()">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>
+              Share
             </button>
           </div>
         </div>
@@ -1561,7 +1585,7 @@
     </div>
   </div>
 
-  <!-- FULLSCREEN CART MODAL (WITH COMPLEMENTARY PAIRINGS STRIP) -->
+  <!-- FULLSCREEN CART MODAL -->
   <div class="modal-overlay" id="cart-modal">
     <div class="modal-container">
       <div class="cart-header">
@@ -1571,7 +1595,7 @@
 
       <div class="cart-items-wrapper" id="cart-items-container"></div>
 
-      <!-- CART EXCLUSIVE RECOMMENDATIONS STRIP -->
+      <!-- CART RECOMMENDATIONS STRIP -->
       <div class="recommender-section" id="cart-rec-section">
         <div class="recommender-header">
           <div class="recommender-title">
@@ -1762,22 +1786,25 @@
   <div class="toast" id="toast-msg">Item added to cart</div>
 
   <script>
-    /* 1. DUAL SYNCHRONIZED 3D FLIP SLIDESHOW LOGIC */
+    /* 1. DUAL SYNCHRONIZED 3D FLIP SLIDESHOW LOGIC (EXACT ALTERNATING LAYOUT) */
     let currentHeroSlide = 0;
     let heroTimer = null;
     let rotLeft = 0;
     let rotRight = 0;
 
+    // Slide 0: Text Left | Craft 1 Right (Font Left)
+    // Slide 1: Craft 2 Left | Text Right (Font Right)
+    // Slide 2: Craft 3 Left | Text Right (Font Right)
     const SLIDE_LEFT_CONTENTS = [
       `<div class="hero-text-content"><div class="hero-quote-text">“THE DETAILS ARE NOT THE DETAILS, THEY MAKE THE DESIGN”</div></div>`,
       `<img src="./Assets/Craft_2.png" class="hero-img-content" alt="Craft 2" onerror="this.src='https://images.unsplash.com/photo-1584992236310-6edddc08acff?q=80&w=800'">`,
-      `<div class="hero-text-content"><div class="hero-brand-title">DASTKARI</div><div class="hero-brand-author">By Nawazish Kirmani</div></div>`
+      `<img src="./Assets/Craft_3.png" class="hero-img-content" alt="Craft 3" onerror="this.src='https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?q=80&w=800'">'`
     ];
 
     const SLIDE_RIGHT_CONTENTS = [
       `<img src="./Assets/Craft_1.png" class="hero-img-content" alt="Craft 1" onerror="this.src='https://images.unsplash.com/photo-1544816155-12df9643f363?q=80&w=800'">`,
       `<div class="hero-text-content"><div class="hero-quote-text">“EMBRACING CONSTRAINTS MAKES DESIGN GRACEFUL”</div></div>`,
-      `<img src="./Assets/Craft_3.png" class="hero-img-content" alt="Craft 3" onerror="this.src='https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?q=80&w=800'">'`
+      `<div class="hero-text-content"><div class="hero-brand-title">DASTKARI</div><div class="hero-brand-author">By Nawazish Kirmani</div></div>`
     ];
 
     function initHeroSlideshow() {
@@ -1863,7 +1890,6 @@
     let orders = JSON.parse(localStorage.getItem('dastkari_orders')) || [];
 
     let userLikes = JSON.parse(localStorage.getItem('dastkari_user_likes')) || [];
-    let itemLikesMap = JSON.parse(localStorage.getItem('dastkari_item_likes')) || {};
 
     let activeCategory = 'ALL';
     let activeOrderTab = 'ALL';
@@ -1891,12 +1917,6 @@
         if (!response.ok) throw new Error('Catalog missing');
 
         catalogData = await response.json();
-        
-        catalogData.forEach(item => {
-          if (itemLikesMap[item.id] === undefined) {
-            itemLikesMap[item.id] = item.likes || Math.floor(Math.random() * 8);
-          }
-        });
 
         ['price', 'l', 'w', 'h'].forEach(p => updateDualSlider(p));
 
@@ -1957,29 +1977,25 @@
       return p ? p.toString().replace(/[^0-9]/g, '') : '';
     }
 
-    /* ITEM SCREEN ONLY FAVORITING (NO GRID RE-RENDER / NO BOUNCE) */
+    /* ITEM SCREEN FAVORITING */
     function toggleLike(itemId) {
       const idx = userLikes.indexOf(itemId);
       if (idx > -1) {
         userLikes.splice(idx, 1);
-        itemLikesMap[itemId] = Math.max(0, (itemLikesMap[itemId] || 1) - 1);
-        showToast('Removed from favorites');
+        showToast('Removed from saved items');
       } else {
         userLikes.push(itemId);
-        itemLikesMap[itemId] = (itemLikesMap[itemId] || 0) + 1;
-        showToast('Added to favorites ❤️');
+        showToast('Saved to your favorites');
       }
 
       localStorage.setItem('dastkari_user_likes', JSON.stringify(userLikes));
-      localStorage.setItem('dastkari_item_likes', JSON.stringify(itemLikesMap));
 
-      // Strictly update modal in-place without triggering renderGrid()
       if (currentActiveItemId === itemId) {
         updateModalLikeState(itemId);
       }
     }
 
-    /* ITEM SCREEN ONLY SHARE FEATURE */
+    /* ITEM SCREEN SHARE FEATURE */
     function handleModalShareClick() {
       if (!currentActiveItemId) return;
       const item = catalogData.find(i => i.id === currentActiveItemId);
@@ -2144,7 +2160,7 @@
       ['price', 'l', 'w', 'h'].forEach(p => updateDualSlider(p));
     }
 
-    /* RENDER CATALOG GRID */
+    /* RENDER CATALOG GRID WITH INLINE CARD QUANTITY STEPPER [- 1 +] */
     function renderGrid() {
       const pMin = parseInt(document.getElementById('price-min').value, 10);
       const pMax = parseInt(document.getElementById('price-max').value, 10);
@@ -2199,11 +2215,22 @@
           const { l, w, h } = parseDims(item);
           const displayDims = formatDimsStr(l, w, h);
 
-          const totalLikesCount = itemLikesMap[item.id] || 0;
-
-          const staffLikeBadgeHTML = isStaffLoggedIn ? `
-            <span class="staff-like-badge">❤️ ${totalLikesCount} Likes</span>
-          ` : '';
+          const cartItem = cart.find(c => c.id === item.id);
+          
+          let actionControlHTML = '';
+          if (cartItem && cartItem.qty > 0) {
+            actionControlHTML = `
+              <div class="card-qty-stepper" onclick="event.stopPropagation()">
+                <button class="btn-card-qty" onclick="updateCartQtyById('${item.id}', -1)">-</button>
+                <span class="card-qty-num">${cartItem.qty}</span>
+                <button class="btn-card-qty" onclick="updateCartQtyById('${item.id}', 1)">+</button>
+              </div>
+            `;
+          } else {
+            actionControlHTML = `
+              <button class="btn-add-cart-card" onclick="event.stopPropagation(); addToCart('${item.id}')">+ Add to Cart</button>
+            `;
+          }
 
           const staffControls = isStaffLoggedIn ? `
             <div class="staff-card-actions" onclick="event.stopPropagation()">
@@ -2218,16 +2245,13 @@
                 <img src="${imgSrc}" alt="${item.title}" loading="lazy" onerror="this.src='https://via.placeholder.com/240?text=No+Image'">
               </div>
               <div class="card-info">
-                <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 6px;">
-                  <div class="card-title">${item.title}</div>
-                  ${staffLikeBadgeHTML}
-                </div>
+                <div class="card-title">${item.title}</div>
                 <div class="card-category">${item.category}</div>
                 <div class="card-footer-row">
                   <span class="card-price">${displayPrice}</span>
                   <span class="card-dims">${displayDims}</span>
                 </div>
-                <button class="btn-add-cart-card" onclick="event.stopPropagation(); addToCart('${item.id}')">+ Add to Cart</button>
+                ${actionControlHTML}
                 ${staffControls}
               </div>
             </div>
@@ -2263,7 +2287,21 @@
 
       updateCartUI();
       renderCartRecommendations();
+      renderGrid();
       showToast(`Added "${item.title}" to Cart`);
+    }
+
+    function updateCartQtyById(itemId, change) {
+      const idx = cart.findIndex(c => c.id === itemId);
+      if (idx > -1) {
+        cart[idx].qty += change;
+        if (cart[idx].qty <= 0) {
+          cart.splice(idx, 1);
+        }
+        updateCartUI();
+        renderCartRecommendations();
+        renderGrid();
+      }
     }
 
     function updateCartQty(index, change) {
@@ -2273,12 +2311,14 @@
       }
       updateCartUI();
       renderCartRecommendations();
+      renderGrid();
     }
 
     function removeFromCart(index) {
       cart.splice(index, 1);
       updateCartUI();
       renderCartRecommendations();
+      renderGrid();
     }
 
     function updateCartUI() {
@@ -2331,7 +2371,7 @@
       document.getElementById('checkout-subtotal').textContent = formatPrice(totalSum);
     }
 
-    /* CART EXCLUSIVE COMPLEMENTARY PAIRINGS */
+    /* CART COMPLEMENTARY PAIRINGS */
     function renderCartRecommendations() {
       const recContainer = document.getElementById('cart-rec-container');
       const cartRecSection = document.getElementById('cart-rec-section');
@@ -2399,7 +2439,6 @@
         return;
       }
 
-      // Maintain user session
       currentCustomer = { name, phone };
       localStorage.setItem('dastkari_current_customer', JSON.stringify(currentCustomer));
       updateCustomerUI();
@@ -2424,12 +2463,13 @@
       cart = [];
       updateCartUI();
       updateOrdersBadge();
+      renderGrid();
       closeModal('checkout-modal');
       openCustomerOrdersModal();
       showToast(`Order Placed! Reference: ${newOrder.id}`);
     }
 
-    /* CUSTOMER MY ORDERS */
+    /* CUSTOMER MY ORDERS - STRICT AUTH & PRIVACY */
     function openCustomerOrdersModal() {
       const userPhone = currentCustomer ? cleanPhone(currentCustomer.phone) : '';
       if (!currentCustomer || !userPhone) {
@@ -2638,25 +2678,20 @@
 
     function updateModalLikeState(id) {
       const isLiked = userLikes.includes(id);
-      const totalLikes = itemLikesMap[id] || 0;
       const modalLikeBtn = document.getElementById('modal-like-btn');
-      const staffLikeInd = document.getElementById('modal-staff-like-indicator');
+      const heartIcon = document.getElementById('modal-heart-icon');
+      const likeText = document.getElementById('modal-like-text');
 
       if (isLiked) {
         modalLikeBtn.style.background = '#111111';
         modalLikeBtn.style.color = '#ffffff';
-        modalLikeBtn.innerHTML = '<span>❤️</span> Liked';
+        heartIcon.setAttribute('fill', 'currentColor');
+        likeText.textContent = 'Saved';
       } else {
         modalLikeBtn.style.background = 'transparent';
         modalLikeBtn.style.color = '#111111';
-        modalLikeBtn.innerHTML = '<span>🤍</span> Like';
-      }
-
-      if (isStaffLoggedIn) {
-        staffLikeInd.style.display = 'inline-block';
-        staffLikeInd.textContent = `❤️ ${totalLikes} Likes`;
-      } else {
-        staffLikeInd.style.display = 'none';
+        heartIcon.setAttribute('fill', 'none');
+        likeText.textContent = 'Save';
       }
     }
 
