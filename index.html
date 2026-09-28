@@ -866,8 +866,7 @@
       box-sizing: border-box !important;
       display: flex !important;
       flex-direction: column !important;
-      justify-content: space-between !important;
-      overflow-y: auto !important;
+      justify-content: center !important;
     }
 
     .grid-modal-content {
@@ -966,12 +965,11 @@
       border-color: #222222;
     }
 
-    /* NEURAL RECOMMENDATIONS STRIP */
+    /* CART RECOMMENDATIONS STRIP */
     .recommender-section {
-      max-width: 1400px;
       width: 100%;
-      margin: 30px auto 0 auto;
-      padding-top: 20px;
+      margin: 20px 0;
+      padding-top: 18px;
       border-top: 1px solid #e0e0e0;
     }
 
@@ -983,24 +981,11 @@
     }
 
     .recommender-title {
-      font-size: 0.95rem;
+      font-size: 0.9rem;
       font-weight: 700;
       letter-spacing: 2px;
       text-transform: uppercase;
       color: #111111;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .neural-tag {
-      font-size: 0.68rem;
-      background: #111111;
-      color: #ffffff;
-      padding: 3px 8px;
-      border-radius: 12px;
-      letter-spacing: 1px;
-      font-weight: 600;
     }
 
     .recommendations-scroll-grid {
@@ -1012,8 +997,8 @@
     }
 
     .rec-card {
-      min-width: 200px;
-      max-width: 220px;
+      min-width: 190px;
+      max-width: 210px;
       background: #fafafa;
       border: 1px solid #e5e5e5;
       border-radius: 8px;
@@ -1030,7 +1015,7 @@
 
     .rec-card-img {
       width: 100%;
-      height: 120px;
+      height: 110px;
       object-fit: cover;
       border-radius: 6px;
     }
@@ -1050,14 +1035,6 @@
       font-weight: 700;
       color: #444;
       margin-top: 2px;
-    }
-
-    .rec-match-badge {
-      font-size: 0.65rem;
-      color: #27ae60;
-      font-weight: 700;
-      margin-top: 4px;
-      display: block;
     }
 
     /* FULLSCREEN CART MODAL */
@@ -1532,7 +1509,7 @@
     </main>
   </div>
 
-  <!-- FULLSCREEN PRODUCT DETAILS MODAL (WITH LIKE, SHARE & NEURAL RECOMMENDER) -->
+  <!-- FULLSCREEN PRODUCT DETAILS MODAL (WITH LIKE & SHARE BUTTONS) -->
   <div class="modal-overlay" id="item-modal">
     <div class="modal-container">
       <button class="modal-close-btn" onclick="closeModal('item-modal')">&times;</button>
@@ -1581,22 +1558,10 @@
           </div>
         </div>
       </div>
-
-      <!-- SERVER NEURAL RECOMMENDER SECTION -->
-      <div class="recommender-section" id="neural-recommender-section">
-        <div class="recommender-header">
-          <div class="recommender-title">
-            <span>Pairs Well With (Color & Contrast Match)</span>
-            <span class="neural-tag">NEURAL MATCH</span>
-          </div>
-        </div>
-        <div class="recommendations-scroll-grid" id="neural-rec-container"></div>
-      </div>
-
     </div>
   </div>
 
-  <!-- FULLSCREEN CART MODAL -->
+  <!-- FULLSCREEN CART MODAL (WITH COMPLEMENTARY PAIRINGS STRIP) -->
   <div class="modal-overlay" id="cart-modal">
     <div class="modal-container">
       <div class="cart-header">
@@ -1606,12 +1571,11 @@
 
       <div class="cart-items-wrapper" id="cart-items-container"></div>
 
-      <!-- Cart Recommender Strip -->
-      <div class="recommender-section" id="cart-rec-section" style="margin: 0 0 20px 0; padding-top: 15px;">
+      <!-- CART EXCLUSIVE RECOMMENDATIONS STRIP -->
+      <div class="recommender-section" id="cart-rec-section">
         <div class="recommender-header">
           <div class="recommender-title">
-            <span>Suggested Accessories For Your Cart</span>
-            <span class="neural-tag">AI COLOR PAIRING</span>
+            <span>Pairs Well With</span>
           </div>
         </div>
         <div class="recommendations-scroll-grid" id="cart-rec-container"></div>
@@ -1944,7 +1908,7 @@
         updateOrdersBadge();
         setupSmoothDragScroll();
 
-        // Check for URL deep link (e.g. ?item=ITEM-102)
+        // Deep link handler (e.g. ?item=ITEM-102)
         const urlParams = new URLSearchParams(window.location.search);
         const sharedItemId = urlParams.get('item');
         if (sharedItemId) {
@@ -1993,7 +1957,7 @@
       return p ? p.replace(/[^0-9]/g, '') : '';
     }
 
-    /* ITEM SCREEN ONLY FAVORITING */
+    /* ITEM SCREEN ONLY FAVORITING (NO GRID RE-RENDER / NO BOUNCE) */
     function toggleLike(itemId) {
       const idx = userLikes.indexOf(itemId);
       if (idx > -1) {
@@ -2009,7 +1973,7 @@
       localStorage.setItem('dastkari_user_likes', JSON.stringify(userLikes));
       localStorage.setItem('dastkari_item_likes', JSON.stringify(itemLikesMap));
 
-      // Strictly update in-place without touching or re-rendering the catalog grid (prevents screen bounce!)
+      // Strictly update modal in-place without triggering renderGrid()
       if (currentActiveItemId === itemId) {
         updateModalLikeState(itemId);
       }
@@ -2179,7 +2143,7 @@
       ['price', 'l', 'w', 'h'].forEach(p => updateDualSlider(p));
     }
 
-    /* RENDER CATALOG GRID (NO BOUNCING / REFLAWS) */
+    /* RENDER CATALOG GRID */
     function renderGrid() {
       const pMin = parseInt(document.getElementById('price-min').value, 10);
       const pMax = parseInt(document.getElementById('price-max').value, 10);
@@ -2364,6 +2328,41 @@
 
       grandTotalEl.textContent = formatPrice(totalSum);
       document.getElementById('checkout-subtotal').textContent = formatPrice(totalSum);
+    }
+
+    /* CART EXCLUSIVE COMPLEMENTARY PAIRINGS */
+    function renderCartRecommendations() {
+      const recContainer = document.getElementById('cart-rec-container');
+      const cartRecSection = document.getElementById('cart-rec-section');
+
+      if (cart.length === 0) {
+        cartRecSection.style.display = 'none';
+        return;
+      }
+
+      cartRecSection.style.display = 'block';
+
+      const cartItemIds = cart.map(c => c.id);
+      let recIds = [];
+
+      cart.forEach(c => {
+        if (c.recommended_ids) recIds.push(...c.recommended_ids);
+      });
+
+      let recs = catalogData.filter(i => recIds.includes(i.id) && !cartItemIds.includes(i.id));
+
+      if (recs.length === 0) {
+        recs = catalogData.filter(i => !cartItemIds.includes(i.id)).slice(0, 5);
+      }
+
+      recContainer.innerHTML = recs.map(r => `
+        <div class="rec-card" onclick="closeModal('cart-modal'); openItemModal('${r.id}');">
+          <img src="${(r.images && r.images.length > 0) ? r.images[0] : ''}" class="rec-card-img" alt="${r.title}">
+          <div class="rec-card-title">${r.title}</div>
+          <div class="rec-card-price">${formatPrice(parsePrice(r.price))}</div>
+          <button class="btn-add-cart-card" style="margin-top: 6px; padding: 6px; font-size: 0.75rem;" onclick="event.stopPropagation(); addToCart('${r.id}')">+ Add to Cart</button>
+        </div>
+      `).join('');
     }
 
     /* Checkout */
@@ -2577,7 +2576,7 @@
       setTimeout(() => toast.classList.remove('show'), 2500);
     }
 
-    /* PRODUCT DETAIL MODAL & NEURAL RECOMMENDATIONS */
+    /* PRODUCT DETAIL MODAL */
     function openItemModal(id) {
       const item = catalogData.find(i => i.id === id);
       if (!item) return;
@@ -2609,68 +2608,7 @@
         closeModal('item-modal');
       };
 
-      // Render Neural Recommendations for this item
-      renderItemRecommendations(item);
-
       document.getElementById('item-modal').classList.add('active');
-    }
-
-    function renderItemRecommendations(item) {
-      const recContainer = document.getElementById('neural-rec-container');
-      let recs = [];
-
-      if (item.recommended_ids && item.recommended_ids.length > 0) {
-        recs = catalogData.filter(i => item.recommended_ids.includes(i.id));
-      }
-
-      // Fallback complementary matching by category if server embedding vector not generated yet
-      if (recs.length === 0) {
-        recs = catalogData.filter(i => i.id !== item.id && i.category.toUpperCase() !== item.category.toUpperCase()).slice(0, 5);
-      }
-
-      recContainer.innerHTML = recs.map(r => `
-        <div class="rec-card" onclick="openItemModal('${r.id}')">
-          <img src="${r.images[0]}" class="rec-card-img" alt="${r.title}">
-          <div class="rec-card-title">${r.title}</div>
-          <div class="rec-card-price">${formatPrice(parsePrice(r.price))}</div>
-          <span class="rec-match-badge">✦ Color & Style Complement</span>
-        </div>
-      `).join('');
-    }
-
-    function renderCartRecommendations() {
-      const recContainer = document.getElementById('cart-rec-container');
-      const cartRecSection = document.getElementById('cart-rec-section');
-
-      if (cart.length === 0) {
-        cartRecSection.style.display = 'none';
-        return;
-      }
-
-      cartRecSection.style.display = 'block';
-
-      // Gather complementary recommendation IDs from items in cart
-      const cartItemIds = cart.map(c => c.id);
-      let recIds = [];
-
-      cart.forEach(c => {
-        if (c.recommended_ids) recIds.push(...c.recommended_ids);
-      });
-
-      let recs = catalogData.filter(i => recIds.includes(i.id) && !cartItemIds.includes(i.id));
-
-      if (recs.length === 0) {
-        recs = catalogData.filter(i => !cartItemIds.includes(i.id)).slice(0, 4);
-      }
-
-      recContainer.innerHTML = recs.map(r => `
-        <div class="rec-card" onclick="closeModal('cart-modal'); openItemModal('${r.id}');">
-          <img src="${r.images[0]}" class="rec-card-img" alt="${r.title}">
-          <div class="rec-card-title">${r.title}</div>
-          <div class="rec-card-price">${formatPrice(parsePrice(r.price))}</div>
-          <button class="btn-add-cart-card" style="margin-top: 6px; padding: 4px; font-size: 0.72rem;" onclick="event.stopPropagation(); addToCart('${r.id}')">+ Add to Cart</button>
-        </div>
-      `).join('');
     }
 
     function updateModalLikeState(id) {
@@ -2915,7 +2853,7 @@
       if (!isStaffLoggedIn) return;
       
       const saveBtn = document.getElementById('save-btn');
-      if (saveBtn) saveBtn.textContent = 'Saving & Running Neural Match...';
+      if (saveBtn) saveBtn.textContent = 'Saving & Computing Complementary Items...';
 
       try {
         const response = await fetch('/api/update-catalog', {
@@ -2925,7 +2863,7 @@
         });
 
         if (response.ok) {
-          showToast('Catalog updated & neural recommendations computed!');
+          showToast('Catalog updated & complementary recommendations saved!');
         }
       } catch (e) {
         // Fallback
