@@ -41,7 +41,7 @@
     "id": "ITEM-004",
     "title": "Dastkari Bespoke BEDS (Page #104)",
     "category": "BEDS",
-    "price": 999720,
+    "price": 100000,
     "dims": "80\" × 70\" × 50\"",
     "images": [
       "./Assets/P1_page_103_1.jpeg"
@@ -49,7 +49,17 @@
     "description": "A bespoke craftsmanship of Dastkari",
     "l": 80,
     "w": 70,
-    "h": 50
+    "h": 50,
+    "care": [
+      {
+        "part": "TEAK",
+        "instruction": "Dust regularly and clean with a damp cloth. Apply teak oil every 6-12 months. Avoid excess moisture and harsh chemicals. Protect from direct sunlight and extreme humidity."
+      },
+      {
+        "part": "FABRIC",
+        "instruction": "Blot spills immediately; clean with mild soap and water. Vacuum regularly and avoid over-wetting. Protect from direct sunlight and sharp objects."
+      }
+    ]
   },
   {
     "id": "ITEM-005",
