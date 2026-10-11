@@ -1377,6 +1377,7 @@
       </div>
     </div>
 
+    <!-- 3 Navigation Dots controlling 6 Alternating Sequence Phases -->
     <div class="hero-nav-dots">
       <div class="hero-dot active" onclick="goToHeroSlide(0)"></div>
       <div class="hero-dot" onclick="goToHeroSlide(1)"></div>
@@ -1786,25 +1787,34 @@
   <div class="toast" id="toast-msg">Item added to cart</div>
 
   <script>
-    /* 1. DUAL SYNCHRONIZED 3D FLIP SLIDESHOW LOGIC (EXACT ALTERNATING LAYOUT) */
+    /* 1. EXACT 6-SLIDE ALTERNATING ROTATION WITH 3 DOTS */
     let currentHeroSlide = 0;
     let heroTimer = null;
     let rotLeft = 0;
     let rotRight = 0;
 
-    // Slide 0: Text Left | Craft 1 Right (Font Left)
-    // Slide 1: Craft 2 Left | Text Right (Font Right)
-    // Slide 2: Craft 3 Left | Text Right (Font Right)
+    // Slide 0: Craft 1 Left | Quote 1 Right
+    // Slide 1: Quote 2 Left | Craft 2 Right
+    // Slide 2: Craft 3 Left | Quote 3 Right
+    // Slide 3: Quote 1 Left | Craft 1 Right
+    // Slide 4: Craft 2 Left | Quote 2 Right
+    // Slide 5: Quote 3 Left | Craft 3 Right
     const SLIDE_LEFT_CONTENTS = [
+      `<img src="./Assets/Craft_1.png" class="hero-img-content" alt="Craft 1" onerror="this.src='https://images.unsplash.com/photo-1544816155-12df9643f363?q=80&w=800'">`,
+      `<div class="hero-text-content"><div class="hero-quote-text">“EMBRACING CONSTRAINTS MAKES DESIGN GRACEFUL”</div></div>`,
+      `<img src="./Assets/Craft_3.png" class="hero-img-content" alt="Craft 3" onerror="this.src='https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?q=80&w=800'">`,
       `<div class="hero-text-content"><div class="hero-quote-text">“THE DETAILS ARE NOT THE DETAILS, THEY MAKE THE DESIGN”</div></div>`,
       `<img src="./Assets/Craft_2.png" class="hero-img-content" alt="Craft 2" onerror="this.src='https://images.unsplash.com/photo-1584992236310-6edddc08acff?q=80&w=800'">`,
-      `<img src="./Assets/Craft_3.png" class="hero-img-content" alt="Craft 3" onerror="this.src='https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?q=80&w=800'">'`
+      `<div class="hero-text-content"><div class="hero-brand-title">DASTKARI</div><div class="hero-brand-author">By Nawazish Kirmani</div></div>`
     ];
 
     const SLIDE_RIGHT_CONTENTS = [
+      `<div class="hero-text-content"><div class="hero-quote-text">“THE DETAILS ARE NOT THE DETAILS, THEY MAKE THE DESIGN”</div></div>`,
+      `<img src="./Assets/Craft_2.png" class="hero-img-content" alt="Craft 2" onerror="this.src='https://images.unsplash.com/photo-1584992236310-6edddc08acff?q=80&w=800'">`,
+      `<div class="hero-text-content"><div class="hero-brand-title">DASTKARI</div><div class="hero-brand-author">By Nawazish Kirmani</div></div>`,
       `<img src="./Assets/Craft_1.png" class="hero-img-content" alt="Craft 1" onerror="this.src='https://images.unsplash.com/photo-1544816155-12df9643f363?q=80&w=800'">`,
       `<div class="hero-text-content"><div class="hero-quote-text">“EMBRACING CONSTRAINTS MAKES DESIGN GRACEFUL”</div></div>`,
-      `<div class="hero-text-content"><div class="hero-brand-title">DASTKARI</div><div class="hero-brand-author">By Nawazish Kirmani</div></div>`
+      `<img src="./Assets/Craft_3.png" class="hero-img-content" alt="Craft 3" onerror="this.src='https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?q=80&w=800'">'`
     ];
 
     function initHeroSlideshow() {
@@ -1820,7 +1830,7 @@
     function startHeroTimer() {
       if (heroTimer) clearInterval(heroTimer);
       heroTimer = setInterval(() => {
-        const nextIndex = (currentHeroSlide + 1) % 3;
+        const nextIndex = (currentHeroSlide + 1) % 6;
         goToHeroSlide(nextIndex);
       }, 5000);
     }
@@ -1837,8 +1847,10 @@
       const rightFront = document.getElementById('right-face-front');
       const rightBack = document.getElementById('right-face-back');
 
+      // 3 dots mapping to 6 slides
       const dots = document.querySelectorAll('.hero-dot');
-      dots.forEach((d, i) => d.classList.toggle('active', i === index));
+      const activeDotIndex = index % 3;
+      dots.forEach((d, i) => d.classList.toggle('active', i === activeDotIndex));
 
       const isFrontVisible = (rotLeft / 180) % 2 === 0;
 
@@ -1928,7 +1940,7 @@
         updateOrdersBadge();
         setupSmoothDragScroll();
 
-        // Deep link handler (e.g. ?item=ITEM-102)
+        // Deep link handler
         const urlParams = new URLSearchParams(window.location.search);
         const sharedItemId = urlParams.get('item');
         if (sharedItemId) {
@@ -2529,7 +2541,7 @@
         <div style="display: flex; align-items: center; gap: 10px; margin-top: 10px; padding-top: 10px; border-top: 1px dashed #e0e0e0;">
           <label style="font-size: 0.8rem; font-weight: 700; color: #333;">Update Stage:</label>
           <select class="staff-status-select" onchange="updateOrderStatus('${ord.id}', this.value)">
-            ${ORDER_STAGES.map(s => `<option value="${s}" ${s === ord.status ? 'selected' : ''}>${s}</option>`).join('')}
+            ${ORDER_STAGES.map(s => `<option value="\${s}" ${s === ord.status ? 'selected' : ''}>${s}</option>`).join('')}
           </select>
         </div>
       ` : '';
