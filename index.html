@@ -1599,7 +1599,7 @@
       <div class="recommender-section" id="cart-rec-section">
         <div class="recommender-header">
           <div class="recommender-title">
-            <span>Pairs Well With (Tone & Room Matched)</span>
+            <span>Pairs Well With</span>
           </div>
         </div>
         <div class="recommendations-scroll-grid" id="cart-rec-container"></div>
@@ -1891,15 +1891,20 @@
 
     // ROOM CONTEXT & COMPATIBILITY MATRIX
     const ROOM_COMPATIBILITY_MAP = {
-      'BEDS': ['ARMCHAIRS', 'POUFFE / OTTOMAN', 'BENCH', 'CONSOLES', 'STORAGE / CREDENZA', 'STUDY/OFFICE DESKS', 'OCCASIONAL TABLES'],
-      'DAY BED / COT': ['ARMCHAIRS', 'POUFFE / OTTOMAN', 'BENCH', 'COFFEE TABLES', 'CONSOLES'],
-      'SOFAS': ['COFFEE TABLES', 'ARMCHAIRS', 'POUFFE / OTTOMAN', 'MEDIA CONSOLES', 'FLOOR SEATING', 'OCCASIONAL TABLES', 'CONSOLES'],
+      'BEDS': ['BENCH', 'POUFFE / OTTOMAN', 'CONSOLES', 'OCCASIONAL TABLES', 'STORAGE / CREDENZA', 'ARMCHAIRS', 'STUDY/OFFICE DESKS'],
+      'DAY BED / COT': ['POUFFE / OTTOMAN', 'BENCH', 'ARMCHAIRS', 'COFFEE TABLES', 'CONSOLES'],
+      'SOFAS': ['COFFEE TABLES', 'POUFFE / OTTOMAN', 'MEDIA CONSOLES', 'ARMCHAIRS', 'FLOOR SEATING', 'OCCASIONAL TABLES'],
       'COFFEE TABLES': ['SOFAS', 'ARMCHAIRS', 'POUFFE / OTTOMAN', 'MEDIA CONSOLES'],
-      'DINING TABLES': ['CHAIRS', 'BAR STOOLS & TABLES', 'STORAGE / CREDENZA', 'CABINETS'],
-      'STUDY/OFFICE DESKS': ['CHAIRS', 'ARMCHAIRS', 'CABINETS', 'STORAGE / CREDENZA']
+      'DINING TABLES': ['CHAIRS', 'STORAGE / CREDENZA', 'BAR STOOLS & TABLES', 'CABINETS'],
+      'STUDY/OFFICE DESKS': ['CHAIRS', 'ARMCHAIRS', 'STORAGE / CREDENZA', 'CABINETS']
     };
 
-    const TONE_KEYWORDS = ['cane', 'rattan', 'walnut', 'teak', 'black', 'oak', 'fabric', 'velvet', 'brass', 'leather', 'wood', 'gold'];
+    // Tone & Material Palette Families
+    const TONE_FAMILIES = {
+      LIGHT_NEUTRAL: ['cane', 'rattan', 'oak', 'teak', 'beige', 'light', 'cream', 'boucle', 'bouclé', 'natural', 'white', 'linen', 'ash'],
+      DARK_WOOD: ['walnut', 'dark', 'espresso', 'black', 'charcoal', 'ebony'],
+      ACCENT_WARM: ['yellow', 'mustard', 'orange', 'rust', 'amber']
+    };
 
     let catalogData = [];
     let cart = [];
@@ -2382,7 +2387,7 @@
       document.getElementById('checkout-subtotal').textContent = formatPrice(totalSum);
     }
 
-    /* TONE & ROOM-COMPATIBLE RECOMMENDATION ENGINE */
+    /* BALANCED DIVERSIFIED RECOMMENDATION ENGINE */
     function renderCartRecommendations() {
       const recContainer = document.getElementById('cart-rec-container');
       const cartRecSection = document.getElementById('cart-rec-section');
@@ -2397,16 +2402,17 @@
       const cartItemIds = cart.map(c => c.id);
       const cartCategories = cart.map(c => c.category.toUpperCase());
 
-      // Collect dominant color/material keywords present in cart items
-      let cartTones = new Set();
+      // Identify active tone family from cart items
+      let isLightNeutral = false;
+      let isDarkWood = false;
+
       cart.forEach(c => {
         const text = (c.title + ' ' + (c.description || '')).toLowerCase();
-        TONE_KEYWORDS.forEach(kw => {
-          if (text.includes(kw)) cartTones.add(kw);
-        });
+        TONE_FAMILIES.LIGHT_NEUTRAL.forEach(kw => { if (text.includes(kw)) isLightNeutral = true; });
+        TONE_FAMILIES.DARK_WOOD.forEach(kw => { if (text.includes(kw)) isDarkWood = true; });
       });
 
-      // Filter catalog: Strictly exclude items matching cart categories
+      // Filter candidates to strictly exclude items matching cart categories
       let candidateItems = catalogData.filter(item => {
         const itemCat = item.category.toUpperCase();
         return !cartItemIds.includes(item.id) && !cartCategories.includes(itemCat);
@@ -2425,7 +2431,7 @@
         compatibleItems = candidateItems;
       }
 
-      // Score candidates by tone and aesthetic keyword overlap
+      // Rank by tone closeness (penalize jarring bright accents if bed is neutral/wood)
       compatibleItems.sort((a, b) => {
         const textA = (a.title + ' ' + (a.description || '')).toLowerCase();
         const textB = (b.title + ' ' + (b.description || '')).toLowerCase();
@@ -2433,15 +2439,50 @@
         let scoreA = 0;
         let scoreB = 0;
 
-        cartTones.forEach(tone => {
-          if (textA.includes(tone)) scoreA += 2;
-          if (textB.includes(tone)) scoreB += 2;
-        });
+        if (isLightNeutral) {
+          TONE_FAMILIES.LIGHT_NEUTRAL.forEach(kw => {
+            if (textA.includes(kw)) scoreA += 3;
+            if (textB.includes(kw)) scoreB += 3;
+          });
+          // Penalize high-contrast warm accents
+          TONE_FAMILIES.ACCENT_WARM.forEach(kw => {
+            if (textA.includes(kw)) scoreA -= 5;
+            if (textB.includes(kw)) scoreB -= 5;
+          });
+        }
+
+        if (isDarkWood) {
+          TONE_FAMILIES.DARK_WOOD.forEach(kw => {
+            if (textA.includes(kw)) scoreA += 3;
+            if (textB.includes(kw)) scoreB += 3;
+          });
+        }
 
         return scoreB - scoreA;
       });
 
-      const finalRecs = compatibleItems.slice(0, 5);
+      // ENFORCE CATEGORY DIVERSITY: Max 1 item per category
+      const finalRecs = [];
+      const usedCategories = new Set();
+
+      for (const item of compatibleItems) {
+        const cat = item.category.toUpperCase();
+        if (!usedCategories.has(cat)) {
+          finalRecs.push(item);
+          usedCategories.add(cat);
+        }
+        if (finalRecs.length >= 5) break;
+      }
+
+      // Fill remaining slots if fewer than 5 unique categories exist
+      if (finalRecs.length < 5) {
+        for (const item of compatibleItems) {
+          if (!finalRecs.some(r => r.id === item.id)) {
+            finalRecs.push(item);
+          }
+          if (finalRecs.length >= 5) break;
+        }
+      }
 
       if (finalRecs.length === 0) {
         cartRecSection.style.display = 'none';
