@@ -10,6 +10,10 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700&display=swap" rel="stylesheet">
 
+  <!-- Leaflet Map CSS & JS for Uber-Style Interactive Location Picker -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
   <style>
     * {
       box-sizing: border-box;
@@ -801,16 +805,17 @@
 
     .staff-card-actions {
       display: flex;
-      gap: 8px;
+      gap: 6px;
       margin-top: 6px;
       padding-top: 6px;
       border-top: 1px dashed #cccccc;
+      flex-wrap: wrap;
     }
 
     .btn-card-edit {
       flex: 1;
-      padding: 6px 10px;
-      font-size: 0.75rem;
+      padding: 6px 8px;
+      font-size: 0.72rem;
       font-weight: 600;
       border-radius: 6px;
       border: 1.5px solid #222222;
@@ -821,8 +826,8 @@
 
     .btn-card-delete {
       flex: 1;
-      padding: 6px 10px;
-      font-size: 0.75rem;
+      padding: 6px 8px;
+      font-size: 0.72rem;
       font-weight: 600;
       border-radius: 6px;
       border: 1.5px solid #d9534f;
@@ -833,6 +838,24 @@
 
     .btn-card-delete:hover {
       background: #d9534f;
+      color: #ffffff;
+    }
+
+    .btn-card-reset-likes {
+      width: 100%;
+      padding: 5px 8px;
+      font-size: 0.7rem;
+      font-weight: 600;
+      border-radius: 4px;
+      border: 1.5px solid #888888;
+      background: #f4f4f4;
+      color: #333333;
+      cursor: pointer;
+      margin-top: 2px;
+    }
+
+    .btn-card-reset-likes:hover {
+      background: #333333;
       color: #ffffff;
     }
 
@@ -990,7 +1013,7 @@
       border-color: #222222;
     }
 
-    /* CART RECOMMENDATIONS STRIP */
+    /* CART RECOMMENDATIONS STRIP WITH HIDDEN SCROLLBAR & NAV ARROWS */
     .recommender-section {
       width: 100%;
       margin: 20px 0;
@@ -1036,6 +1059,14 @@
       overflow-x: auto;
       padding-bottom: 10px;
       scroll-behavior: smooth;
+      -ms-overflow-style: none !important;
+      scrollbar-width: none !important;
+    }
+
+    .recommendations-scroll-grid::-webkit-scrollbar {
+      display: none !important;
+      width: 0 !important;
+      height: 0 !important;
     }
 
     .rec-card {
@@ -1079,7 +1110,7 @@
       margin-top: 2px;
     }
 
-    /* FULLSCREEN CART MODAL */
+    /* FULLSCREEN CART MODAL & FADE OUT REMOVAL ANIMATION */
     #cart-modal .modal-container {
       width: 100vw !important;
       height: 100vh !important;
@@ -1121,6 +1152,14 @@
       border: 1.5px solid #e0e0e0;
       border-radius: 8px;
       gap: 20px;
+      transition: opacity 0.4s ease, transform 0.4s ease, max-height 0.4s ease;
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    .cart-item-row.removing {
+      opacity: 0;
+      transform: translateX(30px);
     }
 
     .cart-item-info {
@@ -1186,6 +1225,56 @@
       padding-bottom: 10px;
       flex-wrap: wrap;
       gap: 10px;
+    }
+
+    /* RICH ORDER ITEMS CARDS IN STAFF VIEW */
+    .order-item-cards-grid {
+      display: flex;
+      gap: 12px;
+      overflow-x: auto;
+      padding: 10px 0;
+      -ms-overflow-style: none !important;
+      scrollbar-width: none !important;
+    }
+
+    .order-item-cards-grid::-webkit-scrollbar {
+      display: none !important;
+    }
+
+    .mini-order-card {
+      min-width: 140px;
+      max-width: 160px;
+      border: 1px solid #e0e0e0;
+      border-radius: 6px;
+      padding: 8px;
+      background: #fafafa;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      flex-shrink: 0;
+    }
+
+    .mini-order-card img {
+      width: 100%;
+      height: 90px;
+      object-fit: cover;
+      border-radius: 4px;
+    }
+
+    .mini-order-card-title {
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: #111;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .mini-order-card-meta {
+      font-size: 0.72rem;
+      color: #666;
+      display: flex;
+      justify-content: space-between;
     }
 
     .order-status-badge {
@@ -1612,11 +1701,15 @@
 
       <div class="cart-items-wrapper" id="cart-items-container"></div>
 
-      <!-- CART RECOMMENDATIONS STRIP -->
+      <!-- CART RECOMMENDATIONS STRIP WITH HIDDEN SCROLLBAR & ARROW CONTROLS -->
       <div class="recommender-section" id="cart-rec-section">
         <div class="recommender-header">
           <div class="recommender-title">PAIRS WELL WITH</div>
-          <button id="btn-show-more-recs" class="btn-show-more" onclick="showMoreRecs()">Show More +</button>
+          <div style="display: flex; gap: 8px; align-items: center;">
+            <button class="nav-btn" onclick="scrollRecs(-240)" style="padding: 4px 12px; font-size: 0.9rem;">&larr;</button>
+            <button class="nav-btn" onclick="scrollRecs(240)" style="padding: 4px 12px; font-size: 0.9rem;">&rarr;</button>
+            <button id="btn-show-more-recs" class="btn-show-more" onclick="showMoreRecs()">Show More +</button>
+          </div>
         </div>
         <div class="recommendations-scroll-grid" id="cart-rec-container"></div>
       </div>
@@ -1630,9 +1723,9 @@
     </div>
   </div>
 
-  <!-- CHECKOUT MODAL -->
+  <!-- CHECKOUT MODAL WITH INTERACTIVE UBER-STYLE MAP LOCATION PICKER -->
   <div class="modal-overlay" id="checkout-modal">
-    <div class="modal-container" style="max-width: 500px;">
+    <div class="modal-container" style="max-width: 550px;">
       <button class="modal-close-btn" onclick="closeModal('checkout-modal')">&times;</button>
       <h2 style="text-align: center; font-size: 1.4rem; margin-bottom: 10px;">Order Checkout</h2>
       
@@ -1642,15 +1735,22 @@
           <input type="text" id="chk-name" class="login-input" required placeholder="John Doe">
         </div>
         <div>
-          <label class="form-label">Delivery Address</label>
-          <textarea id="chk-address" class="login-input" required placeholder="Enter full shipping address..." rows="3"></textarea>
-        </div>
-        <div>
           <label class="form-label">Phone Number (Registered)</label>
           <input type="tel" id="chk-phone" class="login-input" required placeholder="+91 98765 43210">
         </div>
-        
-        <div style="background: #f8f9fa; padding: 12px; border-radius: 6px; margin: 10px 0;">
+
+        <div>
+          <label class="form-label">Delivery Location (Pin on Map like Uber)</label>
+          <div id="checkout-map" style="height: 200px; width: 100%; border-radius: 8px; border: 1.5px solid #222222; margin-top: 6px;"></div>
+          <p style="font-size: 0.72rem; color: #666; margin-top: 4px;">Click or drag marker to set exact delivery address</p>
+        </div>
+
+        <div>
+          <label class="form-label">Delivery Address</label>
+          <textarea id="chk-address" class="login-input" required placeholder="Selected address will automatically appear here..." rows="2"></textarea>
+        </div>
+
+        <div style="background: #f8f9fa; padding: 12px; border-radius: 6px; margin: 6px 0;">
           <div style="display: flex; justify-content: space-between; font-weight: 600;">
             <span>Subtotal:</span>
             <span id="checkout-subtotal">₹0</span>
@@ -2012,7 +2112,6 @@
       else if (candidateTone.h >= 20 && candidateTone.h <= 50 && candidateTone.s >= 20) score = 800;
       else if (minHueDiff > 140 && minHueDiff < 220) score = 700;
 
-      // Add a mild deterministic offset based on item ID so candidate order varies across different cart items
       let hash = 0;
       for (let i = 0; i < itemId.length; i++) hash += itemId.charCodeAt(i);
       score += (hash % 100);
@@ -2047,6 +2146,8 @@
     let pendingActionAfterLogin = null;
 
     let currentUploadedImages = [];
+    let checkoutMap = null;
+    let mapMarker = null;
 
     const grid = document.getElementById('catalog-grid');
     const pillsWrapper = document.getElementById('pills-wrapper');
@@ -2121,7 +2222,14 @@
       return p ? p.toString().replace(/[^0-9]/g, '') : '';
     }
 
+    /* REQUIRE SIGN IN TO LIKE/SAVE AN OBJECT */
     function toggleLike(itemId) {
+      if (!currentCustomer || !cleanPhone(currentCustomer.phone)) {
+        if (currentActiveItemId) closeModal('item-modal');
+        openCustomerAuthModal('You must sign in to save or like items in your account.');
+        return;
+      }
+
       const idx = userLikes.indexOf(itemId);
       if (idx > -1) {
         userLikes.splice(idx, 1);
@@ -2135,6 +2243,22 @@
 
       if (currentActiveItemId === itemId) {
         updateModalLikeState(itemId);
+      }
+    }
+
+    /* STAFF RESET/REMOVE LIKES FOR AN OBJECT */
+    function resetItemLikes(itemId, event) {
+      if (event) event.stopPropagation();
+      if (!isStaffLoggedIn) return;
+
+      if (confirm('Staff Action: Reset/Remove all saved likes for this item?')) {
+        userLikes = userLikes.filter(id => id !== itemId);
+        localStorage.setItem('dastkari_user_likes', JSON.stringify(userLikes));
+        showToast('Item likes cleared by Staff');
+        renderGrid();
+        if (currentActiveItemId === itemId) {
+          updateModalLikeState(itemId);
+        }
       }
     }
 
@@ -2377,6 +2501,7 @@
             <div class="staff-card-actions" onclick="event.stopPropagation()">
               <button class="btn-card-edit" onclick="openEditModal('${item.id}')">Edit</button>
               <button class="btn-card-delete" onclick="deleteItem('${item.id}')">Delete</button>
+              <button class="btn-card-reset-likes" onclick="resetItemLikes('${item.id}', event)">Clear Saved Likes</button>
             </div>
           ` : '';
 
@@ -2440,7 +2565,8 @@
       if (idx > -1) {
         cart[idx].qty += change;
         if (cart[idx].qty <= 0) {
-          cart.splice(idx, 1);
+          removeFromCart(idx);
+          return;
         }
         recLimit = 5;
         updateCartUI();
@@ -2452,7 +2578,8 @@
     function updateCartQty(index, change) {
       cart[index].qty += change;
       if (cart[index].qty <= 0) {
-        cart.splice(index, 1);
+        removeFromCart(index);
+        return;
       }
       recLimit = 5;
       updateCartUI();
@@ -2460,12 +2587,25 @@
       renderGrid();
     }
 
+    /* REMOVE FROM CART WITH 0.4s FADING ANIMATION */
     function removeFromCart(index) {
-      cart.splice(index, 1);
-      recLimit = 5;
-      updateCartUI();
-      renderCartRecommendations();
-      renderGrid();
+      const rows = document.querySelectorAll('.cart-item-row');
+      if (rows && rows[index]) {
+        rows[index].classList.add('removing');
+        setTimeout(() => {
+          cart.splice(index, 1);
+          recLimit = 5;
+          updateCartUI();
+          renderCartRecommendations();
+          renderGrid();
+        }, 400);
+      } else {
+        cart.splice(index, 1);
+        recLimit = 5;
+        updateCartUI();
+        renderCartRecommendations();
+        renderGrid();
+      }
     }
 
     function updateCartUI() {
@@ -2518,10 +2658,17 @@
       document.getElementById('checkout-subtotal').textContent = formatPrice(totalSum);
     }
 
-    /* SHOW MORE RECOMMENDATIONS HANDLER */
+    /* SHOW MORE RECOMMENDATIONS & SMOOTH ARROW SCROLL */
     function showMoreRecs() {
       recLimit += 5;
       renderCartRecommendations();
+    }
+
+    function scrollRecs(offset) {
+      const container = document.getElementById('cart-rec-container');
+      if (container) {
+        container.scrollBy({ left: offset, behavior: 'smooth' });
+      }
     }
 
     /* DYNAMIC RECOMMENDATION ENGINE */
@@ -2540,10 +2687,8 @@
       const cartItemIds = cart.map(c => c.id);
       const cartCategories = cart.map(c => c.category.toUpperCase());
 
-      // Primary Anchor Item
       const anchorItem = cart.find(c => c.category.toUpperCase().includes('BED')) || cart[0];
 
-      // Candidate Items Exclusion (Filter out items already in cart or belonging to the same category)
       let candidateItems = catalogData.filter(item => {
         const itemCat = item.category.toUpperCase();
         return !cartItemIds.includes(item.id) && !cartCategories.includes(itemCat);
@@ -2574,7 +2719,6 @@
             if (processedCount === compatibleItems.length) {
               compatibleItems.sort((a, b) => candidateScores.get(b.id) - candidateScores.get(a.id));
 
-              // Display Candidates according to recLimit
               const visibleRecs = compatibleItems.slice(0, recLimit);
 
               if (showMoreBtn) {
@@ -2599,7 +2743,7 @@
       });
     }
 
-    /* Checkout */
+    /* CHECKOUT & INTERACTIVE LEAFLET LOCATION MAP PICKER */
     function openCheckoutModal() {
       if (cart.length === 0) {
         alert('Your cart is empty!');
@@ -2618,6 +2762,53 @@
       document.getElementById('chk-phone').value = currentCustomer.phone || '';
 
       document.getElementById('checkout-modal').classList.add('active');
+
+      // Initialize Interactive Leaflet Map
+      setTimeout(() => {
+        initCheckoutMap();
+      }, 300);
+    }
+
+    function initCheckoutMap() {
+      const mapContainer = document.getElementById('checkout-map');
+      if (!mapContainer) return;
+
+      const defaultLat = 17.3850;
+      const defaultLng = 78.4867;
+
+      if (!checkoutMap) {
+        checkoutMap = L.map('checkout-map').setView([defaultLat, defaultLng], 12);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+          maxZoom: 19,
+          attribution: '© OpenStreetMap'
+        }).addTo(checkoutMap);
+
+        mapMarker = L.marker([defaultLat, defaultLng], { draggable: true }).addTo(checkoutMap);
+
+        function updateAddressFromCoords(lat, lng) {
+          document.getElementById('chk-address').value = `Selected Location Coordinates: ${lat.toFixed(5)}, ${lng.toFixed(5)}`;
+          fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}`)
+            .then(res => res.json())
+            .then(data => {
+              if (data && data.display_name) {
+                document.getElementById('chk-address').value = data.display_name;
+              }
+            })
+            .catch(() => {});
+        }
+
+        mapMarker.on('dragend', function(e) {
+          const position = e.target.getLatLng();
+          updateAddressFromCoords(position.lat, position.lng);
+        });
+
+        checkoutMap.on('click', function(e) {
+          mapMarker.setLatLng(e.latlng);
+          updateAddressFromCoords(e.latlng.lat, e.latlng.lng);
+        });
+      } else {
+        checkoutMap.invalidateSize();
+      }
     }
 
     function handleCheckout(e) {
@@ -2700,10 +2891,10 @@
       container.innerHTML = custOrders.map(ord => renderOrderCardHTML(ord, false)).join('');
     }
 
+    /* RENDER ORDER CARD WITH RICH ITEM CARDS IN STAFF VIEW & STAFF DELETION */
     function renderOrderCardHTML(ord, isStaff = false) {
       const currentStageIndex = ORDER_STAGES.indexOf(ord.status) !== -1 ? ORDER_STAGES.indexOf(ord.status) : 0;
       const progressPercent = (currentStageIndex / (ORDER_STAGES.length - 1)) * 80;
-      const itemsListStr = ord.items.map(i => `${i.title} (x${i.qty})`).join(', ');
 
       const trackerStepsHTML = ORDER_STAGES.map((stage, idx) => {
         let stepClass = '';
@@ -2718,12 +2909,27 @@
         `;
       }).join('');
 
-      const staffSelectHTML = isStaff ? `
-        <div style="display: flex; align-items: center; gap: 10px; margin-top: 10px; padding-top: 10px; border-top: 1px dashed #e0e0e0;">
-          <label style="font-size: 0.8rem; font-weight: 700; color: #333;">Update Stage:</label>
-          <select class="staff-status-select" onchange="updateOrderStatus('${ord.id}', this.value)">
-            ${ORDER_STAGES.map(s => `<option value="\${s}" ${s === ord.status ? 'selected' : ''}>${s}</option>`).join('')}
-          </select>
+      /* RICH ITEM CARDS IN STAFF VIEW */
+      const itemCardsHTML = ord.items.map(item => `
+        <div class="mini-order-card">
+          <img src="${item.image || 'https://via.placeholder.com/140'}" alt="${item.title}">
+          <div class="mini-order-card-title">${item.title}</div>
+          <div class="mini-order-card-meta">
+            <span>Qty: ${item.qty}</span>
+            <span>${formatPrice(item.price)}</span>
+          </div>
+        </div>
+      `).join('');
+
+      const staffActionsHTML = isStaff ? `
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-top: 10px; padding-top: 10px; border-top: 1px dashed #e0e0e0; flex-wrap: wrap; gap: 10px;">
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <label style="font-size: 0.8rem; font-weight: 700; color: #333;">Stage:</label>
+            <select class="staff-status-select" onchange="updateOrderStatus('${ord.id}', this.value)">
+              ${ORDER_STAGES.map(s => `<option value="\${s}" ${s === ord.status ? 'selected' : ''}>${s}</option>`).join('')}
+            </select>
+          </div>
+          <button class="btn-card-delete" style="flex: none; padding: 6px 14px;" onclick="deleteOrder('${ord.id}')">Delete Order</button>
         </div>
       ` : '';
 
@@ -2749,13 +2955,28 @@
           <div style="font-size: 0.88rem; display: flex; flex-direction: column; gap: 4px; color: #444;">
             <div><strong>Customer:</strong> ${ord.name} (${ord.phone})</div>
             <div><strong>Delivery Address:</strong> ${ord.address}</div>
-            <div><strong>Items:</strong> ${itemsListStr}</div>
-            <div style="font-weight: 700; color: #111; margin-top: 4px; font-size: 0.95rem;">Total: ${formatPrice(ord.total)}</div>
+            <div style="font-weight: 700; margin-top: 6px;">Ordered Items:</div>
+            <div class="order-item-cards-grid">
+              ${itemCardsHTML}
+            </div>
+            <div style="font-weight: 700; color: #111; margin-top: 4px; font-size: 0.95rem;">Total Amount: ${formatPrice(ord.total)}</div>
           </div>
 
-          ${staffSelectHTML}
+          ${staffActionsHTML}
         </div>
       `;
+    }
+
+    /* STAFF DELETE ORDER FUNCTION */
+    function deleteOrder(orderId) {
+      if (!isStaffLoggedIn) return;
+      if (confirm(`Staff Action: Are you sure you want to delete order ${orderId}?`)) {
+        orders = orders.filter(o => o.id !== orderId);
+        localStorage.setItem('dastkari_orders', JSON.stringify(orders));
+        renderOrdersList();
+        renderCustomerOrdersList();
+        showToast(`Order ${orderId} deleted successfully`);
+      }
     }
 
     /* STAFF ORDERS SYSTEM */
