@@ -1891,22 +1891,12 @@
 
     // ROOM CONTEXT & COMPATIBILITY MATRIX
     const ROOM_COMPATIBILITY_MAP = {
-      'BEDS': ['BENCH', 'CONSOLES', 'OCCASIONAL TABLES', 'STORAGE / CREDENZA', 'POUFFE / OTTOMAN', 'ARMCHAIRS', 'STUDY/OFFICE DESKS'],
+      'BEDS': ['CONSOLES', 'OCCASIONAL TABLES', 'STUDY/OFFICE DESKS', 'ARMCHAIRS', 'STORAGE / CREDENZA', 'BENCH', 'POUFFE / OTTOMAN'],
       'DAY BED / COT': ['POUFFE / OTTOMAN', 'BENCH', 'ARMCHAIRS', 'COFFEE TABLES', 'CONSOLES'],
       'SOFAS': ['COFFEE TABLES', 'POUFFE / OTTOMAN', 'MEDIA CONSOLES', 'ARMCHAIRS', 'FLOOR SEATING', 'OCCASIONAL TABLES'],
       'COFFEE TABLES': ['SOFAS', 'ARMCHAIRS', 'POUFFE / OTTOMAN', 'MEDIA CONSOLES'],
       'DINING TABLES': ['CHAIRS', 'STORAGE / CREDENZA', 'BAR STOOLS & TABLES', 'CABINETS'],
       'STUDY/OFFICE DESKS': ['CHAIRS', 'ARMCHAIRS', 'STORAGE / CREDENZA', 'CABINETS']
-    };
-
-    // 6 GRANULAR TONE & MATERIAL FAMILIES
-    const TONE_FAMILIES = {
-      NATURAL_WOOD: ['oak', 'teak', 'cane', 'rattan', 'natural', 'ash', 'pine', 'honey', 'birch', 'wood', 'dastkari'],
-      CREAM_BEIGE: ['cream', 'beige', 'boucle', 'bouclé', 'ivory', 'linen', 'white', 'alabaster', 'off-white'],
-      DARK_WALNUT: ['walnut', 'espresso', 'black', 'charcoal', 'ebony', 'dark', 'slate'],
-      EARTH_LEATHER: ['rust', 'terracotta', 'brick', 'cognac', 'caramel', 'leather', 'brown', 'tan'],
-      JEWEL_WINE: ['wine', 'plum', 'burgundy', 'maroon', 'velvet', 'navy', 'emerald'],
-      BRIGHT_ACCENT: ['yellow', 'mustard', 'ochre', 'orange', 'canary', 'red']
     };
 
     let catalogData = [];
@@ -1998,20 +1988,25 @@
       return p ? p.toString().replace(/[^0-9]/g, '') : '';
     }
 
-    /* Helper: Evaluates an item's primary color family strictly */
+    /* Helper: Evaluates an item's primary color/material family strictly */
     function getItemColorFamily(item) {
       if (item.colorFamily) return item.colorFamily.toUpperCase();
 
-      const fullText = ((item.title || '') + ' ' + (item.description || '') + ' ' + (item.category || '')).toLowerCase();
+      const fullText = ((item.title || '') + ' ' + (item.description || '') + ' ' + (item.category || '') + ' ' + (item.id || '')).toLowerCase();
 
-      for (const [famName, keywords] of Object.entries(TONE_FAMILIES)) {
-        if (famName === 'NATURAL_WOOD') continue; // Check specific accent colors first
-        if (keywords.some(kw => fullText.includes(kw))) {
-          return famName;
-        }
+      if (['walnut', 'espresso', 'dark', 'ebony', 'slate'].some(kw => fullText.includes(kw))) {
+        return 'DARK_WALNUT';
+      }
+      if (['black', 'charcoal', 'pitch', 'black-leather'].some(kw => fullText.includes(kw))) {
+        return 'BLACK_DARK';
+      }
+      if (['cream', 'beige', 'boucle', 'bouclé', 'ivory', 'white', 'linen', 'armchair'].some(kw => fullText.includes(kw))) {
+        return 'CREAM_BEIGE';
+      }
+      if (['oak', 'teak', 'cane', 'wood', 'natural', 'ash', 'console', 'desk', 'table'].some(kw => fullText.includes(kw))) {
+        return 'NATURAL_WOOD';
       }
 
-      // Default to Natural Wood / Cream Neutral for natural oak beds
       return 'NATURAL_WOOD';
     }
 
@@ -2407,7 +2402,7 @@
       document.getElementById('checkout-subtotal').textContent = formatPrice(totalSum);
     }
 
-    /* COLOR SORTED RECOMMENDATION ENGINE WITH STRICT HARMONY RULES */
+    /* DYNAMIC PALETTE RECOMMENDATION SCORING ENGINE */
     function renderCartRecommendations() {
       const recContainer = document.getElementById('cart-rec-container');
       const cartRecSection = document.getElementById('cart-rec-section');
@@ -2422,13 +2417,17 @@
       const cartItemIds = cart.map(c => c.id);
       const cartCategories = cart.map(c => c.category.toUpperCase());
 
-      // Filter candidates to strictly exclude items matching cart categories or already in cart
+      // 1. Detect if the bed in cart is Light Wood or Dark Walnut
+      const bedInCart = cart.find(c => c.category.toUpperCase().includes('BED'));
+      const bedColorFamily = bedInCart ? getItemColorFamily(bedInCart) : 'NATURAL_WOOD';
+      const isDarkBed = bedColorFamily === 'DARK_WALNUT' || bedColorFamily === 'BLACK_DARK';
+
+      // 2. Filter candidates
       let candidateItems = catalogData.filter(item => {
         const itemCat = item.category.toUpperCase();
         return !cartItemIds.includes(item.id) && !cartCategories.includes(itemCat);
       });
 
-      // Check room compatibility matrix
       let compatibleItems = candidateItems.filter(item => {
         const itemCat = item.category.toUpperCase();
         return cartCategories.some(cartCat => {
@@ -2441,25 +2440,31 @@
         compatibleItems = candidateItems;
       }
 
-      // 2. Score candidates strictly penalizing bright accents/wine colors for light beds
+      // 3. Score candidates dynamically based on bed color family
       compatibleItems.sort((a, b) => {
         function getItemScore(item) {
           const colFam = getItemColorFamily(item);
           let score = 0;
 
-          // Natural Oak / Cream Neutrals match (+100)
-          if (colFam === 'NATURAL_WOOD' || colFam === 'CREAM_BEIGE') {
-            score += 100;
-          } else if (colFam === 'DARK_WALNUT') {
-            score += 50; // Complementary contrast
-          } else {
-            // Heavy penalty for clashing colors (Mustard Armchair, Rust Pouffe, Maroon Bench)
-            score -= 100;
-          }
+          // Category priority
+          const cat = item.category.toUpperCase();
+          if (cat === 'CONSOLES') score += 300;
+          if (cat === 'OCCASIONAL TABLES') score += 250;
+          if (cat === 'STUDY/OFFICE DESKS') score += 200;
+          if (cat === 'ARMCHAIRS') score += 180;
 
-          // Hash tie-breaker to prevent sequential tie lock-in
-          const idHash = (item.id || item.title || '').split('').reduce((acc, ch) => acc + ch.charCodeAt(0), 0);
-          score += (idHash % 10);
+          if (isDarkBed) {
+            // SCORING FOR DARK WALNUT / BLACK BEDS
+            if (colFam === 'DARK_WALNUT') score += 1000;       // Direct wood match
+            else if (colFam === 'CREAM_BEIGE') score += 800;  // High-contrast bouclé accent
+            else if (colFam === 'BLACK_DARK') score += 600;   // Dark complementary accent
+            else if (colFam === 'NATURAL_WOOD') score += 200; // Lower priority pale wood
+          } else {
+            // SCORING FOR LIGHT / NATURAL OAK BEDS
+            if (colFam === 'NATURAL_WOOD' || colFam === 'CREAM_BEIGE') score += 1000;
+            else if (colFam === 'DARK_WALNUT') score += 200;
+            else if (colFam === 'BLACK_DARK') score -= 500;   // Demote black items
+          }
 
           return score;
         }
@@ -2467,7 +2472,7 @@
         return getItemScore(b) - getItemScore(a);
       });
 
-      // 3. ENFORCE CATEGORY DIVERSITY: Max 1 item per category
+      // 4. Enforce 1 item per category for diversity
       const finalRecs = [];
       const usedCategories = new Set();
 
@@ -2480,7 +2485,6 @@
         if (finalRecs.length >= 5) break;
       }
 
-      // Fill remaining slots if fewer than 5 unique categories exist
       if (finalRecs.length < 5) {
         for (const item of compatibleItems) {
           if (!finalRecs.some(r => r.id === item.id)) {
