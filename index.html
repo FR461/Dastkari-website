@@ -10,7 +10,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700&display=swap" rel="stylesheet">
 
-  <!-- Leaflet Map CSS & JS for Uber-Style Interactive Location Picker -->
+  <!-- Leaflet Map CSS & JS -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
@@ -1470,6 +1470,33 @@
       background: #333333;
     }
 
+    /* MAP SEARCH BAR STYLING */
+    .map-search-box {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+
+    .map-search-input {
+      flex: 1;
+      padding: 8px 12px;
+      border: 1.5px solid #222222;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      outline: none;
+    }
+
+    .btn-map-search {
+      padding: 8px 14px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      background: #111111;
+      color: #ffffff;
+      border: 1.5px solid #111111;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
     /* DYNAMIC EDIT CARE ROW */
     .edit-care-row {
       display: flex;
@@ -1736,7 +1763,7 @@
             <div id="modal-care-container" style="display: flex; flex-direction: column; gap: 8px; max-height: 160px; overflow-y: auto;"></div>
           </div>
 
-          <!-- ACTION BUTTONS: Add to Cart, Save & Share -->
+          <!-- ACTION BUTTONS -->
           <div style="display: flex; gap: 12px; flex-wrap: wrap; margin-top: 8px;">
             <button class="btn-submit" id="modal-add-cart-btn" style="flex: 3; min-width: 160px; font-size: 1rem; padding: 14px;">+ Add to Cart</button>
             <button class="nav-btn" id="modal-like-btn" style="flex: 1; min-width: 100px; justify-content: center; font-size: 0.9rem; border-width: 1.5px;" onclick="handleModalLikeClick()">
@@ -1785,7 +1812,7 @@
     </div>
   </div>
 
-  <!-- CHECKOUT MODAL WITH INTERACTIVE UBER-STYLE MAP LOCATION PICKER -->
+  <!-- CHECKOUT MODAL WITH GOOGLE MAPS STYLE LOCATION PICKER -->
   <div class="modal-overlay" id="checkout-modal">
     <div class="modal-container" style="max-width: 550px;">
       <button class="modal-close-btn" onclick="closeModal('checkout-modal')">&times;</button>
@@ -1802,14 +1829,18 @@
         </div>
 
         <div>
-          <label class="form-label">Delivery Location (Pin on Map like Uber)</label>
-          <div id="checkout-map" style="height: 200px; width: 100%; border-radius: 8px; border: 1.5px solid #222222; margin-top: 6px;"></div>
-          <p style="font-size: 0.72rem; color: #666; margin-top: 4px;">Click or drag marker to set exact delivery address</p>
+          <label class="form-label">Select Delivery Location</label>
+          <div class="map-search-box">
+            <input type="text" id="map-search-query" class="map-search-input" placeholder="Search address, area or landmark...">
+            <button type="button" class="btn-map-search" onclick="searchMapLocation()">Search</button>
+          </div>
+          <div id="checkout-map" style="height: 230px; width: 100%; border-radius: 8px; border: 1.5px solid #222222;"></div>
+          <p style="font-size: 0.72rem; color: #666; margin-top: 4px;">Click or drag the red marker to refine your precise delivery spot</p>
         </div>
 
         <div>
           <label class="form-label">Delivery Address</label>
-          <textarea id="chk-address" class="login-input" required placeholder="Selected address will automatically appear here..." rows="2"></textarea>
+          <textarea id="chk-address" class="login-input" required placeholder="Selected location will automatically populate here..." rows="2"></textarea>
         </div>
 
         <div style="background: #f8f9fa; padding: 12px; border-radius: 6px; margin: 6px 0;">
@@ -2293,7 +2324,6 @@
       return { l: l || 50, w: w || 50, h: h || 50 };
     }
 
-    /* HELPER TO GET CARE INSTRUCTIONS (USES CUSTOM ITEM CARE OR DEFAULTS TO TEAK & FABRIC) */
     function getItemCareInstructions(item) {
       if (item && item.care && Array.isArray(item.care) && item.care.length > 0) {
         return item.care;
@@ -2313,7 +2343,6 @@
       return p ? p.toString().replace(/[^0-9]/g, '') : '';
     }
 
-    /* REQUIRE SIGN IN TO LIKE/SAVE AN OBJECT */
     function toggleLike(itemId) {
       if (!currentCustomer || !cleanPhone(currentCustomer.phone)) {
         if (currentActiveItemId) closeModal('item-modal');
@@ -2337,7 +2366,6 @@
       }
     }
 
-    /* STAFF RESET/REMOVE LIKES FOR AN OBJECT */
     function resetItemLikes(itemId, event) {
       if (event) event.stopPropagation();
       if (!isStaffLoggedIn) return;
@@ -2686,7 +2714,6 @@
       renderGrid();
     }
 
-    /* REMOVE FROM CART WITH 0.4s FADING ANIMATION */
     function removeFromCart(index) {
       const rows = document.querySelectorAll('.cart-item-row');
       if (rows && rows[index]) {
@@ -2757,7 +2784,6 @@
       document.getElementById('checkout-subtotal').textContent = formatPrice(totalSum);
     }
 
-    /* SHOW MORE RECOMMENDATIONS & SMOOTH ARROW SCROLL */
     function showMoreRecs() {
       recLimit += 5;
       renderCartRecommendations();
@@ -2770,7 +2796,6 @@
       }
     }
 
-    /* DYNAMIC RECOMMENDATION ENGINE */
     function renderCartRecommendations() {
       const recContainer = document.getElementById('cart-rec-container');
       const cartRecSection = document.getElementById('cart-rec-section');
@@ -2842,7 +2867,7 @@
       });
     }
 
-    /* CHECKOUT & INTERACTIVE LEAFLET LOCATION MAP PICKER */
+    /* CHECKOUT WITH GOOGLE MAPS STYLE TILES & SEARCH */
     function openCheckoutModal() {
       if (cart.length === 0) {
         alert('Your cart is empty!');
@@ -2875,29 +2900,33 @@
       const defaultLng = 78.4867;
 
       if (!checkoutMap) {
-        checkoutMap = L.map('checkout-map').setView([defaultLat, defaultLng], 12);
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-          maxZoom: 19,
-          attribution: '© OpenStreetMap'
+        checkoutMap = L.map('checkout-map', {
+          zoomControl: true
+        }).setView([defaultLat, defaultLng], 13);
+
+        /* GOOGLE MAPS ROADMAP TILE LAYER */
+        L.tileLayer('https://mt1.google.com/vt/lyrs=m&x={x}&y={y}&z={z}', {
+          maxZoom: 20,
+          attribution: '&copy; Google Maps'
         }).addTo(checkoutMap);
 
-        mapMarker = L.marker([defaultLat, defaultLng], { draggable: true }).addTo(checkoutMap);
+        const customIcon = L.icon({
+          iconUrl: 'https://maps.gstatic.com/mapfiles/api-3/images/spotlight-poi2.png',
+          iconSize: [27, 43],
+          iconAnchor: [13, 43],
+          popupAnchor: [0, -40]
+        });
 
-        function updateAddressFromCoords(lat, lng) {
-          document.getElementById('chk-address').value = `Selected Location Coordinates: ${lat.toFixed(5)}, ${lng.toFixed(5)}`;
-          fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}`)
-            .then(res => res.json())
-            .then(data => {
-              if (data && data.display_name) {
-                document.getElementById('chk-address').value = data.display_name;
-              }
-            })
-            .catch(() => {});
-        }
+        mapMarker = L.marker([defaultLat, defaultLng], { 
+          draggable: true,
+          icon: customIcon
+        }).addTo(checkoutMap);
+
+        updateAddressFromCoords(defaultLat, defaultLng);
 
         mapMarker.on('dragend', function(e) {
-          const position = e.target.getLatLng();
-          updateAddressFromCoords(position.lat, position.lng);
+          const pos = e.target.getLatLng();
+          updateAddressFromCoords(pos.lat, pos.lng);
         });
 
         checkoutMap.on('click', function(e) {
@@ -2907,6 +2936,48 @@
       } else {
         checkoutMap.invalidateSize();
       }
+    }
+
+    function updateAddressFromCoords(lat, lng) {
+      document.getElementById('chk-address').value = `Locating position...`;
+      fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}`)
+        .then(res => res.json())
+        .then(data => {
+          if (data && data.display_name) {
+            document.getElementById('chk-address').value = data.display_name;
+          } else {
+            document.getElementById('chk-address').value = `Coordinates: ${lat.toFixed(5)}, ${lng.toFixed(5)}`;
+          }
+        })
+        .catch(() => {
+          document.getElementById('chk-address').value = `Coordinates: ${lat.toFixed(5)}, ${lng.toFixed(5)}`;
+        });
+    }
+
+    function searchMapLocation() {
+      const query = document.getElementById('map-search-query').value.trim();
+      if (!query) return;
+
+      fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}`)
+        .then(res => res.json())
+        .then(data => {
+          if (data && data.length > 0) {
+            const first = data[0];
+            const lat = parseFloat(first.lat);
+            const lng = parseFloat(first.lon);
+
+            if (checkoutMap && mapMarker) {
+              checkoutMap.setView([lat, lng], 15);
+              mapMarker.setLatLng([lat, lng]);
+              document.getElementById('chk-address').value = first.display_name;
+            }
+          } else {
+            showToast('Location not found. Try refining your search.');
+          }
+        })
+        .catch(() => {
+          showToast('Search service temporarily unavailable.');
+        });
     }
 
     function handleCheckout(e) {
@@ -2989,7 +3060,6 @@
       container.innerHTML = custOrders.map(ord => renderOrderCardHTML(ord, false)).join('');
     }
 
-    /* RENDER ORDER CARD WITH RICH ITEM CARDS IN STAFF VIEW & STAFF DELETION */
     function renderOrderCardHTML(ord, isStaff = false) {
       const currentStageIndex = ORDER_STAGES.indexOf(ord.status) !== -1 ? ORDER_STAGES.indexOf(ord.status) : 0;
       const progressPercent = (currentStageIndex / (ORDER_STAGES.length - 1)) * 80;
@@ -3007,7 +3077,6 @@
         `;
       }).join('');
 
-      /* RICH ITEM CARDS IN STAFF VIEW */
       const itemCardsHTML = ord.items.map(item => `
         <div class="mini-order-card">
           <img src="${item.image || 'https://via.placeholder.com/140'}" alt="${item.title}">
@@ -3065,7 +3134,6 @@
       `;
     }
 
-    /* STAFF DELETE ORDER FUNCTION */
     function deleteOrder(orderId) {
       if (!isStaffLoggedIn) return;
       if (confirm(`Staff Action: Are you sure you want to delete order ${orderId}?`)) {
@@ -3077,7 +3145,6 @@
       }
     }
 
-    /* STAFF ORDERS SYSTEM */
     function updateOrdersBadge() {
       const activeCount = orders.filter(o => o.status !== 'Arrived').length;
       
@@ -3153,7 +3220,6 @@
       setTimeout(() => toast.classList.remove('show'), 2500);
     }
 
-    /* PRODUCT DETAIL MODAL */
     function openItemModal(id) {
       const item = catalogData.find(i => i.id === id);
       if (!item) return;
@@ -3168,7 +3234,6 @@
       document.getElementById('modal-dims').textContent = formatDimsStr(l, w, h);
       document.getElementById('modal-price').textContent = formatPrice(numPrice);
 
-      /* RENDER CARE INSTRUCTIONS IN MODAL */
       const careContainer = document.getElementById('modal-care-container');
       const careInstructions = getItemCareInstructions(item);
 
@@ -3280,7 +3345,6 @@
       document.getElementById(modalId).classList.remove('active');
     }
 
-    /* Staff Mode Handlers */
     function updateStaffUI() {
       const indicator = document.getElementById('staff-indicator');
       const addBtn = document.getElementById('btn-add-new');
@@ -3352,7 +3416,6 @@
       }
     }
 
-    /* DYNAMIC CARE ROW EDITOR IN STAFF MODAL */
     function addCareRowToEditModal(part = '', instruction = '') {
       const container = document.getElementById('edit-care-rows-container');
       const rowId = 'care-row-' + Math.floor(Math.random() * 100000);
@@ -3433,7 +3496,6 @@
       const h = parseInt(document.getElementById('edit-item-h').value, 10) || 50;
       const dims = formatDimsStr(l, w, h);
 
-      /* EXTRACT CARE INSTRUCTIONS FROM STAFF FORM */
       const careRows = document.querySelectorAll('.edit-care-row');
       const careArray = [];
       careRows.forEach(row => {
@@ -3561,7 +3623,6 @@
       renderUploadPreviews();
     }
 
-    /* Category Pills */
     function renderPills() {
       if (!catalogData || catalogData.length === 0) return;
       
