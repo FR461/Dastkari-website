@@ -1891,7 +1891,7 @@
 
     // ROOM CONTEXT & COMPATIBILITY MATRIX
     const ROOM_COMPATIBILITY_MAP = {
-      'BEDS': ['BENCH', 'POUFFE / OTTOMAN', 'CONSOLES', 'OCCASIONAL TABLES', 'STORAGE / CREDENZA', 'ARMCHAIRS', 'STUDY/OFFICE DESKS'],
+      'BEDS': ['BENCH', 'CONSOLES', 'OCCASIONAL TABLES', 'STORAGE / CREDENZA', 'POUFFE / OTTOMAN', 'ARMCHAIRS', 'STUDY/OFFICE DESKS'],
       'DAY BED / COT': ['POUFFE / OTTOMAN', 'BENCH', 'ARMCHAIRS', 'COFFEE TABLES', 'CONSOLES'],
       'SOFAS': ['COFFEE TABLES', 'POUFFE / OTTOMAN', 'MEDIA CONSOLES', 'ARMCHAIRS', 'FLOOR SEATING', 'OCCASIONAL TABLES'],
       'COFFEE TABLES': ['SOFAS', 'ARMCHAIRS', 'POUFFE / OTTOMAN', 'MEDIA CONSOLES'],
@@ -1899,9 +1899,9 @@
       'STUDY/OFFICE DESKS': ['CHAIRS', 'ARMCHAIRS', 'STORAGE / CREDENZA', 'CABINETS']
     };
 
-    // 6-GRANULAR COLOR & MATERIAL FAMILIES SYSTEM
+    // 6 GRANULAR TONE & MATERIAL FAMILIES
     const TONE_FAMILIES = {
-      NATURAL_WOOD: ['oak', 'teak', 'cane', 'rattan', 'natural', 'ash', 'pine', 'honey', 'birch'],
+      NATURAL_WOOD: ['oak', 'teak', 'cane', 'rattan', 'natural', 'ash', 'pine', 'honey', 'birch', 'wood', 'dastkari'],
       CREAM_BEIGE: ['cream', 'beige', 'boucle', 'bouclé', 'ivory', 'linen', 'white', 'alabaster', 'off-white'],
       DARK_WALNUT: ['walnut', 'espresso', 'black', 'charcoal', 'ebony', 'dark', 'slate'],
       EARTH_LEATHER: ['rust', 'terracotta', 'brick', 'cognac', 'caramel', 'leather', 'brown', 'tan'],
@@ -1996,6 +1996,23 @@
 
     function cleanPhone(p) {
       return p ? p.toString().replace(/[^0-9]/g, '') : '';
+    }
+
+    /* Helper: Evaluates an item's primary color family strictly */
+    function getItemColorFamily(item) {
+      if (item.colorFamily) return item.colorFamily.toUpperCase();
+
+      const fullText = ((item.title || '') + ' ' + (item.description || '') + ' ' + (item.category || '')).toLowerCase();
+
+      for (const [famName, keywords] of Object.entries(TONE_FAMILIES)) {
+        if (famName === 'NATURAL_WOOD') continue; // Check specific accent colors first
+        if (keywords.some(kw => fullText.includes(kw))) {
+          return famName;
+        }
+      }
+
+      // Default to Natural Wood / Cream Neutral for natural oak beds
+      return 'NATURAL_WOOD';
     }
 
     function toggleLike(itemId) {
@@ -2390,7 +2407,7 @@
       document.getElementById('checkout-subtotal').textContent = formatPrice(totalSum);
     }
 
-    /* 6-CATEGORY COLOR SORTED RECOMMENDATION ENGINE */
+    /* COLOR SORTED RECOMMENDATION ENGINE WITH STRICT HARMONY RULES */
     function renderCartRecommendations() {
       const recContainer = document.getElementById('cart-rec-container');
       const cartRecSection = document.getElementById('cart-rec-section');
@@ -2405,24 +2422,7 @@
       const cartItemIds = cart.map(c => c.id);
       const cartCategories = cart.map(c => c.category.toUpperCase());
 
-      // 1. Identify active 6-tone color categories of cart items
-      const activeCartFamilies = new Set();
-      cart.forEach(c => {
-        const text = (c.title + ' ' + (c.description || '')).toLowerCase();
-        for (const [famName, keywords] of Object.entries(TONE_FAMILIES)) {
-          if (keywords.some(kw => text.includes(kw))) {
-            activeCartFamilies.add(famName);
-          }
-        }
-      });
-
-      // Default fallback if item title/desc lacks keywords: assume Natural Wood + Cream/Beige
-      if (activeCartFamilies.size === 0) {
-        activeCartFamilies.add('NATURAL_WOOD');
-        activeCartFamilies.add('CREAM_BEIGE');
-      }
-
-      // Filter candidates: Exclude items matching cart categories or already in cart
+      // Filter candidates to strictly exclude items matching cart categories or already in cart
       let candidateItems = catalogData.filter(item => {
         const itemCat = item.category.toUpperCase();
         return !cartItemIds.includes(item.id) && !cartCategories.includes(itemCat);
@@ -2441,37 +2441,30 @@
         compatibleItems = candidateItems;
       }
 
-      // 2. Score candidates using the 6-tone color matrix
+      // 2. Score candidates strictly penalizing bright accents/wine colors for light beds
       compatibleItems.sort((a, b) => {
-        const textA = (a.title + ' ' + (a.description || '')).toLowerCase();
-        const textB = (b.title + ' ' + (b.description || '')).toLowerCase();
-
-        function getItemScore(text) {
+        function getItemScore(item) {
+          const colFam = getItemColorFamily(item);
           let score = 0;
 
-          // Exact color category match (+10)
-          for (const famName of activeCartFamilies) {
-            if (TONE_FAMILIES[famName].some(kw => text.includes(kw))) {
-              score += 10;
-            }
+          // Natural Oak / Cream Neutrals match (+100)
+          if (colFam === 'NATURAL_WOOD' || colFam === 'CREAM_BEIGE') {
+            score += 100;
+          } else if (colFam === 'DARK_WALNUT') {
+            score += 50; // Complementary contrast
+          } else {
+            // Heavy penalty for clashing colors (Mustard Armchair, Rust Pouffe, Maroon Bench)
+            score -= 100;
           }
 
-          // Smart pairings for Natural Wood & Light Neutrals:
-          if (activeCartFamilies.has('NATURAL_WOOD') || activeCartFamilies.has('CREAM_BEIGE')) {
-            if (TONE_FAMILIES.CREAM_BEIGE.some(kw => text.includes(kw))) score += 8;
-            if (TONE_FAMILIES.NATURAL_WOOD.some(kw => text.includes(kw))) score += 8;
-            if (TONE_FAMILIES.DARK_WALNUT.some(kw => text.includes(kw))) score += 5;
-            
-            // Penalize clashing tones (wine, dark rust, bright ochre) when matching with light oak beds
-            if (TONE_FAMILIES.EARTH_LEATHER.some(kw => text.includes(kw))) score -= 5;
-            if (TONE_FAMILIES.JEWEL_WINE.some(kw => text.includes(kw))) score -= 7;
-            if (TONE_FAMILIES.BRIGHT_ACCENT.some(kw => text.includes(kw))) score -= 9;
-          }
+          // Hash tie-breaker to prevent sequential tie lock-in
+          const idHash = (item.id || item.title || '').split('').reduce((acc, ch) => acc + ch.charCodeAt(0), 0);
+          score += (idHash % 10);
 
           return score;
         }
 
-        return getItemScore(textB) - getItemScore(textA);
+        return getItemScore(b) - getItemScore(a);
       });
 
       // 3. ENFORCE CATEGORY DIVERSITY: Max 1 item per category
