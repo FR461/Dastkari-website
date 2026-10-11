@@ -123,7 +123,7 @@
       height: 100%;
       position: relative;
       transform-style: preserve-3d;
-      transition: transform 0.9s cubic-bezier(0.4, 0, 0.2, 1);
+      transition: transform 0.4s ease;
     }
 
     .hero-face {
@@ -206,7 +206,7 @@
       border: 1px solid #ffffff;
       background: transparent;
       cursor: pointer;
-      transition: all 0.3s ease;
+      transition: all 0.4s ease;
     }
 
     .hero-dot.active {
@@ -343,7 +343,7 @@
       padding: 8px 16px;
       border-radius: 6px;
       cursor: pointer;
-      transition: all 0.25s ease;
+      transition: all 0.4s ease;
       display: flex;
       align-items: center;
       gap: 6px;
@@ -364,7 +364,7 @@
       display: flex;
       align-items: center;
       gap: 6px;
-      transition: background 0.25s ease;
+      transition: background 0.4s ease;
     }
 
     .btn-cart:hover, .btn-staff-orders:hover, .btn-my-orders:hover {
@@ -439,7 +439,7 @@
       display: flex;
       align-items: center;
       gap: 8px;
-      transition: all 0.25s ease;
+      transition: all 0.4s ease;
     }
 
     .filter-tab-btn:hover {
@@ -451,7 +451,7 @@
       max-height: 0;
       opacity: 0;
       overflow: hidden;
-      transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease, margin 0.3s ease, padding 0.3s ease;
+      transition: max-height 0.4s ease, opacity 0.4s ease, margin 0.4s ease, padding 0.4s ease;
       width: 100%;
       background: #f8f9fa;
       border: 1.5px solid transparent;
@@ -521,7 +521,7 @@
       height: 100%;
       background: #111111;
       border-radius: 3px;
-      transition: left 0.1s ease, width 0.1s ease;
+      transition: left 0.4s ease, width 0.4s ease;
     }
 
     .dual-slider input[type="range"] {
@@ -558,7 +558,7 @@
       border-radius: 6px;
       cursor: pointer;
       white-space: nowrap;
-      transition: background 0.25s ease;
+      transition: background 0.4s ease;
     }
 
     .btn-add-item:hover {
@@ -600,7 +600,7 @@
       background: #ffffff;
       color: #666666;
       cursor: pointer;
-      transition: all 0.25s cubic-bezier(0.25, 0.8, 0.25, 1);
+      transition: all 0.4s ease;
       flex-shrink: 0;
       outline: none;
     }
@@ -627,7 +627,7 @@
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
       gap: 28px 22px;
-      transition: opacity 0.25s ease;
+      transition: opacity 0.4s ease;
     }
 
     .category-separator {
@@ -654,7 +654,7 @@
     .float-up {
       opacity: 0;
       transform: translateY(40px);
-      transition: opacity 0.65s cubic-bezier(0.16, 1, 0.3, 1), transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);
+      transition: opacity 0.4s ease, transform 0.4s ease;
       will-change: opacity, transform;
     }
 
@@ -674,7 +674,7 @@
       cursor: pointer;
       position: relative;
       box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
-      transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1), box-shadow 0.3s ease;
+      transition: transform 0.4s ease, box-shadow 0.4s ease;
     }
 
     .card:hover {
@@ -696,7 +696,7 @@
       height: 100%;
       object-fit: cover;
       display: block;
-      transition: transform 0.35s ease;
+      transition: transform 0.4s ease;
     }
 
     .card:hover .card-image-wrapper img {
@@ -753,7 +753,7 @@
       background: #ffffff;
       color: #111111;
       cursor: pointer;
-      transition: all 0.25s ease;
+      transition: all 0.4s ease;
     }
 
     .btn-add-cart-card:hover {
@@ -786,7 +786,7 @@
       justify-content: center;
       color: #111111;
       border-radius: 4px;
-      transition: background 0.2s ease;
+      transition: background 0.4s ease;
     }
 
     .btn-card-qty:hover {
@@ -851,7 +851,7 @@
       justify-content: center;
       opacity: 0;
       pointer-events: none;
-      transition: opacity 0.3s ease;
+      transition: opacity 0.4s ease;
       padding: 0;
     }
 
@@ -871,7 +871,7 @@
       padding: 24px;
       position: relative;
       transform: translateY(15px);
-      transition: transform 0.3s ease;
+      transition: transform 0.4s ease;
     }
 
     .modal-overlay.active .modal-container {
@@ -944,7 +944,7 @@
       align-items: center;
       justify-content: center;
       padding: 0;
-      transition: width 0.4s cubic-bezier(0.25, 1, 0.5, 1), height 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+      transition: width 0.4s ease, height 0.4s ease;
     }
 
     .modal-main-img-box img {
@@ -953,7 +953,7 @@
       object-fit: cover;
       display: block;
       border-radius: 10px;
-      transition: opacity 0.25s ease, transform 0.25s cubic-bezier(0.25, 1, 0.5, 1);
+      transition: opacity 0.4s ease, transform 0.4s ease;
     }
 
     .modal-thumbs {
@@ -977,7 +977,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      transition: border-color 0.2s ease;
+      transition: border-color 0.4s ease;
     }
 
     .modal-thumb img {
@@ -1011,17 +1011,23 @@
       letter-spacing: 2px;
       text-transform: uppercase;
       color: #111111;
-      display: flex;
-      align-items: center;
-      gap: 10px;
     }
 
-    .color-swatch-indicator {
-      width: 16px;
-      height: 16px;
-      border-radius: 50%;
-      border: 1px solid #cccccc;
-      display: inline-block;
+    .btn-show-more {
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: #111111;
+      background: #ffffff;
+      border: 1.5px solid #111111;
+      padding: 5px 14px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.4s ease;
+    }
+
+    .btn-show-more:hover {
+      background: #111111;
+      color: #ffffff;
     }
 
     .recommendations-scroll-grid {
@@ -1040,7 +1046,7 @@
       border-radius: 8px;
       padding: 10px;
       cursor: pointer;
-      transition: transform 0.25s ease, border-color 0.25s ease;
+      transition: transform 0.4s ease, border-color 0.4s ease;
       flex-shrink: 0;
     }
 
@@ -1230,7 +1236,7 @@
       height: 3px;
       background: #111111;
       z-index: 2;
-      transition: width 0.3s ease;
+      transition: width 0.4s ease;
     }
 
     .tracker-step {
@@ -1255,7 +1261,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      transition: all 0.3s ease;
+      transition: all 0.4s ease;
       margin-bottom: 8px;
     }
 
@@ -1325,7 +1331,7 @@
       background: #222222;
       color: #ffffff;
       cursor: pointer;
-      transition: background 0.25s ease;
+      transition: background 0.4s ease;
     }
 
     .btn-submit:hover {
@@ -1345,7 +1351,7 @@
       z-index: 2000;
       opacity: 0;
       transform: translateY(20px);
-      transition: all 0.3s ease;
+      transition: all 0.4s ease;
       pointer-events: none;
     }
 
@@ -1609,10 +1615,8 @@
       <!-- CART RECOMMENDATIONS STRIP -->
       <div class="recommender-section" id="cart-rec-section">
         <div class="recommender-header">
-          <div class="recommender-title">
-            <span>Pairs Well With</span>
-            <span class="color-swatch-indicator" id="detected-color-swatch" style="display: none;" title="Detected Color Palette Anchor"></span>
-          </div>
+          <div class="recommender-title">PAIRS WELL WITH</div>
+          <button id="btn-show-more-recs" class="btn-show-more" onclick="showMoreRecs()">Show More +</button>
         </div>
         <div class="recommendations-scroll-grid" id="cart-rec-container"></div>
       </div>
@@ -1900,6 +1904,7 @@
 
     /* 3. DYNAMIC IMAGE COLOR SAMPLING & HARMONY SCORING ENGINE */
     const imageColorCache = new Map();
+    let recLimit = 5;
 
     function rgbToHsl(r, g, b) {
       r /= 255; g /= 255; b /= 255;
@@ -1948,7 +1953,6 @@
           const data = ctx.getImageData(0, 0, 40, 40).data;
           let r = 0, g = 0, b = 0, count = 0;
 
-          // Avoid white background pixels by skipping near-white
           for (let i = 0; i < data.length; i += 16) {
             const pr = data[i], pg = data[i + 1], pb = data[i + 2];
             if (pr > 240 && pg > 240 && pb > 240) continue; 
@@ -1983,7 +1987,7 @@
     function getFallbackTone(item) {
       const fullText = ((item.title || '') + ' ' + (item.description || '') + ' ' + (item.category || '') + ' ' + (item.id || '')).toLowerCase();
 
-      if (['blue', 'navy', 'indigo', '111'].some(kw => fullText.includes(kw))) {
+      if (['blue', 'navy', 'indigo', '111', '101'].some(kw => fullText.includes(kw))) {
         return { r: 40, g: 80, b: 150, h: 215, s: 60, l: 37, hex: '#285096' };
       }
       if (['black', 'dark', 'charcoal'].some(kw => fullText.includes(kw))) {
@@ -1992,28 +1996,28 @@
       if (['cream', 'beige', 'boucle', 'bouclé', 'ivory'].some(kw => fullText.includes(kw))) {
         return { r: 235, g: 225, b: 210, h: 36, s: 40, l: 87, hex: '#ebe1d2' };
       }
-      return { r: 180, g: 140, b: 90, h: 33, s: 38, l: 53, hex: '#b48c5a' }; // Warm Wood
+      return { r: 180, g: 140, b: 90, h: 33, s: 38, l: 53, hex: '#b48c5a' };
     }
 
-    function calculateColorHarmonyScore(anchorTone, candidateTone) {
+    function calculateColorHarmonyScore(anchorTone, candidateTone, itemId) {
       if (!anchorTone || !candidateTone) return 500;
 
       const hueDiff = Math.abs(anchorTone.h - candidateTone.h);
       const minHueDiff = Math.min(hueDiff, 360 - hueDiff);
 
-      // 1. Monochromatic match (e.g. Blue Bed + Blue/Indigo Pouffe or Blue Chair)
-      if (minHueDiff < 35 && candidateTone.s > 15) return 1200;
+      let score = 400;
 
-      // 2. Soft Neutral contrast (Bouclé cream, ivory, pale wood)
-      if (candidateTone.s < 20 || candidateTone.l > 82) return 950;
+      if (minHueDiff < 35 && candidateTone.s > 15) score = 1200;
+      else if (candidateTone.s < 20 || candidateTone.l > 82) score = 950;
+      else if (candidateTone.h >= 20 && candidateTone.h <= 50 && candidateTone.s >= 20) score = 800;
+      else if (minHueDiff > 140 && minHueDiff < 220) score = 700;
 
-      // 3. Warm Wood balance
-      if (candidateTone.h >= 20 && candidateTone.h <= 50 && candidateTone.s >= 20) return 800;
+      // Add a mild deterministic offset based on item ID so candidate order varies across different cart items
+      let hash = 0;
+      for (let i = 0; i < itemId.length; i++) hash += itemId.charCodeAt(i);
+      score += (hash % 100);
 
-      // 4. Complementary High Contrast
-      if (minHueDiff > 140 && minHueDiff < 220) return 700;
-
-      return 400;
+      return score;
     }
 
     /* 4. APP CORE LOGIC */
@@ -2424,6 +2428,7 @@
         });
       }
 
+      recLimit = 5;
       updateCartUI();
       renderCartRecommendations();
       renderGrid();
@@ -2437,6 +2442,7 @@
         if (cart[idx].qty <= 0) {
           cart.splice(idx, 1);
         }
+        recLimit = 5;
         updateCartUI();
         renderCartRecommendations();
         renderGrid();
@@ -2448,6 +2454,7 @@
       if (cart[index].qty <= 0) {
         cart.splice(index, 1);
       }
+      recLimit = 5;
       updateCartUI();
       renderCartRecommendations();
       renderGrid();
@@ -2455,6 +2462,7 @@
 
     function removeFromCart(index) {
       cart.splice(index, 1);
+      recLimit = 5;
       updateCartUI();
       renderCartRecommendations();
       renderGrid();
@@ -2510,11 +2518,17 @@
       document.getElementById('checkout-subtotal').textContent = formatPrice(totalSum);
     }
 
-    /* IMAGE-BASED DYNAMIC RECOMMENDATION ENGINE */
+    /* SHOW MORE RECOMMENDATIONS HANDLER */
+    function showMoreRecs() {
+      recLimit += 5;
+      renderCartRecommendations();
+    }
+
+    /* DYNAMIC RECOMMENDATION ENGINE */
     function renderCartRecommendations() {
       const recContainer = document.getElementById('cart-rec-container');
       const cartRecSection = document.getElementById('cart-rec-section');
-      const swatchEl = document.getElementById('detected-color-swatch');
+      const showMoreBtn = document.getElementById('btn-show-more-recs');
 
       if (cart.length === 0) {
         cartRecSection.style.display = 'none';
@@ -2526,10 +2540,10 @@
       const cartItemIds = cart.map(c => c.id);
       const cartCategories = cart.map(c => c.category.toUpperCase());
 
-      // 1. Identify primary Anchor Item from Cart (Bed or primary main piece)
+      // Primary Anchor Item
       const anchorItem = cart.find(c => c.category.toUpperCase().includes('BED')) || cart[0];
 
-      // 2. Candidate items filtering (Exclude items already in cart or belonging to the same category)
+      // Candidate Items Exclusion (Filter out items already in cart or belonging to the same category)
       let candidateItems = catalogData.filter(item => {
         const itemCat = item.category.toUpperCase();
         return !cartItemIds.includes(item.id) && !cartCategories.includes(itemCat);
@@ -2547,56 +2561,31 @@
         compatibleItems = candidateItems;
       }
 
-      // 3. Perform Image Canvas Analysis on Anchor Item and Candidates
       analyzeItemColorTone(anchorItem, (anchorTone) => {
-        if (swatchEl) {
-          swatchEl.style.display = 'inline-block';
-          swatchEl.style.backgroundColor = anchorTone.hex;
-        }
-
-        // Analyze candidate images and calculate score
         let processedCount = 0;
         const candidateScores = new Map();
 
         compatibleItems.forEach(item => {
           analyzeItemColorTone(item, (candTone) => {
-            let score = calculateColorHarmonyScore(anchorTone, candTone);
-
-            // Category priority bonus
-            const cat = item.category.toUpperCase();
-            if (cat === 'POUFFE / OTTOMAN') score += 300;
-            if (cat === 'CONSOLES') score += 250;
-            if (cat === 'ARMCHAIRS') score += 200;
-
+            let score = calculateColorHarmonyScore(anchorTone, candTone, item.id);
             candidateScores.set(item.id, score);
             processedCount++;
 
             if (processedCount === compatibleItems.length) {
               compatibleItems.sort((a, b) => candidateScores.get(b.id) - candidateScores.get(a.id));
 
-              // 4. Enforce Category Diversity (1 item per room category)
-              const finalRecs = [];
-              const usedCategories = new Set();
+              // Display Candidates according to recLimit
+              const visibleRecs = compatibleItems.slice(0, recLimit);
 
-              for (const item of compatibleItems) {
-                const cat = item.category.toUpperCase();
-                if (!usedCategories.has(cat)) {
-                  finalRecs.push(item);
-                  usedCategories.add(cat);
-                }
-                if (finalRecs.length >= 5) break;
-              }
-
-              if (finalRecs.length < 5) {
-                for (const item of compatibleItems) {
-                  if (!finalRecs.some(r => r.id === item.id)) {
-                    finalRecs.push(item);
-                  }
-                  if (finalRecs.length >= 5) break;
+              if (showMoreBtn) {
+                if (compatibleItems.length > recLimit) {
+                  showMoreBtn.style.display = 'inline-block';
+                } else {
+                  showMoreBtn.style.display = 'none';
                 }
               }
 
-              recContainer.innerHTML = finalRecs.map(r => `
+              recContainer.innerHTML = visibleRecs.map(r => `
                 <div class="rec-card" onclick="closeModal('cart-modal'); openItemModal('${r.id}');">
                   <img src="${(r.images && r.images.length > 0) ? r.images[0] : ''}" class="rec-card-img" alt="${r.title}">
                   <div class="rec-card-title">${r.title}</div>
