@@ -1011,6 +1011,17 @@
       letter-spacing: 2px;
       text-transform: uppercase;
       color: #111111;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .color-swatch-indicator {
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      border: 1px solid #cccccc;
+      display: inline-block;
     }
 
     .recommendations-scroll-grid {
@@ -1600,6 +1611,7 @@
         <div class="recommender-header">
           <div class="recommender-title">
             <span>Pairs Well With</span>
+            <span class="color-swatch-indicator" id="detected-color-swatch" style="display: none;" title="Detected Color Palette Anchor"></span>
           </div>
         </div>
         <div class="recommendations-scroll-grid" id="cart-rec-container"></div>
@@ -1786,7 +1798,7 @@
   <div class="toast" id="toast-msg">Item added to cart</div>
 
   <script>
-    /* 1. EXACT 6-SLIDE ALTERNATING ROTATION WITH 3 DOTS */
+    /* 1. HERO SLIDESHOW */
     let currentHeroSlide = 0;
     let heroTimer = null;
     let rotLeft = 0;
@@ -1886,10 +1898,127 @@
       });
     }
 
-    /* 3. APP CORE LOGIC */
+    /* 3. DYNAMIC IMAGE COLOR SAMPLING & HARMONY SCORING ENGINE */
+    const imageColorCache = new Map();
+
+    function rgbToHsl(r, g, b) {
+      r /= 255; g /= 255; b /= 255;
+      const max = Math.max(r, g, b), min = Math.min(r, g, b);
+      let h, s, l = (max + min) / 2;
+
+      if (max === min) {
+        h = s = 0;
+      } else {
+        const d = max - min;
+        s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+        switch (max) {
+          case r: h = (g - b) / d + (g < b ? 6 : 0); break;
+          case g: h = (b - r) / d + 2; break;
+          case b: h = (r - g) / d + 4; break;
+        }
+        h /= 6;
+      }
+      return { h: Math.round(h * 360), s: Math.round(s * 100), l: Math.round(l * 100) };
+    }
+
+    function analyzeItemColorTone(item, callback) {
+      if (!item || !item.images || item.images.length === 0) {
+        callback(getFallbackTone(item));
+        return;
+      }
+
+      const imgSrc = item.images[0];
+      if (imageColorCache.has(imgSrc)) {
+        callback(imageColorCache.get(imgSrc));
+        return;
+      }
+
+      const img = new Image();
+      img.crossOrigin = "Anonymous";
+      img.src = imgSrc;
+
+      img.onload = function() {
+        try {
+          const canvas = document.createElement('canvas');
+          const ctx = canvas.getContext('2d');
+          canvas.width = 40;
+          canvas.height = 40;
+          ctx.drawImage(img, 0, 0, 40, 40);
+
+          const data = ctx.getImageData(0, 0, 40, 40).data;
+          let r = 0, g = 0, b = 0, count = 0;
+
+          // Avoid white background pixels by skipping near-white
+          for (let i = 0; i < data.length; i += 16) {
+            const pr = data[i], pg = data[i + 1], pb = data[i + 2];
+            if (pr > 240 && pg > 240 && pb > 240) continue; 
+
+            r += pr; g += pg; b += pb;
+            count++;
+          }
+
+          if (count === 0) count = 1;
+          r = Math.floor(r / count);
+          g = Math.floor(g / count);
+          b = Math.floor(b / count);
+
+          const hsl = rgbToHsl(r, g, b);
+          const tone = { r, g, b, ...hsl, hex: `rgb(${r},${g},${b})` };
+          imageColorCache.set(imgSrc, tone);
+          callback(tone);
+        } catch (e) {
+          const fallback = getFallbackTone(item);
+          imageColorCache.set(imgSrc, fallback);
+          callback(fallback);
+        }
+      };
+
+      img.onerror = function() {
+        const fallback = getFallbackTone(item);
+        imageColorCache.set(imgSrc, fallback);
+        callback(fallback);
+      };
+    }
+
+    function getFallbackTone(item) {
+      const fullText = ((item.title || '') + ' ' + (item.description || '') + ' ' + (item.category || '') + ' ' + (item.id || '')).toLowerCase();
+
+      if (['blue', 'navy', 'indigo', '111'].some(kw => fullText.includes(kw))) {
+        return { r: 40, g: 80, b: 150, h: 215, s: 60, l: 37, hex: '#285096' };
+      }
+      if (['black', 'dark', 'charcoal'].some(kw => fullText.includes(kw))) {
+        return { r: 35, g: 35, b: 35, h: 0, s: 0, l: 14, hex: '#232323' };
+      }
+      if (['cream', 'beige', 'boucle', 'bouclé', 'ivory'].some(kw => fullText.includes(kw))) {
+        return { r: 235, g: 225, b: 210, h: 36, s: 40, l: 87, hex: '#ebe1d2' };
+      }
+      return { r: 180, g: 140, b: 90, h: 33, s: 38, l: 53, hex: '#b48c5a' }; // Warm Wood
+    }
+
+    function calculateColorHarmonyScore(anchorTone, candidateTone) {
+      if (!anchorTone || !candidateTone) return 500;
+
+      const hueDiff = Math.abs(anchorTone.h - candidateTone.h);
+      const minHueDiff = Math.min(hueDiff, 360 - hueDiff);
+
+      // 1. Monochromatic match (e.g. Blue Bed + Blue/Indigo Pouffe or Blue Chair)
+      if (minHueDiff < 35 && candidateTone.s > 15) return 1200;
+
+      // 2. Soft Neutral contrast (Bouclé cream, ivory, pale wood)
+      if (candidateTone.s < 20 || candidateTone.l > 82) return 950;
+
+      // 3. Warm Wood balance
+      if (candidateTone.h >= 20 && candidateTone.h <= 50 && candidateTone.s >= 20) return 800;
+
+      // 4. Complementary High Contrast
+      if (minHueDiff > 140 && minHueDiff < 220) return 700;
+
+      return 400;
+    }
+
+    /* 4. APP CORE LOGIC */
     const ORDER_STAGES = ['Being made', 'Final touches', 'Being packed', 'Being shipped', 'Arrived'];
 
-    // ROOM CONTEXT & COMPATIBILITY MATRIX
     const ROOM_COMPATIBILITY_MAP = {
       'BEDS': ['CONSOLES', 'OCCASIONAL TABLES', 'STUDY/OFFICE DESKS', 'ARMCHAIRS', 'STORAGE / CREDENZA', 'BENCH', 'POUFFE / OTTOMAN'],
       'DAY BED / COT': ['POUFFE / OTTOMAN', 'BENCH', 'ARMCHAIRS', 'COFFEE TABLES', 'CONSOLES'],
@@ -1986,32 +2115,6 @@
 
     function cleanPhone(p) {
       return p ? p.toString().replace(/[^0-9]/g, '') : '';
-    }
-
-    /* Expanded Color Family Detection including Blue & Cool Tones */
-    function getItemColorFamily(item) {
-      if (item.colorFamily) return item.colorFamily.toUpperCase();
-
-      const fullText = ((item.title || '') + ' ' + (item.description || '') + ' ' + (item.category || '') + ' ' + (item.id || '')).toLowerCase();
-
-      // Check Blue & Cool Keywords (e.g. Page #111 blue upholstered bed)
-      if (['blue', 'navy', 'indigo', 'azure', 'slate', 'cobalt', 'teal', 'denim', '111'].some(kw => fullText.includes(kw))) {
-        return 'BLUE_COOL';
-      }
-      if (['walnut', 'espresso', 'dark', 'ebony'].some(kw => fullText.includes(kw))) {
-        return 'DARK_WALNUT';
-      }
-      if (['black', 'charcoal', 'pitch', 'black-leather'].some(kw => fullText.includes(kw))) {
-        return 'BLACK_DARK';
-      }
-      if (['cream', 'beige', 'boucle', 'bouclé', 'ivory', 'white', 'linen'].some(kw => fullText.includes(kw))) {
-        return 'CREAM_BEIGE';
-      }
-      if (['oak', 'teak', 'cane', 'wood', 'natural', 'ash'].some(kw => fullText.includes(kw))) {
-        return 'NATURAL_WOOD';
-      }
-
-      return 'NATURAL_WOOD';
     }
 
     function toggleLike(itemId) {
@@ -2313,6 +2416,7 @@
           title: item.title,
           category: item.category.toUpperCase(),
           price: price,
+          images: item.images || [],
           image: (item.images && item.images.length > 0) ? item.images[0] : '',
           description: item.description || '',
           recommended_ids: item.recommended_ids || [],
@@ -2406,10 +2510,11 @@
       document.getElementById('checkout-subtotal').textContent = formatPrice(totalSum);
     }
 
-    /* DYNAMIC PALETTE RECOMMENDATION SCORING ENGINE (WITH BLUE BED SUPPORT) */
+    /* IMAGE-BASED DYNAMIC RECOMMENDATION ENGINE */
     function renderCartRecommendations() {
       const recContainer = document.getElementById('cart-rec-container');
       const cartRecSection = document.getElementById('cart-rec-section');
+      const swatchEl = document.getElementById('detected-color-swatch');
 
       if (cart.length === 0) {
         cartRecSection.style.display = 'none';
@@ -2421,11 +2526,10 @@
       const cartItemIds = cart.map(c => c.id);
       const cartCategories = cart.map(c => c.category.toUpperCase());
 
-      // 1. Detect Bed Color Anchor from Cart
-      const bedInCart = cart.find(c => c.category.toUpperCase().includes('BED'));
-      const bedColorFamily = bedInCart ? getItemColorFamily(bedInCart) : 'NATURAL_WOOD';
+      // 1. Identify primary Anchor Item from Cart (Bed or primary main piece)
+      const anchorItem = cart.find(c => c.category.toUpperCase().includes('BED')) || cart[0];
 
-      // 2. Candidate items filtering
+      // 2. Candidate items filtering (Exclude items already in cart or belonging to the same category)
       let candidateItems = catalogData.filter(item => {
         const itemCat = item.category.toUpperCase();
         return !cartItemIds.includes(item.id) && !cartCategories.includes(itemCat);
@@ -2443,81 +2547,67 @@
         compatibleItems = candidateItems;
       }
 
-      // 3. Dynamic Palette Scoring Matrix
-      compatibleItems.sort((a, b) => {
-        function getItemScore(item) {
-          const colFam = getItemColorFamily(item);
-          let score = 0;
-
-          // Category order weight
-          const cat = item.category.toUpperCase();
-          if (cat === 'POUFFE / OTTOMAN') score += 350;
-          if (cat === 'CONSOLES') score += 300;
-          if (cat === 'OCCASIONAL TABLES') score += 250;
-          if (cat === 'STUDY/OFFICE DESKS') score += 200;
-          if (cat === 'ARMCHAIRS') score += 180;
-
-          if (bedColorFamily === 'BLUE_COOL') {
-            // --- SCORING FOR BLUE / COOL TONE BEDS ---
-            if (colFam === 'BLUE_COOL') score += 1200;       // Direct color match boost
-            else if (colFam === 'CREAM_BEIGE') score += 900; // Soft contrast neutral
-            else if (colFam === 'NATURAL_WOOD') score += 700;// Warm wood balance
-            else if (colFam === 'BLACK_DARK') score += 300;
-          } else if (bedColorFamily === 'DARK_WALNUT' || bedColorFamily === 'BLACK_DARK') {
-            // --- SCORING FOR DARK WALNUT / BLACK BEDS ---
-            if (colFam === 'DARK_WALNUT') score += 1000;
-            else if (colFam === 'CREAM_BEIGE') score += 800;
-            else if (colFam === 'BLACK_DARK') score += 600;
-            else if (colFam === 'NATURAL_WOOD') score += 200;
-          } else {
-            // --- SCORING FOR LIGHT NATURAL OAK BEDS ---
-            if (colFam === 'NATURAL_WOOD' || colFam === 'CREAM_BEIGE') score += 1000;
-            else if (colFam === 'BLUE_COOL') score += 600;
-            else if (colFam === 'DARK_WALNUT') score += 200;
-            else if (colFam === 'BLACK_DARK') score -= 500;
-          }
-
-          return score;
+      // 3. Perform Image Canvas Analysis on Anchor Item and Candidates
+      analyzeItemColorTone(anchorItem, (anchorTone) => {
+        if (swatchEl) {
+          swatchEl.style.display = 'inline-block';
+          swatchEl.style.backgroundColor = anchorTone.hex;
         }
 
-        return getItemScore(b) - getItemScore(a);
+        // Analyze candidate images and calculate score
+        let processedCount = 0;
+        const candidateScores = new Map();
+
+        compatibleItems.forEach(item => {
+          analyzeItemColorTone(item, (candTone) => {
+            let score = calculateColorHarmonyScore(anchorTone, candTone);
+
+            // Category priority bonus
+            const cat = item.category.toUpperCase();
+            if (cat === 'POUFFE / OTTOMAN') score += 300;
+            if (cat === 'CONSOLES') score += 250;
+            if (cat === 'ARMCHAIRS') score += 200;
+
+            candidateScores.set(item.id, score);
+            processedCount++;
+
+            if (processedCount === compatibleItems.length) {
+              compatibleItems.sort((a, b) => candidateScores.get(b.id) - candidateScores.get(a.id));
+
+              // 4. Enforce Category Diversity (1 item per room category)
+              const finalRecs = [];
+              const usedCategories = new Set();
+
+              for (const item of compatibleItems) {
+                const cat = item.category.toUpperCase();
+                if (!usedCategories.has(cat)) {
+                  finalRecs.push(item);
+                  usedCategories.add(cat);
+                }
+                if (finalRecs.length >= 5) break;
+              }
+
+              if (finalRecs.length < 5) {
+                for (const item of compatibleItems) {
+                  if (!finalRecs.some(r => r.id === item.id)) {
+                    finalRecs.push(item);
+                  }
+                  if (finalRecs.length >= 5) break;
+                }
+              }
+
+              recContainer.innerHTML = finalRecs.map(r => `
+                <div class="rec-card" onclick="closeModal('cart-modal'); openItemModal('${r.id}');">
+                  <img src="${(r.images && r.images.length > 0) ? r.images[0] : ''}" class="rec-card-img" alt="${r.title}">
+                  <div class="rec-card-title">${r.title}</div>
+                  <div class="rec-card-price">${formatPrice(parsePrice(r.price))}</div>
+                  <button class="btn-add-cart-card" style="margin-top: 6px; padding: 6px; font-size: 0.75rem;" onclick="event.stopPropagation(); addToCart('${r.id}')">+ Add to Cart</button>
+                </div>
+              `).join('');
+            }
+          });
+        });
       });
-
-      // 4. Enforce category diversity (1 item per category)
-      const finalRecs = [];
-      const usedCategories = new Set();
-
-      for (const item of compatibleItems) {
-        const cat = item.category.toUpperCase();
-        if (!usedCategories.has(cat)) {
-          finalRecs.push(item);
-          usedCategories.add(cat);
-        }
-        if (finalRecs.length >= 5) break;
-      }
-
-      if (finalRecs.length < 5) {
-        for (const item of compatibleItems) {
-          if (!finalRecs.some(r => r.id === item.id)) {
-            finalRecs.push(item);
-          }
-          if (finalRecs.length >= 5) break;
-        }
-      }
-
-      if (finalRecs.length === 0) {
-        cartRecSection.style.display = 'none';
-        return;
-      }
-
-      recContainer.innerHTML = finalRecs.map(r => `
-        <div class="rec-card" onclick="closeModal('cart-modal'); openItemModal('${r.id}');">
-          <img src="${(r.images && r.images.length > 0) ? r.images[0] : ''}" class="rec-card-img" alt="${r.title}">
-          <div class="rec-card-title">${r.title}</div>
-          <div class="rec-card-price">${formatPrice(parsePrice(r.price))}</div>
-          <button class="btn-add-cart-card" style="margin-top: 6px; padding: 6px; font-size: 0.75rem;" onclick="event.stopPropagation(); addToCart('${r.id}')">+ Add to Cart</button>
-        </div>
-      `).join('');
     }
 
     /* Checkout */
@@ -2583,7 +2673,7 @@
       showToast(`Order Placed! Reference: ${newOrder.id}`);
     }
 
-    /* CUSTOMER MY ORDERS - STRICT AUTH & PRIVACY */
+    /* CUSTOMER MY ORDERS */
     function openCustomerOrdersModal() {
       const userPhone = currentCustomer ? cleanPhone(currentCustomer.phone) : '';
       if (!currentCustomer || !userPhone) {
