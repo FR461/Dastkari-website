@@ -1,2 +1,2 @@
 # Dastkari website
-## Made with assistance from Gemini AI.
+## Made mostly by Gemini AI.
