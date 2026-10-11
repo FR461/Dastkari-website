@@ -1377,7 +1377,6 @@
       </div>
     </div>
 
-    <!-- 3 Navigation Dots controlling 6 Alternating Sequence Phases -->
     <div class="hero-nav-dots">
       <div class="hero-dot active" onclick="goToHeroSlide(0)"></div>
       <div class="hero-dot" onclick="goToHeroSlide(1)"></div>
@@ -1600,7 +1599,7 @@
       <div class="recommender-section" id="cart-rec-section">
         <div class="recommender-header">
           <div class="recommender-title">
-            <span>Pairs Well With</span>
+            <span>Pairs Well With (Tone & Room Matched)</span>
           </div>
         </div>
         <div class="recommendations-scroll-grid" id="cart-rec-container"></div>
@@ -1793,12 +1792,6 @@
     let rotLeft = 0;
     let rotRight = 0;
 
-    // Slide 0: Craft 1 Left | Quote 1 Right
-    // Slide 1: Quote 2 Left | Craft 2 Right
-    // Slide 2: Craft 3 Left | Quote 3 Right
-    // Slide 3: Quote 1 Left | Craft 1 Right
-    // Slide 4: Craft 2 Left | Quote 2 Right
-    // Slide 5: Quote 3 Left | Craft 3 Right
     const SLIDE_LEFT_CONTENTS = [
       `<img src="./Assets/Craft_1.png" class="hero-img-content" alt="Craft 1" onerror="this.src='https://images.unsplash.com/photo-1544816155-12df9643f363?q=80&w=800'">`,
       `<div class="hero-text-content"><div class="hero-quote-text">“EMBRACING CONSTRAINTS MAKES DESIGN GRACEFUL”</div></div>`,
@@ -1847,7 +1840,6 @@
       const rightFront = document.getElementById('right-face-front');
       const rightBack = document.getElementById('right-face-back');
 
-      // 3 dots mapping to 6 slides
       const dots = document.querySelectorAll('.hero-dot');
       const activeDotIndex = index % 3;
       dots.forEach((d, i) => d.classList.toggle('active', i === activeDotIndex));
@@ -1897,10 +1889,21 @@
     /* 3. APP CORE LOGIC */
     const ORDER_STAGES = ['Being made', 'Final touches', 'Being packed', 'Being shipped', 'Arrived'];
 
+    // ROOM CONTEXT & COMPATIBILITY MATRIX
+    const ROOM_COMPATIBILITY_MAP = {
+      'BEDS': ['ARMCHAIRS', 'POUFFE / OTTOMAN', 'BENCH', 'CONSOLES', 'STORAGE / CREDENZA', 'STUDY/OFFICE DESKS', 'OCCASIONAL TABLES'],
+      'DAY BED / COT': ['ARMCHAIRS', 'POUFFE / OTTOMAN', 'BENCH', 'COFFEE TABLES', 'CONSOLES'],
+      'SOFAS': ['COFFEE TABLES', 'ARMCHAIRS', 'POUFFE / OTTOMAN', 'MEDIA CONSOLES', 'FLOOR SEATING', 'OCCASIONAL TABLES', 'CONSOLES'],
+      'COFFEE TABLES': ['SOFAS', 'ARMCHAIRS', 'POUFFE / OTTOMAN', 'MEDIA CONSOLES'],
+      'DINING TABLES': ['CHAIRS', 'BAR STOOLS & TABLES', 'STORAGE / CREDENZA', 'CABINETS'],
+      'STUDY/OFFICE DESKS': ['CHAIRS', 'ARMCHAIRS', 'CABINETS', 'STORAGE / CREDENZA']
+    };
+
+    const TONE_KEYWORDS = ['cane', 'rattan', 'walnut', 'teak', 'black', 'oak', 'fabric', 'velvet', 'brass', 'leather', 'wood', 'gold'];
+
     let catalogData = [];
     let cart = [];
     let orders = JSON.parse(localStorage.getItem('dastkari_orders')) || [];
-
     let userLikes = JSON.parse(localStorage.getItem('dastkari_user_likes')) || [];
 
     let activeCategory = 'ALL';
@@ -1940,7 +1943,6 @@
         updateOrdersBadge();
         setupSmoothDragScroll();
 
-        // Deep link handler
         const urlParams = new URLSearchParams(window.location.search);
         const sharedItemId = urlParams.get('item');
         if (sharedItemId) {
@@ -1951,7 +1953,6 @@
       }
     }
 
-    /* Helper Parsing Functions */
     function parsePrice(priceVal) {
       if (typeof priceVal === 'number') return priceVal;
       if (!priceVal) return 100000;
@@ -1989,7 +1990,6 @@
       return p ? p.toString().replace(/[^0-9]/g, '') : '';
     }
 
-    /* ITEM SCREEN FAVORITING */
     function toggleLike(itemId) {
       const idx = userLikes.indexOf(itemId);
       if (idx > -1) {
@@ -2007,7 +2007,6 @@
       }
     }
 
-    /* ITEM SCREEN SHARE FEATURE */
     function handleModalShareClick() {
       if (!currentActiveItemId) return;
       const item = catalogData.find(i => i.id === currentActiveItemId);
@@ -2028,7 +2027,6 @@
       }
     }
 
-    /* CUSTOMER AUTH */
     function updateCustomerUI() {
       const btn = document.getElementById('cust-auth-btn');
       if (currentCustomer && cleanPhone(currentCustomer.phone)) {
@@ -2172,7 +2170,7 @@
       ['price', 'l', 'w', 'h'].forEach(p => updateDualSlider(p));
     }
 
-    /* RENDER CATALOG GRID WITH INLINE CARD QUANTITY STEPPER [- 1 +] */
+    /* RENDER CATALOG GRID */
     function renderGrid() {
       const pMin = parseInt(document.getElementById('price-min').value, 10);
       const pMax = parseInt(document.getElementById('price-max').value, 10);
@@ -2289,9 +2287,10 @@
         cart.push({
           id: item.id,
           title: item.title,
-          category: item.category,
+          category: item.category.toUpperCase(),
           price: price,
           image: (item.images && item.images.length > 0) ? item.images[0] : '',
+          description: item.description || '',
           recommended_ids: item.recommended_ids || [],
           qty: qty
         });
@@ -2383,7 +2382,7 @@
       document.getElementById('checkout-subtotal').textContent = formatPrice(totalSum);
     }
 
-    /* CART COMPLEMENTARY PAIRINGS */
+    /* TONE & ROOM-COMPATIBLE RECOMMENDATION ENGINE */
     function renderCartRecommendations() {
       const recContainer = document.getElementById('cart-rec-container');
       const cartRecSection = document.getElementById('cart-rec-section');
@@ -2396,19 +2395,60 @@
       cartRecSection.style.display = 'block';
 
       const cartItemIds = cart.map(c => c.id);
-      let recIds = [];
+      const cartCategories = cart.map(c => c.category.toUpperCase());
 
+      // Collect dominant color/material keywords present in cart items
+      let cartTones = new Set();
       cart.forEach(c => {
-        if (c.recommended_ids) recIds.push(...c.recommended_ids);
+        const text = (c.title + ' ' + (c.description || '')).toLowerCase();
+        TONE_KEYWORDS.forEach(kw => {
+          if (text.includes(kw)) cartTones.add(kw);
+        });
       });
 
-      let recs = catalogData.filter(i => recIds.includes(i.id) && !cartItemIds.includes(i.id));
+      // Filter catalog: Strictly exclude items matching cart categories
+      let candidateItems = catalogData.filter(item => {
+        const itemCat = item.category.toUpperCase();
+        return !cartItemIds.includes(item.id) && !cartCategories.includes(itemCat);
+      });
 
-      if (recs.length === 0) {
-        recs = catalogData.filter(i => !cartItemIds.includes(i.id)).slice(0, 5);
+      // Check room compatibility matrix
+      let compatibleItems = candidateItems.filter(item => {
+        const itemCat = item.category.toUpperCase();
+        return cartCategories.some(cartCat => {
+          const allowedCats = ROOM_COMPATIBILITY_MAP[cartCat] || [];
+          return allowedCats.includes(itemCat);
+        });
+      });
+
+      if (compatibleItems.length === 0) {
+        compatibleItems = candidateItems;
       }
 
-      recContainer.innerHTML = recs.map(r => `
+      // Score candidates by tone and aesthetic keyword overlap
+      compatibleItems.sort((a, b) => {
+        const textA = (a.title + ' ' + (a.description || '')).toLowerCase();
+        const textB = (b.title + ' ' + (b.description || '')).toLowerCase();
+
+        let scoreA = 0;
+        let scoreB = 0;
+
+        cartTones.forEach(tone => {
+          if (textA.includes(tone)) scoreA += 2;
+          if (textB.includes(tone)) scoreB += 2;
+        });
+
+        return scoreB - scoreA;
+      });
+
+      const finalRecs = compatibleItems.slice(0, 5);
+
+      if (finalRecs.length === 0) {
+        cartRecSection.style.display = 'none';
+        return;
+      }
+
+      recContainer.innerHTML = finalRecs.map(r => `
         <div class="rec-card" onclick="closeModal('cart-modal'); openItemModal('${r.id}');">
           <img src="${(r.images && r.images.length > 0) ? r.images[0] : ''}" class="rec-card-img" alt="${r.title}">
           <div class="rec-card-title">${r.title}</div>
