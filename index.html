@@ -1899,11 +1899,14 @@
       'STUDY/OFFICE DESKS': ['CHAIRS', 'ARMCHAIRS', 'STORAGE / CREDENZA', 'CABINETS']
     };
 
-    // Tone & Material Palette Families
+    // 6-GRANULAR COLOR & MATERIAL FAMILIES SYSTEM
     const TONE_FAMILIES = {
-      LIGHT_NEUTRAL: ['cane', 'rattan', 'oak', 'teak', 'beige', 'light', 'cream', 'boucle', 'bouclé', 'natural', 'white', 'linen', 'ash'],
-      DARK_WOOD: ['walnut', 'dark', 'espresso', 'black', 'charcoal', 'ebony'],
-      ACCENT_WARM: ['yellow', 'mustard', 'orange', 'rust', 'amber']
+      NATURAL_WOOD: ['oak', 'teak', 'cane', 'rattan', 'natural', 'ash', 'pine', 'honey', 'birch'],
+      CREAM_BEIGE: ['cream', 'beige', 'boucle', 'bouclé', 'ivory', 'linen', 'white', 'alabaster', 'off-white'],
+      DARK_WALNUT: ['walnut', 'espresso', 'black', 'charcoal', 'ebony', 'dark', 'slate'],
+      EARTH_LEATHER: ['rust', 'terracotta', 'brick', 'cognac', 'caramel', 'leather', 'brown', 'tan'],
+      JEWEL_WINE: ['wine', 'plum', 'burgundy', 'maroon', 'velvet', 'navy', 'emerald'],
+      BRIGHT_ACCENT: ['yellow', 'mustard', 'ochre', 'orange', 'canary', 'red']
     };
 
     let catalogData = [];
@@ -2387,7 +2390,7 @@
       document.getElementById('checkout-subtotal').textContent = formatPrice(totalSum);
     }
 
-    /* BALANCED DIVERSIFIED RECOMMENDATION ENGINE */
+    /* 6-CATEGORY COLOR SORTED RECOMMENDATION ENGINE */
     function renderCartRecommendations() {
       const recContainer = document.getElementById('cart-rec-container');
       const cartRecSection = document.getElementById('cart-rec-section');
@@ -2402,17 +2405,24 @@
       const cartItemIds = cart.map(c => c.id);
       const cartCategories = cart.map(c => c.category.toUpperCase());
 
-      // Identify active tone family from cart items
-      let isLightNeutral = false;
-      let isDarkWood = false;
-
+      // 1. Identify active 6-tone color categories of cart items
+      const activeCartFamilies = new Set();
       cart.forEach(c => {
         const text = (c.title + ' ' + (c.description || '')).toLowerCase();
-        TONE_FAMILIES.LIGHT_NEUTRAL.forEach(kw => { if (text.includes(kw)) isLightNeutral = true; });
-        TONE_FAMILIES.DARK_WOOD.forEach(kw => { if (text.includes(kw)) isDarkWood = true; });
+        for (const [famName, keywords] of Object.entries(TONE_FAMILIES)) {
+          if (keywords.some(kw => text.includes(kw))) {
+            activeCartFamilies.add(famName);
+          }
+        }
       });
 
-      // Filter candidates to strictly exclude items matching cart categories
+      // Default fallback if item title/desc lacks keywords: assume Natural Wood + Cream/Beige
+      if (activeCartFamilies.size === 0) {
+        activeCartFamilies.add('NATURAL_WOOD');
+        activeCartFamilies.add('CREAM_BEIGE');
+      }
+
+      // Filter candidates: Exclude items matching cart categories or already in cart
       let candidateItems = catalogData.filter(item => {
         const itemCat = item.category.toUpperCase();
         return !cartItemIds.includes(item.id) && !cartCategories.includes(itemCat);
@@ -2431,37 +2441,40 @@
         compatibleItems = candidateItems;
       }
 
-      // Rank by tone closeness (penalize jarring bright accents if bed is neutral/wood)
+      // 2. Score candidates using the 6-tone color matrix
       compatibleItems.sort((a, b) => {
         const textA = (a.title + ' ' + (a.description || '')).toLowerCase();
         const textB = (b.title + ' ' + (b.description || '')).toLowerCase();
 
-        let scoreA = 0;
-        let scoreB = 0;
+        function getItemScore(text) {
+          let score = 0;
 
-        if (isLightNeutral) {
-          TONE_FAMILIES.LIGHT_NEUTRAL.forEach(kw => {
-            if (textA.includes(kw)) scoreA += 3;
-            if (textB.includes(kw)) scoreB += 3;
-          });
-          // Penalize high-contrast warm accents
-          TONE_FAMILIES.ACCENT_WARM.forEach(kw => {
-            if (textA.includes(kw)) scoreA -= 5;
-            if (textB.includes(kw)) scoreB -= 5;
-          });
+          // Exact color category match (+10)
+          for (const famName of activeCartFamilies) {
+            if (TONE_FAMILIES[famName].some(kw => text.includes(kw))) {
+              score += 10;
+            }
+          }
+
+          // Smart pairings for Natural Wood & Light Neutrals:
+          if (activeCartFamilies.has('NATURAL_WOOD') || activeCartFamilies.has('CREAM_BEIGE')) {
+            if (TONE_FAMILIES.CREAM_BEIGE.some(kw => text.includes(kw))) score += 8;
+            if (TONE_FAMILIES.NATURAL_WOOD.some(kw => text.includes(kw))) score += 8;
+            if (TONE_FAMILIES.DARK_WALNUT.some(kw => text.includes(kw))) score += 5;
+            
+            // Penalize clashing tones (wine, dark rust, bright ochre) when matching with light oak beds
+            if (TONE_FAMILIES.EARTH_LEATHER.some(kw => text.includes(kw))) score -= 5;
+            if (TONE_FAMILIES.JEWEL_WINE.some(kw => text.includes(kw))) score -= 7;
+            if (TONE_FAMILIES.BRIGHT_ACCENT.some(kw => text.includes(kw))) score -= 9;
+          }
+
+          return score;
         }
 
-        if (isDarkWood) {
-          TONE_FAMILIES.DARK_WOOD.forEach(kw => {
-            if (textA.includes(kw)) scoreA += 3;
-            if (textB.includes(kw)) scoreB += 3;
-          });
-        }
-
-        return scoreB - scoreA;
+        return getItemScore(textB) - getItemScore(textA);
       });
 
-      // ENFORCE CATEGORY DIVERSITY: Max 1 item per category
+      // 3. ENFORCE CATEGORY DIVERSITY: Max 1 item per category
       const finalRecs = [];
       const usedCategories = new Set();
 
