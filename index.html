@@ -746,22 +746,6 @@
       color: #888888;
     }
 
-    /* CARD CARE PREVIEW SNIPPET */
-    .card-care-badge {
-      font-size: 0.7rem;
-      font-weight: 600;
-      color: #555555;
-      background: #f4f4f4;
-      padding: 4px 8px;
-      border-radius: 4px;
-      margin-top: 4px;
-      display: flex;
-      align-items: center;
-      gap: 4px;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-
     .btn-add-cart-card {
       width: 100%;
       margin-top: 6px;
@@ -1977,7 +1961,7 @@
           </div>
         </div>
 
-        <!-- STAFF CARE MANAGER FOR CUSTOM PARTS (e.g., TEAK, FABRIC, MESH, LEATHER) -->
+        <!-- STAFF CARE MANAGER FOR CUSTOM PARTS -->
         <div>
           <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
             <label class="form-label" style="margin: 0;">Care Instructions (By Material / Part)</label>
@@ -2544,7 +2528,7 @@
       ['price', 'l', 'w', 'h'].forEach(p => updateDualSlider(p));
     }
 
-    /* RENDER CATALOG GRID WITH CARE PREVIEW ON CARDS */
+    /* RENDER CATALOG GRID */
     function renderGrid() {
       const pMin = parseInt(document.getElementById('price-min').value, 10);
       const pMax = parseInt(document.getElementById('price-max').value, 10);
@@ -2599,9 +2583,6 @@
           const { l, w, h } = parseDims(item);
           const displayDims = formatDimsStr(l, w, h);
 
-          const careList = getItemCareInstructions(item);
-          const partsSummary = careList.map(c => c.part).join(' & ');
-
           const cartItem = cart.find(c => c.id === item.id);
           
           let actionControlHTML = '';
@@ -2638,10 +2619,6 @@
                 <div class="card-footer-row">
                   <span class="card-price">${displayPrice}</span>
                   <span class="card-dims">${displayDims}</span>
-                </div>
-
-                <div class="card-care-badge">
-                  <span>Care:</span> <strong>${partsSummary}</strong>
                 </div>
 
                 ${actionControlHTML}
@@ -2904,7 +2881,6 @@
           zoomControl: true
         }).setView([defaultLat, defaultLng], 13);
 
-        /* GOOGLE MAPS ROADMAP TILE LAYER */
         L.tileLayer('https://mt1.google.com/vt/lyrs=m&x={x}&y={y}&z={z}', {
           maxZoom: 20,
           attribution: '&copy; Google Maps'
@@ -3088,12 +3064,16 @@
         </div>
       `).join('');
 
+      const stageOptionsHTML = ORDER_STAGES.map(stage => `
+        <option value="${stage}" ${stage === ord.status ? 'selected' : ''}>${stage}</option>
+      `).join('');
+
       const staffActionsHTML = isStaff ? `
         <div style="display: flex; align-items: center; justify-content: space-between; margin-top: 10px; padding-top: 10px; border-top: 1px dashed #e0e0e0; flex-wrap: wrap; gap: 10px;">
           <div style="display: flex; align-items: center; gap: 8px;">
             <label style="font-size: 0.8rem; font-weight: 700; color: #333;">Stage:</label>
             <select class="staff-status-select" onchange="updateOrderStatus('${ord.id}', this.value)">
-              ${ORDER_STAGES.map(s => `<option value="\${s}" ${s === ord.status ? 'selected' : ''}>${s}</option>`).join('')}
+              ${stageOptionsHTML}
             </select>
           </div>
           <button class="btn-card-delete" style="flex: none; padding: 6px 14px;" onclick="deleteOrder('${ord.id}')">Delete Order</button>
